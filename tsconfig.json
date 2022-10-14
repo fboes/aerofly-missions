@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "target": "es2017",
+    "module": "es2022",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "sourceMap": false,
+    "newLine": "LF",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  }
+}
