@@ -9,14 +9,28 @@
   "description": "Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.",
   "version": "1.0.0",
   "exports": "./dist/aerofly-missions.js",
-  "bin": "./dist/aerofly-missions.js",
+  "bin": {
+    "aerofly-missions": "dist/aerofly-missions.js"
+  },
   "type": "module",
-  "engines": { "node" : ">=16.0.0" },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "start": "./dist/aerofly-missions.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fboes/aerofly-missions.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/fboes/aerofly-missions/issues"
+  },
+  "homepage": "https://github.com/fboes/aerofly-missions#readme"
 }
