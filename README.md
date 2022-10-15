@@ -17,10 +17,15 @@ Installation
 
 1. Run `npm install -g aerofly-missions` from your terminal to globally install `aerofly-missions`.
 
+Updating
+--------
+
+1. Run `npm install -g aerofly-missions` from your terminal to update `aerofly-missions` to the current version.
+
 Usage
 ------------
 
-This manual is for WIndows 10/11 installations. On other operating systems these steps are similiar, but the file system locations will be different.
+This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
 
 1. Open Aerofly FS 4, set up a flight plan, choose a plane, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-missions) to get weather data.)
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
