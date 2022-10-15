@@ -18,13 +18,15 @@ const aeroflyConfig = new MainMcf(args.source);
 const mission = new Mission(args.title, args.description).fromMainMcf(
   aeroflyConfig
 );
+mission.origin_dir = args.direction;
+
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 
 //console.log(JSON.stringify(new GeoJson(aeroflyConfig)));
 
 try {
-  await fs.writeFile(args.target, missionList.toString());
+  await fs.writeFile(args.target, args.onlyMission ? mission.toString() : missionList.toString());
   process.stdout.write(args.target + " written successfully\n");
   process.exit(0);
 } catch (err) {

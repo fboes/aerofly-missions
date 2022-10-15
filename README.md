@@ -31,6 +31,20 @@ This manual is for WIndows 10/11 installations. On other operating systems these
 
 Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file.
 
+There are additional parameters:
+
+```
+Usage: nodejs index.js [PARAMETERS...]
+
+Parameters:
+  -s, --source        Location of the main.mcf
+  -t, --target        Location of your target file
+      --title         Title of your mission
+      --description   Description of your mission
+  -d, --direction     Initial orientation of plane
+      --only-mission  Do not export mission list, but single mission to file
+```
+
 ### Redistribution
 
 If you want to redistribute your mission file, you may want to include installation instructions:
@@ -75,4 +89,4 @@ Copyright & license: See [LICENSE.txt](LICENSE.txt)
 
 This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the [LICENSE.txt](LICENSE.txt), this tool comes with no warranty and might damage your files.
 
-This software complies with the General Data Protection Regulation (GDPR) as it does not collect nor transmits any personal data.
+This software complies with the General Data Protection Regulation (GDPR) as it does not collect nor transmits any personal data to third parties.

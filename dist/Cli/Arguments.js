@@ -1,19 +1,26 @@
 export class Arguments {
     constructor(process) {
         this.help = false;
+        this.onlyMission = false;
         const args = process.argv.slice(2);
         //const cwd = process.cwd();
         this.source = "./main.mcf";
         this.title = "Custom missions";
         this.description = "";
         this.target = "";
+        this.direction = 0;
         let pointer = "title";
         args.forEach((a) => {
             const match = a.match(/^[-]+(\S+)$/);
             if (match) {
                 pointer = match[1].toLowerCase();
-                if (pointer === "help") {
-                    this.help = true;
+                switch (pointer) {
+                    case 'help':
+                        this.help = true;
+                        break;
+                    case 'only-mission':
+                        this.onlyMission = true;
+                        break;
                 }
             }
             else {
@@ -27,12 +34,14 @@ export class Arguments {
                         this.target = a;
                         break;
                     case "title":
-                    case "m":
                         this.title = a;
                         break;
                     case "description":
-                    case "d":
                         this.description = a;
+                        break;
+                    case "direction":
+                    case "d":
+                        this.direction = Number(a);
                         break;
                 }
             }
@@ -48,14 +57,16 @@ export class Arguments {
             .substring(0, 32);
     }
     helpText() {
-        return `Usage: nodejs index.js [PARAMETERS...] [TITLE]
+        return `Usage: nodejs index.js [PARAMETERS...]
   Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.
 
 Parameters:
-  -s, --source       Location of the main.mcf; defaults to "${this.source}"
-  -t, --target       Location of your target file; defaults to "${this.target}"
-  -m, --title        Title of your mission; defaults to "${this.title}"
-  -d, --description  Description of your mission; defaults to "${this.description}"
+  -s, --source        Location of the main.mcf; defaults to \`${this.source}\`
+  -t, --target        Location of your target file; defaults to \`${this.target}\`
+      --title         Title of your mission; defaults to \`${this.title}\`
+      --description   Description of your mission; defaults to \`${this.description}\`
+  -d, --direction     Initial orientation of plane; defaults to \`${this.direction}\`
+      --only-mission  Do not export mission list, but single mission to file
 
 This tool will overwrite the target file without any further warning.
 Some information can not be inferred from the main.mcf, and needs to
