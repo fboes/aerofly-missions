@@ -63,7 +63,7 @@ Status
 -------
 
 [![npm version](https://badge.fury.io/js/aerofly-missions.svg)](https://badge.fury.io/js/aerofly-missions)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/fboes/aerofly-missions.svg)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/fboes/aerofly-missions.svg?sort=semver)
 ![GitHub](https://img.shields.io/github/license/fboes/aerofly-missions.svg)
 
 Legal stuff
