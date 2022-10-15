@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "./dist/aerofly-missions.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./dist/test.js"
   },
   "main": "index.js",
   "repository": {
