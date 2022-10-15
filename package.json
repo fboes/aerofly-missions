@@ -7,7 +7,7 @@
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
   "description": "Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "exports": "./dist/aerofly-missions.js",
   "bin": {
     "aerofly-missions": "dist/aerofly-missions.js"
