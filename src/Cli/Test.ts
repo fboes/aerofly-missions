@@ -27,3 +27,21 @@ export class Test {
     process.exit(this.errors > 0 ? 1 : 0);
   }
 }
+
+export class Tests extends Test {
+  tests: Test[] = [];
+
+  constructor(protected process: NodeJS.Process) {
+    super(process);
+  }
+
+  exit() {
+    this.tests.forEach(t => {
+      this.successes += t.successes;
+      this.errors += t.errors;
+    })
+
+    this.process.stdout.write("\n" + `Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+    process.exit(this.errors > 0 ? 1 : 0);
+  }
+}

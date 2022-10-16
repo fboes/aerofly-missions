@@ -76,7 +76,7 @@ export class Mission {
                 return c.frequency > 0;
             })
                 .map((c) => {
-                return `${c.name}: ${c.rawFreqency.toFixed(2)}Mhz`;
+                return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz`;
             })
                 .join(", ");
             if (navDescription) {
@@ -130,7 +130,7 @@ export class Mission {
      */
     set aircraft_name(aircraft_name) {
         this._aircraft_name = aircraft_name.toLowerCase();
-        switch (aircraft_name) {
+        switch (this._aircraft_name) {
             case "b58":
                 this.aircraft_icao = "BE58";
                 break;

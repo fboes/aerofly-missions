@@ -42,7 +42,7 @@ export class MissionCheckpoint {
     this.frequency = frequency * (this.frequency < 200 ? 1000000 : 1000);
   }
 
-  get rawFreqency(): number {
+  get rawFrequency(): number {
     return this.frequency / (this.frequency > 1000000 ? 1000000 : 1000);
   }
 

@@ -38,11 +38,11 @@ export class MissionConditions {
     this.time.time_hours = mainMcf.time_utc.time_hours;
 
     this.wind_direction = mainMcf.wind.direction_in_degree;
-    this.wind_speed = 8 * (mainMcf.wind.strength + Math.pow(mainMcf.wind.strength, 2));
+    this.wind_speed_percent = mainMcf.wind.strength;
     this.wind_gusts = this.wind_speed * (1 + mainMcf.wind.turbulence);
     this.turbulence_strength = mainMcf.wind.turbulence;
     this.thermal_strength = mainMcf.wind.thermal_activity;
-    this.visibility = mainMcf.visibility * 10000; // Max visibility
+    this.visibility_percent = mainMcf.visibility;
 
     let lowest = [0, 10];
     [
@@ -54,9 +54,21 @@ export class MissionConditions {
         lowest = c;
       }
     });
-    this.cloud_base = lowest[1] * 3000; // Max cloud height
+    this.cloud_base_percent = lowest[1];
     this.cloud_cover = lowest[0];
     return this;
+  }
+
+  set cloud_base_percent(percent: number) {
+    this.cloud_base = percent * 3000; // Max cloud height
+  }
+
+  set visibility_percent(percent: number) {
+    this.visibility = percent * 10000; // Max visibility
+  }
+
+  set wind_speed_percent(percent: number) {
+    this.wind_speed = 8 * (percent + Math.pow(percent, 2));
   }
 
   toString(): string {
