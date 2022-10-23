@@ -11,17 +11,26 @@ if (args.help) {
     process.exit(0);
 }
 const aeroflyConfig = new MainMcf(args.source);
+try {
+    aeroflyConfig.read();
+}
+catch (err) {
+    process.stderr.write(err instanceof Error ? err.message : 'Unknown error');
+    process.exit(1);
+}
 const mission = new Mission(args.title, args.description).fromMainMcf(aeroflyConfig);
 mission.origin_dir = args.direction;
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 //console.log(JSON.stringify(new GeoJson(aeroflyConfig)));
 try {
-    await fs.writeFile(args.target, args.onlyMission ? mission.toString() : missionList.toString());
+    await fs.writeFile(args.target, args.append ? mission.toString() : missionList.toString(), {
+        flag: args.append ? 'a' : 'w'
+    });
     process.stdout.write(args.target + " written successfully\n");
     process.exit(0);
 }
 catch (err) {
     process.stderr.write(err);
-    process.exit(1);
+    process.exit(2);
 }

@@ -5,7 +5,7 @@ export class Arguments {
   description: string;
   direction: number;
   help: boolean = false;
-  onlyMission: boolean = false;
+  append: boolean = false;
 
   constructor(process: NodeJS.Process) {
     const args = process.argv.slice(2);
@@ -23,8 +23,13 @@ export class Arguments {
       if (match) {
         pointer = match[1].toLowerCase();
         switch (pointer) {
-          case 'help' : this.help = true; break;
-          case 'only-mission' : this.onlyMission = true; break;
+          case 'help':
+            this.help = true;
+            break;
+          case 'a':
+          case 'append':
+            this.append = true;
+            break;
         }
       } else {
         switch (pointer) {
@@ -67,12 +72,13 @@ export class Arguments {
   Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.
 
 Parameters:
-  -s, --source        Location of the main.mcf; defaults to \`${this.source}\`
-  -t, --target        Location of your target file; defaults to \`${this.target}\`
-      --title         Title of your mission; defaults to \`${this.title}\`
-      --description   Description of your mission; defaults to \`${this.description}\`
-  -d, --direction     Initial orientation of plane; defaults to \`${this.direction}\`
-      --only-mission  Do not export mission list, but single mission to file
+  -s, --source       Location of the main.mcf; defaults to \`${this.source}\`
+  -t, --target       Location of your target file; defaults to \`${this.target}\`
+      --title        Title of your mission; defaults to \`${this.title}\`
+      --description  Description of your mission; defaults to \`${this.description}\`
+  -d, --direction    Initial orientation of plane; defaults to \`${this.direction}\`
+  -a  --append       Do not export mission list, but single mission to file
+                     but add mission to already existing file
 
 This tool will overwrite the target file without any further warning.
 Some information can not be inferred from the main.mcf, and needs to

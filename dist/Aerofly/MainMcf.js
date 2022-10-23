@@ -40,27 +40,25 @@ export class MainMcf {
                 Ways: [],
             },
         };
-        this.configFileContent = "";
         /*filename = filename.replace(/^(~|%userprofile%)/, require("os").homedir());
         if (!path.isAbsolute(filename)) {
           filename = path.join(process.cwd(), filename);
         }*/
-        if (!fs.existsSync(filename)) {
-            throw new Error("File does not exist: " + filename);
-        }
-        this.configFileContent = fs.readFileSync(filename, "utf8");
-        if (!this.configFileContent) {
-            throw new Error("File is empty: " + filename);
-        }
-        this.read();
     }
     read() {
-        const tmsettings_aircraft = this.getGroup("tmsettings_aircraft");
-        const tmsettings_flight = this.getGroup("tmsettings_flight");
-        const tm_time_utc = this.getGroup("tm_time_utc");
-        const tmsettings_wind = this.getGroup("tmsettings_wind");
-        const tmsettings_clouds = this.getGroup("tmsettings_clouds");
-        const list_tmmission_checkpoint = this.getGroup("pointer_list_tmnav_route_way", 4);
+        if (!fs.existsSync(this.filename)) {
+            throw new Error("File does not exist: " + this.filename);
+        }
+        const configFileContent = fs.readFileSync(this.filename, "utf8");
+        if (!configFileContent) {
+            throw new Error("File is empty: " + this.filename);
+        }
+        const tmsettings_aircraft = this.getGroup(configFileContent, "tmsettings_aircraft");
+        const tmsettings_flight = this.getGroup(configFileContent, "tmsettings_flight");
+        const tm_time_utc = this.getGroup(configFileContent, "tm_time_utc");
+        const tmsettings_wind = this.getGroup(configFileContent, "tmsettings_wind");
+        const tmsettings_clouds = this.getGroup(configFileContent, "tmsettings_clouds");
+        const list_tmmission_checkpoint = this.getGroup(configFileContent, "pointer_list_tmnav_route_way", 4);
         let waypoints = [];
         if (list_tmmission_checkpoint) {
             waypoints = list_tmmission_checkpoint
@@ -99,7 +97,7 @@ export class MainMcf {
             time_day: this.getNumber(tm_time_utc, "time_day"),
             time_hours: this.getNumber(tm_time_utc, "time_hours"),
         };
-        this.visibility = this.getNumber(this.configFileContent, "visibility");
+        this.visibility = this.getNumber(configFileContent, "visibility");
         this.wind = {
             strength: this.getNumber(tmsettings_wind, "strength"),
             direction_in_degree: this.getNumber(tmsettings_wind, "direction_in_degree"),
@@ -127,9 +125,9 @@ export class MainMcf {
         const match = subject.match(new RegExp("(?:\\]\\[" + key + "\\]\\[)([^\\]]*)(?:\\])"));
         return match ? match[1] : defaultValue;
     }
-    getGroup(group, indent = 2) {
+    getGroup(subject, group, indent = 2) {
         const indentString = "    ".repeat(indent);
-        const match = this.configFileContent.match(new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">"));
+        const match = subject.match(new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">"));
         return match ? match[0] : "";
     }
 }

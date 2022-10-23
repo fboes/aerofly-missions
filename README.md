@@ -42,12 +42,12 @@ There are additional parameters:
 Usage: nodejs index.js [PARAMETERS...]
 
 Parameters:
-  -s, --source        Location of the main.mcf
-  -t, --target        Location of your target file
-      --title         Title of your mission
-      --description   Description of your mission
-  -d, --direction     Initial orientation of plane
-      --only-mission  Do not export mission list, but single mission to file
+  -s, --source       Location of the main.mcf
+  -t, --target       Location of your target file
+      --title        Title of your mission
+      --description  Description of your mission
+  -a  --append       Do not export mission list, but single mission to file
+                     but add mission to already existing file
 ```
 
 ### Redistribution
