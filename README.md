@@ -9,7 +9,7 @@ Requirements
 You will need the following software installed on your PC:
 
 * [Aerofly FS 4](https://www.aerofly.com/)
-* [NodeJs](https://nodejs.org/en/) (Version 16+)
+* [Node.js](https://nodejs.org/en/) (Version 16+)
 * Optional: [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) or use your pre-installed terminal
 
 Installation
@@ -48,6 +48,7 @@ Parameters:
       --description  Description of your mission
   -a  --append       Do not export mission list, but single mission to file
                      but add mission to already existing file
+      --geo-json     Output Geo.json for debugging
 ```
 
 ### Redistribution

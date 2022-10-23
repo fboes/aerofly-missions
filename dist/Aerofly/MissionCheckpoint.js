@@ -64,6 +64,9 @@ export class MissionCheckpoint {
         this.length = waypoint.Length;
         return this;
     }
+    setDirectionByCoordinates(lonLat) {
+        this.direction = lonLat.getBearingTo(this.lon_lat);
+    }
     toString(index) {
         return `                    <[tmmission_checkpoint][element][${index}]
                         <[string8u][type][${this.type}]>

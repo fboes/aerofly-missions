@@ -51,6 +51,7 @@ export class Mission {
         this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
             return new MissionCheckpoint().fromMainMcf(w);
         });
+        this.calculateDirectionForCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
         this.origin_dir =
@@ -76,14 +77,23 @@ export class Mission {
                 return c.frequency > 0;
             })
                 .map((c) => {
-                return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz`;
+                return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, TRK ${c.direction.toFixed()}°`;
             })
-                .join(", ");
+                .join("; ");
             if (navDescription) {
                 this.description += " " + navDescription;
             }
         }
         return this;
+    }
+    calculateDirectionForCheckpoints() {
+        let lastC = null;
+        this.checkpoints.forEach(c => {
+            if (lastC !== null) {
+                c.setDirectionByCoordinates(lastC.lon_lat);
+            }
+            lastC = c;
+        });
     }
     getLocalDaytime() {
         const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;

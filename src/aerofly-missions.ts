@@ -5,7 +5,7 @@ import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission } from "./Aerofly/Mission.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { Arguments } from "./Cli/Arguments.js";
-//import {GeoJson} from "./Export/GeoJson.js";
+import {GeoJson} from "./Export/GeoJson.js";
 
 const args = new Arguments(process);
 
@@ -30,7 +30,9 @@ mission.origin_dir = args.direction;
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 
-//console.log(JSON.stringify(new GeoJson(aeroflyConfig)));
+if (args.geoJson) {
+  console.log(JSON.stringify(new GeoJson(aeroflyConfig)));
+}
 
 try {
   await fs.writeFile(

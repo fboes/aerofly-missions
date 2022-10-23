@@ -6,8 +6,28 @@ export class LonLat {
         }
         this.lat = lat;
     }
+    get lonRad() {
+        return this.lon / 180 * Math.PI;
+    }
+    get latRad() {
+        return this.lat / 180 * Math.PI;
+    }
     toString() {
         return this.lon.toFixed(6) + " " + this.lat.toFixed(6);
+    }
+    /**
+     * @returns a bearing between coordinates in degrees. This ignores magnetic declination
+     * @see https://en.wikipedia.org/wiki/Magnetic_declination
+     */
+    getBearingTo(lonLat) {
+        const lat1 = this.latRad;
+        const lon1 = this.lonRad;
+        const lat2 = lonLat.latRad;
+        const lon2 = lonLat.lonRad;
+        const dLon = lon2 - lon1;
+        const y = Math.sin(dLon) * Math.cos(lat2);
+        const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+        return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     }
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/

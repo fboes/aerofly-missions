@@ -69,6 +69,7 @@ export class Mission {
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       return new MissionCheckpoint().fromMainMcf(w);
     });
+    this.calculateDirectionForCheckpoints();
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
@@ -99,15 +100,25 @@ export class Mission {
           return c.frequency > 0;
         })
         .map((c) => {
-          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz`;
+          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, TRK ${c.direction.toFixed()}°`;
         })
-        .join(", ");
+        .join("; ");
       if (navDescription) {
         this.description += " " + navDescription;
       }
     }
 
     return this;
+  }
+
+  calculateDirectionForCheckpoints() {
+    let lastC: MissionCheckpoint|null = null;
+    this.checkpoints.forEach(c => {
+      if (lastC !== null) {
+        c.setDirectionByCoordinates(lastC.lon_lat);
+      }
+      lastC = c;
+    })
   }
 
   protected getLocalDaytime(): string {
@@ -228,11 +239,11 @@ export class Mission {
       this.callsign !== "D-" && this.callsign !== "G-"
         ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
         : String.fromCharCode(
-            (this.aircraft_icao.charCodeAt(1) % 26) + 65,
-            (this.aircraft_icao.charCodeAt(0) % 26) + 65,
-            (this.aircraft_icao.charCodeAt(3) % 26) + 65,
-            (this.aircraft_icao.charCodeAt(2) % 26) + 65
-          ); // 4 numbers
+          (this.aircraft_icao.charCodeAt(1) % 26) + 65,
+          (this.aircraft_icao.charCodeAt(0) % 26) + 65,
+          (this.aircraft_icao.charCodeAt(3) % 26) + 65,
+          (this.aircraft_icao.charCodeAt(2) % 26) + 65
+        ); // 4 numbers
   }
 
   get aircraft_name() {

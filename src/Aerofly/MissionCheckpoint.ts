@@ -79,6 +79,10 @@ export class MissionCheckpoint {
     return this;
   }
 
+  setDirectionByCoordinates(lonLat: LonLat) {
+    this.direction = lonLat.getBearingTo(this.lon_lat);
+  }
+
   toString(index: number): string {
     return `                    <[tmmission_checkpoint][element][${index}]
                         <[string8u][type][${this.type}]>

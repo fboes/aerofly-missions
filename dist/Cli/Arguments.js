@@ -2,6 +2,7 @@ export class Arguments {
     constructor(process) {
         this.help = false;
         this.append = false;
+        this.geoJson = false;
         const args = process.argv.slice(2);
         //const cwd = process.cwd();
         this.source = "./main.mcf";
@@ -21,6 +22,9 @@ export class Arguments {
                     case 'a':
                     case 'append':
                         this.append = true;
+                        break;
+                    case 'geo-json':
+                        this.geoJson = true;
                         break;
                 }
             }
@@ -69,6 +73,7 @@ Parameters:
   -d, --direction    Initial orientation of plane; defaults to \`${this.direction}\`
   -a  --append       Do not export mission list, but single mission to file
                      but add mission to already existing file
+      --geo-json     Output Geo.json for debugging
 
 This tool will overwrite the target file without any further warning.
 Some information can not be inferred from the main.mcf, and needs to
