@@ -5,7 +5,7 @@ import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission } from "./Aerofly/Mission.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { Arguments } from "./Cli/Arguments.js";
-import {GeoJson} from "./Export/GeoJson.js";
+import { GeoJson } from "./Export/GeoJson.js";
 
 const args = new Arguments(process);
 
@@ -22,10 +22,14 @@ try {
   process.exit(1);
 }
 
-const mission = new Mission(args.title, args.description).fromMainMcf(
-  aeroflyConfig
-);
+const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
+mission.fromMainMcf(aeroflyConfig);
+if (mission.warnings) {
+  mission.warnings.forEach(w => {
+    process.stderr.write("> " + w + "\n");
+  })
+}
 
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);

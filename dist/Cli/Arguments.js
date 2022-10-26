@@ -9,7 +9,7 @@ export class Arguments {
         this.title = "Custom missions";
         this.description = "";
         this.target = "";
-        this.direction = 0;
+        this.direction = -1;
         let pointer = "title";
         args.forEach((a) => {
             const match = a.match(/^[-]+(\S+)$/);

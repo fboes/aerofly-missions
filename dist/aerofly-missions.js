@@ -18,8 +18,14 @@ catch (err) {
     process.stderr.write(err instanceof Error ? err.message : 'Unknown error');
     process.exit(1);
 }
-const mission = new Mission(args.title, args.description).fromMainMcf(aeroflyConfig);
+const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
+mission.fromMainMcf(aeroflyConfig);
+if (mission.warnings) {
+    mission.warnings.forEach(w => {
+        process.stderr.write("> " + w + "\n");
+    });
+}
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 if (args.geoJson) {

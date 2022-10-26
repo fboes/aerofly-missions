@@ -5,13 +5,13 @@ import { MissionConditions } from "./MissionConditions.js";
 
 export class Mission {
   /**
-   * This string should not be longer than 32 characters to fit on the screen.
+   * This string should not be longer than MAX_LENGTH_TITLE characters to fit on the screen.
    */
-  title: string;
+  protected _title: string = '';
   /**
-   * This string should not be longer than 200 characters to fit on the screen.
+   * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
    */
-  description: string;
+  protected _description: string = '';
   protected _flight_setting: string = "taxi";
   /**
    * Internal Aerofly name of plane type.
@@ -39,112 +39,40 @@ export class Mission {
   static FLIGHT_SETTING_APPROACH = "approach";
   static FLIGHT_SETTING_TAXI = "taxi";
   static FLIGHT_SETTING_CRUISE = "cruise";
+  static MAX_LENGTH_TITLE = 32;
+  static MAX_LENGTH_DESCRIPTION = 200;
+
+  warnings: string[] = [];
 
   constructor(title: string, description: string) {
-    this.title = title; // shorten
-    this.description = description; // shorten
+    this.title = title;
+    this.description = description;
   }
 
-  fromMainMcf(mainMcf: MainMcf): Mission {
-    switch (mainMcf.flight_setting.configuration) {
-      case "ShortFinal":
-        this.flight_setting = Mission.FLIGHT_SETTING_LANDING;
-        break;
-      case "Takeoff":
-        this.flight_setting = Mission.FLIGHT_SETTING_TAKEOFF;
-        break;
-      case "Final":
-        this.flight_setting = Mission.FLIGHT_SETTING_APPROACH;
-        break;
-      case "Parking":
-        this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
-        break;
-      default:
-        this.flight_setting = mainMcf.flight_setting.on_ground
-          ? Mission.FLIGHT_SETTING_TAXI
-          : Mission.FLIGHT_SETTING_CRUISE;
-        break;
+  set title(title: string) {
+    if (title.length > Mission.MAX_LENGTH_TITLE) {
+      this.warnings.push(`Title is longer than ${Mission.MAX_LENGTH_TITLE}, truncating`);
+      title = title.substring(0, Mission.MAX_LENGTH_TITLE);
     }
-    this.conditions.fromMainMcf(mainMcf);
-    this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
-      return new MissionCheckpoint().fromMainMcf(w);
-    });
-    this.calculateDirectionForCheckpoints();
-
-    this.origin_icao = this.checkpoints[0].name;
-    this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-    this.origin_dir =
-      ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
-        (180 / Math.PI) +
-        26 +
-        360) %
-      360;
-
-    const lastCheckpoint = this.checkpoints[this.checkpoints.length - 1];
-    this.destination_icao = lastCheckpoint.name;
-    this.destination_dir = lastCheckpoint.direction;
-    this.destination_lon_lat = lastCheckpoint.lon_lat;
-    this.aircraft_name = mainMcf.aircraft.name;
-
-    if (this.title === "" || this.title === "Custom missions") {
-      this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
-    }
-
-    if (this.description === "") {
-      const localTime = this.getLocalDaytime();
-      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao}.`;
-      this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;
-
-      const navDescription = this.checkpoints
-        .filter((c) => {
-          return c.frequency > 0;
-        })
-        .map((c) => {
-          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, TRK ${c.direction.toFixed()}°`;
-        })
-        .join("; ");
-      if (navDescription) {
-        this.description += " " + navDescription;
-      }
-    }
-
-    return this;
+    this._title = title;
   }
 
-  calculateDirectionForCheckpoints() {
-    let lastC: MissionCheckpoint|null = null;
-    this.checkpoints.forEach(c => {
-      if (lastC !== null) {
-        c.setDirectionByCoordinates(lastC.lon_lat);
-      }
-      lastC = c;
-    })
+  get title(): string {
+    return this._title;
   }
 
-  protected getLocalDaytime(): string {
-    const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
-
-    if (localTime < 5 || localTime >= 19) {
-      return "night";
+  set description(description: string) {
+    if (description.length > Mission.MAX_LENGTH_DESCRIPTION) {
+      this.warnings.push(`Description is longer than ${Mission.MAX_LENGTH_DESCRIPTION}, truncating`);
+      description = description.substring(0, Mission.MAX_LENGTH_DESCRIPTION);
     }
-    if (localTime < 8) {
-      return "early morning";
-    }
-    if (localTime < 11) {
-      return "morning";
-    }
-    if (localTime < 13) {
-      return "noon";
-    }
-    if (localTime < 15) {
-      return "afternoon";
-    }
-    if (localTime < 19) {
-      return "late afternoon";
-    }
-
-    return "day";
+    this._description = description;
   }
+
+  get description(): string {
+    return this._description;
+  }
+
 
   set flight_setting(flight_setting: string) {
     if (
@@ -256,6 +184,110 @@ export class Mission {
 
   get aircraft_icao() {
     return this._aircraft_icao;
+  }
+
+  fromMainMcf(mainMcf: MainMcf): Mission {
+    switch (mainMcf.flight_setting.configuration) {
+      case "ShortFinal":
+        this.flight_setting = Mission.FLIGHT_SETTING_LANDING;
+        break;
+      case "Takeoff":
+        this.flight_setting = Mission.FLIGHT_SETTING_TAKEOFF;
+        break;
+      case "Final":
+        this.flight_setting = Mission.FLIGHT_SETTING_APPROACH;
+        break;
+      case "Parking":
+        this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
+        break;
+      default:
+        this.flight_setting = mainMcf.flight_setting.on_ground
+          ? Mission.FLIGHT_SETTING_TAXI
+          : Mission.FLIGHT_SETTING_CRUISE;
+        break;
+    }
+    this.conditions.fromMainMcf(mainMcf);
+    this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
+      return new MissionCheckpoint().fromMainMcf(w);
+    });
+    this.calculateDirectionForCheckpoints();
+
+    this.origin_icao = this.checkpoints[0].name;
+    this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+    if (this.origin_dir < 0) {
+      this.origin_dir =
+        ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
+          (180 / Math.PI) +
+          26 +
+          360) %
+        360;
+        this.warnings.push('Aircraft orientation inferred from mainMcf.flight_setting.orientation')
+    }
+
+    const lastCheckpoint = this.checkpoints[this.checkpoints.length - 1];
+    this.destination_icao = lastCheckpoint.name;
+    this.destination_dir = lastCheckpoint.direction;
+    this.destination_lon_lat = lastCheckpoint.lon_lat;
+    this.aircraft_name = mainMcf.aircraft.name;
+
+    if (this.title === "" || this.title === "Custom missions") {
+      this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
+    }
+
+    if (this.description === "") {
+      const localTime = this.getLocalDaytime();
+      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao}.`;
+      this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;
+
+      const navDescription = this.checkpoints
+        .filter((c) => {
+          return c.frequency > 0;
+        })
+        .map((c) => {
+          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, TRK ${c.direction.toFixed()}°`;
+        })
+        .join("; ");
+      if (navDescription) {
+        this.description += " " + navDescription;
+      }
+    }
+
+    return this;
+  }
+
+  calculateDirectionForCheckpoints() {
+    let lastC: MissionCheckpoint | null = null;
+    this.checkpoints.forEach(c => {
+      if (lastC !== null) {
+        c.setDirectionByCoordinates(lastC.lon_lat);
+      }
+      lastC = c;
+    })
+  }
+
+  protected getLocalDaytime(): string {
+    const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
+
+    if (localTime < 5 || localTime >= 19) {
+      return "night";
+    }
+    if (localTime < 8) {
+      return "early morning";
+    }
+    if (localTime < 11) {
+      return "morning";
+    }
+    if (localTime < 13) {
+      return "noon";
+    }
+    if (localTime < 15) {
+      return "afternoon";
+    }
+    if (localTime < 19) {
+      return "late afternoon";
+    }
+
+    return "day";
   }
 
   toString(): string {
