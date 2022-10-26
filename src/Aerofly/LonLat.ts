@@ -40,6 +40,10 @@ export class LonLat {
     return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
   }
 
+  getDistanceTo(lonLat: LonLat): number {
+    return 0; // TODO
+  }
+
   /**
    * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
    */

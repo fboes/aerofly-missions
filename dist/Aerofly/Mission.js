@@ -183,6 +183,17 @@ export class Mission {
         this.calculateDirectionForCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+        const departure_runway = this.checkpoints.find(c => {
+            return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
+        });
+        if (this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat) > 2) {
+            this.warnings.push('Position of plane too far away from origin of flight plan');
+            if (departure_runway) {
+                this.origin_lon_lat = departure_runway.lon_lat;
+                this.origin_dir = departure_runway.direction;
+                this.warnings.push('Setting positon of plane to departure runway');
+            }
+        }
         if (this.origin_dir < 0) {
             this.origin_dir =
                 ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
@@ -192,7 +203,9 @@ export class Mission {
                     360;
             this.warnings.push('Aircraft orientation inferred from mainMcf.flight_setting.orientation');
         }
-        const lastCheckpoint = this.checkpoints[this.checkpoints.length - 1];
+        const lastCheckpoint = this.checkpoints.find(c => {
+            return c.type === MissionCheckpoint.TYPE_DESTINATION;
+        }) || this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = lastCheckpoint.name;
         this.destination_dir = lastCheckpoint.direction;
         this.destination_lon_lat = lastCheckpoint.lon_lat;

@@ -29,6 +29,9 @@ export class LonLat {
         const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
         return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     }
+    getDistanceTo(lonLat) {
+        return 0; // TODO
+    }
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
      */
