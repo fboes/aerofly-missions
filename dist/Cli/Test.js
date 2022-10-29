@@ -1,4 +1,8 @@
 export class Test {
+    /**
+     * Put test cases into constructor
+     * @param process
+     */
     constructor(process) {
         this.process = process;
         this.successes = 0;
@@ -7,15 +11,15 @@ export class Test {
     assert(assertion, message) {
         if (assertion) {
             this.successes++;
-            this.process.stdout.write('  ✅ ' + message + "\n");
+            this.process.stdout.write("  ✅ " + message + "\n");
         }
         else {
             this.errors++;
-            this.process.stderr.write('  💥 ' + message + "\n");
+            this.process.stderr.write("  💥 " + message + "\n");
         }
     }
-    assertEquals(a, b, message = '') {
-        return this.assert(a === b, message ? message : a.toString() + ' matches ' + b.toString());
+    assertEquals(a, b, message = "") {
+        return this.assert(a === b, message ? message : a.toString() + " matches " + b.toString());
     }
     group(title) {
         this.process.stdout.write(title + "\n");
@@ -26,13 +30,16 @@ export class Test {
     }
 }
 export class Tests extends Test {
-    constructor(process) {
-        super(process);
-        this.process = process;
+    constructor() {
+        super(...arguments);
         this.tests = [];
     }
+    add(test) {
+        this.tests.push(test);
+        return this;
+    }
     exit() {
-        this.tests.forEach(t => {
+        this.tests.forEach((t) => {
             this.successes += t.successes;
             this.errors += t.errors;
         });
