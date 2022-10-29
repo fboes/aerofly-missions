@@ -37,7 +37,8 @@ const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 
 if (args.geoJson) {
-  console.log(JSON.stringify(new GeoJson(aeroflyConfig)));
+  //console.log(JSON.stringify(new GeoJson().fromMainMcf(aeroflyConfig)));
+  console.log(JSON.stringify(new GeoJson().fromMission(mission)));
 }
 
 try {

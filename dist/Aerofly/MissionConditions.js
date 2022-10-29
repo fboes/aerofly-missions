@@ -73,13 +73,13 @@ export class MissionConditions {
                         <[float64][time_hours][${this.time.time_hours}]>
                     >
                     <[float64][wind_direction][${this.wind_direction}]>
-                    <[float64][wind_speed][${this.wind_speed}]>
-                    <[float64][wind_gusts][${this.wind_gusts}]>
+                    <[float64][wind_speed][${this.wind_speed}]> // kts
+                    <[float64][wind_gusts][${this.wind_gusts}]> // kts
                     <[float64][turbulence_strength][${this.turbulence_strength}]>
                     <[float64][thermal_strength][${this.thermal_strength}]>
-                    <[float64][visibility][${this.visibility}]>
+                    <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud_cover}]>
-                    <[float64][cloud_base][${this.cloud_base}]>
+                    <[float64][cloud_base][${this.cloud_base}]> // ft MSL
                 >
 `;
     }

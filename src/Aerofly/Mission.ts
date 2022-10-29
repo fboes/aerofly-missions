@@ -219,12 +219,14 @@ export class Mission {
       return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
     })
 
-    if (this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat) > 2) {
-      this.warnings.push('Position of plane too far away from origin of flight plan');
+    const distanceOriginPlane = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
+    if (distanceOriginPlane > 2) {
+      this.warnings.push(`Position of plane too far away from origin of flight plan: ${distanceOriginPlane.toFixed(2)} NM`);
       if (departure_runway) {
         this.origin_lon_lat = departure_runway.lon_lat;
-        this.origin_dir = departure_runway.direction;
-        this.warnings.push('Setting positon of plane to departure runway')
+        this.warnings.push(`Setting positon of plane to departure runway: ${departure_runway.lon_lat}`)
+        this.origin_dir = (departure_runway.direction + 180) % 360;
+        this.warnings.push(`Setting orientation of plane to departure runway: ${this.origin_dir.toFixed()}°`)
       }
     }
 
@@ -235,7 +237,7 @@ export class Mission {
           26 +
           360) %
         360;
-        this.warnings.push('Aircraft orientation inferred from mainMcf.flight_setting.orientation')
+        this.warnings.push(`Aircraft orientation inferred from mainMcf.flight_setting.orientation: ${this.origin_dir.toFixed()}°`)
     }
 
     const lastCheckpoint = this.checkpoints.find(c => {

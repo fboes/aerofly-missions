@@ -71,9 +71,12 @@ Parameters:
       --title        Title of your mission; defaults to \`${this.title}\`
       --description  Description of your mission; defaults to \`${this.description}\`
   -d, --direction    Initial orientation of plane; defaults to \`${this.direction}\`
-  -a  --append       Do not export mission list, but single mission to file
+
+Switches:
+  -a  --append       Do not export mission list with a single mission,
                      but add mission to already existing file
       --geo-json     Output Geo.json for debugging
+      --help         This help
 
 This tool will overwrite the target file without any further warning.
 Some information can not be inferred from the main.mcf, and needs to

@@ -41,7 +41,16 @@ export class LonLat {
   }
 
   getDistanceTo(lonLat: LonLat): number {
-    return 0; // TODO
+    const dLat = lonLat.latRad - this.latRad;
+    const dLon = lonLat.lonRad - this.lonRad;
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(this.latRad) * Math.cos(lonLat.latRad);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // multiply with earth's mean radius in Nautical Miles
+    return 3440.06328 * c;
   }
 
   /**

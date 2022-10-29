@@ -9,9 +9,15 @@ export class MissionCheckpoint {
          */
         this.altitude = 0;
         /**
+         * Direction in degrees to fly from last point to this point.
          * -1 on first, but seem rather unrelevant
          */
         this.direction = -1;
+        /**
+          * Distance in nautical miles to fly from last point to this point.
+          *-1 on first
+         */
+        this.distance = -1;
         /**
          * Only set on waypoint
          */
@@ -66,6 +72,7 @@ export class MissionCheckpoint {
     }
     setDirectionByCoordinates(lonLat) {
         this.direction = lonLat.getBearingTo(this.lon_lat);
+        this.distance = lonLat.getDistanceTo(this.lon_lat);
     }
     toString(index) {
         return `                    <[tmmission_checkpoint][element][${index}]
@@ -74,6 +81,7 @@ export class MissionCheckpoint {
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
+                        // <[float64][distance][${this.distance.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>
