@@ -46,9 +46,13 @@ Parameters:
   -t, --target       Location of your target file
       --title        Title of your mission
       --description  Description of your mission
-  -a  --append       Do not export mission list, but single mission to file
+  -d, --direction    Initial orientation of plane
+
+Switches:
+  -a  --append       Do not export mission list with a single mission,
                      but add mission to already existing file
       --geo-json     Output Geo.json for debugging
+      --help         This help
 ```
 
 ### Redistribution
