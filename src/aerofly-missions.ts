@@ -18,7 +18,9 @@ const aeroflyConfig = new MainMcf(args.source);
 try {
   aeroflyConfig.read();
 } catch (err) {
+  process.stderr.write('\x1b[31m');
   process.stderr.write(err instanceof Error ? err.message : 'Unknown error');
+  process.stderr.write('\x1b[0m\n');
   process.exit(1);
 }
 
@@ -44,9 +46,13 @@ try {
     args.append ? mission.toString() : missionList.toString(), {
     flag: args.append ? 'a' : 'w'
   });
-  process.stdout.write(args.target + " written successfully\n");
+  process.stdout.write('\x1b[32m');
+  process.stdout.write(args.target + " written successfully");
+  process.stdout.write('\x1b[0m\n');
   process.exit(0);
 } catch (err) {
+  process.stderr.write('\x1b[31m');
   process.stderr.write(<string>err);
+  process.stderr.write('\x1b[0m\n');
   process.exit(2);
 }
