@@ -32,6 +32,10 @@ export class MissionCheckpoint {
    * @see MissionCheckpoint.rawFreqency
    */
   frequency: number = 0;
+  /**
+   * In knots
+   */
+  speed: number = -1;
 
   static TYPE_ORIGIN = "origin";
   static TYPE_DEPARTURE_RUNWAY = "departure_runway";
@@ -72,6 +76,13 @@ export class MissionCheckpoint {
     return this._type;
   }
 
+  /**
+   * In hours
+   */
+  get time(): number {
+    return (this.distance >= 0 && this.speed > 0) ? (this.distance / this.speed) : -1;
+  }
+
   fromMainMcf(waypoint: MainMcfWaypointInterface): MissionCheckpoint {
     this.type = waypoint.type;
     this.name = waypoint.Identifier;
@@ -98,6 +109,7 @@ export class MissionCheckpoint {
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
                         // <[float64][distance][${this.distance.toFixed(2)}]>
+                        // <[float64][time][${this.time.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

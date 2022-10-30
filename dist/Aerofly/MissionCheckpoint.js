@@ -31,6 +31,10 @@ export class MissionCheckpoint {
          * @see MissionCheckpoint.rawFreqency
          */
         this.frequency = 0;
+        /**
+         * In knots
+         */
+        this.speed = -1;
     }
     /**
      * Aerofly represents frequencies not as floating numbers.
@@ -58,6 +62,12 @@ export class MissionCheckpoint {
     get type() {
         return this._type;
     }
+    /**
+     * In hours
+     */
+    get time() {
+        return (this.distance >= 0 && this.speed > 0) ? (this.distance / this.speed) : -1;
+    }
     fromMainMcf(waypoint) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;
@@ -82,6 +92,7 @@ export class MissionCheckpoint {
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
                         // <[float64][distance][${this.distance.toFixed(2)}]>
+                        // <[float64][time][${this.time.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

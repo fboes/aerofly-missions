@@ -18,6 +18,7 @@ export class Mission {
    */
   protected _aircraft_name: string = "c172";
   protected _aircraft_icao: string = "C172";
+  protected _cruise_speed: number = 0;
   callsign: string = "N5472R";
   origin_icao: string = "";
   origin_lon_lat: LonLat = new LonLat(0, 0);
@@ -104,9 +105,12 @@ export class Mission {
     switch (this._aircraft_name) {
       case "b58":
         this.aircraft_icao = "BE58";
+        this.callsign = 'N58EU';
         break;
       case "jungmeister":
         this.aircraft_icao = "BU33";
+        this.callsign = 'HB-MIZ';
+        this._cruise_speed = 110;
         break;
       case "q400":
         this.aircraft_icao = "DH8D";
@@ -116,6 +120,7 @@ export class Mission {
         break;
       case "c90gtx":
         this.aircraft_icao = "BE9L";
+        this.callsign = 'D-IBYP';
         break;
       case "f15e":
         this.aircraft_icao = "F15";
@@ -137,6 +142,8 @@ export class Mission {
         break;
       case "pitts":
         this.aircraft_icao = "PTS2";
+        this.callsign = 'D-EUJS';
+        this._cruise_speed = 152;
         break;
       case "b737":
         this.aircraft_icao = "B735";
@@ -149,29 +156,37 @@ export class Mission {
         break;
       case "ec135":
         this.aircraft_icao = "EC35";
+        this.callsign = 'D-HACF';
         break;
-      default:
-        this.aircraft_icao = aircraft_name;
+      case 'c172':
+        this.callsign = 'N51911';
+        this._cruise_speed = 122;
         break;
     }
 
-    this.callsign = "N";
-    if (this.origin_lon_lat.lon > 14) {
-      this.callsign = this.origin_lon_lat.lat < 44 ? "SE-" : "SP-";
-    } else if (this.origin_lon_lat.lon > 4) {
-      this.callsign = this.origin_lon_lat.lat < 55 ? "D-" : "LN-";
-    } else if (this.origin_lon_lat.lon > -30) {
-      this.callsign = this.origin_lon_lat.lat < 49 ? "F-" : "G-";
+    if (!this.aircraft_icao) {
+      this.aircraft_icao = aircraft_name.toUpperCase();
     }
-    this.callsign +=
-      this.callsign !== "D-" && this.callsign !== "G-"
-        ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
-        : String.fromCharCode(
-          (this.aircraft_icao.charCodeAt(1) % 26) + 65,
-          (this.aircraft_icao.charCodeAt(0) % 26) + 65,
-          (this.aircraft_icao.charCodeAt(3) % 26) + 65,
-          (this.aircraft_icao.charCodeAt(2) % 26) + 65
-        ); // 4 numbers
+
+    if (!this.callsign) {
+      this.callsign = "N";
+      if (this.origin_lon_lat.lon > 14) {
+        this.callsign = this.origin_lon_lat.lat < 44 ? "SE-" : "SP-";
+      } else if (this.origin_lon_lat.lon > 4) {
+        this.callsign = this.origin_lon_lat.lat < 55 ? "D-" : "LN-";
+      } else if (this.origin_lon_lat.lon > -30) {
+        this.callsign = this.origin_lon_lat.lat < 49 ? "F-" : "G-";
+      }
+      this.callsign +=
+        this.callsign !== "D-" && this.callsign !== "G-"
+          ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
+          : String.fromCharCode(
+            (this.aircraft_icao.charCodeAt(1) % 26) + 65,
+            (this.aircraft_icao.charCodeAt(0) % 26) + 65,
+            (this.aircraft_icao.charCodeAt(3) % 26) + 65,
+            (this.aircraft_icao.charCodeAt(2) % 26) + 65
+          ); // 4 numbers
+    }
   }
 
   get aircraft_name() {
@@ -187,6 +202,8 @@ export class Mission {
   }
 
   fromMainMcf(mainMcf: MainMcf): Mission {
+    this.aircraft_name = mainMcf.aircraft.name;
+
     switch (mainMcf.flight_setting.configuration) {
       case "ShortFinal":
         this.flight_setting = Mission.FLIGHT_SETTING_LANDING;
@@ -208,7 +225,11 @@ export class Mission {
     }
     this.conditions.fromMainMcf(mainMcf);
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
-      return new MissionCheckpoint().fromMainMcf(w);
+      let cp = new MissionCheckpoint();
+      cp.fromMainMcf(w);
+      cp.speed = this._cruise_speed;
+
+      return cp;
     });
     this.calculateDirectionForCheckpoints();
 
@@ -246,7 +267,6 @@ export class Mission {
     this.destination_icao = lastCheckpoint.name;
     this.destination_dir = lastCheckpoint.direction;
     this.destination_lon_lat = lastCheckpoint.lon_lat;
-    this.aircraft_name = mainMcf.aircraft.name;
 
     if (this.title === "" || this.title === "Custom missions") {
       this.title = `From ${this.origin_icao} to ${this.destination_icao}`;

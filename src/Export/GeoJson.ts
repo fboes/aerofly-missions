@@ -15,8 +15,6 @@ export class GeoJson {
   type: string = "FeatureCollection";
   features: GeoJsonFeature[] = [];
 
-  constructor() { }
-
   fromMainMcf(mainMcf: MainMcf) {
     this.features = mainMcf.navigation.Route.Ways.map(
       (waypoint): GeoJsonFeature => {
