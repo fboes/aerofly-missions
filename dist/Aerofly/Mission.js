@@ -121,7 +121,7 @@ export class Mission {
             case "pitts":
                 this.aircraft_icao = "PTS2";
                 this.callsign = 'D-EUJS';
-                this._cruise_speed = 152;
+                this._cruise_speed = 150;
                 break;
             case "b737":
                 this.aircraft_icao = "B735";
@@ -138,7 +138,7 @@ export class Mission {
                 break;
             case 'c172':
                 this.callsign = 'N51911';
-                this._cruise_speed = 122;
+                this._cruise_speed = 120;
                 break;
         }
         if (!this.aircraft_icao) {

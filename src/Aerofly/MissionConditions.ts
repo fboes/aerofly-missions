@@ -27,7 +27,7 @@ export class MissionConditions {
    */
   cloud_cover: number = 0.0;
   /**
-   * Feet AGL
+   * Meters AGL
    */
   cloud_base: number = 0.0;
 
@@ -60,7 +60,28 @@ export class MissionConditions {
   }
 
   set cloud_base_percent(percent: number) {
-    this.cloud_base = percent * 3000; // Max cloud height
+    this.cloud_base = percent * 10000 / 3.28084; // Max cloud height
+  }
+
+  /**
+   * @see https://en.wikipedia.org/wiki/METAR
+   */
+  get cloud_cover_code(): string {
+    console.log(this.cloud_cover);
+    if (this.cloud_cover < 1 / 8) {
+      return 'CLR';
+    } else if (this.cloud_cover <= 2 / 8) {
+      return 'FEW';
+    } else if (this.cloud_cover <= 4 / 8) {
+      return 'SCT';
+    } else if (this.cloud_cover <= 7 / 8) {
+      return 'BKN';
+    }
+    return 'OVC';
+  }
+
+  get cloud_base_feet(): number {
+    return this.cloud_base * 3.28084;
   }
 
   set visibility_percent(percent: number) {
@@ -86,7 +107,7 @@ export class MissionConditions {
                     <[float64][thermal_strength][${this.thermal_strength}]>
                     <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud_cover}]>
-                    <[float64][cloud_base][${this.cloud_base}]> // ft MSL
+                    <[float64][cloud_base][${this.cloud_base}]> // meters AGL
                 >
 `;
   }
