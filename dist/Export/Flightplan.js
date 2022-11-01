@@ -16,7 +16,7 @@ export class Flightplan {
 > WND: ${this.pad(m.conditions.wind_direction)}° @ ${this.pad(m.conditions.wind_speed)}kts
 > CLD: ${m.conditions.cloud_cover_code} @ ${this.pad(m.conditions.cloud_base_feet, 5)}ft
 ------------------------------------
->   WPT     FRQ     DTK   DIST  TIME
+>   WPT     FREQ    TRK   DIST  TIME
 `;
         let totalDistance = 0, totalTime = 0;
         m.checkpoints.forEach((c, i) => {

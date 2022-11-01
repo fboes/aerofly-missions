@@ -46,6 +46,7 @@ Parameters:
   -t, --target       Location of your target file
       --title        Title of your mission
       --description  Description of your mission
+      --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of plane
 
 Switches:

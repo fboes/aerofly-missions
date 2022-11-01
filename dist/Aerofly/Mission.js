@@ -49,8 +49,7 @@ export class Mission {
     }
     set description(description) {
         if (description.length > Mission.MAX_LENGTH_DESCRIPTION) {
-            this.warnings.push(`Description is longer than ${Mission.MAX_LENGTH_DESCRIPTION}, truncating`);
-            description = description.substring(0, Mission.MAX_LENGTH_DESCRIPTION);
+            this.warnings.push(`Description is longer than ${Mission.MAX_LENGTH_DESCRIPTION}`);
         }
         this._description = description;
     }

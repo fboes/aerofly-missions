@@ -36,7 +36,7 @@ export class LonLat {
             Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(this.latRad) * Math.cos(lonLat.latRad);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         // multiply with earth's mean radius in Nautical Miles
-        return 3440.06328 * c;
+        return 3441.037 * c;
     }
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/

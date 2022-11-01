@@ -50,7 +50,7 @@ export class LonLat {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     // multiply with earth's mean radius in Nautical Miles
-    return 3440.06328 * c;
+    return 3441.037 * c;
   }
 
   /**
