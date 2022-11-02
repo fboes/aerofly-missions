@@ -14,8 +14,8 @@ export class MissionCheckpoint {
          */
         this.direction = -1;
         /**
-          * Distance in nautical miles to fly from last point to this point.
-          *-1 on first
+         * Distance in nautical miles to fly from last point to this point.
+         *-1 on first
          */
         this.distance = -1;
         /**
@@ -66,7 +66,7 @@ export class MissionCheckpoint {
      * In hours
      */
     get time() {
-        return (this.distance >= 0 && this.speed > 0) ? (this.distance / this.speed) : 0;
+        return this.distance >= 0 && this.speed > 0 ? this.distance / this.speed : 0;
     }
     get altitude_ft() {
         return this.altitude * 3.28084;
@@ -74,26 +74,40 @@ export class MissionCheckpoint {
     set altitude_ft(altitude_ft) {
         this.altitude = altitude_ft / 3.28084;
     }
+    get direction_rad() {
+        return this.direction / 180 * Math.PI;
+    }
     fromMainMcf(waypoint, cruiseAltitude = 0) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;
         this.lon_lat = LonLat.fromMainMcf(waypoint.Position);
         this.altitude = waypoint.Elevation || cruiseAltitude;
+        if (waypoint.Altitude[0]) {
+            this.altitude = Math.max(this.altitude, waypoint.Altitude[0]);
+        }
+        if (waypoint.Altitude[1]) {
+            this.altitude = Math.min(this.altitude, waypoint.Altitude[1]);
+        }
         this.frequency = waypoint.NavaidFrequency;
         this.length = waypoint.Length;
         return this;
     }
+    /**
+     * Add direction and distance to this checkpont. Also fix altitude to add separation.
+     * @see https://en.wikipedia.org/wiki/Flight_level
+     *
+     * @param lonLat LonLat of last checkpoint before this one
+     */
     setDirectionByCoordinates(lonLat) {
         this.direction = lonLat.getBearingTo(this.lon_lat);
         this.distance = lonLat.getDistanceTo(this.lon_lat);
-        /*if (this.altitude && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
-          let altitude_ft = Math.ceil((this.altitude_ft - 500) / 1000) * 1000;
-          if ((altitude_ft % 2000 !== 0) !== (this.direction < 180)) {
-            altitude_ft += 1000;
-          }
-          altitude_ft += 500;
-          this.altitude_ft = altitude_ft;
-        }*/
+        // Separation above 3000ft MSL VFR
+        let altitude_ft = this.altitude_ft;
+        if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
+            this.altitude_ft = (this.direction < 180)
+                ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500
+                : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500
+        }
     }
     toString(index) {
         return `                    <[tmmission_checkpoint][element][${index}]

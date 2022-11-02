@@ -72,7 +72,7 @@ export class Mission {
         return this._flight_setting;
     }
     /**
-     * ...this also sets `this.aircraft_icao` and `this.callsign`
+     * ...this also sets `this.aircraft_icao`, `this._cruise_speed` and `this.callsign`
      *
      * @see https://www.icao.int/publications/doc8643/pages/search.aspx
      * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
@@ -83,6 +83,7 @@ export class Mission {
             case "b58":
                 this.aircraft_icao = "BE58";
                 this.callsign = 'N58EU';
+                this._cruise_speed = 180;
                 break;
             case "jungmeister":
                 this.aircraft_icao = "BU33";
@@ -91,6 +92,7 @@ export class Mission {
                 break;
             case "q400":
                 this.aircraft_icao = "DH8D";
+                this._cruise_speed = 360;
                 break;
             case "crj900":
                 this.aircraft_icao = "CRJ9";
@@ -98,29 +100,37 @@ export class Mission {
             case "c90gtx":
                 this.aircraft_icao = "BE9L";
                 this.callsign = 'D-IBYP';
+                this._cruise_speed = 226;
                 break;
             case "f15e":
                 this.aircraft_icao = "F15";
+                this._cruise_speed = 570;
                 break;
             case "f18":
                 this.aircraft_icao = "F18H";
+                this._cruise_speed = 570;
                 break;
             case "f4u":
                 this.aircraft_icao = "CORS";
+                this._cruise_speed = 187;
                 break;
             case "p38":
                 this.aircraft_icao = "P38";
+                this.callsign = "N38BP";
+                this._cruise_speed = 239;
                 break;
             case "bf109e":
                 this.aircraft_icao = "ME09";
+                this._cruise_speed = 320;
                 break;
             case "mb339":
                 this.aircraft_icao = "M339";
+                this._cruise_speed = 350;
                 break;
             case "pitts":
                 this.aircraft_icao = "PTS2";
                 this.callsign = 'D-EUJS';
-                this._cruise_speed = 150;
+                this._cruise_speed = 152;
                 break;
             case "b737":
                 this.aircraft_icao = "B735";
@@ -134,14 +144,18 @@ export class Mission {
             case "ec135":
                 this.aircraft_icao = "EC35";
                 this.callsign = 'D-HACF';
+                this._cruise_speed = 137;
                 break;
             case 'c172':
                 this.callsign = 'N51911';
-                this._cruise_speed = 120;
+                this._cruise_speed = 122;
                 break;
         }
         if (!this.aircraft_icao) {
             this.aircraft_icao = aircraft_name.toUpperCase();
+        }
+        if (!this._cruise_speed) {
+            this._cruise_speed = 450; // True for most airliners
         }
         if (!this.callsign) {
             this.callsign = "N";
@@ -197,6 +211,10 @@ export class Mission {
             cp.speed = this._cruise_speed;
             return cp;
         });
+        // Rolling speed
+        this.checkpoints[1].speed /= 4;
+        // Landing speed
+        this.checkpoints[this.checkpoints.length - 1].speed /= 2;
         this.calculateDirectionForCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
@@ -251,13 +269,19 @@ export class Mission {
     }
     calculateDirectionForCheckpoints() {
         let lastC = null;
+        const wind_direction_rad = this.conditions.wind_direction / 180 * Math.PI;
+        // Add directions
         this.checkpoints.forEach(c => {
             if (lastC !== null) {
                 c.setDirectionByCoordinates(lastC.lon_lat);
             }
+            // Modify cruising speed by wind
+            if (c.direction >= 0 && this.conditions.wind_speed) {
+                // If "wind from" === "direction to" you have maximum head wind
+                c.speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+            }
             lastC = c;
         });
-        // TODO: Modify cruising speed by wind
     }
     getLocalDaytime() {
         const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
