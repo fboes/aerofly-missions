@@ -193,7 +193,7 @@ export class Mission {
         this.conditions.fromMainMcf(mainMcf);
         this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
             let cp = new MissionCheckpoint();
-            cp.fromMainMcf(w);
+            cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
             cp.speed = this._cruise_speed;
             return cp;
         });
@@ -257,6 +257,7 @@ export class Mission {
             }
             lastC = c;
         });
+        // TODO: Modify cruising speed by wind
     }
     getLocalDaytime() {
         const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;

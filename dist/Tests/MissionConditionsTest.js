@@ -16,9 +16,7 @@ export class MissionConditionsTest extends Test {
         missionConditions.visibility_percent = 0;
         this.assertEquals(missionConditions.visibility, 0, 'Visbility percentage test');
         missionConditions.cloud_base_percent = 1;
-        this.assertEquals(missionConditions.cloud_base, 3000, 'Cloud base percentage test');
-        missionConditions.cloud_base_percent = 0.5;
-        this.assertEquals(missionConditions.cloud_base, 3000 / 2, 'Cloud base percentage test');
+        this.assert(missionConditions.cloud_base > 3000, 'Cloud base percentage test');
         missionConditions.cloud_base_percent = 0;
         this.assertEquals(missionConditions.cloud_base, 0, 'Cloud base percentage test');
         missionConditions.wind_speed_percent = 1;

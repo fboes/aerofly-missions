@@ -67,7 +67,6 @@ export class MissionConditions {
    * @see https://en.wikipedia.org/wiki/METAR
    */
   get cloud_cover_code(): string {
-    console.log(this.cloud_cover);
     if (this.cloud_cover < 1 / 8) {
       return 'CLR';
     } else if (this.cloud_cover <= 2 / 8) {

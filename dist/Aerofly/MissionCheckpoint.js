@@ -5,7 +5,7 @@ export class MissionCheckpoint {
         this.name = "";
         this.lon_lat = new LonLat(0, 0);
         /**
-         * Always set, but waypoints are AGL?
+         * Altitude in meters MSL
          */
         this.altitude = 0;
         /**
@@ -66,16 +66,19 @@ export class MissionCheckpoint {
      * In hours
      */
     get time() {
-        return (this.distance >= 0 && this.speed > 0) ? (this.distance / this.speed) : -1;
+        return (this.distance >= 0 && this.speed > 0) ? (this.distance / this.speed) : 0;
     }
-    fromMainMcf(waypoint) {
+    get altitude_ft() {
+        return this.altitude * 3.28084;
+    }
+    set altitude_ft(altitude_ft) {
+        this.altitude = altitude_ft / 3.28084;
+    }
+    fromMainMcf(waypoint, cruiseAltitude = 0) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;
         this.lon_lat = LonLat.fromMainMcf(waypoint.Position);
-        if (!waypoint.Elevation) {
-            waypoint.Elevation = 1000;
-        }
-        this.altitude = waypoint.Elevation;
+        this.altitude = waypoint.Elevation || cruiseAltitude;
         this.frequency = waypoint.NavaidFrequency;
         this.length = waypoint.Length;
         return this;
@@ -83,6 +86,14 @@ export class MissionCheckpoint {
     setDirectionByCoordinates(lonLat) {
         this.direction = lonLat.getBearingTo(this.lon_lat);
         this.distance = lonLat.getDistanceTo(this.lon_lat);
+        /*if (this.altitude && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
+          let altitude_ft = Math.ceil((this.altitude_ft - 500) / 1000) * 1000;
+          if ((altitude_ft % 2000 !== 0) !== (this.direction < 180)) {
+            altitude_ft += 1000;
+          }
+          altitude_ft += 500;
+          this.altitude_ft = altitude_ft;
+        }*/
     }
     toString(index) {
         return `                    <[tmmission_checkpoint][element][${index}]

@@ -33,9 +33,7 @@ if (mission.warnings) {
     process.stderr.write("> " + w + "\n");
   })
 }
-console.log(args);
 if (args.ils) {
-  console.log(args.ils);
   mission.checkpoints[mission.checkpoints.length -2].rawFrequency = args.ils;
 }
 

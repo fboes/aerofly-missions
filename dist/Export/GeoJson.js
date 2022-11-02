@@ -15,7 +15,8 @@ export class GeoJson {
                 },
                 properties: {
                     title: waypoint.Identifier,
-                    type: waypoint.type
+                    type: waypoint.type,
+                    altitude: waypoint.Elevation
                 },
             };
         });
@@ -47,7 +48,8 @@ export class GeoJson {
                     title: c.name,
                     type: c.type,
                     direction: c.direction,
-                    distance: c.distance
+                    distance: c.distance,
+                    altitude: c.altitude
                 },
             };
         });

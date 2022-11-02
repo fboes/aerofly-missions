@@ -37,6 +37,7 @@ export class MainMcf {
         };
         this.navigation = {
             Route: {
+                CruiseAltitude: -1,
                 Ways: [],
             },
         };
@@ -58,6 +59,7 @@ export class MainMcf {
         const tm_time_utc = this.getGroup(configFileContent, "tm_time_utc");
         const tmsettings_wind = this.getGroup(configFileContent, "tmsettings_wind");
         const tmsettings_clouds = this.getGroup(configFileContent, "tmsettings_clouds");
+        const tmnav_route = this.getGroup(configFileContent, "tmnav_route", 3);
         const list_tmmission_checkpoint = this.getGroup(configFileContent, "pointer_list_tmnav_route_way", 4);
         let waypoints = [];
         if (list_tmmission_checkpoint) {
@@ -69,11 +71,10 @@ export class MainMcf {
                 return {
                     type: typeMatch ? String(typeMatch[0]) : "waypoint",
                     Identifier: this.getValue(wp, "Identifier"),
-                    Position: this.getValue(wp, "Position")
-                        .split(" ")
-                        .map((i) => Number(i)),
+                    Position: this.getNumberArray(wp, "Position"),
                     NavaidFrequency: this.getNumber(wp, "NavaidFrequency"),
                     Elevation: this.getNumber(wp, "Elevation"),
+                    Altitude: this.getNumberArray(wp, "Altitude"),
                     Length: this.getNumber(wp, "RunwayLength"),
                 };
             });
@@ -82,12 +83,8 @@ export class MainMcf {
             name: this.getValue(tmsettings_aircraft, "name", "c172"),
         };
         this.flight_setting = {
-            position: this.getValue(tmsettings_flight, "position")
-                .split(" ")
-                .map((i) => Number(i)),
-            orientation: this.getValue(tmsettings_flight, "orientation")
-                .split(" ")
-                .map((i) => Number(i)),
+            position: this.getNumberArray(tmsettings_flight, "position"),
+            orientation: this.getNumberArray(tmsettings_flight, "orientation"),
             configuration: this.getValue(tmsettings_flight, "configuration"),
             on_ground: this.getValue(tmsettings_flight, "on_ground") === "true",
         };
@@ -114,12 +111,18 @@ export class MainMcf {
         };
         this.navigation = {
             Route: {
+                CruiseAltitude: this.getNumber(tmnav_route, 'CruiseAltitude'),
                 Ways: waypoints,
             },
         };
     }
     getNumber(subject, key, defaultValue = 0) {
         return Number(this.getValue(subject, key, String(defaultValue)));
+    }
+    getNumberArray(subject, key) {
+        return this.getValue(subject, key)
+            .split(" ")
+            .map((i) => Number(i));
     }
     getValue(subject, key, defaultValue = "") {
         const match = subject.match(new RegExp("(?:\\]\\[" + key + "\\]\\[)([^\\]]*)(?:\\])"));
