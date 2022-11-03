@@ -27,25 +27,23 @@ try {
 
 const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
-mission.fromMainMcf(aeroflyConfig);
+mission.fromMainMcf(aeroflyConfig, args.ils);
 if (mission.warnings) {
   mission.warnings.forEach(w => {
     process.stderr.write("> " + w + "\n");
   })
 }
-if (args.ils) {
-  mission.checkpoints[mission.checkpoints.length -2].rawFrequency = args.ils;
-}
+
 
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 
 if (args.geoJson) {
   //console.log(JSON.stringify(new GeoJson().fromMainMcf(aeroflyConfig)));
- process.stdout.write(JSON.stringify(new GeoJson().fromMission(mission)));
+  process.stdout.write(JSON.stringify(new GeoJson().fromMission(mission)));
 }
 if (args.flightplan) {
- process.stdout.write(new Flightplan(mission).toString());
+  process.stdout.write(new Flightplan(mission).toString());
 }
 
 try {

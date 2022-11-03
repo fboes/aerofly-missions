@@ -28,11 +28,11 @@ export class Flightplan {
   toString(): string {
     const m = this.mission;
     let output = `${m.origin_icao} → ${m.destination_icao}
-===============================================
->  Wind: ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}kts
->  Cloud: ${m.conditions.cloud_cover_code} @ ${m.conditions.cloud_base_feet.toLocaleString('en')}ft
->  Visibility: ${m.conditions.visibility.toLocaleString('en')}m
------------------------------------------------
+==============================================
+WND  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}kts
+CLD  ${m.conditions.cloud_cover_code}  @ ${m.conditions.cloud_base_feet.toLocaleString('en')}ft
+VIS  ${m.conditions.visibility.toLocaleString('en')}m
+----------------------------------------------
 `;
 
     output += this.lineOutput(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', ' DIS', '  ETE']);
@@ -53,8 +53,8 @@ export class Flightplan {
       ]);
     })
 
-    output += `-----------------------------------------------
->  Total:                          `;
+    output += `----------------------------------------------
+>    TOT                           `;
 
     output += this.lineOutput([
       this.pad(totalDistance, 4, 1),

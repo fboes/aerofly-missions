@@ -23,14 +23,11 @@ catch (err) {
 }
 const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
-mission.fromMainMcf(aeroflyConfig);
+mission.fromMainMcf(aeroflyConfig, args.ils);
 if (mission.warnings) {
     mission.warnings.forEach(w => {
         process.stderr.write("> " + w + "\n");
     });
-}
-if (args.ils) {
-    mission.checkpoints[mission.checkpoints.length - 2].rawFrequency = args.ils;
 }
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);

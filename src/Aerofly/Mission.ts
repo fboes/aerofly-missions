@@ -213,7 +213,7 @@ export class Mission {
     return this._aircraft_icao;
   }
 
-  fromMainMcf(mainMcf: MainMcf): Mission {
+  fromMainMcf(mainMcf: MainMcf, ils: number = 0): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
 
     switch (mainMcf.flight_setting.configuration) {
@@ -284,6 +284,9 @@ export class Mission {
     this.destination_icao = lastCheckpoint.name;
     this.destination_dir = lastCheckpoint.direction;
     this.destination_lon_lat = lastCheckpoint.lon_lat;
+    if (ils) {
+      lastCheckpoint.rawFrequency = ils;
+    }
 
     if (this.title === "" || this.title === "Custom missions") {
       this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
@@ -299,11 +302,11 @@ export class Mission {
           return c.frequency > 0;
         })
         .map((c) => {
-          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, TRK ${c.direction.toFixed()}°`;
+          return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, DTK ${c.direction.toFixed()}°`;
         })
-        .join("; ");
+        .join("\n");
       if (navDescription) {
-        this.description += " " + navDescription;
+        this.description += "\n\n" + navDescription;
       }
     }
 
