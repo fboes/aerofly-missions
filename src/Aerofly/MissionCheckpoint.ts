@@ -35,7 +35,7 @@ export class MissionCheckpoint {
   /**
    * In knots
    */
-  speed: number = -1;
+  ground_speed: number = -1;
 
   static TYPE_ORIGIN = "origin";
   static TYPE_DEPARTURE_RUNWAY = "departure_runway";
@@ -80,7 +80,7 @@ export class MissionCheckpoint {
    * In hours
    */
   get time(): number {
-    return this.distance >= 0 && this.speed > 0 ? this.distance / this.speed : 0;
+    return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
   }
 
   get altitude_ft(): number {

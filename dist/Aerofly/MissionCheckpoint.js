@@ -34,7 +34,7 @@ export class MissionCheckpoint {
         /**
          * In knots
          */
-        this.speed = -1;
+        this.ground_speed = -1;
     }
     /**
      * Aerofly represents frequencies not as floating numbers.
@@ -66,7 +66,7 @@ export class MissionCheckpoint {
      * In hours
      */
     get time() {
-        return this.distance >= 0 && this.speed > 0 ? this.distance / this.speed : 0;
+        return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
     get altitude_ft() {
         return this.altitude * 3.28084;

@@ -239,31 +239,30 @@ export class Mission {
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       let cp = new MissionCheckpoint();
       cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
-      cp.speed = this._cruise_speed;
+      cp.ground_speed = this._cruise_speed;
+      if (cp.type !== MissionCheckpoint.TYPE_WAYPOINT) {
+        cp.ground_speed /= 3;
+      }
 
       return cp;
     });
-    // Rolling speed
-    this.checkpoints[1].speed /= 4;
-    // Landing speed
-    this.checkpoints[this.checkpoints.length - 1].speed /= 2;
 
     this.calculateDirectionForCheckpoints();
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
 
-    const departure_runway = this.checkpoints.find(c => {
+    const checkpointDepartureRunway = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
     })
 
     const distanceOriginPlane = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
     if (distanceOriginPlane > 2) {
       this.warnings.push(`Position of plane too far away from origin of flight plan: ${distanceOriginPlane.toFixed(2)} NM`);
-      if (departure_runway) {
-        this.origin_lon_lat = departure_runway.lon_lat;
-        this.warnings.push(`Setting positon of plane to departure runway: ${departure_runway.lon_lat}`)
-        this.origin_dir = (departure_runway.direction + 180) % 360;
+      if (checkpointDepartureRunway) {
+        this.origin_lon_lat = checkpointDepartureRunway.lon_lat;
+        this.warnings.push(`Setting positon of plane to departure runway: ${checkpointDepartureRunway.lon_lat}`)
+        this.origin_dir = (checkpointDepartureRunway.direction + 180) % 360;
         this.warnings.push(`Setting orientation of plane to departure runway: ${this.origin_dir.toFixed()}°`)
       }
     }
@@ -278,14 +277,18 @@ export class Mission {
       this.warnings.push(`Aircraft orientation inferred from mainMcf.flight_setting.orientation: ${this.origin_dir.toFixed()}°`)
     }
 
-    const lastCheckpoint = this.checkpoints.find(c => {
+    const checkpointDestination = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DESTINATION
     }) || this.checkpoints[this.checkpoints.length - 1];
-    this.destination_icao = lastCheckpoint.name;
-    this.destination_dir = lastCheckpoint.direction;
-    this.destination_lon_lat = lastCheckpoint.lon_lat;
+    this.destination_icao = checkpointDestination.name;
+    this.destination_dir = checkpointDestination.direction;
+    this.destination_lon_lat = checkpointDestination.lon_lat;
+
+    const checkpointDestinationRunway = this.checkpoints.find(c => {
+      return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+    }) || checkpointDestination;
     if (ils) {
-      lastCheckpoint.rawFrequency = ils;
+      checkpointDestinationRunway.rawFrequency = ils;
     }
 
     if (this.title === "" || this.title === "Custom missions") {
@@ -325,7 +328,7 @@ export class Mission {
       // Modify cruising speed by wind
       if (c.direction >= 0 && this.conditions.wind_speed) {
         // If "wind from" === "direction to" you have maximum head wind
-        c.speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+        c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
       }
       lastC = c;
     });
