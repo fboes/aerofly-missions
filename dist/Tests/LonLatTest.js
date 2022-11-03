@@ -30,7 +30,7 @@ export class LonLatTest extends Test {
             const lonLat = new LonLat(45, 35);
             const lonLat2 = new LonLat(135, 35);
             this.assertEquals(Math.round(lonLat.getBearingTo(lonLat2)), 60, 'Bearing matches');
-            this.assertEquals(Math.round(lonLat.getDistanceTo(lonLat2)), 4250, 'Distance matches');
+            this.assertEquals(Math.round(lonLat.getDistanceTo(lonLat2)), 4252, 'Distance matches');
         }
         this.group(LonLat.name + ": HST to 07FA");
         {
