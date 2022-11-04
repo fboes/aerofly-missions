@@ -88,7 +88,7 @@ export class MissionConditions {
   }
 
   get visibility_sm(): number {
-    return this.visibility / 1000 / 1.609344;
+    return (this.visibility === 10000) ? 10 : this.visibility / 1000 / 1.609344;
   }
 
   set wind_speed_percent(percent: number) {
