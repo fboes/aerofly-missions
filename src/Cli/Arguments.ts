@@ -88,7 +88,7 @@ Parameters:
 \x1b[94m  -s, --source       \x1b[0mLocation of the main.mcf; defaults to \`${this.source}\`
 \x1b[94m  -t, --target       \x1b[0mLocation of your target file; defaults to \`${this.target}\`
 \x1b[94m      --title        \x1b[0mTitle of your mission; defaults to \`${this.title}\`
-\x1b[94m      --description  \x1b[0mDescription of your mission; defaults to \`${this.description}\`
+\x1b[94m      --description  \x1b[0mDescription of your mission; line breaks allowed; defaults to \`${this.description}\`
 \x1b[94m      --ils          \x1b[0mILS frequency like '123.45'; defaults to \`${this.ils}\`
 \x1b[94m  -d, --direction    \x1b[0mInitial orientation of plane; defaults to \`${this.direction}\`
 

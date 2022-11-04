@@ -38,6 +38,7 @@ export class Mission {
         this.description = description;
     }
     set title(title) {
+        title = title.trim();
         if (title.length > Mission.MAX_LENGTH_TITLE) {
             this.warnings.push(`Title is longer than ${Mission.MAX_LENGTH_TITLE}, truncating`);
             title = title.substring(0, Mission.MAX_LENGTH_TITLE);
@@ -48,8 +49,14 @@ export class Mission {
         return this._title;
     }
     set description(description) {
-        if (description.length > Mission.MAX_LENGTH_DESCRIPTION) {
-            this.warnings.push(`Description is longer than ${Mission.MAX_LENGTH_DESCRIPTION}`);
+        description = description.trim();
+        const lines = description.split(/\n/);
+        let lineCount = lines.length;
+        lines.forEach(l => {
+            lineCount += Math.floor(l.length / Mission.MAX_LENGTH_DESCRIPTION);
+        });
+        if (lineCount > Mission.MAX_LINES_DESCRIPTION) {
+            this.warnings.push(`Description is longer than ${Mission.MAX_LINES_DESCRIPTION} lines à ${Mission.MAX_LENGTH_DESCRIPTION} characters`);
         }
         this._description = description;
     }
@@ -342,4 +349,5 @@ Mission.FLIGHT_SETTING_APPROACH = "approach";
 Mission.FLIGHT_SETTING_TAXI = "taxi";
 Mission.FLIGHT_SETTING_CRUISE = "cruise";
 Mission.MAX_LENGTH_TITLE = 32;
-Mission.MAX_LENGTH_DESCRIPTION = 200;
+Mission.MAX_LENGTH_DESCRIPTION = 50;
+Mission.MAX_LINES_DESCRIPTION = 8;

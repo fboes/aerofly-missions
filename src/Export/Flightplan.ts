@@ -4,10 +4,14 @@ export class Flightplan {
   constructor(protected mission: Mission) {
   }
 
-  convertTimeToString(hours: number): string {
-    const minutes = Math.ceil(hours * 60);
+  /**
+   * @param hours number
+   * @returns string MINUTES:SECONDS
+   */
+  convertHoursToMinutesString(hours: number): string {
+    const seconds = Math.ceil(hours * 60 * 60);
 
-    return Math.floor(minutes / 60).toFixed().padStart(2, "0") + ':' + Math.ceil(minutes % 60).toFixed().padStart(2, "0");
+    return Math.floor(seconds / 60).toFixed().padStart(2, "0") + ':' + Math.ceil(seconds % 60).toFixed().padStart(2, "0");
   }
 
   pad(number: number, maxLength: number = 3, fractionDigits: number = 0, fillString: string = " "): string {
@@ -29,9 +33,9 @@ export class Flightplan {
     const m = this.mission;
     let output = `${m.origin_icao} → ${m.destination_icao}
 ==============================================
-WND  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}kts
-CLD  ${m.conditions.cloud_cover_code}  @ ${m.conditions.cloud_base_feet.toLocaleString('en')}ft
-VIS  ${m.conditions.visibility.toLocaleString('en')}m
+WND  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS
+CLD  ${m.conditions.cloud_cover_code} (${Math.round(m.conditions.cloud_cover * 8)}/8) @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT
+VIS  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM
 ----------------------------------------------
 `;
 
@@ -49,7 +53,7 @@ VIS  ${m.conditions.visibility.toLocaleString('en')}m
         (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
         (c.direction >= 0) ? this.padThree(c.direction) + "°" : ' '.repeat(4),
         (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(5),
-        (c.time > 0) ? this.convertTimeToString(c.time) : ' '.repeat(5),
+        (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
       ]);
     })
 
@@ -58,7 +62,7 @@ VIS  ${m.conditions.visibility.toLocaleString('en')}m
 
     output += this.lineOutput([
       this.pad(totalDistance, 4, 1),
-      this.convertTimeToString(totalTime)
+      this.convertHoursToMinutesString(totalTime)
     ]);
 
     return output;

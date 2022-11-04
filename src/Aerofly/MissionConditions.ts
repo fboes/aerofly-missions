@@ -44,18 +44,18 @@ export class MissionConditions {
     this.thermal_strength = mainMcf.wind.thermal_activity;
     this.visibility_percent = mainMcf.visibility;
 
-    let lowest = [0, 10];
-    [
+    // Order clouds from lowest to highest, ignoring empty cloud layers
+    const clouds = [
       [mainMcf.clouds.cumulus_density, mainMcf.clouds.cumulus_height],
       [mainMcf.clouds.cumulus_mediocris_density, mainMcf.clouds.cumulus_mediocris_height],
       [mainMcf.clouds.cirrus_density, mainMcf.clouds.cirrus_height],
-    ].forEach((c) => {
-      if (c[1] !== 0 && c[1] < lowest[1]) {
-        lowest = c;
-      }
+    ].sort((a, b) => {
+      return a[0] <= 0 ? +1 : a[1] - b[1]
     });
-    this.cloud_base_percent = lowest[1];
-    this.cloud_cover = lowest[0];
+    const lowestCloud = clouds[0];
+
+    this.cloud_base_percent = lowestCloud[1];
+    this.cloud_cover = lowestCloud[0];
     return this;
   }
 
@@ -85,6 +85,10 @@ export class MissionConditions {
 
   set visibility_percent(percent: number) {
     this.visibility = percent * 10000; // Max visibility
+  }
+
+  get visibility_sm(): number {
+    return this.visibility / 1000 / 1.609344;
   }
 
   set wind_speed_percent(percent: number) {

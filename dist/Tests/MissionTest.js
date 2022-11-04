@@ -22,6 +22,10 @@ export class MissionTest extends Test {
             const mission = new Mission('a'.repeat(64), 'b'.repeat(500));
             this.assertEquals(mission.title, 'a'.repeat(Mission.MAX_LENGTH_TITLE), 'Truncating title');
             this.assertEquals(mission.warnings.length, 2, 'Throwing warnings');
+            const mission2 = new Mission('a'.repeat(32), 'b'.repeat(200));
+            this.assertEquals(mission2.warnings.length, 0, 'Not throwing warnings');
+            const mission3 = new Mission('a'.repeat(32), "b\n".repeat(10));
+            this.assertEquals(mission3.warnings.length, 1, 'Not throwing warnings');
         }
     }
 }
