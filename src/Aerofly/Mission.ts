@@ -248,9 +248,11 @@ export class Mission {
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       let cp = new MissionCheckpoint();
       cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
-      cp.ground_speed = this._cruise_speed;
-      if (cp.type !== MissionCheckpoint.TYPE_WAYPOINT) {
-        cp.ground_speed /= 3;
+      if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
+        cp.ground_speed = this._cruise_speed;
+      }
+      if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
+        cp.ground_speed = 30;
       }
 
       return cp;
@@ -335,9 +337,11 @@ export class Mission {
         c.setDirectionByCoordinates(lastC.lon_lat);
       }
       // Modify cruising speed by wind
-      if (c.direction >= 0 && this.conditions.wind_speed) {
-        // If "wind from" === "direction to" you have maximum head wind
-        c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+      if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {
+        if (c.ground_speed && c.direction >= 0 && this.conditions.wind_speed) {
+          // If "wind from" === "direction to" you have maximum head wind
+          c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+        }
       }
       lastC = c;
     });

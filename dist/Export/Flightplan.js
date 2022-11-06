@@ -44,7 +44,8 @@ VIS  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.condition
                 (c.frequency) ? this.pad(c.rawFrequency, 6, 2) : ' '.repeat(6),
                 (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
                 (c.direction >= 0) ? this.padThree(c.direction) + "°" : ' '.repeat(4),
-                (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(5),
+                (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
+                //(c.ground_speed >= 0) ? this.pad(c.ground_speed) : ' '.repeat(3),
                 (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
             ]);
         });
