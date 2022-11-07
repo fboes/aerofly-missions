@@ -10,7 +10,7 @@ export class MissionCheckpoint {
    */
   altitude: number = 0;
   /**
-   * Direction in degrees to fly from last point to this point.
+   * Course in degrees to fly from last point to this point.
    * -1 on first, but seem rather unrelevant
    */
   direction: number = -1;
@@ -33,9 +33,13 @@ export class MissionCheckpoint {
    */
   frequency: number = 0;
   /**
-   * In knots
+   * Not official: In knots
    */
   ground_speed: number = -1;
+  /**
+   * Not official: Heading to fly to correct for wind drift
+   */
+  heading: number = -1;
 
   static TYPE_ORIGIN = "origin";
   static TYPE_DEPARTURE_RUNWAY = "departure_runway";
@@ -92,7 +96,7 @@ export class MissionCheckpoint {
   }
 
   get direction_rad() {
-    return this.direction / 180 * Math.PI;
+    return (this.direction % 360) / 180 * Math.PI;
   }
 
   fromMainMcf(waypoint: MainMcfWaypointInterface, cruiseAltitude: number = 0): MissionCheckpoint {
@@ -119,6 +123,7 @@ export class MissionCheckpoint {
    */
   setDirectionByCoordinates(lonLat: LonLat) {
     this.direction = lonLat.getBearingTo(this.lon_lat);
+    this.heading = this.direction;
     this.distance = lonLat.getDistanceTo(this.lon_lat);
 
     // Separation above 3000ft MSL VFR

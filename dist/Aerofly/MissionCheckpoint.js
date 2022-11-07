@@ -9,7 +9,7 @@ export class MissionCheckpoint {
          */
         this.altitude = 0;
         /**
-         * Direction in degrees to fly from last point to this point.
+         * Course in degrees to fly from last point to this point.
          * -1 on first, but seem rather unrelevant
          */
         this.direction = -1;
@@ -32,9 +32,13 @@ export class MissionCheckpoint {
          */
         this.frequency = 0;
         /**
-         * In knots
+         * Not official: In knots
          */
         this.ground_speed = -1;
+        /**
+         * Not official: Heading to fly to correct for wind drift
+         */
+        this.heading = -1;
     }
     /**
      * Aerofly represents frequencies not as floating numbers.
@@ -75,7 +79,7 @@ export class MissionCheckpoint {
         this.altitude = altitude_ft / 3.28084;
     }
     get direction_rad() {
-        return this.direction / 180 * Math.PI;
+        return (this.direction % 360) / 180 * Math.PI;
     }
     fromMainMcf(waypoint, cruiseAltitude = 0) {
         this.type = waypoint.type;
@@ -100,6 +104,7 @@ export class MissionCheckpoint {
      */
     setDirectionByCoordinates(lonLat) {
         this.direction = lonLat.getBearingTo(this.lon_lat);
+        this.heading = this.direction;
         this.distance = lonLat.getDistanceTo(this.lon_lat);
         // Separation above 3000ft MSL VFR
         let altitude_ft = this.altitude_ft;

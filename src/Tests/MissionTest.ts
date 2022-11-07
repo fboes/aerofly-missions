@@ -1,5 +1,6 @@
 import { LonLat } from "../Aerofly/LonLat.js";
 import { Mission } from "../Aerofly/Mission.js";
+import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { Test } from "../Cli/Test.js";
 
 export class MissionTest extends Test {
@@ -35,5 +36,12 @@ export class MissionTest extends Test {
       const mission3 = new Mission('a'.repeat(32), "b\n".repeat(10));
       this.assertEquals(mission3.warnings.length, 1, 'Not throwing warnings')
     }
+
+    /*this.group(Mission.name + ': Wind drift');
+    {
+      const mission = new Mission('','');
+      mission.conditions = new MissionConditions();
+      mission.conditions.wind_speed = 10;
+    }*/
   }
 }

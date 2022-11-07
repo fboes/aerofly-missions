@@ -283,7 +283,6 @@ export class Mission {
     }
     calculateDirectionForCheckpoints() {
         let lastC = null;
-        const wind_direction_rad = this.conditions.wind_direction / 180 * Math.PI;
         // Add directions
         this.checkpoints.forEach(c => {
             if (lastC !== null) {
@@ -292,8 +291,10 @@ export class Mission {
             // Modify cruising speed by wind
             if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {
                 if (c.ground_speed && c.direction >= 0 && this.conditions.wind_speed) {
-                    // If "wind from" === "direction to" you have maximum head wind
-                    c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+                    const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.ground_speed);
+                    //c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
+                    c.ground_speed = windCorrection.ground_speed;
+                    c.heading = windCorrection.heading;
                 }
             }
             lastC = c;

@@ -6,31 +6,87 @@ export class MissionConditionsTest extends Test {
     super(process);
 
     this.group(MissionConditions.name);
+    {
+      const missionConditions = new MissionConditions();
 
-    const missionConditions = new MissionConditions();
+      this.assertEquals(missionConditions.cloud_base, 0)
+      this.assertEquals(missionConditions.cloud_cover, 0)
+      this.assertEquals(missionConditions.wind_speed, 0)
+      this.assertEquals(missionConditions.visibility, 20000)
 
-    this.assertEquals(missionConditions.cloud_base, 0)
-    this.assertEquals(missionConditions.cloud_cover, 0)
-    this.assertEquals(missionConditions.wind_speed, 0)
-    this.assertEquals(missionConditions.visibility, 20000)
+      missionConditions.visibility_percent = 1;
+      this.assertEquals(missionConditions.visibility, 10000, 'Visbility percentage test')
+      missionConditions.visibility_percent = 0.5;
+      this.assertEquals(missionConditions.visibility, 10000 / 2, 'Visbility percentage test')
+      missionConditions.visibility_percent = 0;
+      this.assertEquals(missionConditions.visibility, 0, 'Visbility percentage test')
 
-    missionConditions.visibility_percent = 1;
-    this.assertEquals(missionConditions.visibility, 10000, 'Visbility percentage test')
-    missionConditions.visibility_percent = 0.5;
-    this.assertEquals(missionConditions.visibility, 10000 /2, 'Visbility percentage test')
-    missionConditions.visibility_percent = 0;
-    this.assertEquals(missionConditions.visibility, 0, 'Visbility percentage test')
+      missionConditions.cloud_base_percent = 1;
+      this.assert(missionConditions.cloud_base > 3000, 'Cloud base percentage test')
+      missionConditions.cloud_base_percent = 0;
+      this.assertEquals(missionConditions.cloud_base, 0, 'Cloud base percentage test')
 
-    missionConditions.cloud_base_percent = 1;
-    this.assert(missionConditions.cloud_base > 3000, 'Cloud base percentage test')
-    missionConditions.cloud_base_percent = 0;
-    this.assertEquals(missionConditions.cloud_base, 0, 'Cloud base percentage test')
+      missionConditions.wind_speed_percent = 1;
+      this.assertEquals(missionConditions.wind_speed, 16, 'Wind speed percentage test')
+      missionConditions.wind_speed_percent = 0.5;
+      this.assertEquals(missionConditions.wind_speed, 6, 'Wind speed percentage test')
+      missionConditions.wind_speed_percent = 0;
+      this.assertEquals(missionConditions.wind_speed, 0, 'Wind speed percentage test')
+    }
 
-    missionConditions.wind_speed_percent = 1;
-    this.assertEquals(missionConditions.wind_speed, 16, 'Wind speed percentage test')
-    missionConditions.wind_speed_percent = 0.5;
-    this.assertEquals(missionConditions.wind_speed, 6, 'Wind speed percentage test')
-    missionConditions.wind_speed_percent = 0;
-    this.assertEquals(missionConditions.wind_speed, 0, 'Wind speed percentage test')
+    /**
+     * @see https://e6bx.com/e6b
+     */
+    this.group(MissionConditions.name + ': Wind drift 1');
+    {
+      const missionConditions = new MissionConditions();
+      missionConditions.wind_direction = 90;
+      missionConditions.wind_speed = 23;
+      const course = 320;
+      const tas_kts = 100;
+      const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
+
+      this.assertEquals(Math.round(windCorrection.ground_speed), 113);
+      this.assertEquals(Math.round(windCorrection.heading), 330);
+    }
+
+    this.group(MissionConditions.name + ': Wind drift 2');
+    {
+      const missionConditions = new MissionConditions();
+      missionConditions.wind_direction = 90;
+      missionConditions.wind_speed = 20;
+      const course = 355;
+      const tas_kts = 150;
+      const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
+
+      this.assertEquals(Math.round(windCorrection.ground_speed), 150);
+      this.assertEquals(Math.round(windCorrection.heading), 3);
+    }
+
+    this.group(MissionConditions.name + ': Wind drift 3');
+    {
+      const missionConditions = new MissionConditions();
+      missionConditions.wind_direction = 90;
+      missionConditions.wind_speed = 20;
+      const course = 90;
+      const tas_kts = 150;
+      const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
+
+      this.assertEquals(windCorrection.ground_speed, tas_kts - missionConditions.wind_speed);
+      this.assertEquals(windCorrection.heading, course);
+    }
+
+    this.group(MissionConditions.name + ': Wind drift 4');
+    {
+      const missionConditions = new MissionConditions();
+      missionConditions.wind_direction = 270;
+      missionConditions.wind_speed = 20;
+      const course = 90;
+      const tas_kts = 150;
+      const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
+
+      this.assertEquals(windCorrection.ground_speed, tas_kts + missionConditions.wind_speed);
+      this.assertEquals(windCorrection.heading, course);
+    }
   }
 }

@@ -87,6 +87,38 @@ export class MissionConditions {
     set wind_speed_percent(percent) {
         this.wind_speed = 8 * (percent + Math.pow(percent, 2));
     }
+    get wind_direction_rad() {
+        return (this.wind_direction % 360) / 180 * Math.PI;
+    }
+    /**
+     * @see https://e6bx.com/e6b
+     *
+     * @param course_rad in radians
+     * @param tas_kts in knots
+     * @returns ground speed in knots, heading
+     */
+    getWindCorrection(course_rad, tas_kts) {
+        const deltaRad = this.wind_direction_rad - course_rad;
+        const correctionRad = (deltaRad === 0 || deltaRad === Math.PI)
+            ? 0
+            : Math.asin(this.wind_speed * Math.sin(deltaRad) / tas_kts);
+        const heading_rad = correctionRad + course_rad;
+        let ground_speed = tas_kts - Math.cos(deltaRad) * this.wind_speed;
+        if (deltaRad === 0) {
+            ground_speed = tas_kts - this.wind_speed;
+        }
+        else if (deltaRad === Math.PI) {
+            ground_speed = tas_kts + this.wind_speed;
+        }
+        else {
+            ground_speed = Math.sin(deltaRad - correctionRad) * tas_kts / Math.sin(deltaRad);
+        }
+        return {
+            ground_speed,
+            heading_rad,
+            heading: (heading_rad * 180 / Math.PI) % 360
+        };
+    }
     toString() {
         return `                <[tmmission_conditions][conditions][]
                     <[tm_time_utc][time][]
