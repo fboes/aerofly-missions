@@ -19,7 +19,7 @@ export class MissionCheckpoint {
          */
         this.distance = -1;
         /**
-         * Only set on waypoint
+         * Only set on waypoint, function unknown
          */
         this.slope = 0;
         /**
@@ -27,7 +27,7 @@ export class MissionCheckpoint {
          */
         this.length = 0;
         /**
-         * Aerofly representation, `111400000` is 111.4 MHz
+         * In Hz, `111400000` is 111.4 MHz
          * @see MissionCheckpoint.rawFreqency
          */
         this.frequency = 0;
@@ -41,14 +41,34 @@ export class MissionCheckpoint {
         this.heading = -1;
     }
     /**
-     * Aerofly represents frequencies not as floating numbers.
+     * Aerofly represents frequencies in Hz.
      * If you want to set a frequency in MHz, use this setter.
      */
-    set rawFrequency(frequency) {
-        this.frequency = frequency * (this.frequency < 200 ? 1000000 : 1000);
+    set frequency_mhz(frequency_mhz) {
+        this.frequency = frequency_mhz * 1000000;
     }
-    get rawFrequency() {
-        return this.frequency / (this.frequency > 1000000 ? 1000000 : 1000);
+    get frequency_mhz() {
+        return this.frequency / 1000000;
+    }
+    /**
+   * Aerofly represents frequencies in Hz.
+   * If you want to set a frequency in KHz, use this setter.
+   */
+    set frequency_khz(frequency_khz) {
+        this.frequency = frequency_khz * 1000;
+    }
+    get frequency_khz() {
+        return this.frequency / 1000;
+    }
+    get frequency_unit() {
+        return this.frequency > 1000000 ? 'M' : 'k';
+    }
+    get frequency_string() {
+        if (!this.frequency) {
+            return '';
+        }
+        const frequency_unit = this.frequency_unit;
+        return ((frequency_unit === 'M') ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) + ' ' + frequency_unit + 'Hz';
     }
     set type(type) {
         if (![

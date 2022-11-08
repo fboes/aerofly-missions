@@ -258,7 +258,7 @@ export class Mission {
             return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
         }) || checkpointDestination;
         if (ils) {
-            checkpointDestinationRunway.rawFrequency = ils;
+            checkpointDestinationRunway.frequency_mhz = ils;
         }
         if (this.title === "" || this.title === "Custom missions") {
             this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
@@ -272,7 +272,7 @@ export class Mission {
                 return c.frequency > 0;
             })
                 .map((c) => {
-                return `${c.name}: ${c.rawFrequency.toFixed(2)}Mhz, DTK ${c.direction.toFixed()}°`;
+                return `${c.name}: ${c.frequency_string}Hz, DTK ${c.direction.toFixed()}°`;
             })
                 .join("\n");
             if (navDescription) {

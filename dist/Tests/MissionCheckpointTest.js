@@ -11,11 +11,13 @@ export class MissionCheckpointTest extends Test {
         this.assertEquals(missionCheckpoint.frequency, 0, "Frequency present");
         this.assert(missionCheckpoint.lon_lat instanceof LonLat, "lon_lat has correct type");
         this.assertEquals(missionCheckpoint.slope, 0, "Slope present");
-        missionCheckpoint.rawFrequency = 108.2;
-        this.assertEquals(missionCheckpoint.rawFrequency, 108.2);
+        missionCheckpoint.frequency_mhz = 108.2;
+        this.assertEquals(missionCheckpoint.frequency_unit, 'm');
+        this.assertEquals(missionCheckpoint.frequency_mhz, 108.2);
         this.assertEquals(missionCheckpoint.frequency, 108200000);
-        missionCheckpoint.rawFrequency = 260;
-        this.assertEquals(missionCheckpoint.rawFrequency, 260);
+        missionCheckpoint.frequency_khz = 260;
+        this.assertEquals(missionCheckpoint.frequency_unit, 'k');
+        this.assertEquals(missionCheckpoint.frequency_khz, 260);
         this.assertEquals(missionCheckpoint.frequency, 260000);
     }
 }

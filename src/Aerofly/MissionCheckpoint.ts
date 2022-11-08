@@ -1,3 +1,4 @@
+import { timeStamp } from "node:console";
 import { LonLat } from "./LonLat.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
@@ -20,7 +21,7 @@ export class MissionCheckpoint {
    */
   distance: number = -1;
   /**
-   * Only set on waypoint
+   * Only set on waypoint, function unknown
    */
   slope: number = 0;
   /**
@@ -28,7 +29,7 @@ export class MissionCheckpoint {
    */
   length: number = 0;
   /**
-   * Aerofly representation, `111400000` is 111.4 MHz
+   * In Hz, `111400000` is 111.4 MHz
    * @see MissionCheckpoint.rawFreqency
    */
   frequency: number = 0;
@@ -49,15 +50,39 @@ export class MissionCheckpoint {
   static TYPE_DESTINATION = "destination";
 
   /**
-   * Aerofly represents frequencies not as floating numbers.
+   * Aerofly represents frequencies in Hz.
    * If you want to set a frequency in MHz, use this setter.
    */
-  set rawFrequency(frequency: number) {
-    this.frequency = frequency * (this.frequency < 200 ? 1000000 : 1000);
+  set frequency_mhz(frequency_mhz: number) {
+    this.frequency = frequency_mhz * 1000000;
   }
 
-  get rawFrequency(): number {
-    return this.frequency / (this.frequency > 1000000 ? 1000000 : 1000);
+  get frequency_mhz(): number {
+    return this.frequency / 1000000;
+  }
+
+  /**
+ * Aerofly represents frequencies in Hz.
+ * If you want to set a frequency in KHz, use this setter.
+ */
+  set frequency_khz(frequency_khz: number) {
+    this.frequency = frequency_khz * 1000;
+  }
+
+  get frequency_khz(): number {
+    return this.frequency / 1000;
+  }
+
+  get frequency_unit(): string {
+    return this.frequency > 1000000 ? 'M' : 'k';
+  }
+
+  get frequency_string(): string {
+    if (!this.frequency) {
+      return '';
+    }
+    const frequency_unit = this.frequency_unit;
+    return ((frequency_unit === 'M') ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) + ' ' + frequency_unit + 'Hz';
   }
 
   set type(type: string) {

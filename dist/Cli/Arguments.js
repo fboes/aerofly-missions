@@ -4,6 +4,7 @@ export class Arguments {
         this.append = false;
         this.geoJson = false;
         this.flightplan = false;
+        this.useColors = true;
         const args = process.argv.slice(2);
         //const cwd = process.cwd();
         this.source = "./main.mcf";
@@ -30,6 +31,9 @@ export class Arguments {
                         break;
                     case 'flightplan':
                         this.flightplan = true;
+                        break;
+                    case 'no-color':
+                        this.useColors = false;
                         break;
                 }
             }
@@ -69,24 +73,25 @@ export class Arguments {
             .replace(/[^a-z0-9]+/g, "_")
             .substring(0, 32);
     }
-    helpText() {
-        return `\x1b[94mUsage: nodejs index.js [PARAMETERS...]\x1b[0m
+    helpText(c) {
+        return `${c.lightBlue}Usage: nodejs index.js [PARAMETERS...]${c.reset}
   Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.
 
 Parameters:
-\x1b[94m  -s, --source       \x1b[0mLocation of the main.mcf; defaults to \`${this.source}\`
-\x1b[94m  -t, --target       \x1b[0mLocation of your target file; defaults to \`${this.target}\`
-\x1b[94m      --title        \x1b[0mTitle of your mission; defaults to \`${this.title}\`
-\x1b[94m      --description  \x1b[0mDescription of your mission; line breaks allowed; defaults to \`${this.description}\`
-\x1b[94m      --ils          \x1b[0mILS frequency like '123.45'; defaults to \`${this.ils}\`
-\x1b[94m  -d, --direction    \x1b[0mInitial orientation of plane; defaults to \`${this.direction}\`
+${c.lightBlue}  -s, --source      ${c.reset} Location of the main.mcf; defaults to \`${this.source}\`
+${c.lightBlue}  -t, --target      ${c.reset} Location of your target file; defaults to \`${this.target}\`
+${c.lightBlue}      --title       ${c.reset} Title of your mission; defaults to \`${this.title}\`
+${c.lightBlue}      --description ${c.reset} Description of your mission; line breaks allowed; defaults to \`${this.description}\`
+${c.lightBlue}      --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
+${c.lightBlue}  -d, --direction   ${c.reset} Initial orientation of plane; defaults to \`${this.direction}\`
 
 Switches:
-\x1b[94m  -a  --append       \x1b[0mDo not export mission list with a single mission,
-\x1b[94m                     \x1b[0mbut add mission to already existing file
-\x1b[94m      --geo-json     \x1b[0mOutput Geo.json for debugging
-\x1b[94m      --flightplan   \x1b[0mOutput flightplan for debugging
-\x1b[94m      --help         \x1b[0mThis help
+${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,
+${c.lightBlue}                    ${c.reset} but add mission to already existing file
+${c.lightBlue}      --geo-json    ${c.reset} Output Geo.json for debugging
+${c.lightBlue}      --flightplan  ${c.reset} Output flightplan for debugging
+${c.lightBlue}      --no-color    ${c.reset} Disable colors in output
+${c.lightBlue}      --help        ${c.reset} This help
 
 This tool will overwrite the target file without any further warning.
 Some information can not be inferred from the main.mcf, and needs to

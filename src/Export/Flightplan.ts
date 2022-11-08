@@ -1,4 +1,5 @@
 import { Mission } from "../Aerofly/Mission";
+import { BashColors } from "../Cli/BashColors";
 
 export class Flightplan {
   constructor(protected mission: Mission) {
@@ -29,27 +30,32 @@ export class Flightplan {
     return fields.join('  ') + "\n";
   }
 
-  toString(): string {
+  toString(clr: BashColors): string {
     const m = this.mission;
-    let output = `${m.origin_icao} → ${m.destination_icao}
-====================================================
-WND  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS
-CLD  ${m.conditions.cloud_cover_code} (${Math.round(m.conditions.cloud_cover * 8)}/8) @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT
-VIS  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM
-----------------------------------------------------
+    let output = `${clr.lightCyan + m.origin_icao + clr.reset} → ${clr.lightCyan + m.destination_icao + clr.reset}
+${clr.lightGray}====================================================${clr.reset}
+${clr.lightGray}WND${clr.reset}  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS
+${clr.lightGray}CLD${clr.reset}  ${m.conditions.cloud_cover_code} (${Math.round(m.conditions.cloud_cover * 8)}/8) @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT
+${clr.lightGray}VIS${clr.reset}  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM
+${clr.lightGray}----------------------------------------------------${clr.reset}
 `;
 
-    output += this.lineOutput(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']);
+    output += clr.lightGray + this.lineOutput(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + clr.reset;
 
     let totalDistance = 0, totalTime = 0;
     m.checkpoints.forEach((c, i) => {
       totalDistance += c.distance;
       if (c.time > 0) { totalTime += c.time }
 
+      let frqString = '';
+      if (c.frequency) {
+        frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz,6,2) : (this.pad(c.frequency_khz,4) + ' ◌')
+      };
+
       output += this.lineOutput([
-        this.pad(i + 1, 2, 0, "0") + ".",
-        c.name.padEnd(6, " "),
-        (c.frequency) ? this.pad(c.rawFrequency, 6, 2) : ' '.repeat(6),
+        clr.lightGray + this.pad(i + 1, 2, 0, "0") + ".",
+        clr.lightCyan + c.name.padEnd(6, " ") + clr.reset,
+        (c.frequency) ? frqString : ' '.repeat(6),
         (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
         (c.direction >= 0) ? this.padThree(c.direction) + "°" : ' '.repeat(4),
         (c.heading >= 0) ? this.padThree(c.heading) + "°" : ' '.repeat(4),
@@ -59,11 +65,11 @@ VIS  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.condition
       ]);
     })
 
-    output += `----------------------------------------------------
+    output += `${clr.lightGray}----------------------------------------------------${clr.reset}
 `;
 
     output += this.lineOutput([
-      '>  ', 'TOT   ', '      ', '      ', '    ', '    ',
+      clr.lightGray + '>  ' + clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
       this.pad(totalDistance, 4, 1),
       this.convertHoursToMinutesString(totalTime)
     ]);
