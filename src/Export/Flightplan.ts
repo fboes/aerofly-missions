@@ -49,7 +49,7 @@ ${clr.lightGray}----------------------------------------------------${clr.reset}
 
       let frqString = '';
       if (c.frequency) {
-        frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz,6,2) : (this.pad(c.frequency_khz,4) + ' ◌')
+        frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz,6,2) : (this.pad(c.frequency_khz,4) + ' ♢')
       };
 
       output += this.lineOutput([

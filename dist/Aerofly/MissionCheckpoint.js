@@ -61,7 +61,7 @@ export class MissionCheckpoint {
         return this.frequency / 1000;
     }
     get frequency_unit() {
-        return this.frequency > 1000000 ? 'M' : 'k';
+        return this.frequency > 10000000 ? 'M' : 'k';
     }
     get frequency_string() {
         if (!this.frequency) {

@@ -316,7 +316,7 @@ export class Mission {
           return c.frequency > 0;
         })
         .map((c) => {
-          return `${c.name}: ${c.frequency_string}Hz, DTK ${c.direction.toFixed()}°`;
+          return `${c.name}: ${c.frequency_string}, DTK ${c.direction.toFixed()}°`;
         })
         .join("\n");
       if (navDescription) {
