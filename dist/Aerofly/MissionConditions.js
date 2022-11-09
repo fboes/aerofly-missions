@@ -75,6 +75,27 @@ export class MissionConditions {
         }
         return 'OVC';
     }
+    /**
+     * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
+     */
+    get cloud_cover_symbol() {
+        if (this.cloud_cover === 0) {
+            return '○';
+        }
+        else if (this.cloud_cover <= 0.125) {
+            return '⦶';
+        }
+        else if (this.cloud_cover <= 0.375) {
+            return '◔';
+        }
+        else if (this.cloud_cover <= 0.625) {
+            return '◑';
+        }
+        else if (this.cloud_cover <= 0.875) {
+            return '◕';
+        }
+        return '●';
+    }
     get cloud_base_feet() {
         return this.cloud_base * 3.28084;
     }
@@ -89,6 +110,24 @@ export class MissionConditions {
     }
     get wind_direction_rad() {
         return (this.wind_direction % 360) / 180 * Math.PI;
+    }
+    /**
+     * @see https://www.thinkaviation.net/levels-of-vfr-ifr-explained/
+     * @see https://en.wikipedia.org/wiki/Ceiling_(cloud)
+     */
+    get flight_category() {
+        const visibility_sm = this.visibility_sm;
+        const cloud_base_feet = this.cloud_cover > 0.5 ? this.cloud_base_feet : 9999;
+        if (visibility_sm > 5.0 && cloud_base_feet > 3000) {
+            return MissionConditions.CONDITION_VFR;
+        }
+        if (visibility_sm >= 3.0 && cloud_base_feet >= 1000) {
+            return MissionConditions.CONDITION_MVFR;
+        }
+        if (visibility_sm >= 1.0 && cloud_base_feet >= 500) {
+            return MissionConditions.CONDITION_IFR;
+        }
+        return MissionConditions.CONDITION_LIFR;
     }
     /**
      * @see https://e6bx.com/e6b
@@ -135,7 +174,12 @@ export class MissionConditions {
                     <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud_cover}]>
                     <[float64][cloud_base][${this.cloud_base}]> // meters AGL
+                    // <[string8u][flight_category][${this.flight_category}]>
                 >
 `;
     }
 }
+MissionConditions.CONDITION_VFR = 'VFR';
+MissionConditions.CONDITION_MVFR = 'MVFR';
+MissionConditions.CONDITION_IFR = 'IFR';
+MissionConditions.CONDITION_LIFR = 'LIFR';

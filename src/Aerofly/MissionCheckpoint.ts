@@ -1,4 +1,3 @@
-import { timeStamp } from "node:console";
 import { LonLat } from "./LonLat.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
@@ -146,17 +145,24 @@ export class MissionCheckpoint {
    *
    * @param lonLat LonLat of last checkpoint before this one
    */
-  setDirectionByCoordinates(lonLat: LonLat) {
+  setDirectionByCoordinates(lonLat: LonLat, isVfr = true) {
     this.direction = lonLat.getBearingTo(this.lon_lat);
     this.heading = this.direction;
     this.distance = lonLat.getDistanceTo(this.lon_lat);
 
-    // Separation above 3000ft MSL VFR
     let altitude_ft = this.altitude_ft;
+    if (isVfr) {
+    // Separation above 3000ft MSL
     if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
+        this.altitude_ft = (this.direction < 180)
+          ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500, ..
+          : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500, ..
+      }
+    } else {
+      // IFR
       this.altitude_ft = (this.direction < 180)
-        ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500
-        : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500
+        ? Math.ceil((altitude_ft - 1000) / 2000) * 2000 + 1000 // 1000, 3000, ..
+        : Math.ceil((altitude_ft) / 2000) * 2000; // 2000, 4000, ..
     }
   }
 

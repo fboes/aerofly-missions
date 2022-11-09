@@ -1,5 +1,6 @@
 import { Mission } from "../Aerofly/Mission";
-import { BashColors } from "../Cli/BashColors";
+import { MissionConditions } from "../Aerofly/MissionConditions.js";
+import { BashColors } from "../Cli/BashColors.js";
 
 export class Flightplan {
   constructor(protected mission: Mission) {
@@ -30,15 +31,47 @@ export class Flightplan {
     return fields.join('  ') + "\n";
   }
 
+  weatherLineOutput(fields: string[], clr: BashColors): string {
+    return this.lineOutput(fields.map((l, i) => {
+      return i % 2
+        ? l.padEnd(17)
+        : clr.lightGray + l.padEnd(3) + clr.reset
+    }));
+  }
+
+  /**
+   * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
+   */
+  getConditionColored(conditions: MissionConditions, clr: BashColors) {
+    const flight_category = conditions.flight_category;
+    const symbol = conditions.cloud_cover_symbol + ' ' + flight_category;
+    if (!clr.useColors) {
+      return symbol;
+    }
+    let color = clr.lightMagenta; // LIFR
+    switch (flight_category) {
+      case MissionConditions.CONDITION_VFR: color = clr.lightGreen; break;
+      case MissionConditions.CONDITION_MVFR: color = clr.lightBlue; break;
+      case MissionConditions.CONDITION_IFR: color = clr.lightRed; break;
+    }
+
+    return color + symbol + clr.reset;
+  }
+
   toString(clr: BashColors): string {
     const m = this.mission;
     let output = `${clr.lightCyan + m.origin_icao + clr.reset} → ${clr.lightCyan + m.destination_icao + clr.reset}
-${clr.lightGray}====================================================${clr.reset}
-${clr.lightGray}WND${clr.reset}  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS
-${clr.lightGray}CLD${clr.reset}  ${m.conditions.cloud_cover_code} (${Math.round(m.conditions.cloud_cover * 8)}/8) @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT
-${clr.lightGray}VIS${clr.reset}  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM
-${clr.lightGray}----------------------------------------------------${clr.reset}
-`;
+${clr.lightGray}====================================================${clr.reset}` + "\n";
+    output += this.weatherLineOutput([
+      'WND', `${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS`,
+      'CLD', `${m.conditions.cloud_cover_symbol} ${m.conditions.cloud_cover_code} @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT`
+    ], clr);
+    output += this.weatherLineOutput([
+      'VIS', `${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM`,
+      'FCT', `${this.getConditionColored(m.conditions, clr)}`
+    ], clr);
+
+    output += `${clr.lightGray}----------------------------------------------------${clr.reset}` + "\n";
 
     output += clr.lightGray + this.lineOutput(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + clr.reset;
 
@@ -49,7 +82,7 @@ ${clr.lightGray}----------------------------------------------------${clr.reset}
 
       let frqString = '';
       if (c.frequency) {
-        frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz,6,2) : (this.pad(c.frequency_khz,4) + ' ♢')
+        frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : (this.pad(c.frequency_khz, 4) + ' ♢')
       };
 
       output += this.lineOutput([
@@ -65,8 +98,7 @@ ${clr.lightGray}----------------------------------------------------${clr.reset}
       ]);
     })
 
-    output += `${clr.lightGray}----------------------------------------------------${clr.reset}
-`;
+    output += `${clr.lightGray}----------------------------------------------------${clr.reset}` + "\n";
 
     output += this.lineOutput([
       clr.lightGray + '>  ' + clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',

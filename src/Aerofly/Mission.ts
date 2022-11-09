@@ -258,7 +258,8 @@ export class Mission {
       return cp;
     });
 
-    this.calculateDirectionForCheckpoints();
+    const flight_category = this.conditions.flight_category;
+    this.calculateDirectionForCheckpoints(flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
@@ -308,7 +309,7 @@ export class Mission {
 
     if (this.description === "") {
       const localTime = this.getLocalDaytime();
-      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao}.`;
+      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao} under ${this.conditions.flight_category} conditions.`;
       this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;
 
       const navDescription = this.checkpoints
@@ -327,13 +328,13 @@ export class Mission {
     return this;
   }
 
-  calculateDirectionForCheckpoints() {
+  calculateDirectionForCheckpoints(isVfr = true) {
     let lastC: MissionCheckpoint | null = null;
 
     // Add directions
     this.checkpoints.forEach(c => {
       if (lastC !== null) {
-        c.setDirectionByCoordinates(lastC.lon_lat);
+        c.setDirectionByCoordinates(lastC.lon_lat, isVfr);
       }
       // Modify cruising speed by wind
       if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {

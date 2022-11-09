@@ -16,7 +16,7 @@ export class BashColors {
   lightCyan: string = `\x1b[96m`;
   lightWhite: string = `\x1b[97m`;
 
-  constructor(protected useColors = true) {
+  constructor(public useColors = true) {
     if (!useColors) {
       this.reset = ``;
       this.red = ``;

@@ -88,5 +88,43 @@ export class MissionConditionsTest extends Test {
       this.assertEquals(windCorrection.ground_speed, tas_kts + missionConditions.wind_speed);
       this.assertEquals(windCorrection.heading, course);
     }
+
+    this.group(MissionConditions.name + ': Flight conditions 1');
+    {
+      const missionConditions = new MissionConditions();
+
+      missionConditions.visibility_percent = 1;
+      this.assertEquals(missionConditions.flight_category, 'VFR');
+
+      missionConditions.visibility_percent = 0.5;
+      this.assertEquals(missionConditions.flight_category, 'MVFR');
+
+      missionConditions.visibility_percent = 0.3;
+      this.assertEquals(missionConditions.flight_category, 'IFR');
+
+      missionConditions.visibility_percent = 0.1;
+      this.assertEquals(missionConditions.flight_category, 'LIFR');
+    }
+
+    this.group(MissionConditions.name + ': Flight conditions 1');
+    {
+      const missionConditions = new MissionConditions();
+
+      missionConditions.cloud_base = 0;
+      missionConditions.cloud_cover = 0;
+      this.assertEquals(missionConditions.flight_category, 'VFR');
+
+      missionConditions.cloud_base = 5000;
+      missionConditions.cloud_cover = 0.1;
+      this.assertEquals(missionConditions.flight_category, 'VFR');
+
+      missionConditions.cloud_base = 1000;
+      missionConditions.cloud_cover = 0.5;
+      this.assertEquals(missionConditions.flight_category, 'VFR');
+
+      missionConditions.cloud_base = 800;
+      missionConditions.cloud_cover = 0.6;
+      this.assertEquals(missionConditions.flight_category, 'MVFR');
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { MissionConditions } from "../Aerofly/MissionConditions.js";
 export class Flightplan {
     constructor(mission) {
         this.mission = mission;
@@ -22,15 +23,49 @@ export class Flightplan {
     lineOutput(fields) {
         return fields.join('  ') + "\n";
     }
+    weatherLineOutput(fields, clr) {
+        return this.lineOutput(fields.map((l, i) => {
+            return i % 2
+                ? l.padEnd(17)
+                : clr.lightGray + l.padEnd(3) + clr.reset;
+        }));
+    }
+    /**
+     * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
+     */
+    getConditionColored(conditions, clr) {
+        const flight_category = conditions.flight_category;
+        const symbol = conditions.cloud_cover_symbol + ' ' + flight_category;
+        if (!clr.useColors) {
+            return symbol;
+        }
+        let color = clr.lightMagenta; // LIFR
+        switch (flight_category) {
+            case MissionConditions.CONDITION_VFR:
+                color = clr.lightGreen;
+                break;
+            case MissionConditions.CONDITION_MVFR:
+                color = clr.lightBlue;
+                break;
+            case MissionConditions.CONDITION_IFR:
+                color = clr.lightRed;
+                break;
+        }
+        return color + symbol + clr.reset;
+    }
     toString(clr) {
         const m = this.mission;
         let output = `${clr.lightCyan + m.origin_icao + clr.reset} → ${clr.lightCyan + m.destination_icao + clr.reset}
-${clr.lightGray}====================================================${clr.reset}
-${clr.lightGray}WND${clr.reset}  ${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS
-${clr.lightGray}CLD${clr.reset}  ${m.conditions.cloud_cover_code} (${Math.round(m.conditions.cloud_cover * 8)}/8) @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT
-${clr.lightGray}VIS${clr.reset}  ${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM
-${clr.lightGray}----------------------------------------------------${clr.reset}
-`;
+${clr.lightGray}====================================================${clr.reset}` + "\n";
+        output += this.weatherLineOutput([
+            'WND', `${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS`,
+            'CLD', `${m.conditions.cloud_cover_symbol} ${m.conditions.cloud_cover_code} @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT`
+        ], clr);
+        output += this.weatherLineOutput([
+            'VIS', `${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM`,
+            'FCT', `${this.getConditionColored(m.conditions, clr)}`
+        ], clr);
+        output += `${clr.lightGray}----------------------------------------------------${clr.reset}` + "\n";
         output += clr.lightGray + this.lineOutput(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + clr.reset;
         let totalDistance = 0, totalTime = 0;
         m.checkpoints.forEach((c, i) => {
@@ -55,8 +90,7 @@ ${clr.lightGray}----------------------------------------------------${clr.reset}
                 (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
             ]);
         });
-        output += `${clr.lightGray}----------------------------------------------------${clr.reset}
-`;
+        output += `${clr.lightGray}----------------------------------------------------${clr.reset}` + "\n";
         output += this.lineOutput([
             clr.lightGray + '>  ' + clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
             this.pad(totalDistance, 4, 1),
