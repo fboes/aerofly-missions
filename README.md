@@ -1,5 +1,5 @@
-Aerofly Missions
-================
+![](docs/favicon-64x64.png) Aerofly Missions
+============================================
 
 Convert `main.mcf` file of [Aerofly FS 4](https://www.aerofly.com/) into a `custom_missions.tmc` file, converting your current flight plan and other settings into a shareable mission.
 
@@ -89,25 +89,7 @@ Flight plan mode
 
 This tool can also convert the `main.mcf` into a flight plan:
 
-```
-ESGG → ESGJ
-====================================================
-WND  180° @ 012KTS
-CLD  OVC (8/8) @ 0FT
-VIS  6,000M / 4SM
-----------------------------------------------------
->    WPT     FREQ       ALT  DTK   HDG    DIS    ETE
-01.  ESGG               506
-02.  21                 506  002°  002°   1.0  01:57
-03.  W-3429           3,500  086°  091°  17.7  07:00
-04.  LUKAX            3,500  084°  088°   9.8  03:52
-05.  OA      338.00   3,500  077°  082°  31.6  12:19
-06.  19      109.90     738  199°  197°   3.8  01:38
-07.  ESGJ               741  198°  198°   0.5  01:06
-----------------------------------------------------
->    TOT                                 63.5  27:49
-```
-
+![](docs/flightplan.png)
 
 Status
 -------
