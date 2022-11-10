@@ -29,4 +29,20 @@ export class BashColors {
             this.lightWhite = ``;
         }
     }
+    getStringLength(string) {
+        return string.length - this.getColorsLength(string);
+    }
+    getColorsLength(string) {
+        let length = 0;
+        if (!this.useColors) {
+            return length;
+        }
+        const matches = string.match(/\x1b.+?m/g);
+        if (matches) {
+            matches.forEach(l => {
+                length += l.length;
+            });
+        }
+        return length;
+    }
 }

@@ -36,7 +36,7 @@ if (args.geoJson) {
     process.stdout.write(JSON.stringify(new GeoJson().fromMission(mission)));
 }
 if (args.flightplan) {
-    process.stdout.write(new Flightplan(mission).toString(c));
+    process.stdout.write(new Flightplan(mission, c).toString());
 }
 try {
     await fs.writeFile(args.target, args.append ? mission.toString() : missionList.toString(), {
