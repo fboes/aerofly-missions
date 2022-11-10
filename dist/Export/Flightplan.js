@@ -62,9 +62,9 @@ export class Flightplan {
         const m = this.mission;
         const lineLength = 52;
         let output = this.outputFourColumn([
-            'RTE',
+            'FPL',
             `${this.clr.lightCyan + m.origin_icao + this.clr.reset} → ${this.clr.lightCyan + m.destination_icao + this.clr.reset}`,
-            'AIR',
+            'ACT',
             m.aircraft_icao
         ]);
         output += this.outputDashes(lineLength, '=');
