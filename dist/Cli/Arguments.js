@@ -13,9 +13,10 @@ export class Arguments {
         this.target = "";
         this.direction = -1;
         this.ils = 0;
+        this.magneticDeviation = 0;
         let pointer = "title";
         args.forEach((a) => {
-            const match = a.match(/^[-]+(\S+)$/);
+            const match = a.match(/^[-]+([a-z-]+)$/);
             if (match) {
                 pointer = match[1].toLowerCase();
                 switch (pointer) {
@@ -57,7 +58,12 @@ export class Arguments {
                     case "d":
                         this.direction = Number(a);
                         break;
+                    case "magnetic":
+                    case "m":
+                        this.magneticDeviation = Number(a);
+                        break;
                     case "ils":
+                    case "i":
                         this.ils = Number(a);
                         break;
                 }
@@ -82,8 +88,9 @@ ${c.lightBlue}  -s, --source      ${c.reset} Location of the main.mcf; defaults 
 ${c.lightBlue}  -t, --target      ${c.reset} Location of your target file; defaults to \`${this.target}\`
 ${c.lightBlue}      --title       ${c.reset} Title of your mission; defaults to \`${this.title}\`
 ${c.lightBlue}      --description ${c.reset} Description of your mission; line breaks allowed; defaults to \`${this.description}\`
-${c.lightBlue}      --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
+${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
 ${c.lightBlue}  -d, --direction   ${c.reset} Initial orientation of plane; defaults to \`${this.direction}\`
+${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic deviation used for waypoints; defaults to \`${this.magneticDeviation}\`
 
 Switches:
 ${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,

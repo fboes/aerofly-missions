@@ -10,7 +10,7 @@ export class MissionCheckpoint {
    */
   altitude: number = 0;
   /**
-   * Course in degrees to fly from last point to this point.
+   * Magnetic course in degrees to fly from last point to this point.
    * -1 on first, but seem rather unrelevant
    */
   direction: number = -1;

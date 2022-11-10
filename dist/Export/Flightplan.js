@@ -86,7 +86,7 @@ export class Flightplan {
             }
             let frqString = '';
             if (c.frequency) {
-                frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('◎ ' + c.frequency_khz.toFixed()).padStart(6);
+                frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
             }
             ;
             output += this.outputLine([

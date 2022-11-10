@@ -1,6 +1,7 @@
 export class LonLat {
   lon: number;
   lat: number;
+  magnetic_deviation: number = 0;
 
   constructor(lon: number, lat: number) {
     this.lon = lon % 360;
@@ -23,7 +24,7 @@ export class LonLat {
   }
 
   /**
-   * @returns a bearing between coordinates in degrees. This ignores magnetic declination
+   * @returns a bearing between coordinates in degrees. Will add `this.magnetic_deviation`
    * @see https://en.wikipedia.org/wiki/Magnetic_declination
    */
   getBearingTo(lonLat: LonLat): number {
@@ -37,7 +38,7 @@ export class LonLat {
     const y = Math.sin(dLon) * Math.cos(lat2);
     const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
 
-    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    return (Math.atan2(y, x) * 180 / Math.PI + 360 + this.magnetic_deviation) % 360;
   }
 
   getDistanceTo(lonLat: LonLat): number {

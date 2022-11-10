@@ -46,8 +46,9 @@ Parameters:
   -t, --target       Location of your target file
       --title        Title of your mission
       --description  Description of your mission; line breaks allowed
-      --ils          ILS frequency like '123.45'
+  -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of plane
+  -m, --magnetic     Magnetic deviation used for waypoints
 
 Switches:
   -a  --append       Do not export mission list with a single mission,

@@ -23,13 +23,13 @@ export class Mission {
   origin_icao: string = "";
   origin_lon_lat: LonLat = new LonLat(0, 0);
   /**
-   * Degrees
+   * Degrees; true or magnetic north?
    */
   origin_dir: number = 0;
   destination_icao: string = "";
   destination_lon_lat: LonLat = new LonLat(0, 0);
   /**
-   * Degrees
+   * Degrees; true or magnetic north?
    */
   destination_dir: number = 0;
   conditions: MissionConditions = new MissionConditions();
@@ -222,7 +222,7 @@ export class Mission {
     return this._aircraft_icao;
   }
 
-  fromMainMcf(mainMcf: MainMcf, ils: number = 0): Mission {
+  fromMainMcf(mainMcf: MainMcf, ils: number = 0, magnetic_deviation: number = 0): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
 
     switch (mainMcf.flight_setting.configuration) {
@@ -248,6 +248,7 @@ export class Mission {
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       let cp = new MissionCheckpoint();
       cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
+      cp.lon_lat.magnetic_deviation = magnetic_deviation; // TODO: Needs a smarter formula
       if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
         cp.ground_speed = this._cruise_speed;
       }
@@ -263,6 +264,7 @@ export class Mission {
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+    this.origin_lon_lat.magnetic_deviation = magnetic_deviation; // TODO: Needs a smarter formula
 
     const checkpointDepartureRunway = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
