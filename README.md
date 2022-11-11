@@ -27,7 +27,9 @@ Usage
 
 This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
 
-1. Open Aerofly FS 4, set up a flight plan, choose a plane, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.) Start the flight and check if the position of your plane is correct.
+1. Open Aerofly FS 4, set up a flight plan, choose a plane, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.) 
+1. Optional: Check the _true_ direction your plane is pointing to. Subtract the _magnetic_ direction to get the magnetic declination.
+1. Start the flight and check if the position of your plane is correct.
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
 1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
 1. Right click on the folder name and choose "Open in terminal"
@@ -48,7 +50,7 @@ Parameters:
       --description  Description of your mission; line breaks allowed
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of plane
-  -m, --magnetic     Magnetic deviation used for waypoints
+  -m, --magnetic     Magnetic declination used for waypoints
 
 Switches:
   -a  --append       Do not export mission list with a single mission,

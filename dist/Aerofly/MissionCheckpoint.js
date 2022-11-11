@@ -9,7 +9,7 @@ export class MissionCheckpoint {
          */
         this.altitude = 0;
         /**
-         * Magnetic course in degrees to fly from last point to this point.
+         * True course in degrees to fly from last point to this point.
          * -1 on first, but seem rather unrelevant
          */
         this.direction = -1;
@@ -36,7 +36,7 @@ export class MissionCheckpoint {
          */
         this.ground_speed = -1;
         /**
-         * Not official: Heading to fly to correct for wind drift
+         * Not official: True heading to fly to correct for wind drift
          */
         this.heading = -1;
     }
@@ -69,6 +69,12 @@ export class MissionCheckpoint {
         }
         const frequency_unit = this.frequency_unit;
         return ((frequency_unit === 'M') ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) + ' ' + frequency_unit + 'Hz';
+    }
+    get direction_magnetic() {
+        return this.direction - this.lon_lat.magnetic_declination;
+    }
+    get heading_magnetic() {
+        return this.heading - this.lon_lat.magnetic_declination;
     }
     set type(type) {
         if (![

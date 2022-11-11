@@ -14,7 +14,7 @@ export class MissionConditions {
     time_hours: 20,
   };
   /**
-   * Degrees
+   * True direction wind is coming from in Degrees
    */
   wind_direction: number = 0;
   /**
@@ -153,7 +153,7 @@ export class MissionConditions {
    *
    * @param course_rad in radians
    * @param tas_kts in knots
-   * @returns ground speed in knots, heading
+   * @returns ground speed in knots, true heading
    */
   getWindCorrection(course_rad: number, tas_kts: number): WindCorrection {
     const deltaRad = this.wind_direction_rad - course_rad;

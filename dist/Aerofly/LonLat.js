@@ -1,6 +1,10 @@
 export class LonLat {
     constructor(lon, lat) {
-        this.magnetic_deviation = 0;
+        /**
+         * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
+         * @see https://en.wikipedia.org/wiki/Magnetic_declination
+         */
+        this.magnetic_declination = 0;
         this.lon = lon % 360;
         if (lon > 180) {
             this.lon -= 360;
@@ -17,8 +21,7 @@ export class LonLat {
         return this.lon.toFixed(6) + " " + this.lat.toFixed(6);
     }
     /**
-     * @returns a bearing between coordinates in degrees. Will add `this.magnetic_deviation`
-     * @see https://en.wikipedia.org/wiki/Magnetic_declination
+     * @returns a true bearing between coordinates in degrees
      */
     getBearingTo(lonLat) {
         const lat1 = this.latRad;
@@ -28,7 +31,7 @@ export class LonLat {
         const dLon = lon2 - lon1;
         const y = Math.sin(dLon) * Math.cos(lat2);
         const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-        return (Math.atan2(y, x) * 180 / Math.PI + 360 + this.magnetic_deviation) % 360;
+        return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
     }
     getDistanceTo(lonLat) {
         const dLat = lonLat.latRad - this.latRad;

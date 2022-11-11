@@ -102,8 +102,8 @@ export class Flightplan {
         this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
         (c.frequency) ? frqString : ' '.repeat(6),
         (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
-        (c.direction >= 0) ? this.padThree(c.direction) + "°" : ' '.repeat(4),
-        (c.heading >= 0) ? this.padThree(c.heading) + "°" : ' '.repeat(4),
+        (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
+        (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
         (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
         (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
       ]);

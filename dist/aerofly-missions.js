@@ -23,7 +23,7 @@ catch (err) {
 }
 const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
-mission.fromMainMcf(aeroflyConfig, args.ils, args.magneticDeviation);
+mission.fromMainMcf(aeroflyConfig, args.ils, args.magneticDeclination);
 if (mission.warnings) {
     mission.warnings.forEach(w => {
         process.stderr.write("> " + w + "\n");
