@@ -102,5 +102,21 @@ export class MissionConditionsTest extends Test {
             missionConditions.cloud_cover = 0.6;
             this.assertEquals(missionConditions.flight_category, 'MVFR');
         }
+        this.group(MissionConditions.name + ': Time');
+        {
+            const missionConditions = new MissionConditions();
+            missionConditions.time.time_year = 2022;
+            missionConditions.time.time_month = 1;
+            missionConditions.time.time_day = 1;
+            missionConditions.time.time_hours = 0.75;
+            const obj = missionConditions.time_object;
+            this.assertEquals(obj.getUTCFullYear(), 2022);
+            this.assertEquals(obj.getUTCMonth(), 0);
+            this.assertEquals(obj.getUTCDate(), 1);
+            this.assertEquals(obj.getUTCDay(), 6);
+            this.assertEquals(obj.getUTCHours(), 0);
+            this.assertEquals(obj.getUTCMinutes(), 45);
+            this.assertEquals(obj.getUTCSeconds(), 0);
+        }
     }
 }

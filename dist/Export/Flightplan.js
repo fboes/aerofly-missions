@@ -28,8 +28,8 @@ export class Flightplan {
         return this.outputLine(fields.map((l, i) => {
             const colorsLength = this.clr.getColorsLength(l);
             return i % 2
-                ? l.padEnd(17 + colorsLength, ' ')
-                : this.clr.lightGray + l.padEnd(3) + this.clr.reset;
+                ? l.padEnd(19 + colorsLength, ' ')
+                : this.clr.lightGray + l.padEnd(4) + this.clr.reset;
         }));
     }
     /**
@@ -62,19 +62,25 @@ export class Flightplan {
         const m = this.mission;
         const lineLength = 52;
         let output = this.outputFourColumn([
-            'FPL',
+            'FPLN',
             `${this.clr.lightCyan + m.origin_icao + this.clr.reset} → ${this.clr.lightCyan + m.destination_icao + this.clr.reset}`,
-            'ACT',
-            m.aircraft_icao
+            'DATE',
+            m.conditions.time_object.toISOString().replace(/:\d+\.\d+/, ''),
+        ]);
+        output += this.outputFourColumn([
+            'ARCT',
+            m.aircraft_icao,
+            'IAS',
+            this.padThree(m.cruise_speed) + 'KTS'
         ]);
         output += this.outputDashes(lineLength, '=');
         output += this.outputFourColumn([
-            'WND', `${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS`,
+            'WIND', `${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS`,
             'CLD', `${m.conditions.cloud_cover_symbol} ${m.conditions.cloud_cover_code} @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT`
         ]);
         output += this.outputFourColumn([
-            'VIS', `${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM`,
-            'FCT', `${this.getConditionColored(m.conditions)}`
+            'VISI', `${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM`,
+            'FR', `${this.getConditionColored(m.conditions)}`
         ]);
         output += this.outputDashes(lineLength);
         output += this.clr.lightGray + this.outputLine(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;

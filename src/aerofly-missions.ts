@@ -42,7 +42,7 @@ if (args.geoJson) {
   process.stdout.write(JSON.stringify(new GeoJson().fromMission(mission)));
 }
 if (args.flightplan) {
-  process.stdout.write(new Flightplan(mission, c).toString());
+  process.stdout.write("\n" + new Flightplan(mission, c).toString() + "\n");
 }
 
 try {

@@ -17,7 +17,7 @@ export class Mission {
          */
         this._aircraft_name = "c172";
         this._aircraft_icao = "C172";
-        this._cruise_speed = 0;
+        this.cruise_speed = 0;
         this.callsign = "N5472R";
         this.origin_icao = "";
         this.origin_lon_lat = new LonLat(0, 0);
@@ -90,16 +90,16 @@ export class Mission {
             case "b58":
                 this.aircraft_icao = "BE58";
                 this.callsign = 'N58EU';
-                this._cruise_speed = 180;
+                this.cruise_speed = 180;
                 break;
             case "jungmeister":
                 this.aircraft_icao = "BU33";
                 this.callsign = 'HB-MIZ';
-                this._cruise_speed = 110;
+                this.cruise_speed = 110;
                 break;
             case "q400":
                 this.aircraft_icao = "DH8D";
-                this._cruise_speed = 360;
+                this.cruise_speed = 360;
                 break;
             case "crj900":
                 this.aircraft_icao = "CRJ9";
@@ -107,37 +107,37 @@ export class Mission {
             case "c90gtx":
                 this.aircraft_icao = "BE9L";
                 this.callsign = 'D-IBYP';
-                this._cruise_speed = 226;
+                this.cruise_speed = 226;
                 break;
             case "f15e":
                 this.aircraft_icao = "F15";
-                this._cruise_speed = 570;
+                this.cruise_speed = 570;
                 break;
             case "f18":
                 this.aircraft_icao = "F18H";
-                this._cruise_speed = 570;
+                this.cruise_speed = 570;
                 break;
             case "f4u":
                 this.aircraft_icao = "CORS";
-                this._cruise_speed = 187;
+                this.cruise_speed = 187;
                 break;
             case "p38":
                 this.aircraft_icao = "P38";
                 this.callsign = "N38BP";
-                this._cruise_speed = 239;
+                this.cruise_speed = 239;
                 break;
             case "bf109e":
                 this.aircraft_icao = "ME09";
-                this._cruise_speed = 320;
+                this.cruise_speed = 320;
                 break;
             case "mb339":
                 this.aircraft_icao = "M339";
-                this._cruise_speed = 350;
+                this.cruise_speed = 350;
                 break;
             case "pitts":
                 this.aircraft_icao = "PTS2";
                 this.callsign = 'D-EUJS';
-                this._cruise_speed = 152;
+                this.cruise_speed = 152;
                 break;
             case "b737":
                 this.aircraft_icao = "B735";
@@ -151,18 +151,18 @@ export class Mission {
             case "ec135":
                 this.aircraft_icao = "EC35";
                 this.callsign = 'D-HACF';
-                this._cruise_speed = 137;
+                this.cruise_speed = 137;
                 break;
             case 'c172':
                 this.callsign = 'N51911';
-                this._cruise_speed = 122;
+                this.cruise_speed = 122;
                 break;
         }
         if (!this.aircraft_icao) {
             this.aircraft_icao = aircraft_name.toUpperCase();
         }
-        if (!this._cruise_speed) {
-            this._cruise_speed = 450; // True for most airliners
+        if (!this.cruise_speed) {
+            this.cruise_speed = 450; // True for most airliners
         }
         if (!this.callsign) {
             this.callsign = "N";
@@ -217,7 +217,7 @@ export class Mission {
             cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
             cp.lon_lat.magnetic_declination = magnetic_declination; // TODO: Needs a smarter formula
             if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
-                cp.ground_speed = this._cruise_speed;
+                cp.ground_speed = this.cruise_speed;
             }
             if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
                 cp.ground_speed = 30;

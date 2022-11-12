@@ -148,6 +148,19 @@ export class MissionConditions {
     return MissionConditions.CONDITION_LIFR;
   }
 
+  get time_object(): Date {
+    return new Date(
+      Date.UTC(
+        this.time.time_year,
+        this.time.time_month - 1,
+        this.time.time_day,
+        Math.floor(this.time.time_hours),
+        Math.floor(this.time.time_hours % 1 * 60),
+        Math.floor(this.time.time_hours % 1 * 60 % 1 * 60),
+      )
+    );
+  }
+
   /**
    * @see https://e6bx.com/e6b
    *
