@@ -304,23 +304,23 @@ export class Mission {
         });
     }
     getLocalDaytime() {
-        const localTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
-        if (localTime < 5 || localTime >= 19) {
+        const localSolarTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
+        if (localSolarTime < 5 || localSolarTime >= 19) {
             return "night";
         }
-        if (localTime < 8) {
+        if (localSolarTime < 8) {
             return "early morning";
         }
-        if (localTime < 11) {
+        if (localSolarTime < 11) {
             return "morning";
         }
-        if (localTime < 13) {
+        if (localSolarTime < 13) {
             return "noon";
         }
-        if (localTime < 15) {
+        if (localSolarTime < 15) {
             return "afternoon";
         }
-        if (localTime < 19) {
+        if (localSolarTime < 19) {
             return "late afternoon";
         }
         return "day";

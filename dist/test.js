@@ -1,4 +1,5 @@
 import { Tests } from "./Cli/Test.js";
+import { LonLatDateTest } from "./Tests/LonLatDateTest.js";
 import { LonLatTest } from "./Tests/LonLatTest.js";
 import { MissionCheckpointTest } from "./Tests/MissionCheckpointTest.js";
 import { MissionConditionsTest } from "./Tests/MissionConditionsTest.js";
@@ -8,4 +9,5 @@ tests.add(new LonLatTest(process));
 tests.add(new MissionTest(process));
 tests.add(new MissionCheckpointTest(process));
 tests.add(new MissionConditionsTest(process));
+tests.add(new LonLatDateTest(process));
 tests.exit();
