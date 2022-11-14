@@ -259,7 +259,7 @@ export class Mission {
       return cp;
     });
 
-    const flight_category = this.conditions.flight_category;
+    const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
     this.calculateDirectionForCheckpoints(flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
 
     this.origin_icao = this.checkpoints[0].name;
@@ -311,7 +311,7 @@ export class Mission {
 
     if (this.description === "") {
       const localTime = this.getLocalDaytime();
-      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao} under ${this.conditions.flight_category} conditions.`;
+      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao} under ${flight_category} conditions.`;
       this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;
 
       const navDescription = this.checkpoints

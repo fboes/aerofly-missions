@@ -94,16 +94,16 @@ export class MissionConditionsTest extends Test {
       const missionConditions = new MissionConditions();
 
       missionConditions.visibility_percent = 1;
-      this.assertEquals(missionConditions.flight_category, 'VFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
 
       missionConditions.visibility_percent = 0.5;
-      this.assertEquals(missionConditions.flight_category, 'MVFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'MVFR');
 
       missionConditions.visibility_percent = 0.3;
-      this.assertEquals(missionConditions.flight_category, 'IFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'IFR');
 
       missionConditions.visibility_percent = 0.1;
-      this.assertEquals(missionConditions.flight_category, 'LIFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'LIFR');
     }
 
     this.group(MissionConditions.name + ': Flight conditions 1');
@@ -112,19 +112,19 @@ export class MissionConditionsTest extends Test {
 
       missionConditions.cloud_base = 0;
       missionConditions.cloud_cover = 0;
-      this.assertEquals(missionConditions.flight_category, 'VFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
 
       missionConditions.cloud_base = 5000;
       missionConditions.cloud_cover = 0.1;
-      this.assertEquals(missionConditions.flight_category, 'VFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
 
       missionConditions.cloud_base = 1000;
       missionConditions.cloud_cover = 0.5;
-      this.assertEquals(missionConditions.flight_category, 'VFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
 
       missionConditions.cloud_base = 800;
       missionConditions.cloud_cover = 0.6;
-      this.assertEquals(missionConditions.flight_category, 'MVFR');
+      this.assertEquals(missionConditions.getFlightCategory(), 'MVFR');
     }
 
     this.group(MissionConditions.name + ': Time');

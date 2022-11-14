@@ -2,7 +2,6 @@ export class LonLatDate {
     constructor(lonLat, date) {
         this.lonLat = lonLat;
         this.date = date;
-        this.date.set;
     }
     get solarTimeZoneOffset() {
         return Math.round(this.lonLat.lon / 180 * 12);
@@ -68,4 +67,32 @@ export class LonLatDate {
         return Math.asin(Math.sin(delta) * Math.sin(phi)
             + Math.cos(delta) * Math.cos(phi) * Math.cos(this.hourAngle));
     }
+    /**
+     * Returns at least `sunState` for civil twilight
+     */
+    get sunState() {
+        const solarElevationAngleDeg = this.solarElevationAngle / Math.PI * 180;
+        const localSolarTime = this.localSolarTime;
+        const localTime = this.localTime;
+        let sunState = '';
+        if (solarElevationAngleDeg >= 0) {
+            sunState = LonLatDate.SUN_STATE_DAY;
+        }
+        else if (solarElevationAngleDeg <= -6) {
+            sunState = LonLatDate.SUN_STATE_NIGHT;
+        }
+        else {
+            sunState = (this.localSolarTime < 12) ? LonLatDate.SUN_STATE_DUSK : LonLatDate.SUN_STATE_DAWN;
+        }
+        return {
+            solarElevationAngleDeg,
+            localSolarTime: Math.floor(localSolarTime).toFixed().padStart(2, '0') + ':' + Math.floor(localSolarTime % 1 * 60).toFixed().padStart(2, '0'),
+            localTime: Math.floor(localTime).toFixed().padStart(2, '0') + ':' + Math.floor(localTime % 1 * 60).toFixed().padStart(2, '0'),
+            sunState
+        };
+    }
 }
+LonLatDate.SUN_STATE_DAY = 'Day';
+LonLatDate.SUN_STATE_NIGHT = 'Night';
+LonLatDate.SUN_STATE_DUSK = 'Dusk';
+LonLatDate.SUN_STATE_DAWN = 'Dawn';

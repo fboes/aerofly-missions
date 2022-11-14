@@ -1,8 +1,19 @@
 import { LonLat } from "./LonLat.js";
 
+export type LonLateDateSunState = {
+  solarElevationAngleDeg: number,
+  localSolarTime: string,
+  localTime: string,
+  sunState: string
+}
+
 export class LonLatDate {
-  constructor(protected lonLat: LonLat, protected date: Date) {
-    this.date.set
+  static SUN_STATE_DAY = 'Day';
+  static SUN_STATE_NIGHT = 'Night';
+  static SUN_STATE_DUSK = 'Dusk';
+  static SUN_STATE_DAWN = 'Dawn';
+
+  constructor(public lonLat: LonLat, public date: Date) {
   }
 
   get solarTimeZoneOffset(): number {
@@ -29,7 +40,7 @@ export class LonLatDate {
   /**
    * In degrees
    */
-  get localSolarTimeMeridian() : number {
+  get localSolarTimeMeridian(): number {
     return Math.round(this.lonLat.lon / 15) * 15;
   }
 
@@ -44,7 +55,7 @@ export class LonLatDate {
   /**
    * In minutes
    */
-  get timeCorrectionFactor() : number {
+  get timeCorrectionFactor(): number {
     return 4 * (this.lonLat.lon - this.localSolarTimeMeridian) + this.equationOfTime;
   }
 
@@ -84,5 +95,29 @@ export class LonLatDate {
       Math.sin(delta) * Math.sin(phi)
       + Math.cos(delta) * Math.cos(phi) * Math.cos(this.hourAngle)
     );
+  }
+
+  /**
+   * Returns at least `sunState` for civil twilight
+   */
+  get sunState(): LonLateDateSunState {
+    const solarElevationAngleDeg = this.solarElevationAngle / Math.PI * 180;
+    const localSolarTime = this.localSolarTime;
+    const localTime = this.localTime;
+    let sunState = '';
+    if (solarElevationAngleDeg >= 0) {
+      sunState = LonLatDate.SUN_STATE_DAY;
+    } else if (solarElevationAngleDeg <= -6) {
+      sunState = LonLatDate.SUN_STATE_NIGHT;
+    } else {
+      sunState = (this.localSolarTime < 12) ? LonLatDate.SUN_STATE_DUSK : LonLatDate.SUN_STATE_DAWN;
+    }
+
+    return {
+      solarElevationAngleDeg,
+      localSolarTime: Math.floor(localSolarTime).toFixed().padStart(2, '0') + ':' + Math.floor(localSolarTime % 1 * 60).toFixed().padStart(2, '0'),
+      localTime: Math.floor(localTime).toFixed().padStart(2, '0') + ':' + Math.floor(localTime % 1 * 60).toFixed().padStart(2, '0'),
+      sunState
+    }
   }
 }

@@ -2,6 +2,14 @@ export class LonLat {
   lon: number;
   lat: number;
 
+  static CONTINENT_NORTH_AMERICA = 'NA';
+  static CONTINENT_SOUTH_AMERICA = 'SA';
+  static CONTINENT_EUROPE = 'EU';
+  static CONTINENT_AFRICA = 'AF';
+  static CONTINENT_ASIA = 'AS';
+  static CONTINENT_AUSTRALIA = 'AUS';
+  static CONTINENT_OTHER = 'OT';
+
   /**
    * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
    * @see https://en.wikipedia.org/wiki/Magnetic_declination
@@ -22,6 +30,16 @@ export class LonLat {
 
   get latRad(): number {
     return this.lat / 180 * Math.PI;
+  }
+
+  get continent(): string {
+    if (this.lon < -24) {
+      return this.lat > 15 ? LonLat.CONTINENT_NORTH_AMERICA : LonLat.CONTINENT_SOUTH_AMERICA;
+    } else if (this.lon < 50) {
+      return this.lat > 35 ? LonLat.CONTINENT_EUROPE : LonLat.CONTINENT_AFRICA;
+    } else {
+      return this.lat > -10 ? LonLat.CONTINENT_ASIA : LonLat.CONTINENT_AUSTRALIA;
+    }
   }
 
   toString(): string {

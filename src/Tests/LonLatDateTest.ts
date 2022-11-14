@@ -37,6 +37,7 @@ export class LonLatDateTest extends Test {
       this.assertEquals(Math.round(lonLatDate.localSolarTime), 12);
       this.assertEquals(Math.round(lonLatDate.hourAngle * 180 / Math.PI), -2);
       this.assertEquals(Math.round(lonLatDate.solarElevationAngle * 180 / Math.PI), 38);
+      this.assertEquals(lonLatDate.sunState.sunState, 'Day');
     }
 
 
@@ -57,6 +58,39 @@ export class LonLatDateTest extends Test {
       this.assertEquals(Math.round(lonLatDate.localSolarTime), 12); // ?
       this.assertEquals(Math.round(lonLatDate.hourAngle * 180 / Math.PI), -1);
       this.assertEquals(Math.round(lonLatDate.solarElevationAngle * 180 / Math.PI), 73);
+      this.assertEquals(lonLatDate.sunState.sunState, 'Day');
+    }
+
+    this.group(LonLatDate.name + ': Dusk till Dawn');
+    {
+      const lonLat = new LonLat(-75, 40);
+
+      let date = new Date(Date.UTC(2022, 6, 4, 2 + 5, 0))
+      let lonLatDate = new LonLatDate(lonLat, date);
+      this.assertEquals(lonLatDate.sunState.sunState, 'Night');
+      this.assertEquals(lonLatDate.sunState.localSolarTime, '01:55');
+      this.assertEquals(lonLatDate.sunState.localTime, '02:00');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 3 + 5, 0))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Night');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 4 + 5, 0))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Night');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 4 + 5, 30))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Dusk');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 5 + 5, 0))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Day');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 19 + 5, 0))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Day');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 19 + 5, 40))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Dawn');
+
+      lonLatDate.date = new Date(Date.UTC(2022, 6, 4, 20 + 5, 15))
+      this.assertEquals(lonLatDate.sunState.sunState, 'Night');
     }
   }
 }

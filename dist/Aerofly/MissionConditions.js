@@ -115,19 +115,27 @@ export class MissionConditions {
      * @see https://www.thinkaviation.net/levels-of-vfr-ifr-explained/
      * @see https://en.wikipedia.org/wiki/Ceiling_(cloud)
      */
-    get flight_category() {
-        const visibility_sm = this.visibility_sm;
+    getFlightCategory(useIcao = false) {
         const cloud_base_feet = this.cloud_cover > 0.5 ? this.cloud_base_feet : 9999;
-        if (visibility_sm > 5.0 && cloud_base_feet > 3000) {
-            return MissionConditions.CONDITION_VFR;
-        }
-        if (visibility_sm >= 3.0 && cloud_base_feet >= 1000) {
-            return MissionConditions.CONDITION_MVFR;
-        }
-        if (visibility_sm >= 1.0 && cloud_base_feet >= 500) {
+        if (useIcao) {
+            if (this.visibility > 3000 && cloud_base_feet > 1500) {
+                return MissionConditions.CONDITION_VFR;
+            }
             return MissionConditions.CONDITION_IFR;
         }
-        return MissionConditions.CONDITION_LIFR;
+        else {
+            const visibility_sm = this.visibility_sm;
+            if (visibility_sm > 5.0 && cloud_base_feet > 3000) {
+                return MissionConditions.CONDITION_VFR;
+            }
+            if (visibility_sm >= 3.0 && cloud_base_feet >= 1000) {
+                return MissionConditions.CONDITION_MVFR;
+            }
+            if (visibility_sm >= 1.0 && cloud_base_feet >= 500) {
+                return MissionConditions.CONDITION_IFR;
+            }
+            return MissionConditions.CONDITION_LIFR;
+        }
     }
     get time_object() {
         return new Date(Date.UTC(this.time.time_year, this.time.time_month - 1, this.time.time_day, Math.floor(this.time.time_hours), Math.floor(this.time.time_hours % 1 * 60), Math.floor(this.time.time_hours % 1 * 60 % 1 * 60)));
@@ -177,7 +185,6 @@ export class MissionConditions {
                     <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud_cover}]>
                     <[float64][cloud_base][${this.cloud_base}]> // meters AGL
-                    // <[string8u][flight_category][${this.flight_category}]>
                 >
 `;
     }

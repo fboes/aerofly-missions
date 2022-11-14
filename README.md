@@ -38,54 +38,7 @@ This manual is for Windows 10/11 installations. On other operating systems these
 
 Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file.
 
-There are additional parameters:
-
-```
-Usage: nodejs index.js [PARAMETERS...]
-
-Parameters:
-  -s, --source       Location of the main.mcf
-  -t, --target       Location of your target file
-      --title        Title of your mission
-      --description  Description of your mission; line breaks allowed
-  -i, --ils          ILS frequency like '123.45'
-  -d, --direction    Initial orientation of plane
-  -m, --magnetic     Magnetic declination used for waypoints
-
-Switches:
-  -a  --append       Do not export mission list with a single mission,
-                     but add mission to already existing file
-      --geo-json     Output Geo.json for debugging
-      --flightplan   Output flightplan for debugging
-      --help         This help
-```
-
-### Redistribution
-
-If you want to redistribute your mission file, you may want to include installation instructions:
-
-```markdown
-YOUR MISSION NAME
------------------
-
-To install this custom mission file:
-
-1. Open a file explorer in your Aerofly FS 4 game folder.
-2. Open up the `missions` folder.
-3. Rename `custom_missions.tmc` to any other file name,
-   e.g. `_custom_missions.tmc`.
-4. Place the `custom_missions.tmc` from this ZIP archive in the
-   `missions` folder.
-5. On starting Aerofly FS 4, all your custom missions will be loaded from the 
-   new `custom_missions.tmc`.
-
-To revert back to the original custom missions file, simply delete the new file 
-and rename the old file `_custom_missions.tmc` back to `custom_missions.tmc`.
-
-In case your Aerofly FS 4 installation gets damaged in this process, consider
-a fresh installation.
-
-```
+See the [custom missions documentation](docs/custom-missions.md) for more information.
 
 Flight plan mode
 ----------------
@@ -93,6 +46,8 @@ Flight plan mode
 This tool can also convert the `main.mcf` into a flight plan:
 
 ![](docs/flightplan.png)
+
+See the [flight plan documentation](docs/flightplan.md) for more information.
 
 Status
 -------

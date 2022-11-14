@@ -1,4 +1,6 @@
-import { Mission } from "../Aerofly/Mission";
+import { LonLat } from "../Aerofly/LonLat.js";
+import { LonLatDate, LonLateDateSunState } from "../Aerofly/LonLatDate.js";
+import { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { BashColors } from "../Cli/BashColors.js";
 
@@ -35,7 +37,7 @@ export class Flightplan {
     return this.outputLine(fields.map((l, i) => {
       const colorsLength = this.clr.getColorsLength(l);
       return i % 2
-        ? l.padEnd(19 + colorsLength, ' ')
+        ? l.padEnd(17 + colorsLength, ' ')
         : this.clr.lightGray + l.padEnd(4) + this.clr.reset
     }));
   }
@@ -43,17 +45,17 @@ export class Flightplan {
   /**
    * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
    */
-  getConditionColored(conditions: MissionConditions) {
-    const flight_category = conditions.flight_category;
+  getConditionColored(conditions: MissionConditions, lonLat: LonLat) {
+    const flight_category = conditions.getFlightCategory(lonLat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
     const symbol = conditions.cloud_cover_symbol + ' ' + flight_category;
     if (!this.clr.useColors) {
       return symbol;
     }
-    let color = this.clr.lightMagenta; // LIFR
+    let color = this.clr.lightRed; // IFR
     switch (flight_category) {
       case MissionConditions.CONDITION_VFR: color = this.clr.lightGreen; break;
       case MissionConditions.CONDITION_MVFR: color = this.clr.lightBlue; break;
-      case MissionConditions.CONDITION_IFR: color = this.clr.lightRed; break;
+      case MissionConditions.CONDITION_LIFR: color = this.clr.lightMagenta; break;
     }
 
     return color + symbol + this.clr.reset;
@@ -63,36 +65,58 @@ export class Flightplan {
     return this.clr.lightGray + char.repeat(length) + this.clr.reset + "\n";
   }
 
+  outputSunState(sunState: LonLateDateSunState): string {
+    let sunSymbol = this.clr.lightBlue + '☼'; // Dusk / Dawn
+    if (sunState.sunState === LonLatDate.SUN_STATE_DAY) {
+      sunSymbol = this.clr.lightGreen + '☀';
+    } else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
+      sunSymbol = this.clr.lightRed + '☾';
+    }
+    return sunSymbol + ' ' + sunState.sunState.toUpperCase() + ' @ ' + this.padThree(sunState.solarElevationAngleDeg) + '°' + this.clr.reset;
+  }
+
   toString(): string {
     const m = this.mission;
     const lineLength = 52;
+    const sunState = new LonLatDate(m.origin_lon_lat, m.conditions.time_object).sunState;
 
     let output = this.outputFourColumn([
-      'FPLN',
-      `${this.clr.lightCyan + m.origin_icao + this.clr.reset} → ${this.clr.lightCyan + m.destination_icao + this.clr.reset}`,
-      'DATE',
+      'RT', // Flight plan route
+      this.clr.lightCyan + m.origin_icao + this.clr.reset + ' → ' + this.clr.lightCyan + m.destination_icao + this.clr.reset,
+      'DDT', // Departure date & time
       m.conditions.time_object.toISOString().replace(/:\d+\.\d+/, ''),
     ]);
     output += this.outputFourColumn([
-      'ARCT',
+      'ACT', // Aircraft type
       m.aircraft_icao,
-      'IAS',
+      'TAS', // True Air Speed
       this.padThree(m.cruise_speed) + 'KTS'
     ]);
     output += this.outputDashes(lineLength, '=');
 
+    // Weather table
     output += this.outputFourColumn([
-      'WIND', `${this.padThree(m.conditions.wind_direction)}° @ ${this.padThree(m.conditions.wind_speed)}KTS`,
-      'CLD', `${m.conditions.cloud_cover_symbol} ${m.conditions.cloud_cover_code} @ ${m.conditions.cloud_base_feet.toLocaleString('en')}FT`
+      'SUN',
+      this.outputSunState(sunState),
+      'LST', // Local Solar Time
+      sunState.localSolarTime
     ]);
     output += this.outputFourColumn([
-      'VISI', `${m.conditions.visibility.toLocaleString('en')}M / ${Math.round(m.conditions.visibility_sm)}SM`,
-      'FR', `${this.getConditionColored(m.conditions)}`
+      'WND', // Wind
+      this.padThree(m.conditions.wind_direction) + '° @ ' + this.padThree(m.conditions.wind_speed) + 'KTS',
+      'CLD', // Clouds
+      m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
     ]);
-
+    output += this.outputFourColumn([
+      'VIS', // Visbility
+      m.conditions.visibility.toLocaleString('en') + 'M / ' + Math.round(m.conditions.visibility_sm) + 'SM',
+      'FR', // Flight rules
+      this.getConditionColored(m.conditions, m.origin_lon_lat)
+    ]);
     output += this.outputDashes(lineLength);
-    output += this.clr.lightGray + this.outputLine(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
 
+    // Waypoint table
+    output += this.clr.lightGray + this.outputLine(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
     let totalDistance = 0, totalTime = 0;
     m.checkpoints.forEach((c, i) => {
       totalDistance += c.distance;
@@ -114,7 +138,6 @@ export class Flightplan {
         (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
       ]);
     })
-
     output += this.outputDashes(lineLength);
     output += this.outputLine([
       this.clr.lightGray + '>  ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',

@@ -17,6 +17,17 @@ export class LonLat {
     get latRad() {
         return this.lat / 180 * Math.PI;
     }
+    get continent() {
+        if (this.lon < -24) {
+            return this.lat > 15 ? LonLat.CONTINENT_NORTH_AMERICA : LonLat.CONTINENT_SOUTH_AMERICA;
+        }
+        else if (this.lon < 50) {
+            return this.lat > 35 ? LonLat.CONTINENT_EUROPE : LonLat.CONTINENT_AFRICA;
+        }
+        else {
+            return this.lat > -10 ? LonLat.CONTINENT_ASIA : LonLat.CONTINENT_AUSTRALIA;
+        }
+    }
     toString() {
         return this.lon.toFixed(6) + " " + this.lat.toFixed(6);
     }
@@ -72,3 +83,10 @@ export class LonLat {
         return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI);
     }
 }
+LonLat.CONTINENT_NORTH_AMERICA = 'NA';
+LonLat.CONTINENT_SOUTH_AMERICA = 'SA';
+LonLat.CONTINENT_EUROPE = 'EU';
+LonLat.CONTINENT_AFRICA = 'AF';
+LonLat.CONTINENT_ASIA = 'AS';
+LonLat.CONTINENT_AUSTRALIA = 'AUS';
+LonLat.CONTINENT_OTHER = 'OT';
