@@ -1,5 +1,5 @@
-Flight plan
-===========
+![](favicon-64x64.png) Flight plan
+==================================
 
 This tool also allows for outputting a flight plan inferred from your `main.mcf`.
 

@@ -1,5 +1,5 @@
-Custom missions
-==============
+![](favicon-64x64.png) Custom missions
+======================================
 
 On reading the Aerofly FS 4 `main.mcf`, a few conversions and assumptions are made:
 
