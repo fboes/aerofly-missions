@@ -61,6 +61,15 @@ export class Flightplan {
     return color + symbol + this.clr.reset;
   }
 
+  getWindColored(conditions: MissionConditions): string {
+    let wind_speed = this.padThree(conditions.wind_speed);
+    const gust_type = conditions.wind_gusts_type;
+    if (gust_type) {
+      wind_speed += '-' + this.padThree(conditions.wind_gusts);
+    }
+    return this.padThree(conditions.wind_direction) + '° @ ' + wind_speed + 'KTS';
+  }
+
   outputDashes(length: number, char: string = '-') {
     return this.clr.lightGray + char.repeat(length) + this.clr.reset + "\n";
   }
@@ -101,9 +110,10 @@ export class Flightplan {
       'LST', // Local Solar Time
       sunState.localSolarTime
     ]);
+
     output += this.outputFourColumn([
       'WND', // Wind
-      this.padThree(m.conditions.wind_direction) + '° @ ' + this.padThree(m.conditions.wind_speed) + 'KTS',
+      this.getWindColored(m.conditions),
       'CLD', // Clouds
       m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
     ]);

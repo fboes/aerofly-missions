@@ -41,6 +41,9 @@ export class MissionConditions {
   static CONDITION_MVFR = 'MVFR';
   static CONDITION_IFR = 'IFR';
   static CONDITION_LIFR = 'LIFR';
+  static WIND_GUSTS_STANDARD = 'gusts';
+  static WIND_GUSTS_STRONG = 'strong gusts';
+  static WIND_GUSTS_VIOLENT = 'violent gusts';
 
   fromMainMcf(mainMcf: MainMcf): MissionConditions {
     this.time.time_year = mainMcf.time_utc.time_year;
@@ -50,7 +53,7 @@ export class MissionConditions {
 
     this.wind_direction = mainMcf.wind.direction_in_degree;
     this.wind_speed_percent = mainMcf.wind.strength;
-    this.wind_gusts = this.wind_speed * (1 + mainMcf.wind.turbulence);
+    this.wind_gusts = this.wind_speed + (mainMcf.wind.turbulence * 25);
     this.turbulence_strength = mainMcf.wind.turbulence;
     this.thermal_strength = mainMcf.wind.thermal_activity;
     this.visibility_percent = mainMcf.visibility;
@@ -60,10 +63,16 @@ export class MissionConditions {
       [mainMcf.clouds.cumulus_density, mainMcf.clouds.cumulus_height],
       [mainMcf.clouds.cumulus_mediocris_density, mainMcf.clouds.cumulus_mediocris_height],
       [mainMcf.clouds.cirrus_density, mainMcf.clouds.cirrus_height],
-    ].sort((a, b) => {
-      return a[0] <= 0 ? +1 : a[1] - b[1]
+    ].map((a) => {
+      if (a[0] <= 0) {
+        a[1] = 99999;
+      }
+      return a;
+    }).sort((a, b) => {
+      return a[1] - b[1]
     });
-    const lowestCloud = clouds[0];
+    // Get lowest cloud - but if it is to thin check if the next cloud has more substance
+    const lowestCloud = (clouds[0][0] > 0.5 || clouds[0][0] > clouds[1][0]) ? clouds[0] : clouds[1];
 
     this.cloud_base_percent = lowestCloud[1];
     this.cloud_cover = lowestCloud[0];
@@ -126,6 +135,20 @@ export class MissionConditions {
 
   get wind_direction_rad(): number {
     return (this.wind_direction % 360) / 180 * Math.PI;
+  }
+
+  get wind_gusts_type(): string {
+    const delta = this.wind_gusts - this.wind_speed;
+
+    if (delta > 25) {
+      return MissionConditions.WIND_GUSTS_VIOLENT;
+    } else if (delta > 15) {
+      return MissionConditions.WIND_GUSTS_STRONG;
+    } else if (delta > 10) {
+      return MissionConditions.WIND_GUSTS_STANDARD;
+    }
+
+    return '';
   }
 
   /**
