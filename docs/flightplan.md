@@ -15,23 +15,23 @@ It uses all information supplied via the [custom missions conversion](custom-mis
 * **Estimated time en route** is calculated given the known cruise speed of your plane type, wind direction and speed relative to your desired track and the distance you want to travel. It is displayed in minutes:seconds.
 
 ```
-RT    EKAE → EKRK        DDT   2022-11-13T09:20Z
-ACT   M339               TAS   350KTS
+RT    ESIA → ESSL        DDT   2022-11-20T07:45Z
+ACT   PTS2               TAS   152KTS
 ====================================================
-SUN   ☀ DAY @ 013°       LST   10:17
-WND   180° @ 004KTS      CLD   ● OVC @ 700FT
-VIS   10,000M / 10SM     FR    ● IFR
+SUN   ☀ DAY @ 003°       LST   08:56
+WND   010° @ 007KTS      CLD   ◑ SCT @ 800FT
+VIS   10,000M / 10SM     FR    ◑ VFR
 ----------------------------------------------------
 >    WPT     FREQ       ALT  DTK   HDG    DIS    ETE
-01.  EKAE                -3
-02.  15                      311°  311°   0.2  00:23
-03.  LUGAS            5,000  030°  031°  33.4  05:41
-04.  KOR     112.80   5,000  073°  073°  23.7  04:04
-05.  RK       ✺ 368   5,000  047°  048°  16.6  02:50
-06.  11      111.50   1,000  115°  116°   4.5  00:47
-07.  EKRK             1,000  115°  115°   0.6  01:12
+01.  ESIA               310
+02.  06                 307  242°  242°   0.6  01:14
+03.  W-2444           3,500  094°  091°  13.0  05:10
+04.  W-5603           3,500  051°  049°   6.8  02:47
+05.  SC       ✺ 300   3,500  114°  111°  16.7  06:31
+06.  11      108.70     142  109°  107°   3.7  01:29
+07.  ESSL               172  110°  110°   0.6  01:07
 ----------------------------------------------------
->    TOT                                 78.1  14:54
+>    TOT                                 40.4  18:15
 ```
 
 ----
