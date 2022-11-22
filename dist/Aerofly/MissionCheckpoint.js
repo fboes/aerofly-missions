@@ -95,7 +95,7 @@ export class MissionCheckpoint {
     /**
      * In hours
      */
-    get time() {
+    get time_enroute() {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
     get altitude_ft() {
@@ -156,7 +156,7 @@ export class MissionCheckpoint {
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
                         // <[float64][distance][${this.distance.toFixed(2)}]>
-                        // <[float64][time][${this.time.toFixed(2)}]>
+                        // <[float64][time][${this.time_enroute.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

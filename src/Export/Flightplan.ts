@@ -87,32 +87,49 @@ export class Flightplan {
   toString(): string {
     const m = this.mission;
     const lineLength = 52;
-    const sunState = new LonLatDate(m.origin_lon_lat, m.conditions.time_object).sunState;
+    const total_distance = m.distance;
+    const total_time_enroute = m.time_enroute;
+    const time = m.conditions.time_object;
+    const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
+    time.setSeconds(time.getSeconds() + total_time_enroute * 3600)
+    const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
+    let output = '';
 
-    let output = this.outputFourColumn([
-      'RT', // Flight plan route
-      this.clr.lightCyan + m.origin_icao + this.clr.reset + ' → ' + this.clr.lightCyan + m.destination_icao + this.clr.reset,
-      'DDT', // Departure date & time
+
+    // Origin
+    output += this.outputFourColumn([
+      'ORIG',
+      m.origin_icao,
+      'DEP', // Departure date & time
       m.conditions.time_object.toISOString().replace(/:\d+\.\d+/, ''),
     ]);
     output += this.outputFourColumn([
-      'ACT', // Aircraft type
-      m.aircraft_icao,
-      'TAS', // True Air Speed
-      this.padThree(m.cruise_speed) + 'KTS'
+      'DSUN',
+      this.outputSunState(sunStateOrigin),
+      'DLST', // Local Solar Time
+      sunStateOrigin.localSolarTime
     ]);
-    output += this.outputDashes(lineLength, '=');
+
+    output += this.outputDashes(lineLength);
+
+    // Desitination
+    output += this.outputFourColumn([
+      'DEST',
+      m.destination_icao,
+      'ARR', // Arrival date & time
+      time.toISOString().replace(/:\d+\.\d+/, ''),
+    ]);
+    output += this.outputFourColumn([
+      'ASUN',
+      this.outputSunState(sunStateDestination),
+      'ALST', // Local Solar Time
+      sunStateDestination.localSolarTime
+    ]);
 
     // Weather table
+    output += this.outputDashes(lineLength);
     output += this.outputFourColumn([
-      'SUN',
-      this.outputSunState(sunState),
-      'LST', // Local Solar Time
-      sunState.localSolarTime
-    ]);
-
-    output += this.outputFourColumn([
-      'WND', // Wind
+      'WIND', // Wind
       this.getWindColored(m.conditions),
       'CLD', // Clouds
       m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
@@ -125,13 +142,18 @@ export class Flightplan {
     ]);
     output += this.outputDashes(lineLength);
 
+    output += this.outputFourColumn([
+      'ARCT', // Aircraft type
+      m.aircraft_icao,
+      'TAS', // True Air Speed
+      this.padThree(m.cruise_speed) + 'KTS'
+    ]);
+    output += this.outputDashes(lineLength, '=');
+
     // Waypoint table
     output += this.clr.lightGray + this.outputLine(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
-    let totalDistance = 0, totalTime = 0;
-    m.checkpoints.forEach((c, i) => {
-      totalDistance += c.distance;
-      if (c.time > 0) { totalTime += c.time }
 
+    m.checkpoints.forEach((c, i) => {
       let frqString = '';
       if (c.frequency) {
         frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6)
@@ -145,14 +167,14 @@ export class Flightplan {
         (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
         (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
         (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
-        (c.time > 0) ? this.convertHoursToMinutesString(c.time) : ' '.repeat(5),
+        (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute) : ' '.repeat(5),
       ]);
     })
     output += this.outputDashes(lineLength);
     output += this.outputLine([
       this.clr.lightGray + '>  ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
-      this.pad(totalDistance, 4, 1),
-      this.convertHoursToMinutesString(totalTime)
+      this.pad(total_distance, 4, 1),
+      this.convertHoursToMinutesString(total_time_enroute)
     ]);
 
     return output;

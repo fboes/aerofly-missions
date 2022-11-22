@@ -190,6 +190,26 @@ export class Mission {
     get aircraft_icao() {
         return this._aircraft_icao;
     }
+    /**
+     * In hours
+     */
+    get time_enroute() {
+        let total_time_enroute = 0;
+        this.checkpoints.forEach((c) => {
+            total_time_enroute += c.time_enroute;
+        });
+        return total_time_enroute;
+    }
+    /**
+     * In nautical miles
+     */
+    get distance() {
+        let total_distance = 0;
+        this.checkpoints.forEach((c) => {
+            total_distance += c.distance;
+        });
+        return total_distance;
+    }
     fromMainMcf(mainMcf, ils = 0, magnetic_declination = 0) {
         this.aircraft_name = mainMcf.aircraft.name;
         switch (mainMcf.flight_setting.configuration) {

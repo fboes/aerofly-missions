@@ -115,7 +115,7 @@ export class MissionCheckpoint {
   /**
    * In hours
    */
-  get time(): number {
+  get time_enroute(): number {
     return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
   }
 
@@ -160,8 +160,8 @@ export class MissionCheckpoint {
 
     let altitude_ft = this.altitude_ft;
     if (isVfr) {
-    // Separation above 3000ft MSL
-    if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
+      // Separation above 3000ft MSL
+      if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
         this.altitude_ft = (this.direction < 180)
           ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500, ..
           : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500, ..
@@ -182,7 +182,7 @@ export class MissionCheckpoint {
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
                         // <[float64][distance][${this.distance.toFixed(2)}]>
-                        // <[float64][time][${this.time.toFixed(2)}]>
+                        // <[float64][time][${this.time_enroute.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

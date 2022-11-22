@@ -222,6 +222,28 @@ export class Mission {
     return this._aircraft_icao;
   }
 
+  /**
+   * In hours
+   */
+  get time_enroute(): number {
+    let total_time_enroute = 0;
+    this.checkpoints.forEach((c) => {
+      total_time_enroute += c.time_enroute;
+    });
+    return total_time_enroute;
+  }
+
+  /**
+   * In nautical miles
+   */
+  get distance(): number {
+    let total_distance = 0;
+    this.checkpoints.forEach((c) => {
+      total_distance += c.distance;
+    });
+    return total_distance;
+  }
+
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, magnetic_declination: number = 0): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
 
