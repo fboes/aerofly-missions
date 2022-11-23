@@ -15,23 +15,26 @@ It uses all information supplied via the [custom missions conversion](custom-mis
 * **Estimated time en route** is calculated given the known cruise speed of your plane type, wind direction and speed relative to your desired track and the distance you want to travel. It is displayed in minutes:seconds.
 
 ```
-RT    ESIA → ESSL        DDT   2022-11-20T07:45Z
-ACT   PTS2               TAS   152KTS
+ORIG  ESSL               DEP   2022-11-23T06:54Z
+DSUN  ☼ DUSK @ -2°       DLST  08:09
+----------------------------------------------------
+DEST  ESKN               ARR   2022-11-23T07:19Z
+ASUN  ☀ DAY @ 0°         ALST  08:39
+----------------------------------------------------
+WIND  080° @ 10KTS       CLD   ◕ BKN @ 2,000FT AGL
+VIS   15,000M / 10SM     FR    VFR
+----------------------------------------------------
+ARCT  PTS2               TAS   152KTS
 ====================================================
-SUN   ☀ DAY @ 003°       LST   08:56
-WND   010° @ 007KTS      CLD   ◑ SCT @ 800FT
-VIS   10,000M / 10SM     FR    ◑ VFR
-----------------------------------------------------
 >    WPT     FREQ       ALT  DTK   HDG    DIS    ETE
-01.  ESIA               310
-02.  06                 307  242°  242°   0.6  01:14
-03.  W-2444           3,500  094°  091°  13.0  05:10
-04.  W-5603           3,500  051°  049°   6.8  02:47
-05.  SC       ✺ 300   3,500  114°  111°  16.7  06:31
-06.  11      108.70     142  109°  107°   3.7  01:29
-07.  ESSL               172  110°  110°   0.6  01:07
+01.  ESSL               172
+02.  11                 142  290°  290°   0.6  01:07
+03.  W-3051           2,000  058°  059°  11.8  04:59
+04.  W-1425           2,000  101°  099°  19.8  08:21
+05.  08      111.30     113  020°  023°  22.9  09:24
+06.  ESKN               140  079°  079°   0.7  01:20
 ----------------------------------------------------
->    TOT                                 40.4  18:15
+>    TOT                                 54.8  25:09
 ```
 
 ----
