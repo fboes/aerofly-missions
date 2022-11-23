@@ -39,9 +39,8 @@ export class Flightplan {
      */
     getConditionColored(conditions, lonLat) {
         const flight_category = conditions.getFlightCategory(lonLat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-        const symbol = conditions.cloud_cover_symbol + ' ' + flight_category;
         if (!this.clr.useColors) {
-            return symbol;
+            return flight_category;
         }
         let color = this.clr.lightRed; // IFR
         switch (flight_category) {
@@ -55,13 +54,13 @@ export class Flightplan {
                 color = this.clr.lightMagenta;
                 break;
         }
-        return color + symbol + this.clr.reset;
+        return color + flight_category + this.clr.reset;
     }
     getWindColored(conditions) {
-        let wind_speed = this.padThree(conditions.wind_speed);
+        let wind_speed = conditions.wind_speed.toFixed();
         const gust_type = conditions.wind_gusts_type;
         if (gust_type) {
-            wind_speed += '-' + this.padThree(conditions.wind_gusts);
+            wind_speed += '-' + conditions.wind_gusts.toFixed();
         }
         return this.padThree(conditions.wind_direction) + '° @ ' + wind_speed + 'KTS';
     }
@@ -76,7 +75,10 @@ export class Flightplan {
         else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
             sunSymbol = this.clr.lightRed + '☾';
         }
-        return sunSymbol + ' ' + sunState.sunState.toUpperCase() + ' @ ' + this.padThree(sunState.solarElevationAngleDeg) + '°' + this.clr.reset;
+        return sunSymbol + ' ' + sunState.sunState.toUpperCase() + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°' + this.clr.reset;
+    }
+    outputDateTime(date) {
+        return date.toISOString().replace(/:\d+\.\d+/, '').replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);
     }
     toString() {
         const m = this.mission;
@@ -93,7 +95,7 @@ export class Flightplan {
             'ORIG',
             m.origin_icao,
             'DEP',
-            m.conditions.time_object.toISOString().replace(/:\d+\.\d+/, ''),
+            this.outputDateTime(m.conditions.time_object),
         ]);
         output += this.outputFourColumn([
             'DSUN',
@@ -107,7 +109,7 @@ export class Flightplan {
             'DEST',
             m.destination_icao,
             'ARR',
-            time.toISOString().replace(/:\d+\.\d+/, ''),
+            this.outputDateTime(time),
         ]);
         output += this.outputFourColumn([
             'ASUN',
@@ -121,7 +123,7 @@ export class Flightplan {
             'WIND',
             this.getWindColored(m.conditions),
             'CLD',
-            m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
+            m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT AGL'
         ]);
         output += this.outputFourColumn([
             'VIS',

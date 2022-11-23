@@ -122,11 +122,11 @@ export class MissionConditions {
   }
 
   set visibility_percent(percent: number) {
-    this.visibility = percent * 10000; // Max visibility
+    this.visibility = Math.round(percent * 15000); // Max visibility
   }
 
   get visibility_sm(): number {
-    return (this.visibility === 10000) ? 10 : this.visibility / 1000 / 1.609344;
+    return (this.visibility === 15000) ? 10 : this.visibility / 1000 / 1.609344;
   }
 
   set wind_speed_percent(percent: number) {
@@ -159,7 +159,7 @@ export class MissionConditions {
     const cloud_base_feet = this.cloud_cover > 0.5 ? this.cloud_base_feet : 9999;
 
     if (useIcao) {
-      if (this.visibility > 3000 && cloud_base_feet > 1500) {
+      if (this.visibility >= 5000 && cloud_base_feet > 1500) {
         return MissionConditions.CONDITION_VFR;
       }
       return MissionConditions.CONDITION_IFR;
