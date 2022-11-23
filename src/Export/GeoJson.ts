@@ -1,4 +1,4 @@
-import { LonLat } from "../Aerofly/LonLat.js";
+import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
 

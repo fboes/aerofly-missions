@@ -1,5 +1,5 @@
-import { LonLat } from "../Aerofly/LonLat.js";
-import { LonLatDate } from "../Aerofly/LonLatDate.js";
+import { LonLat } from "../World/LonLat.js";
+import { LonLatDate } from "../World/LonLatDate.js";
 import { Test } from "../Cli/Test.js";
 
 export class LonLatDateTest extends Test {

@@ -8,6 +8,7 @@ import { Arguments } from "./Cli/Arguments.js";
 import { BashColors } from "./Cli/BashColors.js";
 import { Flightplan } from "./Export/Flightplan.js";
 import { GeoJson } from "./Export/GeoJson.js";
+import { SkyVector } from "./Export/SkyVector.js";
 
 const args = new Arguments(process);
 const c = new BashColors(args.useColors);
@@ -39,10 +40,13 @@ missionList.missions.push(mission);
 
 if (args.geoJson) {
   //console.log(JSON.stringify(new GeoJson().fromMainMcf(aeroflyConfig)));
-  process.stdout.write(JSON.stringify(new GeoJson().fromMission(mission)));
+  process.stdout.write("\n" + JSON.stringify(new GeoJson().fromMission(mission)) + "\n");
 }
 if (args.flightplan) {
   process.stdout.write("\n" + new Flightplan(mission, c).toString() + "\n");
+}
+if (args.skyVector) {
+  process.stdout.write("\n" + new SkyVector(mission).toString() + "\n");
 }
 
 try {

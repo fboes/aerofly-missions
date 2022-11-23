@@ -1,4 +1,4 @@
-import { LonLat } from "./LonLat.js";
+import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";

@@ -1,5 +1,5 @@
-import { LonLat } from "../Aerofly/LonLat.js";
-import { LonLatDate, LonLateDateSunState } from "../Aerofly/LonLatDate.js";
+import { LonLat } from "../World/LonLat.js";
+import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { BashColors } from "../Cli/BashColors.js";

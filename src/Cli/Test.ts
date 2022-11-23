@@ -27,7 +27,7 @@ export class Test {
   }
 
   exit() {
-    this.process.stdout.write("\n" + `Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+    this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
     process.exit(this.errors > 0 ? 1 : 0);
   }
 }
@@ -46,7 +46,6 @@ export class Tests extends Test {
       this.errors += t.errors;
     });
 
-    this.process.stdout.write("\n" + `Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
-    process.exit(this.errors > 0 ? 1 : 0);
+    super.exit();
   }
 }

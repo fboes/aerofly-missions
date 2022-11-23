@@ -1,4 +1,4 @@
-import { LonLat } from "../Aerofly/LonLat.js";
+import { LonLat } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Test } from "../Cli/Test.js";
 export class MissionCheckpointTest extends Test {

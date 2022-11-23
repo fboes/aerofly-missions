@@ -1,3 +1,4 @@
+import { Units } from "../World/Units.js";
 import { MainMcf } from "./MainMcf.js";
 
 type WindCorrection = {
@@ -80,7 +81,7 @@ export class MissionConditions {
   }
 
   set cloud_base_percent(percent: number) {
-    this.cloud_base = percent * 10000 / 3.28084; // Max cloud height
+    this.cloud_base = percent * 10000 / Units.feetPerMeter; // Max cloud height
   }
 
   /**
@@ -118,7 +119,7 @@ export class MissionConditions {
   }
 
   get cloud_base_feet(): number {
-    return this.cloud_base * 3.28084;
+    return this.cloud_base * Units.feetPerMeter;
   }
 
   set visibility_percent(percent: number) {
@@ -126,7 +127,7 @@ export class MissionConditions {
   }
 
   get visibility_sm(): number {
-    return (this.visibility === 15000) ? 10 : this.visibility / 1000 / 1.609344;
+    return (this.visibility === 15000) ? 10 : this.visibility / Units.meterPerStatuteMile;
   }
 
   set wind_speed_percent(percent: number) {

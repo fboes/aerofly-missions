@@ -1,4 +1,4 @@
-import { LonLat } from "../Aerofly/LonLat.js";
+import { LonLat } from "../World/LonLat.js";
 export class GeoJson {
     constructor() {
         this.type = "FeatureCollection";

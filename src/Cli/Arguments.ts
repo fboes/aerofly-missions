@@ -12,6 +12,7 @@ export class Arguments {
   geoJson: boolean = false;
   flightplan: boolean = false;
   useColors: boolean = true;
+  skyVector: boolean = true;
   magneticDeclination: number;
 
   constructor(process: NodeJS.Process) {
@@ -44,6 +45,9 @@ export class Arguments {
             break;
           case 'flightplan':
             this.flightplan = true;
+            break;
+          case 'skyvector':
+            this.skyVector = true;
             break;
           case 'no-color':
             this.useColors = false;
@@ -109,8 +113,9 @@ ${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic declination used for waypo
 Switches:
 ${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,
 ${c.lightBlue}                    ${c.reset} but add mission to already existing file
-${c.lightBlue}      --geo-json    ${c.reset} Output Geo.json for debugging
-${c.lightBlue}      --flightplan  ${c.reset} Output flightplan for debugging
+${c.lightBlue}      --geo-json    ${c.reset} Output Geo.json
+${c.lightBlue}      --flightplan  ${c.reset} Output flightplan
+${c.lightBlue}      --skyvector   ${c.reset} Output Sky Vector URL
 ${c.lightBlue}      --no-color    ${c.reset} Disable colors in output
 ${c.lightBlue}      --help        ${c.reset} This help
 

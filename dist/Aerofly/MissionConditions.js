@@ -1,3 +1,4 @@
+import { Units } from "../World/Units.js";
 export class MissionConditions {
     constructor() {
         this.time = {
@@ -61,7 +62,7 @@ export class MissionConditions {
         return this;
     }
     set cloud_base_percent(percent) {
-        this.cloud_base = percent * 10000 / 3.28084; // Max cloud height
+        this.cloud_base = percent * 10000 / Units.feetPerMeter; // Max cloud height
     }
     /**
      * @see https://en.wikipedia.org/wiki/METAR
@@ -103,13 +104,13 @@ export class MissionConditions {
         return '●';
     }
     get cloud_base_feet() {
-        return this.cloud_base * 3.28084;
+        return this.cloud_base * Units.feetPerMeter;
     }
     set visibility_percent(percent) {
         this.visibility = Math.round(percent * 15000); // Max visibility
     }
     get visibility_sm() {
-        return (this.visibility === 15000) ? 10 : this.visibility / 1000 / 1.609344;
+        return (this.visibility === 15000) ? 10 : this.visibility / Units.meterPerStatuteMile;
     }
     set wind_speed_percent(percent) {
         this.wind_speed = 8 * (percent + Math.pow(percent, 2));

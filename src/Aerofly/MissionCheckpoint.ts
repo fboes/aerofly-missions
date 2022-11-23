@@ -1,4 +1,5 @@
-import { LonLat } from "./LonLat.js";
+import { Units } from "../World/Units.js";
+import { LonLat } from "../World/LonLat.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
 export class MissionCheckpoint {
@@ -120,11 +121,11 @@ export class MissionCheckpoint {
   }
 
   get altitude_ft(): number {
-    return this.altitude * 3.28084;
+    return this.altitude * Units.feetPerMeter;
   }
 
   set altitude_ft(altitude_ft: number) {
-    this.altitude = altitude_ft / 3.28084;
+    this.altitude = altitude_ft / Units.feetPerMeter;
   }
 
   get direction_rad() {

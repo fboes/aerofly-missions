@@ -1,4 +1,5 @@
-import { LonLat } from "./LonLat.js";
+import { Units } from "../World/Units.js";
+import { LonLat } from "../World/LonLat.js";
 export class MissionCheckpoint {
     constructor() {
         this._type = "waypoint";
@@ -99,10 +100,10 @@ export class MissionCheckpoint {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
     get altitude_ft() {
-        return this.altitude * 3.28084;
+        return this.altitude * Units.feetPerMeter;
     }
     set altitude_ft(altitude_ft) {
-        this.altitude = altitude_ft / 3.28084;
+        this.altitude = altitude_ft / Units.feetPerMeter;
     }
     get direction_rad() {
         return (this.direction % 360) / 180 * Math.PI;

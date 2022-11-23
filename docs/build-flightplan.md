@@ -13,7 +13,7 @@ How to build in Aerofly FS 4:
 1. Build a basic flight plan in Aerofly FS 4.
    1. You may want to use named checkpoints in Aerofly for your flight plan: VORs, NDBs and waypoints / fixes.
    1. Think about alternate airports along your route, or at least emergency landing sites.
-1. Rebuild the flight plan in a flight planning tool like [SkyVector: Flight Planning / Aeronautical Charts](https://skyvector.com/). Take a proper look at:
+1. Rebuild the flight plan in a flight planning tool like [SkyVector: Flight Planning / Aeronautical Charts](https://skyvector.com/); you may want to use `aerofly-missions --skyvector`. Take a proper look at:
    1. Runway length
    1. Restricted airspace
    1. Terrain heights (see [maximum elevation figure](https://en.wikipedia.org/wiki/Maximum_elevation_figure))

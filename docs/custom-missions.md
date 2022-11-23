@@ -34,8 +34,9 @@ Parameters:
 Switches:
   -a  --append       Do not export mission list with a single mission,
                      but add mission to already existing file
-      --geo-json     Output Geo.json for debugging
-      --flightplan   Output flightplan for debugging
+      --geo-json     Output Geo.json
+      --flightplan   Output flightplan
+      --skyvector    Output Sky Vector URL
       --help         This help
 ```
 
