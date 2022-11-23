@@ -82,7 +82,7 @@ export class Flightplan {
     }
     toString() {
         const m = this.mission;
-        const lineLength = 52;
+        const lineLength = 53;
         const total_distance = m.distance;
         const total_time_enroute = m.time_enroute;
         const time = m.conditions.time_object;
@@ -123,7 +123,7 @@ export class Flightplan {
             'WIND',
             this.getWindColored(m.conditions),
             'CLD',
-            m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT AGL'
+            m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
         ]);
         output += this.outputFourColumn([
             'VIS',
@@ -140,7 +140,7 @@ export class Flightplan {
         ]);
         output += this.outputDashes(lineLength, '=');
         // Waypoint table
-        output += this.clr.lightGray + this.outputLine(['>  ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
+        output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
         m.checkpoints.forEach((c, i) => {
             let frqString = '';
             if (c.frequency) {
@@ -148,7 +148,7 @@ export class Flightplan {
             }
             ;
             output += this.outputLine([
-                this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ".",
+                this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". ",
                 this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
                 (c.frequency) ? frqString : ' '.repeat(6),
                 (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
