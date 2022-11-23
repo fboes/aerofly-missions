@@ -15,9 +15,9 @@ export class MissionConditionsTest extends Test {
       this.assertEquals(missionConditions.visibility, 20000)
 
       missionConditions.visibility_percent = 1;
-      this.assertEquals(missionConditions.visibility, 10000, 'Visbility percentage test')
+      this.assertEquals(missionConditions.visibility, 15000, 'Visbility percentage test')
       missionConditions.visibility_percent = 0.5;
-      this.assertEquals(missionConditions.visibility, 10000 / 2, 'Visbility percentage test')
+      this.assertEquals(missionConditions.visibility, 15000 / 2, 'Visbility percentage test')
       missionConditions.visibility_percent = 0;
       this.assertEquals(missionConditions.visibility, 0, 'Visbility percentage test')
 
