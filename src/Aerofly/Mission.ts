@@ -244,6 +244,15 @@ export class Mission {
     return total_distance;
   }
 
+  calculateMagneticDeclination(l: LonLat, magnetic_declination: number): number {
+    // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
+    // Formula for parts of Europe and Aerofly
+    return (!magnetic_declination && l.lon > -10 && l.lon < 26 && l.lat > 45)
+      ? (7 / 22) * l.lon - 3.4
+      : magnetic_declination;
+
+  }
+
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, magnetic_declination: number = 0): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
 
@@ -270,7 +279,7 @@ export class Mission {
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       let cp = new MissionCheckpoint();
       cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
-      cp.lon_lat.magnetic_declination = magnetic_declination; // TODO: Needs a smarter formula
+      cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
       if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
         cp.ground_speed = this.cruise_speed;
       }
@@ -286,7 +295,7 @@ export class Mission {
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-    this.origin_lon_lat.magnetic_declination = magnetic_declination; // TODO: Needs a smarter formula
+    this.origin_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.origin_lon_lat, magnetic_declination);
 
     const checkpointDepartureRunway = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
