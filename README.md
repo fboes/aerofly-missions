@@ -3,6 +3,14 @@
 
 Convert `main.mcf` file of [Aerofly FS 4](https://www.aerofly.com/) into a `custom_missions.tmc` file, converting your current flight plan and other settings into a shareable mission.
 
+Other features:
+
+* Export flight plan as [text briefing](docs/flightplan.md), including weather and plane settings.
+* Export flight plan as [GeoJSON](https://geojson.org/).
+* Open flight plan in [SkyVector](https://skyvector.com/), including plane settings.
+
+![Flight plan as text briefing](docs/flightplan.png)
+
 Requirements
 ------------
 
@@ -28,7 +36,6 @@ Usage
 This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
 
 1. Open Aerofly FS 4, set up a flight plan, choose a plane, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.)
-1. Optional: Check the _true_ direction your plane is pointing to. Subtract the _magnetic_ direction to get the magnetic declination.
 1. Start the flight and check if the position of your plane is correct.
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
 1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
@@ -39,15 +46,6 @@ This manual is for Windows 10/11 installations. On other operating systems these
 Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file.
 
 See the [custom missions documentation](docs/custom-missions.md) for more information.
-
-Flight plan mode
-----------------
-
-This tool can also convert the `main.mcf` into a flight plan:
-
-![](docs/flightplan.png)
-
-See the [flight plan documentation](docs/flightplan.md) for more information.
 
 Status
 -------

@@ -148,8 +148,14 @@ export class Flightplan {
     output += this.outputFourColumn([
       'ARCT', // Aircraft type
       m.aircraft_icao,
+      'TAIL',
+      m.callsign
+    ]);
+    output += this.outputFourColumn([
       'TAS', // True Air Speed
-      this.padThree(m.cruise_speed) + 'KTS'
+      this.padThree(m.cruise_speed) + 'KTS',
+      'ALT',
+      m.cruise_altitude_ft.toLocaleString('en') + 'FT'
     ]);
     output += this.outputDashes(lineLength, '=');
 

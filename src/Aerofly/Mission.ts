@@ -1,4 +1,5 @@
 import { LonLat } from "../World/LonLat.js";
+import { Units } from "../World/Units.js";
 import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";
@@ -18,7 +19,7 @@ export class Mission {
    */
   protected _aircraft_name: string = "c172";
   protected _aircraft_icao: string = "C172";
-  cruise_speed: number = 0;
+
   callsign: string = "N5472R";
   origin_icao: string = "";
   origin_lon_lat: LonLat = new LonLat(0, 0);
@@ -34,6 +35,14 @@ export class Mission {
   destination_dir: number = 0;
   conditions: MissionConditions = new MissionConditions();
   checkpoints: MissionCheckpoint[] = [];
+    /**
+   * Not official: In kts TAS
+   */
+     cruise_speed: number = 0;
+     /**
+      * Not official: In meters
+      */
+     cruise_altitude: number = 0;
 
   static FLIGHT_SETTING_LANDING = "landing";
   static FLIGHT_SETTING_TAKEOFF = "takeoff";
@@ -82,7 +91,6 @@ export class Mission {
     return this._description;
   }
 
-
   set flight_setting(flight_setting: string) {
     if (
       ![
@@ -100,6 +108,10 @@ export class Mission {
 
   get flight_setting() {
     return this._flight_setting;
+  }
+
+  get cruise_altitude_ft() {
+    return this.cruise_altitude * Units.feetPerMeter;
   }
 
   /**
@@ -255,6 +267,7 @@ export class Mission {
 
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, magnetic_declination: number = 0): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
+    this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
     switch (mainMcf.flight_setting.configuration) {
       case "ShortFinal":
@@ -278,7 +291,7 @@ export class Mission {
     this.conditions.fromMainMcf(mainMcf);
     this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
       let cp = new MissionCheckpoint();
-      cp.fromMainMcf(w, mainMcf.navigation.Route.CruiseAltitude);
+      cp.fromMainMcf(w, this.cruise_altitude);
       cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
       if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
         cp.ground_speed = this.cruise_speed;

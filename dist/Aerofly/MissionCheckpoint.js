@@ -108,6 +108,12 @@ export class MissionCheckpoint {
     get direction_rad() {
         return (this.direction % 360) / 180 * Math.PI;
     }
+    /**
+     *
+     * @param waypoint
+     * @param cruiseAltitude in meters
+     * @returns MissionCheckpoint
+     */
     fromMainMcf(waypoint, cruiseAltitude = 0) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;

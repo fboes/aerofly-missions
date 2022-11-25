@@ -135,8 +135,14 @@ export class Flightplan {
         output += this.outputFourColumn([
             'ARCT',
             m.aircraft_icao,
+            'TAIL',
+            m.callsign
+        ]);
+        output += this.outputFourColumn([
             'TAS',
-            this.padThree(m.cruise_speed) + 'KTS'
+            this.padThree(m.cruise_speed) + 'KTS',
+            'ALT',
+            m.cruise_altitude_ft.toLocaleString('en') + 'FT'
         ]);
         output += this.outputDashes(lineLength, '=');
         // Waypoint table
