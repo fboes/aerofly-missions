@@ -45,7 +45,6 @@ export class MissionCheckpoint {
   static TYPE_ORIGIN = "origin";
   static TYPE_DEPARTURE_RUNWAY = "departure_runway";
   static TYPE_WAYPOINT = "waypoint";
-  static TYPE_APPROACH = "approach";
   static TYPE_DESTINATION_RUNWAY = "destination_runway";
   static TYPE_DESTINATION = "destination";
 
@@ -99,7 +98,6 @@ export class MissionCheckpoint {
         MissionCheckpoint.TYPE_ORIGIN,
         MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
         MissionCheckpoint.TYPE_WAYPOINT,
-        MissionCheckpoint.TYPE_APPROACH,
         MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
         MissionCheckpoint.TYPE_DESTINATION,
       ].includes(type)
@@ -166,9 +164,10 @@ export class MissionCheckpoint {
     this.distance = lonLat.getDistanceTo(this.lon_lat);
 
     let altitude_ft = this.altitude_ft;
+    // this.type === MissionCheckpoint.TYPE_WAYPOINT
     if (isVfr) {
       // Separation above 3000ft MSL
-      if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction && this.type == MissionCheckpoint.TYPE_WAYPOINT) {
+      if (altitude_ft > 3000 && altitude_ft < 20000 && this.direction) {
         this.altitude_ft = (this.direction < 180)
           ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500, ..
           : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500, ..

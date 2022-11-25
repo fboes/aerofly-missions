@@ -35,14 +35,14 @@ export class Mission {
   destination_dir: number = 0;
   conditions: MissionConditions = new MissionConditions();
   checkpoints: MissionCheckpoint[] = [];
-    /**
-   * Not official: In kts TAS
+  /**
+ * Not official: In kts TAS
+ */
+  cruise_speed: number = 0;
+  /**
+   * Not official: In meters
    */
-     cruise_speed: number = 0;
-     /**
-      * Not official: In meters
-      */
-     cruise_altitude: number = 0;
+  cruise_altitude: number = 0;
 
   static FLIGHT_SETTING_LANDING = "landing";
   static FLIGHT_SETTING_TAKEOFF = "takeoff";
@@ -289,7 +289,16 @@ export class Mission {
         break;
     }
     this.conditions.fromMainMcf(mainMcf);
-    this.checkpoints = mainMcf.navigation.Route.Ways.map((w) => {
+    this.checkpoints = mainMcf.navigation.Route.Ways.filter(w => {
+      return [
+        MissionCheckpoint.TYPE_ORIGIN,
+        MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
+        MissionCheckpoint.TYPE_WAYPOINT,
+        MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
+        MissionCheckpoint.TYPE_DESTINATION,
+      ].includes(w.type)
+      // Filtering departure, approach and arrival - these points have no coordinates
+    }).map((w) => {
       let cp = new MissionCheckpoint();
       cp.fromMainMcf(w, this.cruise_altitude);
       cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
@@ -386,7 +395,6 @@ export class Mission {
       if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {
         if (c.ground_speed && c.direction >= 0 && this.conditions.wind_speed) {
           const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.ground_speed);
-          //c.ground_speed -= Math.cos(wind_direction_rad - c.direction_rad) * this.conditions.wind_speed;
           c.ground_speed = windCorrection.ground_speed;
           c.heading = windCorrection.heading;
         }
