@@ -2,7 +2,7 @@ import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class SkyVector {
-  constructor(protected mission: Mission) {}
+  constructor(protected mission: Mission) { }
 
   deg(deg: number): number {
     return Math.floor(deg) + ((deg % 1) / 100) * 60;
@@ -19,12 +19,7 @@ export class SkyVector {
         );
       })
       .map((c) => {
-        if (
-          c.type === MissionCheckpoint.TYPE_ORIGIN ||
-          c.type === MissionCheckpoint.TYPE_DEPARTURE ||
-          c.type === MissionCheckpoint.TYPE_ARRIVAL ||
-          c.type === MissionCheckpoint.TYPE_DESTINATION
-        ) {
+        if (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION) {
           return c.name;
         }
 

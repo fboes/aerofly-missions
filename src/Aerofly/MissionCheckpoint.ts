@@ -85,11 +85,11 @@ export class MissionCheckpoint {
   }
 
   get direction_magnetic(): number {
-    return this.direction - this.lon_lat.magnetic_declination;
+    return (this.direction - this.lon_lat.magnetic_declination + 360) % 360;
   }
 
   get heading_magnetic(): number {
-    return this.heading - this.lon_lat.magnetic_declination;
+    return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
   }
 
   set type(type: string) {
@@ -187,8 +187,6 @@ export class MissionCheckpoint {
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
-                        // <[float64][distance][${this.distance.toFixed(2)}]>
-                        // <[float64][time][${this.time_enroute.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

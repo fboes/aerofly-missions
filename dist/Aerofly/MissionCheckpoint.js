@@ -72,10 +72,10 @@ export class MissionCheckpoint {
         return ((frequency_unit === 'M') ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) + ' ' + frequency_unit + 'Hz';
     }
     get direction_magnetic() {
-        return this.direction - this.lon_lat.magnetic_declination;
+        return (this.direction - this.lon_lat.magnetic_declination + 360) % 360;
     }
     get heading_magnetic() {
-        return this.heading - this.lon_lat.magnetic_declination;
+        return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
     }
     set type(type) {
         if (![
@@ -162,8 +162,6 @@ export class MissionCheckpoint {
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.altitude}]>
                         <[float64][direction][${this.direction}]>
-                        // <[float64][distance][${this.distance.toFixed(2)}]>
-                        // <[float64][time][${this.time_enroute.toFixed(2)}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>

@@ -15,10 +15,7 @@ export class SkyVector {
             return (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
         })
             .map((c) => {
-            if (c.type === MissionCheckpoint.TYPE_ORIGIN ||
-                c.type === MissionCheckpoint.TYPE_DEPARTURE ||
-                c.type === MissionCheckpoint.TYPE_ARRIVAL ||
-                c.type === MissionCheckpoint.TYPE_DESTINATION) {
+            if (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION) {
                 return c.name;
             }
             // 5831N01558E
