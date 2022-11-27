@@ -24,6 +24,7 @@ Installation
 ------------
 
 1. Run `npm install -g aerofly-missions` from your terminal to globally install `aerofly-missions`.
+2. Optional: You might want to put [a preconfigured batch file](docs/aerofly-missions.bat) on your desktop for ease of access.
 
 Updating
 --------

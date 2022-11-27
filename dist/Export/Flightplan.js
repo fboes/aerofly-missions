@@ -166,7 +166,7 @@ export class Flightplan {
         });
         output += this.outputDashes(lineLength);
         output += this.outputLine([
-            this.clr.lightGray + '>  ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
+            this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
             this.pad(total_distance, 4, 1),
             this.convertHoursToMinutesString(total_time_enroute)
         ]);
