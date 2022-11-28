@@ -6,6 +6,7 @@ export class Arguments {
         this.flightplan = false;
         this.useColors = true;
         this.skyVector = true;
+        this.markdown = false;
         const args = process.argv.slice(2);
         //const cwd = process.cwd();
         this.source = "./main.mcf";
@@ -39,6 +40,9 @@ export class Arguments {
                         break;
                     case 'no-color':
                         this.useColors = false;
+                        break;
+                    case 'markdown':
+                        this.markdown = true;
                         break;
                 }
             }
@@ -93,7 +97,7 @@ ${c.lightBlue}  -t, --target      ${c.reset} Location of your target file; defau
 ${c.lightBlue}      --title       ${c.reset} Title of your mission; defaults to \`${this.title}\`
 ${c.lightBlue}      --description ${c.reset} Description of your mission; line breaks allowed; defaults to \`${this.description}\`
 ${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
-${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of plane; defaults to \`${this.direction}\`
+${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of aircraft; defaults to \`${this.direction}\`
 ${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
 
 Switches:
@@ -102,6 +106,7 @@ ${c.lightBlue}                    ${c.reset} but add mission to already existing
 ${c.lightBlue}      --geo-json    ${c.reset} Output Geo.json
 ${c.lightBlue}      --flightplan  ${c.reset} Output flightplan
 ${c.lightBlue}      --skyvector   ${c.reset} Output Sky Vector URL
+${c.lightBlue}      --markdown    ${c.reset} Save Markdown file
 ${c.lightBlue}      --no-color    ${c.reset} Disable colors in output
 ${c.lightBlue}      --help        ${c.reset} This help
 

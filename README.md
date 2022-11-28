@@ -5,9 +5,9 @@ Convert `main.mcf` file of [Aerofly FS 4](https://www.aerofly.com/) into a `cust
 
 Other features:
 
-* Export flight plan as [text briefing](docs/flightplan.md), including weather and plane settings.
+* Export flight plan as [text briefing](docs/flightplan.md), including weather and aircraft settings.
 * Export flight plan as [GeoJSON](https://geojson.org/).
-* Open flight plan in [SkyVector](https://skyvector.com/), including plane settings.
+* Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
 
 ![Flight plan as text briefing](docs/flightplan.png)
 
@@ -36,8 +36,8 @@ Usage
 
 This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
 
-1. Open Aerofly FS 4, set up a flight plan, choose a plane, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.)
-1. Start the flight and check if the position of your plane is correct.
+1. Open Aerofly FS 4, set up a flight plan, choose a aircraft, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.)
+1. Start the flight and check if the position of your aircraft is correct.
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
 1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
 1. Right click on the folder name and choose "Open in terminal"

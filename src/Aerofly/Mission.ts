@@ -15,7 +15,7 @@ export class Mission {
   protected _description: string = '';
   protected _flight_setting: string = "taxi";
   /**
-   * Internal Aerofly name of plane type.
+   * Internal Aerofly name of aircraft type.
    */
   protected _aircraft_name: string = "c172";
   protected _aircraft_icao: string = "C172";
@@ -323,14 +323,14 @@ export class Mission {
       return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
     })
 
-    const distanceOriginPlane = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
-    if (distanceOriginPlane > 2) {
-      this.warnings.push(`Position of plane too far away from origin of flight plan: ${distanceOriginPlane.toFixed(2)} NM`);
+    const distanceOriginAircraft = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
+    if (distanceOriginAircraft > 2) {
+      this.warnings.push(`Position of aircraft too far away from origin of flight plan: ${distanceOriginAircraft.toFixed(2)} NM`);
       if (checkpointDepartureRunway) {
         this.origin_lon_lat = checkpointDepartureRunway.lon_lat;
-        this.warnings.push(`Setting positon of plane to departure runway: ${checkpointDepartureRunway.lon_lat}`)
+        this.warnings.push(`Setting positon of aircraft to departure runway: ${checkpointDepartureRunway.lon_lat}`)
         this.origin_dir = (checkpointDepartureRunway.direction + 180) % 360;
-        this.warnings.push(`Setting orientation of plane to departure runway: ${this.origin_dir.toFixed()}°`)
+        this.warnings.push(`Setting orientation of aircraft to departure runway: ${this.origin_dir.toFixed()}°`)
       }
     }
 

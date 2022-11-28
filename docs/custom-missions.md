@@ -9,12 +9,12 @@ On reading the Aerofly FS 4 `main.mcf`, a few conversions and assumptions are ma
   Be aware that your description should not be longer than 8 lines of 50 characters each. The description allows for line breaks.  
   The auto-generated description contains information about the IFR/VFR state, time of day, as well as navigational aids in your flight plan.
 * You may want to supply an **ILS frequency** for your destination airport. As this cannot be read from the `main.mcf`, you will have to supply this using the ILS parameter (see below).
-* As the **initial orientation** of your plane cannot be read from the `main.mcf`, you will have to supply a direction manually to the tool (see below).
+* As the **initial orientation** of your aircraft cannot be read from the `main.mcf`, you will have to supply a direction manually to the tool (see below).
 * As there is no information available about the Aerofly FS 4 magnetic model, you will have to set the **magnetic declination** manually:  
-  Check the _true_ direction your plane is pointing to. Subtract the _magnetic_ direction to get the magnetic declination.
-* If the **position of your plane** as given in the `main.mcf` is not close enough to your flight plan origin, the position and direction of your plane gets set to the first checkpoint in your flight plan.
+  Check the _true_ direction your aircraft is pointing to. Subtract the _magnetic_ direction to get the magnetic declination.
+* If the **position of your aircraft** as given in the `main.mcf` is not close enough to your flight plan origin, the position and direction of your aircraft gets set to the first checkpoint in your flight plan.
 * As the custom missions contain less information about **clouds**, this tool will find the lowest clouds and add these to your custom missions file.
-* The **ICAO callsign** of your plane will be set to match a registration visible in Aerofly FS 4.
+* The **ICAO callsign** of your aircraft will be set to match a registration visible in Aerofly FS 4.
 
 Parameters
 -----------
@@ -28,7 +28,7 @@ Parameters:
       --title        Title of your mission
       --description  Description of your mission; line breaks allowed
   -i, --ils          ILS frequency like '123.45'
-  -d, --direction    Initial orientation of plane
+  -d, --direction    Initial orientation of aircraft
   -m, --magnetic     Magnetic declination used for waypoints
 
 Switches:

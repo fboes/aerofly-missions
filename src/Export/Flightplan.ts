@@ -3,34 +3,11 @@ import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { BashColors } from "../Cli/BashColors.js";
+import { Outputtable } from "./Outputtable.js";
 
-export class Flightplan {
+export class Flightplan extends Outputtable {
   constructor(protected mission: Mission, protected clr: BashColors) {
-  }
-
-  /**
-   * @param hours number
-   * @returns string MINUTES:SECONDS
-   */
-  convertHoursToMinutesString(hours: number): string {
-    const seconds = Math.ceil(hours * 60 * 60);
-
-    return Math.floor(seconds / 60).toFixed().padStart(2, "0") + ':' + Math.ceil(seconds % 60).toFixed().padStart(2, "0");
-  }
-
-  pad(number: number, maxLength: number = 3, fractionDigits: number = 0, fillString: string = " "): string {
-    return number.toLocaleString('en', {
-      minimumFractionDigits: fractionDigits,
-      maximumFractionDigits: fractionDigits
-    }).padStart(maxLength, fillString);
-  }
-
-  padThree(number: number, maxLength: number = 3): string {
-    return this.pad(number, maxLength, 0, "0");
-  }
-
-  outputLine(fields: string[]): string {
-    return fields.join('  ') + "\n";
+    super();
   }
 
   outputFourColumn(fields: string[]): string {
@@ -60,13 +37,8 @@ export class Flightplan {
     return color + flight_category + this.clr.reset;
   }
 
-  getWindColored(conditions: MissionConditions): string {
-    let wind_speed = conditions.wind_speed.toFixed();
-    const gust_type = conditions.wind_gusts_type;
-    if (gust_type) {
-      wind_speed += '-' + conditions.wind_gusts.toFixed();
-    }
-    return this.padThree(conditions.wind_direction) + '° @ ' + wind_speed + 'KTS';
+  getWind(conditions: MissionConditions): string {
+    return super.getWind(conditions) + 'KTS';
   }
 
   outputDashes(length: number, char: string = '-') {
@@ -74,17 +46,17 @@ export class Flightplan {
   }
 
   outputSunState(sunState: LonLateDateSunState): string {
-    let sunSymbol = this.clr.lightBlue + '☼'; // Dusk / Dawn
+    let sunColor = this.clr.lightBlue; // Dusk / Dawn
     if (sunState.sunState === LonLatDate.SUN_STATE_DAY) {
-      sunSymbol = this.clr.lightGreen + '☀';
+      sunColor = this.clr.lightGreen;
     } else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
-      sunSymbol = this.clr.lightRed + '☾';
+      sunColor = this.clr.lightRed;
     }
-    return sunSymbol + ' ' + sunState.sunState.toUpperCase() + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°' + this.clr.reset;
+    return sunColor + ' ' + super.outputSunState(sunState) + this.clr.reset;
   }
 
   outputDateTime(date: Date) {
-    return date.toISOString().replace(/:\d+\.\d+/, '').replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);
+    return super.outputDateTime(date).replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);
   }
 
   toString(): string {
@@ -133,7 +105,7 @@ export class Flightplan {
     output += this.outputDashes(lineLength);
     output += this.outputFourColumn([
       'WIND', // Wind
-      this.getWindColored(m.conditions),
+      this.getWind(m.conditions),
       'CLD', // Clouds
       m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
     ]);

@@ -8,6 +8,7 @@ import { Arguments } from "./Cli/Arguments.js";
 import { BashColors } from "./Cli/BashColors.js";
 import { Flightplan } from "./Export/Flightplan.js";
 import { GeoJson } from "./Export/GeoJson.js";
+import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 
 const args = new Arguments(process);
@@ -48,6 +49,18 @@ if (args.flightplan) {
 if (args.skyVector) {
   process.stdout.write("\n" + new SkyVector(mission).toString() + "\n");
 }
+if (args.markdown) {
+  const target = 'README.md'
+  try {
+    await fs.writeFile(
+      target,
+      new Markdown(mission).toString()
+    );
+    process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");
+  } catch (err) {
+    process.stderr.write(c.red + <string>err + c.reset);
+  }
+}
 
 try {
   await fs.writeFile(
@@ -55,7 +68,7 @@ try {
     args.append ? mission.toString() : missionList.toString(), {
     flag: args.append ? 'a' : 'w'
   });
-  process.stdout.write(c.green + args.target + " written successfully" + c.reset);
+  process.stdout.write(c.green + args.target + " written successfully" + c.reset + "\n");
   process.exit(0);
 } catch (err) {
   process.stderr.write(c.red + <string>err + c.reset);
