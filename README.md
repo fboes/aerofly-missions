@@ -7,6 +7,7 @@ Other features:
 
 * Export flight plan as [text briefing](docs/flightplan.md), including weather and aircraft settings.
 * Export flight plan as [GeoJSON](https://geojson.org/).
+* Export flight plan as Markdown file.
 * Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
 
 ![Flight plan as text briefing](docs/flightplan.png)

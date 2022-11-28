@@ -37,6 +37,7 @@ Switches:
       --geo-json     Output Geo.json
       --flightplan   Output flightplan
       --skyvector    Output Sky Vector URL
+      --markdown     Save Markdown file
       --help         This help
 ```
 
