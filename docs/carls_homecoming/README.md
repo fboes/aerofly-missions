@@ -5,7 +5,7 @@ Carl has passed away at age 92. After living a life full of adventures, moving b
 
 Being a close friend to him, your name came up in his testament. You are to carry his urn to the important places in his life - in his beloved private plane, a [Pitts S-2](https://en.wikipedia.org/wiki/Pitts_Special). Well, and you are forbidden to use any modern navigation devices. Carl was always an old-schooler.
 
-So take a seat in Carl's Pitts S-2, and starting in Hamburg-Finkenwerder travel up to Denmark, Sweden and Finnland.
+So take a seat in Carl's Pitts S-2, and starting in Hamburg travel up to Denmark, Sweden and finally Finnland.
 
 Installation
 ------------
@@ -26,17 +26,40 @@ and rename the old file `_custom_missions.tmc` back to `custom_missions.tmc`.
 In case your Aerofly FS 4 installation gets damaged in this process, consider
 a fresh installation.
 
-About Carl
-----------
-
-Born on the Åland Islands in the 1930's, young Carl had always a passion for adventure… and engineering. Working for Saab and Airbus, he lived in Stockholm, Linköping and Hamburg.
-
 The tour
 --------
 
 Each leg is about 130 kilometres (70 nautical miles). Which is just as well, because the Pitts was never built for cross-country flights, with its tiny fuel tank limited to about 120 nautical miles of full throttle flight.
 
-You are going to visit:
+Your flights:
+
+1. [00: Get to know the Pitts S-2](./00_get_to_know_the_pitts_s-2.md)
+1. [01: Off to Ærø](./01_off_to_aeroe.md)
+1. [02: Bridge to København](#)
+1. [03: Crossing to Sweden](#)
+1. [04: Letters to America](#)
+1. [05: The Swedish Hinterlands](#)
+1. [06: The Lake where Gripens play](#)
+1. [07: Carl's Toyland](#)
+1. [08: Outskirts of Stockholm](#)
+1. [09: Finally! Stockholm!](#)
+1. [10: Åland Homecoming](#)
+
+Legal stuff
+-----------
+
+Author: [Frank Boës](https://3960.org)
+
+Copyright & license: See [LICENSE.txt](../../LICENSE.txt)
+
+This file is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the [LICENSE.txt](LICENSE.txt), this tool comes with no warranty and might damage your files.
+
+----
+
+About Carl
+----------
+
+Born on the Åland Islands in the 1930's, young Carl had always a passion for adventure… and engineering. Working for Saab and Airbus, he lived in Stockholm, Linköping and Hamburg.
 
 1. [Hamburg](https://en.wikipedia.org/wiki/Hamburg)
 1. [København](https://en.wikipedia.org/wiki/Copenhagen)
@@ -47,8 +70,6 @@ You are going to visit:
 
 Technique
 ---------
-
-The Pitts S-2 is a [tail dragger](https://de.wikipedia.org/wiki/Tail_Dragger) - so [landing techniques](https://www.youtube.com/watch?v=5BwvCvieZN4) are somewhat difficult to master. You will practice quiet a few go-arounds.
 
 You may also have to brush up on your [VFR skills](https://journal.3960.org/posts/2019-09-22-vfr-ohne-technischen-schnickschnack/).
 

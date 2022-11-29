@@ -1,5 +1,27 @@
 import { BashColors } from "./BashColors.js";
 
+export const asciify = (string: string) => {
+  return string.toLowerCase().replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
+    return s.replace(/[äåæ]/g, 'ae')
+      .replace(/[áàâã]/, 'a')
+      .replace(/[öøœ]/, 'oe')
+      .replace(/[óòôõ]/, 'o')
+      .replace(/[ü]/, 'ue')
+      .replace(/[úùû]/, 'u')
+      .replace(/[ëéèê]/, 'e')
+      .replace(/[ïíìî]/, 'i')
+      .replace(/[ÿý]/, 'y')
+      .replace(/[ñ]/, 'n')
+      .replace(/[ß]/, 'ss')
+      ;
+  })
+    .replace(/[!?.'":;]/g, '')
+    .replace(/\s/g, '_')
+    .replace(/[^a-z0-9-_]/g, '-')
+    .replace(/(-)-+/g, '$1')
+    ;
+}
+
 export class Arguments {
   source: string;
   target: string;
@@ -95,10 +117,7 @@ export class Arguments {
   }
 
   protected getSafeFilename(filename: string): string {
-    return filename
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "_")
-      .substring(0, 32);
+    return asciify(filename).substring(0, 32);
   }
 
   helpText(c: BashColors): string {
@@ -117,9 +136,9 @@ ${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic declination used for waypo
 Switches:
 ${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,
 ${c.lightBlue}                    ${c.reset} but add mission to already existing file
-${c.lightBlue}      --geo-json    ${c.reset} Output Geo.json
 ${c.lightBlue}      --flightplan  ${c.reset} Output flightplan
 ${c.lightBlue}      --skyvector   ${c.reset} Output Sky Vector URL
+${c.lightBlue}      --geo-json    ${c.reset} Save GeoJSON file
 ${c.lightBlue}      --markdown    ${c.reset} Save Markdown file
 ${c.lightBlue}      --no-color    ${c.reset} Disable colors in output
 ${c.lightBlue}      --help        ${c.reset} This help
