@@ -16,7 +16,7 @@ To install this custom mission file:
 2. Open up the `missions` folder.
 3. Rename `custom_missions.tmc` to any other file name,
    e.g. `_custom_missions.tmc`.
-4. Place the [`custom_missions.tmc`](custom_missions.tmc) in the `missions` folder.
+4. Place the [`custom_missions.tmc`](./custom_missions.tmc) in the `missions` folder.
 5. On starting Aerofly FS 4, all your custom missions will be loaded from the 
    new `custom_missions.tmc`.
 
@@ -52,7 +52,7 @@ Author: [Frank Boës](https://3960.org)
 
 Copyright & license: See [LICENSE.txt](../../LICENSE.txt)
 
-This file is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the [LICENSE.txt](LICENSE.txt), this tool comes with no warranty and might damage your files.
+This file is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the [LICENSE.txt](../../LICENSE.txt), this tool comes with no warranty and might damage your files.
 
 ----
 
