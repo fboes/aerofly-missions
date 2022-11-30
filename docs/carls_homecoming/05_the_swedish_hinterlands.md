@@ -29,17 +29,17 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=57.67479433048351,
 
 ### Checkpoints
 
-|     | Waypoint  | Frequency  | Altitude  | DTK  | HDG  | Distance |   ETE |
-|:---:|-----------|-----------:|----------:|-----:|-----:|---------:|------:|
-| 01. | ESGG      |            |    506 ft |      |      |          |       |
-| 02. | 21        |            |    506 ft | 001° | 001° |   1.0 NM | 01:57 |
-| 03. | W-3429    |            |  3,500 ft | 085° | 086° |  17.7 NM | 06:56 |
-| 04. | LUKAX     |            |  3,500 ft | 083° | 083° |   9.8 NM | 03:51 |
-| 05. | OA        |            |  3,500 ft | 076° | 076° |  31.6 NM | 12:20 |
-| 06. | 19        |            |    738 ft | 197° | 198° |   3.8 NM | 01:31 |
-| 07. | ESGJ      |            |    741 ft | 197° | 197° |   0.5 NM | 01:06 |
-|     | **Total** |      |     |           |      | **63.5 NM** | **27:38** |
+|     | Waypoint  | Altitude  | DTK  | HDG  | Distance |   ETE |
+|:---:|-----------|----------:|-----:|-----:|---------:|------:|
+| 01. | ESGG      |    506 ft |      |      |          |       |
+| 02. | 21        |    506 ft | 001° | 001° |   1.0 NM | 01:57 |
+| 03. | W-3429    |  3,500 ft | 085° | 086° |  17.7 NM | 06:56 |
+| 04. | LUKAX     |  3,500 ft | 083° | 083° |   9.8 NM | 03:51 |
+| 05. | OA        |  3,500 ft | 076° | 076° |  31.6 NM | 12:20 |
+| 06. | 19        |    738 ft | 197° | 198° |   3.8 NM | 01:31 |
+| 07. | ESGJ      |    741 ft | 197° | 197° |   0.5 NM | 01:06 |
+|     | **Total** |           |      |      | **63.5 NM** | **27:38** |
 
 ----
 
-[Previous mission](./04_letters_to_america.md) | [Mission overview](./README.md) | [Next mission](#)
+[Previous mission](./04_letters_to_america.md) | [Mission overview](./README.md) | [Next mission](./06_the_lake_where_gripens_play.md)
