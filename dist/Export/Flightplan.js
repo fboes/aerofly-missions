@@ -52,7 +52,7 @@ export class Flightplan extends Outputtable {
         else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
             sunColor = this.clr.lightRed;
         }
-        return sunColor + ' ' + super.outputSunState(sunState) + this.clr.reset;
+        return sunColor + ' ' + (super.outputSunState(sunState).toUpperCase()) + this.clr.reset;
     }
     outputDateTime(date) {
         return super.outputDateTime(date).replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);

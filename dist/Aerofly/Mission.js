@@ -386,6 +386,8 @@ export class Mission {
                 <[stringt8c] [destination_icao]   [${this.destination_icao}]>
                 <[tmvector2d][destination_lon_lat][${this.destination_lon_lat}]>
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
+                //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>
+                //<[float64]   [cruise_speed]       [${this.cruise_speed}]>
 ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
 `;
         this.checkpoints.forEach((c, i) => {

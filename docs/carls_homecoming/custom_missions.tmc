@@ -619,14 +619,13 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                         <[float64][time_hours][7.333333]>
                     >
                     <[float64][wind_direction][250]>
-                    <[float64][wind_speed][12.999991373088001]> // kts
-                    <[float64][wind_gusts][15.469989733974721]> // kts
-                    <[float64][turbulence_strength][0.19]>
-                    <[float64][thermal_strength][0.32]>
-                    <[float64][visibility][10000]> // meters
-                    <[float64][cloud_cover][0.67]>
+                    <[float64][wind_speed][2.0000024755920003]> // kts
+                    <[float64][wind_gusts][4.500002475592]> // kts
+                    <[float64][turbulence_strength][0.1]>
+                    <[float64][thermal_strength][0]>
+                    <[float64][visibility][15000]> // meters
+                    <[float64][cloud_cover][0.45]>
                     <[float64][cloud_base][304.79999024640034]> // meters AGL
-                    // <[string8u][flight_category][MVFR]>
                 >
                 <[list_tmmission_checkpoint][checkpoints][]
                     <[tmmission_checkpoint][element][0]

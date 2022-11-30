@@ -11,11 +11,11 @@ export class MissionCheckpoint {
         this.altitude = 0;
         /**
          * True course in degrees to fly from last point to this point.
-         * -1 on first, but seem rather unrelevant
+         * -1 on first, but seems rather unrelevant
          */
         this.direction = -1;
         /**
-         * Distance in nautical miles to fly from last point to this point.
+         *  Not official: Distance in nautical miles to fly from last point to this point.
          *-1 on first
          */
         this.distance = -1;

@@ -31,7 +31,7 @@ export class Outputtable {
         else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
             sunSymbol = '☾';
         }
-        return sunSymbol + ' ' + sunState.sunState.toUpperCase() + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°';
+        return sunSymbol + ' ' + sunState.sunState + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°';
     }
     getWind(conditions) {
         let wind_speed = conditions.wind_speed.toFixed();
