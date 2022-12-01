@@ -98,7 +98,7 @@
 // -----------------------------------------------------------------------------
             <[tmmission_definition][mission][]
                 <[string8][title][01: Off to Ærø]>
-                <[string8][description][It's a weekend, so your free to cross the German and Danish airforce training areas. Just keep above 1,000 and below 3,500 MSL.]>
+                <[string8][description][It's a weekend, so you are free to cross the German and Danish airforce training areas. Just keep above 1,000 and below 3,500 MSL.]>
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
@@ -1064,7 +1064,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[stringt8c] [callsign]           [D-EUJS]>
                 <[stringt8c] [origin_icao]        [ESKN]>
                 <[tmvector2d][origin_lon_lat]     [16.927816 58.784540]>
-                <[float64]   [origin_dir]         [270]>
+                <[float64]   [origin_dir]         [90]>
                 <[stringt8c] [destination_icao]   [ESSB]>
                 <[tmvector2d][destination_lon_lat][17.942222 59.354444]>
                 <[float64]   [destination_dir]    [306.85722502589897]>

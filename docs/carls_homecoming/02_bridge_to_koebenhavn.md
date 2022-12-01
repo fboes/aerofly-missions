@@ -1,7 +1,7 @@
 02: Bridge to København
 ==================
 
-Starting from Ærø, we fly along the Storebælt Bridge before landing in the medieval capital of Denmark, Roskilde.
+Starting from Ærø, we fly along the [Storebælt Bridge](https://en.wikipedia.org/wiki/Great_Belt_Bridge) before landing in the medieval capital of Denmark, Roskilde.
 
 Flight briefing
 ---------------
@@ -43,4 +43,4 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=54.85408665805144,
 
 ----
 
-[Previous mission](./02_bridge_to_koebenhavn.md) | [Mission overview](./README.md) | [Next mission](./03_crossing_to_sweden.md)
+[Previous mission](./01_off_to_aeroe.md) | [Mission overview](./README.md) | [Next mission](./03_crossing_to_sweden.md)

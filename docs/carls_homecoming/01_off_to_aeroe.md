@@ -1,7 +1,9 @@
 01: Off to Ærø
 ==================
 
-It's a weekend, so your free to cross the German and Danish airforce training areas. Just keep above 1,000 and below 3,500 MSL.
+It's a weekend, and your are leaving the beautiful city of [Hamburg](https://en.wikipedia.org/wiki/Hamburg). You are free to cross the German and Danish airforce training areas. Just keep above 1,000 and below 3,500 MSL.
+
+You may also have to brush up on your [VFR skills](https://journal.3960.org/posts/2019-09-22-vfr-ohne-technischen-schnickschnack/).
 
 Flight briefing
 ---------------

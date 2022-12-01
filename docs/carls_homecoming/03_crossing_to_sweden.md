@@ -1,7 +1,7 @@
 03: Crossing to Sweden
 ==================
 
-Flying around the busiest airport of Denmark requires you to fly above 1500 MSL. But you get to see Øresund Bridge,linking the twin cities of København and Malmö.
+Beautiful [København](https://en.wikipedia.org/wiki/Copenhagen)! Flying around the busiest airport of Denmark requires you to fly above 1500 MSL. But you get to see [Øresund Bridge](https://en.wikipedia.org/wiki/%C3%98resund_Bridge), linking the twin cities of København and Malmö.
 
 Later on you cross the Øresund between the twin cities of Helsingør and Helsingborg.
 

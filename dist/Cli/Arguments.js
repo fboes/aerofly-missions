@@ -1,7 +1,7 @@
 export const asciify = (string) => {
     return string.toLowerCase().replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
-        return s.replace(/[äåæ]/g, 'ae')
-            .replace(/[áàâã]/, 'a')
+        return s.replace(/[äæ]/g, 'ae')
+            .replace(/[åáàâã]/, 'a')
             .replace(/[öøœ]/, 'oe')
             .replace(/[óòôõ]/, 'o')
             .replace(/[ü]/, 'ue')

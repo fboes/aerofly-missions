@@ -37,19 +37,19 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 ### Aircraft
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
-|---------------|----------------|----------------|-------------------|
-| ${m.aircraft_icao} | ${m.callsign} | ${this.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString('en')} ft |
+|---------------|----------------|---------------:|------------------:|
+| ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${this.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString('en').padStart(14)} ft |
 
 ### Weather
 
-| Wind | Clouds | Visibility | Flight rules |
-|------|--------|------------|--------------|
+| Wind         | Clouds          | Visibility       | Flight rules |
+|--------------|-----------------|------------------|--------------|
 | ${this.getWind(m.conditions)} kts | ${m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + ' ft'} | ${m.conditions.visibility.toLocaleString('en') + ' m / ' + Math.round(m.conditions.visibility_sm)} SM | ${m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)} |
 
 ### Airports
 
-|             | Location | Date & time | Local solar time | Sun |
-|-------------|----------|-------------|------------------|-----|
+|             | Location                                   | Date & time    | Local solar time | Sun |
+|-------------|--------------------------------------------|----------------|------------------|-----|
 | Origin      | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time_object)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
 | Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
@@ -79,7 +79,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
       ]);
     })
     markdown += this.outputLine([
-      '   ', '**Total**', '    ', '   ', '         ', '    ',
+      '   ', '**Total**', '          ', '         ', '    ', '    ',
       '**' + this.pad(total_distance, 4, 1) + ' NM**',
       '**' + this.convertHoursToMinutesString(total_time_enroute) + '**'
     ]);

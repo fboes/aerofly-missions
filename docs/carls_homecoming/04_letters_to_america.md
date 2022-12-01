@@ -1,7 +1,7 @@
 04: Letters to America
 ==================
 
-On this windy day heading north along the E6 highway you pass the famous VLF radio station Grimeton - back than the only link to send messages to relatives in the United States. Avoiding the restricted airspace around the nuclear power plant Ringehals, you will end your flight in Göteborg.
+On this windy day heading north along the E6 highway you pass the famous [Grimeton VLF Radio Station](https://en.wikipedia.org/wiki/Grimeton_Radio_Station) - back than the only link to send messages to relatives in the United States. Avoiding the restricted airspace around the nuclear power plant Ringehals, you will end your flight in [Göteborg](https://en.wikipedia.org/wiki/Gothenburg).
 
 Flight briefing
 ---------------
@@ -42,4 +42,4 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=56.28662121770193,
 
 ----
 
-[Previous mission](./03_crossing_to_sweden.md) | [Mission overview](./README.md) | [Next mission](#)
+[Previous mission](./03_crossing_to_sweden.md) | [Mission overview](./README.md) | [Next mission](./05_the_swedish_hinterlands.md)
