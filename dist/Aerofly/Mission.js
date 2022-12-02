@@ -143,7 +143,7 @@ export class Mission {
                 break;
             case "mb339":
                 this.aircraft_icao = "M339";
-                this.callsign = 'UAF-431';
+                this.callsign = 'FPR-456';
                 this.cruise_speed = 320;
                 break;
             case "pitts":

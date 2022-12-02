@@ -34,7 +34,7 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.249866977435666
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
 |---------------|----------------|---------------:|------------------:|
-| M339          | UAF-431        |        320 kts |          4,000 ft |
+| M339          | FPR-456        |        320 kts |          4,000 ft |
 
 ### Weather
 
