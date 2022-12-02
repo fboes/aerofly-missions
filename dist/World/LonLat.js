@@ -107,3 +107,30 @@ LonLat.CONTINENT_AFRICA = 'AF';
 LonLat.CONTINENT_ASIA = 'AS';
 LonLat.CONTINENT_AUSTRALIA = 'AUS';
 LonLat.CONTINENT_OTHER = 'OT';
+export class LonLatArea {
+    constructor(lonLat) {
+        this.coordinates = [];
+        this.min = new LonLat(lonLat.lon, lonLat.lat);
+        this.max = new LonLat(lonLat.lon, lonLat.lat);
+    }
+    push(lonLat) {
+        this.min.lon = Math.min(this.min.lon, lonLat.lon);
+        this.min.lat = Math.min(this.min.lat, lonLat.lat);
+        this.max.lon = Math.max(this.max.lon, lonLat.lon);
+        this.max.lat = Math.max(this.max.lat, lonLat.lat);
+    }
+    get center() {
+        return new LonLat((this.min.lon + this.max.lon) / 2, (this.min.lat + this.max.lat) / 2);
+    }
+    get lonRange() {
+        return this.max.lon - this.min.lon;
+    }
+    get latRange() {
+        return this.max.lat - this.min.lat;
+    }
+    get zoomLevel() {
+        const maxRange = Math.max(this.lonRange, this.latRange * 2); // 0..360
+        const zoom = 8;
+        return Math.floor(3 + zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 3..19
+    }
+}

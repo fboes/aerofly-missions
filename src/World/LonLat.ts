@@ -1,10 +1,10 @@
 export class LonLat {
   /**
-   * In degrees. Positive for East, negative for West
+   * In degrees, -180..180. Positive for East, negative for West
    */
   lon: number;
   /**
-   * In degrees. Positive for North, negative for South
+   * In degrees, -90..90. Positive for North, negative for South
    */
   lat: number;
 
@@ -128,5 +128,45 @@ export class LonLat {
 
     const phi = Math.atan(coordinates[2] / ((1.0 - e2) * rho));
     return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI);
+  }
+}
+
+export class LonLatArea {
+  protected coordinates: LonLat[] = [];
+  min: LonLat;
+  max: LonLat;
+
+  constructor(lonLat: LonLat) {
+    this.min = new LonLat(lonLat.lon, lonLat.lat);
+    this.max = new LonLat(lonLat.lon, lonLat.lat);
+  }
+
+  push(lonLat: LonLat) {
+    this.min.lon = Math.min(this.min.lon, lonLat.lon)
+    this.min.lat = Math.min(this.min.lat, lonLat.lat)
+    this.max.lon = Math.max(this.max.lon, lonLat.lon)
+    this.max.lat = Math.max(this.max.lat, lonLat.lat)
+  }
+
+  get center(): LonLat {
+    return new LonLat(
+      (this.min.lon + this.max.lon) / 2,
+      (this.min.lat + this.max.lat) / 2
+    );
+  }
+
+  get lonRange(): number {
+    return this.max.lon - this.min.lon;
+  }
+
+  get latRange(): number {
+    return this.max.lat - this.min.lat;
+  }
+
+  get zoomLevel(): number {
+    const maxRange = Math.max(this.lonRange, this.latRange * 2); // 0..360
+    const zoom = 8;
+
+    return Math.floor(3 + zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 3..19
   }
 }
