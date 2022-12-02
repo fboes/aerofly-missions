@@ -27,7 +27,7 @@ export class LonLat {
      * Returns N or S
      */
     get latHemisphere() {
-        return this.lon > 0 ? 'N' : 'S';
+        return this.lat > 0 ? 'N' : 'S';
     }
     get continent() {
         if (this.lon < -24) {

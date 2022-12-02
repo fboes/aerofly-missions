@@ -5,6 +5,7 @@ export class SkyVector {
   constructor(protected mission: Mission) { }
 
   deg(deg: number): number {
+    deg = Math.abs(deg);
     return Math.floor(deg) + ((deg % 1) / 100) * 60;
   }
 
@@ -25,11 +26,11 @@ export class SkyVector {
 
         // 5831N01558E
         return (
-          Math.abs(this.deg(c.lon_lat.lat) * 100)
+          (this.deg(c.lon_lat.lat) * 100)
             .toFixed()
             .padStart(4, "0") +
           c.lon_lat.latHemisphere +
-          Math.abs(this.deg(c.lon_lat.lon) * 100)
+          (this.deg(c.lon_lat.lon) * 100)
             .toFixed()
             .padStart(5, "0") +
           c.lon_lat.lonHemisphere

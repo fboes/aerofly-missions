@@ -4,6 +4,7 @@ export class SkyVector {
         this.mission = mission;
     }
     deg(deg) {
+        deg = Math.abs(deg);
         return Math.floor(deg) + ((deg % 1) / 100) * 60;
     }
     /**
@@ -19,11 +20,11 @@ export class SkyVector {
                 return c.name;
             }
             // 5831N01558E
-            return (Math.abs(this.deg(c.lon_lat.lat) * 100)
+            return ((this.deg(c.lon_lat.lat) * 100)
                 .toFixed()
                 .padStart(4, "0") +
                 c.lon_lat.latHemisphere +
-                Math.abs(this.deg(c.lon_lat.lon) * 100)
+                (this.deg(c.lon_lat.lon) * 100)
                     .toFixed()
                     .padStart(5, "0") +
                 c.lon_lat.lonHemisphere);

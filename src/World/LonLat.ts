@@ -49,7 +49,7 @@ export class LonLat {
    * Returns N or S
    */
   get latHemisphere(): string {
-    return this.lon > 0 ? 'N' : 'S';
+    return this.lat > 0 ? 'N' : 'S';
   }
 
   get continent(): string {
