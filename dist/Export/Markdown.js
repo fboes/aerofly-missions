@@ -29,6 +29,8 @@ export class Markdown extends Outputtable {
 
 ${m.description}
 
+> This is a custom mission for [Aerofly FS 4](https://www.aerofly.com/).
+
 Flight briefing
 ---------------
 

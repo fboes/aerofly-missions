@@ -7,6 +7,8 @@ Being a close friend to him, your name came up in his testament. You are to carr
 
 So take a seat in Carl's Pitts S-2, and starting in Hamburg travel up to Denmark, Sweden and finally Finnland.
 
+> This is a custom mission for [Aerofly FS 4](https://www.aerofly.com/).
+
 Installation
 ------------
 

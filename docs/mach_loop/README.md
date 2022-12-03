@@ -5,6 +5,8 @@ Do you have what it takes to fly [the Mach Loop](https://machloop.co.uk/)? Strap
 
 How to fly the Mach Loop? Have a look at this [video of a BAe Hawk flying the Mach Loop](https://www.youtube.com/watch?v=uTxxXv9XhbM). Because of the speed you will have to memorize your flight plan.
 
+> This is a custom mission for [Aerofly FS 4](https://www.aerofly.com/).
+
 Installation
 ------------
 
