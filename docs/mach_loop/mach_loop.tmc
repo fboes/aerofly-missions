@@ -3,10 +3,8 @@
         <[list_tmmission_definition][missions][]
 // -----------------------------------------------------------------------------
             <[tmmission_definition][mission][]
-                <[string8][title][Mach Loop]>
-                <[string8][description][A noon flight from EGOV to EGOV under VFR conditions. Wind is 12 kts from 170°.
-
-13: 109.70 MHz, DTK 289°]>
+                <[string8][title][Tales from the Mach Loop]>
+                <[string8][description][Do you have what it takes to fly the Mach Loop? Strap into your combat jet trainer and experience the thrill of low level flying at 400 knots in the mountains of Wales, an official Royal Air Force low level flight training area.]>
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [mb339]>
                 <[stringt8c] [aircraft_icao]      [M339]>

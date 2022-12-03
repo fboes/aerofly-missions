@@ -75,3 +75,12 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.24984430214315,
 |     | **Total** |            |           |      |      | **124.2 NM** | **25:25** |
 
 VOR `VYL` located at EGOV, 108.40 Mhz
+
+Legal stuff
+-----------
+
+Author: [Frank Boës](https://3960.org)
+
+Copyright & license: See [LICENSE.txt](../../LICENSE.txt)
+
+This file is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the [LICENSE.txt](../../LICENSE.txt), this tool comes with no warranty and might damage your files.
