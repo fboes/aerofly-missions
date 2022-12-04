@@ -43,3 +43,5 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.784541072260765
 ----
 
 [Previous mission](./08_outskirts_of_stockholm.md) | [Mission overview](./README.md) | [Next mission](./10_aland_homecoming.md)
+
+Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

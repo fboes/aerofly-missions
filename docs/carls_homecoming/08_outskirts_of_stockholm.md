@@ -42,3 +42,5 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.40795780130591,
 ----
 
 [Previous mission](./07_carls_toyland.md) | [Mission overview](./README.md) | [Next mission](./09_finally_stockholm.md)
+
+Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

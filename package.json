@@ -6,7 +6,7 @@
   "name": "aerofly-missions",
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
-  "description": "Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.",
+  "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.",
   "version": "1.6.1",
   "exports": "./dist/aerofly-missions.js",
   "bin": {

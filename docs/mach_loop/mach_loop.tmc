@@ -3,8 +3,10 @@
         <[list_tmmission_definition][missions][]
 // -----------------------------------------------------------------------------
             <[tmmission_definition][mission][]
-                <[string8][title][Tales from the Mach Loop]>
-                <[string8][description][Do you have what it takes to fly the Mach Loop? Strap into your combat jet trainer and experience the thrill of low level flying at 400 knots in the mountains of Wales, an official Royal Air Force low level flight training area.]>
+                <[string8][title][Mach Loop]>
+                <[string8][description][A morning flight from EGOV to EGOV under VFR conditions. Wind is 13 kts from 170°.
+
+13: 109.70 MHz, DTK 289°]>
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [mb339]>
                 <[stringt8c] [aircraft_icao]      [M339]>
@@ -15,18 +17,18 @@
                 <[stringt8c] [destination_icao]   [EGOV]>
                 <[tmvector2d][destination_lon_lat][-4.535339 53.248097]>
                 <[float64]   [destination_dir]    [130.82714899311168]>
-                //<[float64]   [cruise_altitude]    [3048]>
-                //<[float64]   [cruise_speed]       [320]>
+                //<[float64]   [cruise_altitude]    [0]>
+                //<[float64]   [cruise_speed]       [350]>
                 <[tmmission_conditions][conditions][]
                     <[tm_time_utc][time][]
                         <[int32][time_year][2022]>
                         <[int32][time_month][12]>
                         <[int32][time_day][1]>
-                        <[float64][time_hours][12.952913555537]>
+                        <[float64][time_hours][9.95]>
                     >
                     <[float64][wind_direction][170]>
-                    <[float64][wind_speed][12.000007291008]> // kts
-                    <[float64][wind_gusts][16.500007291008]> // kts
+                    <[float64][wind_speed][12.999991373088001]> // kts
+                    <[float64][wind_gusts][17.499991373088]> // kts
                     <[float64][turbulence_strength][0.18]>
                     <[float64][thermal_strength][0.2]>
                     <[float64][visibility][15000]> // meters
@@ -58,7 +60,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-4022]>
                         <[vector2_float64][lon_lat][-3.644865 52.874868]>
-                        <[float64][altitude][3505.1998878336035]>
+                        <[float64][altitude][0]>
                         <[float64][direction][124.61121369963962]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -68,7 +70,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-CAD]>
                         <[vector2_float64][lon_lat][-3.825667 52.726318]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][216.41978110294156]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -78,7 +80,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-6228]>
                         <[vector2_float64][lon_lat][-3.877144 52.682907]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][215.7179645850648]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -88,7 +90,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-CORR]>
                         <[vector2_float64][lon_lat][-3.843563 52.651551]>
-                        <[float64][altitude][3505.1998878336035]>
+                        <[float64][altitude][0]>
                         <[float64][direction][146.98333497932674]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -98,7 +100,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-MACH]>
                         <[vector2_float64][lon_lat][-3.846030 52.598374]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][181.61449595386443]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -108,7 +110,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-2412]>
                         <[vector2_float64][lon_lat][-3.730159 52.631615]>
-                        <[float64][altitude][3505.1998878336035]>
+                        <[float64][altitude][0]>
                         <[float64][direction][64.6638550411775]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -117,9 +119,9 @@
                     <[tmmission_checkpoint][element][8]
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-MALL]>
-                        <[vector2_float64][lon_lat][-3.695118 52.701516]>
-                        <[float64][altitude][3505.1998878336035]>
-                        <[float64][direction][16.895596208054826]>
+                        <[vector2_float64][lon_lat][-3.688059 52.717484]>
+                        <[float64][altitude][0]>
+                        <[float64][direction][16.539366880806654]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
                         <[float64][frequency][0]>
@@ -128,8 +130,8 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-EXIT]>
                         <[vector2_float64][lon_lat][-3.772023 52.737035]>
-                        <[float64][altitude][3200.399897587203]>
-                        <[float64][direction][307.35592380541425]>
+                        <[float64][altitude][0]>
+                        <[float64][direction][291.06508371241364]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
                         <[float64][frequency][0]>
@@ -138,7 +140,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-2212]>
                         <[vector2_float64][lon_lat][-3.743119 53.051883]>
-                        <[float64][altitude][3505.1998878336035]>
+                        <[float64][altitude][0]>
                         <[float64][direction][3.1584258208823144]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -148,7 +150,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-1318]>
                         <[vector2_float64][lon_lat][-3.791614 53.071181]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][303.5316052710918]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -158,7 +160,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-1224]>
                         <[vector2_float64][lon_lat][-3.797944 53.093009]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][350.12108848432126]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -168,7 +170,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-5727]>
                         <[vector2_float64][lon_lat][-3.904953 53.103156]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][279.0175546761985]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -178,7 +180,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-5132]>
                         <[vector2_float64][lon_lat][-3.935530 53.118348]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][309.626465004135]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -188,7 +190,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-3634]>
                         <[vector2_float64][lon_lat][-4.019558 53.126109]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][278.782769646263]>
                         <[float64][slope][0]>
                         <[float64][length][0]>
@@ -198,7 +200,7 @@
                         <[string8u][type][waypoint]>
                         <[string8u][name][W-2453]>
                         <[vector2_float64][lon_lat][-4.083116 53.186076]>
-                        <[float64][altitude][3200.399897587203]>
+                        <[float64][altitude][0]>
                         <[float64][direction][327.5876705827864]>
                         <[float64][slope][0]>
                         <[float64][length][0]>

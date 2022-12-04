@@ -1,7 +1,7 @@
-![](docs/favicon-64x64.png) Aerofly Missions
+![](docs/favicon-64x64.png) Aerofly Missionsgerät
 ============================================
 
-Convert `main.mcf` file of [Aerofly FS 4](https://www.aerofly.com/) into a `custom_missions.tmc` file, converting your current flight plan and other settings into a shareable mission.
+The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.
 
 Other features:
 

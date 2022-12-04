@@ -107,7 +107,9 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
     markdown += `
 ----
 
-[Previous mission](#) | [Mission overview](#) | [Next mission](#)`;
+[Previous mission](#) | [Mission overview](#) | [Next mission](#)
+
+Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)`;
 
     return markdown;
   }

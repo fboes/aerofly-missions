@@ -48,3 +48,5 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=55.591431052724666
 ----
 
 [Previous mission](./02_bridge_to_koebenhavn.md) | [Mission overview](./README.md) | [Next mission](./04_letters_to_america.md)
+
+Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)
