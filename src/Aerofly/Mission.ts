@@ -119,6 +119,7 @@ export class Mission {
    *
    * @see https://www.icao.int/publications/doc8643/pages/search.aspx
    * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
+   * @see http://c-aviation.net/military-callsigns/
    */
   set aircraft_name(aircraft_name: string) {
     this._aircraft_name = aircraft_name.toLowerCase();
@@ -147,10 +148,12 @@ export class Mission {
         break;
       case "f15e":
         this.aircraft_icao = "F15";
+        this.callsign = 'ASJ0494';
         this.cruise_speed = 570;
         break;
       case "f18":
         this.aircraft_icao = "F18H";
+        this.callsign = 'VVAC260';
         this.cruise_speed = 570;
         break;
       case "f4u":
@@ -168,7 +171,7 @@ export class Mission {
         break;
       case "mb339":
         this.aircraft_icao = "M339";
-        this.callsign = 'UAF-431'; // FPR-456
+        this.callsign = 'UAF-431';
         this.cruise_speed = 350;
         break;
       case "pitts":
@@ -177,7 +180,7 @@ export class Mission {
         this.cruise_speed = 152;
         break;
       case "a320":
-        this.callsign = 'D-AICZ';
+        this.callsign = 'LH321';
         break;
       case "b737":
         this.aircraft_icao = "B735";
@@ -190,7 +193,7 @@ export class Mission {
         break;
       case "ec135":
         this.aircraft_icao = "EC35";
-        this.callsign = 'D-HACF';
+        this.callsign = 'D-HDRS';
         this.cruise_speed = 137;
         break;
       case 'c172':
