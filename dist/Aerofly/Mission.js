@@ -321,14 +321,46 @@ export class Mission {
         this.setAutoTitleDescription(flight_category);
         return this;
     }
-    setAutoTitleDescription(flight_category = '') {
+    fromGarminFpl(gpl, magnetic_declination = 0) {
+        this.checkpoints = gpl.waypoins.map((w, i) => {
+            let cp = new MissionCheckpoint();
+            cp.lon_lat.lat = w.lat;
+            cp.lon_lat.lon = w.lon;
+            cp.name = w.identifier;
+            if (w.type === 'AIRPORT') {
+                cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
+            }
+            cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
+            if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
+                cp.ground_speed = this.cruise_speed;
+            }
+            if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
+                cp.ground_speed = 30;
+            }
+            return cp;
+        });
+        const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+        this.calculateDirectionForCheckpoints(flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
+        this.origin_icao = this.checkpoints[0].name;
+        this.origin_dir = this.checkpoints[1].direction;
+        this.origin_lon_lat = this.checkpoints[0].lon_lat;
+        const checkpointDestination = this.checkpoints.find(c => {
+            return c.type === MissionCheckpoint.TYPE_DESTINATION;
+        }) || this.checkpoints[this.checkpoints.length - 1];
+        this.destination_icao = checkpointDestination.name;
+        this.destination_dir = checkpointDestination.direction;
+        this.destination_lon_lat = checkpointDestination.lon_lat;
+        this.setAutoTitleDescription(flight_category, true);
+        return this;
+    }
+    setAutoTitleDescription(flight_category = '', force = false) {
         if (flight_category === '') {
             flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
         }
-        if (this.title === "" || this.title === "Custom missions") {
+        if (this.title === "" || this.title === "Custom missions" || force) {
             this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
         }
-        if (this.description === "") {
+        if (this.description === "" || force) {
             const localTime = this.getLocalDaytime();
             this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao} under ${flight_category} conditions.`;
             this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;

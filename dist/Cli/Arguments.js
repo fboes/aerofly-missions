@@ -32,6 +32,8 @@ export class Arguments {
         this.title = "Custom missions";
         this.description = "";
         this.target = "";
+        this.garmin = "";
+        this.msfs = "";
         this.direction = -1;
         this.ils = 0;
         this.magneticDeclination = 0;
@@ -75,6 +77,13 @@ export class Arguments {
                     case "t":
                         this.target = a;
                         break;
+                    case "garmin":
+                    case "g":
+                        this.garmin = a;
+                        break;
+                    case "msfs":
+                        this.msfs = a;
+                        break;
                     case "title":
                         this.title = a;
                         break;
@@ -115,6 +124,8 @@ ${c.lightBlue}      --description ${c.reset} Description of your mission; line b
 ${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
 ${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of aircraft; defaults to \`${this.direction}\`
 ${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
+${c.lightBlue}  -g, --garmin      ${c.reset} Location of an optional Garmin FPL file
+${c.lightBlue}      --msfs        ${c.reset} Location of an optional MSFS PLN file
 
 Switches:
 ${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,

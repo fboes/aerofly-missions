@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>EGOV to EGOV</Title>
+        <FPType>VFR</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>2500</CruisingAlt>
+        <DepartureID>EGOV</DepartureID>
+        <DepartureLLA>N53° 15' 11.59",W4° 32' 42.88",+000025.00</DepartureLLA>
+        <DestinationID>EGOV</DestinationID>
+        <DestinationLLA>N53° 14' 48.24",W4° 32' 7.71",+000025.00</DestinationLLA>
+        <Descr>EGOV, EGOV</Descr>
+        <DeparturePosition>13</DeparturePosition>
+        <DepartureName>Valley AB</DepartureName>
+        <DestinationName>Valley AB</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="EGOV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N53° 14' 48.24",W4° 32' 7.71",+000025.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>EGOV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="1.BARM">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 43' 2.91",W4° 3' 30.03",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="2.DOLG">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 45' 7.51",W3° 53' 2.16",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="3.MACH">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 42' 46.06",W3° 50' 22.73",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="4.MWYN">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 40' 57.45",W3° 52' 51.66",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="5.CORS">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 39' 5.77",W3° 50' 20.87",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="6.MCHN">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 36' 19.98",W3° 50' 47.44",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="7.CMIS">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 38' 17.78",W3° 43' 22.50",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="8.DNAS">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 42' 27.34",W3° 41' 6.54",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="9.EXIT">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 44' 21.12",W3° 47' 44.52",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="10.POSN">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N52° 55' 27.20",W3° 56' 24.86",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="11.A5EN">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N53° 6' 25.98",W3° 54' 28.68",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="12.OGWE">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N53° 7' 26.81",W4° 1' 6.66",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="13.MENI">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N53° 13' 12.79",W4° 9' 46.54",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="14.FRST">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N53° 10' 9.89",W4° 23' 51.16",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="EGOV">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N53° 14' 48.24",W4° 32' 7.71",+000025.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>EGOV</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

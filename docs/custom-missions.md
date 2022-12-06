@@ -30,6 +30,8 @@ Parameters:
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of aircraft
   -m, --magnetic     Magnetic declination used for waypoints
+  -g, --garmin       Location of an optional Garmin FPL file
+      --msfs         Location of an optional MSFS PLN file
 
 Switches:
   -a  --append       Do not export mission list with a single mission,
