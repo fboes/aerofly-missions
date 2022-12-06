@@ -29,7 +29,7 @@ export class Markdown extends Outputtable {
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-
+    const zoomLevel = this.lonLatArea.zoomLevel
     const center = this.lonLatArea.center;
     let markdown = `${m.title}
 ==================
@@ -41,7 +41,7 @@ ${m.description}
 Flight briefing
 ---------------
 
-Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=${center.lat},${center.lon}&zoom=${this.lonLatArea.zoomLevel}&basemap=terrain).
+Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=${center.lat},${center.lon}&zoom=${zoomLevel}&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}).
 
 ### Aircraft
 

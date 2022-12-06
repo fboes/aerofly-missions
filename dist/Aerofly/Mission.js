@@ -12,7 +12,7 @@ export class Mission {
          * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
          */
         this._description = '';
-        this._flight_setting = "taxi";
+        this._flight_setting = Mission.FLIGHT_SETTING_TAXI;
         /**
          * Internal Aerofly name of aircraft type.
          */
@@ -143,13 +143,16 @@ export class Mission {
                 break;
             case "mb339":
                 this.aircraft_icao = "M339";
-                this.callsign = 'FPR-456';
+                this.callsign = 'UAF-431'; // FPR-456
                 this.cruise_speed = 350;
                 break;
             case "pitts":
                 this.aircraft_icao = "PTS2";
                 this.callsign = 'D-EUJS';
                 this.cruise_speed = 152;
+                break;
+            case "a320":
+                this.callsign = 'D-AICZ';
                 break;
             case "b737":
                 this.aircraft_icao = "B735";
@@ -224,7 +227,7 @@ export class Mission {
     }
     calculateMagneticDeclination(l, magnetic_declination) {
         // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
-        // Formula for parts of Europe and Aerofly
+        // Formula for parts of Europe and Aerofly FS 4
         return (!magnetic_declination && l.lon > -10 && l.lon < 26 && l.lat > 45)
             ? (7 / 22) * l.lon - 3.4
             : magnetic_declination;
@@ -312,6 +315,13 @@ export class Mission {
         if (ils) {
             checkpointDestinationRunway.frequency_mhz = ils;
         }
+        this.setAutoTitleDescription(flight_category);
+        return this;
+    }
+    setAutoTitleDescription(flight_category = '') {
+        if (flight_category === '') {
+            flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+        }
         if (this.title === "" || this.title === "Custom missions") {
             this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
         }
@@ -331,7 +341,6 @@ export class Mission {
                 this.description += "\n\n" + navDescription;
             }
         }
-        return this;
     }
     calculateDirectionForCheckpoints(isVfr = true) {
         let lastC = null;
