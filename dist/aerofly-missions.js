@@ -84,9 +84,7 @@ if (args.markdown) {
     }
 }
 try {
-    await fs.writeFile(args.target, args.append ? mission.toString() : missionList.toString(), {
-        flag: args.append ? 'a' : 'w'
-    });
+    await fs.writeFile(args.target, args.missionOnly ? mission.toString() : missionList.toString());
     process.stdout.write(c.green + args.target + " written successfully" + c.reset + "\n");
     process.exit(0);
 }

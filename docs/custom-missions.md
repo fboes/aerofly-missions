@@ -29,12 +29,12 @@ Parameters:
       --description  Description of your mission; line breaks allowed
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of aircraft
-  -m, --magnetic     Magnetic declination used for waypoints
+      --magnetic     Magnetic declination used for waypoints
   -g, --garmin       Location of an optional Garmin FPL file
       --msfs         Location of an optional Microsoft FS PLN file
 
 Switches:
-  -a  --append       Do not export mission list with a single mission,
+  -m  --mission-only Do not export mission list with a single mission,
                      but add mission to already existing file
       --flightplan   Output flightplan
       --skyvector    Output Sky Vector URL

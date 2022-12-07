@@ -32,7 +32,7 @@ export class Arguments {
   ils: number;
   direction: number;
   help: boolean = false;
-  append: boolean = false;
+  missionOnly: boolean = false;
   geoJson: boolean = false;
   flightplan: boolean = false;
   useColors: boolean = true;
@@ -63,9 +63,9 @@ export class Arguments {
           case 'help':
             this.help = true;
             break;
-          case 'a':
-          case 'append':
-            this.append = true;
+          case 'm':
+          case 'mission-only':
+            this.missionOnly = true;
             break;
           case 'geo-json':
             this.geoJson = true;
@@ -111,7 +111,6 @@ export class Arguments {
             this.direction = Number(a);
             break;
           case "magnetic":
-          case "m":
             this.magneticDeclination = Number(a);
             break;
           case "ils":
@@ -142,12 +141,12 @@ ${c.lightBlue}      --title       ${c.reset} Title of your mission; defaults to 
 ${c.lightBlue}      --description ${c.reset} Description of your mission; line breaks allowed; defaults to \`${this.description}\`
 ${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
 ${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of aircraft; defaults to \`${this.direction}\`
-${c.lightBlue}  -m, --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
+${c.lightBlue}      --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
 ${c.lightBlue}  -g, --garmin      ${c.reset} Location of an optional Garmin FPL file
 ${c.lightBlue}      --msfs        ${c.reset} Location of an optional Microsoft FS PLN file
 
 Switches:
-${c.lightBlue}  -a  --append      ${c.reset} Do not export mission list with a single mission,
+${c.lightBlue}  -m  --mission-only${c.reset} Do not export mission list with a single mission,
 ${c.lightBlue}                    ${c.reset} but add mission to already existing file
 ${c.lightBlue}      --flightplan  ${c.reset} Output flightplan
 ${c.lightBlue}      --skyvector   ${c.reset} Output Sky Vector URL
