@@ -9,6 +9,10 @@ export type GaminFplWaypoint = {
 
 export class GarminFpl {
   waypoins: GaminFplWaypoint[] = [];
+  /**
+   * In feet MSL
+   */
+  cruisingAlt: number = 0;
 
   constructor(protected filename: string) { }
 

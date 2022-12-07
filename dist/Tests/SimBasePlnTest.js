@@ -13,6 +13,7 @@ export class SimBasePlnTest extends Test {
             this.assertEquals(pln.waypoins[1].type, 'USER WAYPOINT');
             this.assertEquals(pln.waypoins[1].lat, 52.717475);
             this.assertEquals(pln.waypoins[1].lon.toFixed(8), '-4.05834167');
+            this.assertEquals(pln.cruisingAlt, 2500);
         }
     }
 }

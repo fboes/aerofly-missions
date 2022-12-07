@@ -9,8 +9,8 @@ Other features:
 * Export flight plan as [GeoJSON](https://geojson.org/).
 * Export flight plan as Markdown file.
 * Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
-* Import Garmin FPL file into Aerofly FS 4
-* Import MSFS PLN file into Aerofly FS 4
+* Import Garmin `fpl` Flight Plan file into Aerofly FS 4
+* Import [Microsoft FS `pln` Flight Plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) into Aerofly FS 4
 
 ![Flight plan as text briefing](docs/flightplan.png)
 

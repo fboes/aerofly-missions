@@ -3,6 +3,10 @@ export class GarminFpl {
     constructor(filename) {
         this.filename = filename;
         this.waypoins = [];
+        /**
+         * In feet MSL
+         */
+        this.cruisingAlt = 0;
     }
     read() {
         if (!fs.existsSync(this.filename)) {

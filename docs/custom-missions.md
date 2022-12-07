@@ -31,7 +31,7 @@ Parameters:
   -d, --direction    Initial orientation of aircraft
   -m, --magnetic     Magnetic declination used for waypoints
   -g, --garmin       Location of an optional Garmin FPL file
-      --msfs         Location of an optional MSFS PLN file
+      --msfs         Location of an optional Microsoft FS PLN file
 
 Switches:
   -a  --append       Do not export mission list with a single mission,

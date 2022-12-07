@@ -1,6 +1,9 @@
 import * as fs from "node:fs";
 import { LonLat } from "../World/LonLat.js";
 import { GarminFpl } from "./GarminFpl.js";
+/**
+ * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
+ */
 export class SimBasePln extends GarminFpl {
     read() {
         if (!fs.existsSync(this.filename)) {
@@ -11,6 +14,7 @@ export class SimBasePln extends GarminFpl {
             throw new Error("File is empty: " + this.filename);
         }
         const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
+        this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
         this.waypoins = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml) => {
             // N52° 45' 7.51",W3° 53' 2.16",+002500.00
             const worldPosition = this.getXmlNode(xml, "WorldPosition");
@@ -20,7 +24,7 @@ export class SimBasePln extends GarminFpl {
                 type += " WAYPOINT";
             }
             return {
-                identifier: this.getXmlAttribute(xml, "id"),
+                identifier: this.getXmlNode(xml, 'ICAOIdent') || this.getXmlAttribute(xml, "id"),
                 type: type,
                 lat: coords.lat,
                 lon: coords.lon,

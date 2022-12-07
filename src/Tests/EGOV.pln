@@ -18,7 +18,7 @@
             <AppVersionMajor>11</AppVersionMajor>
             <AppVersionBuild>282174</AppVersionBuild>
         </AppVersion>
-        <ATCWaypoint id="EGOV">
+        <ATCWaypoint id="0.EGOV">
             <ATCWaypointType>Airport</ATCWaypointType>
             <WorldPosition>N53° 14' 48.24",W4° 32' 7.71",+000025.00</WorldPosition>
             <ICAO>
@@ -81,7 +81,7 @@
             <ATCWaypointType>User</ATCWaypointType>
             <WorldPosition>N53° 10' 9.89",W4° 23' 51.16",+002500.00</WorldPosition>
         </ATCWaypoint>
-        <ATCWaypoint id="EGOV">
+        <ATCWaypoint id="15.EGOV">
             <ATCWaypointType>Airport</ATCWaypointType>
             <WorldPosition>N53° 14' 48.24",W4° 32' 7.71",+000025.00</WorldPosition>
             <ICAO>
