@@ -28,7 +28,13 @@
     "type": "git",
     "url": "git+https://github.com/fboes/aerofly-missions.git"
   },
-  "keywords": [],
+  "keywords": [
+    "aerofly-fs4",
+    "flight",
+    "simulator",
+    "cli",
+    "flightplan"
+  ],
   "bugs": {
     "url": "https://github.com/fboes/aerofly-missions/issues"
   },
