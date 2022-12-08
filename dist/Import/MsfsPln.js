@@ -4,7 +4,7 @@ import { GarminFpl } from "./GarminFpl.js";
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
  */
-export class SimBasePln extends GarminFpl {
+export class MsfsPln extends GarminFpl {
     read() {
         if (!fs.existsSync(this.filename)) {
             throw new Error("File does not exist: " + this.filename);

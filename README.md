@@ -10,7 +10,8 @@ Other features:
 * Export flight plan as Markdown file.
 * Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
 * [Import Garmin `fpl` Flight Plan file into Aerofly FS 4](docs/importing-flightplans.md).
-* [Import [Microsoft FS `pln` Flight Plan file into Aerofly FS 4](docs/importing-flightplans.md).
+* [Import Microsoft FS `pln` Flight Plan file into Aerofly FS 4](docs/importing-flightplans.md).
+* [Import X-Plane `fms` Flight Plan file into Aerofly FS 4](docs/importing-flightplans.md).
 
 ![Flight plan as text briefing](docs/flightplan.png)
 

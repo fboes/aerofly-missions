@@ -11,7 +11,8 @@ import { GeoJson } from "./Export/GeoJson.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
-import { SimBasePln } from "./Import/SimBasePln.js";
+import { MsfsPln } from "./Import/MsfsPln.js";
+import { XplaneFms } from "./Import/XplaneFms.js";
 
 const args = new Arguments(process);
 const c = new BashColors(args.useColors);
@@ -48,7 +49,17 @@ if (args.garmin) {
   mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.msfs) {
-  const fpl = new SimBasePln(args.msfs);
+  const fpl = new MsfsPln(args.msfs);
+  try {
+    fpl.read();
+  } catch (err) {
+    process.stderr.write(c.red + (err instanceof Error ? err.message : 'Unknown error') + c.reset);
+    process.exit(1);
+  }
+  mission.fromGarminFpl(fpl, args.magneticDeclination);
+}
+if (args.xplane) {
+  const fpl = new XplaneFms(args.xplane);
   try {
     fpl.read();
   } catch (err) {

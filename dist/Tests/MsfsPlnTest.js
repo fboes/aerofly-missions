@@ -1,11 +1,11 @@
 import { Test } from "../Cli/Test.js";
-import { SimBasePln } from "../Import/SimBasePln.js";
-export class SimBasePlnTest extends Test {
+import { MsfsPln } from "../Import/MsfsPln.js";
+export class MsfsPlnTest extends Test {
     constructor(process) {
         super(process);
-        this.group(SimBasePln.name);
+        this.group(MsfsPln.name);
         {
-            const pln = new SimBasePln('./src/Tests/EGOV.pln');
+            const pln = new MsfsPln('./src/Tests/EGOV.pln');
             pln.read();
             this.assertEquals(pln.waypoins.length, 16);
             this.assertEquals(pln.waypoins[0].identifier, 'EGOV');

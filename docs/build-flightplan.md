@@ -20,7 +20,7 @@ How to build in Aerofly FS 4:
    1. Weather reports
 1. Check if your plan is legal to fly under [visual flight rules](https://en.wikipedia.org/wiki/Visual_flight_rules) or [instrument flight rules](https://en.wikipedia.org/wiki/Instrument_flight_rules) rules.
 1. Set time and weather conditions in Aerofly FS 4 to match real life conditions. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.)
-1. Modify your flight plan in Aerofly FS 4. (Be aware that nav data in Aerofly FS 4 is out of date and may not match real world data.)
+1. Modify your flight plan in Aerofly FS 4. (Be aware that nav data in Aerofly FS 4 is out of date and may not match real world data.) You may want to [import the flight plan](./importing-flightplans.md).
    1. Match the waypoints from your flight planning tool.
    1. Adjust the cruise altitude.
    1. Set your departure and approach to head into the wind.
@@ -29,7 +29,7 @@ How to build in Aerofly FS 4:
 Airspaces
 ---------
 
-It is very important to know your [airspaces](https://en.wikipedia.org/wiki/Airspace_class#ICAO_definitions). Europe is tightly controlled, so check for no-fly zones and controlled airspace. As a rule of thumb try to stay below 3.000 feet MSL if you do not want to ask for clearance.
+It is very important to know your [airspaces](https://en.wikipedia.org/wiki/Airspace_class#ICAO_definitions). Europe is tightly controlled, so check for no-fly zones and controlled airspace.
 
 > * Class C/D: All aircraft are subject to ATC clearance 
 > * Class E: Aircraft operating under IFR and SVFR are subject to ATC clearance. 
@@ -38,7 +38,6 @@ To help your with your adventure:
 
 * [Flight Maps for Europe excluding Norway](https://www.openflightmaps.org/wp-content/plugins/ofmTileMap/ofmTileMap_full.php?airac=2210&language=local&coverage&controls)
 * [Flight Maps for Norway](https://www.ippc.no/ippc/index.jsp)
-* [Airport Charts for Europe](https://flightplandatabase.com/)
 
 No fly regions:
 
@@ -48,4 +47,4 @@ No fly regions:
 
 ----
 
-Back to [top](../README.md)
+Back to [top](./README.md)

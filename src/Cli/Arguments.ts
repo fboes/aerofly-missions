@@ -27,6 +27,7 @@ export class Arguments {
   target: string;
   garmin: string;
   msfs: string;
+  xplane: string;
   title: string;
   description: string;
   ils: number;
@@ -50,6 +51,7 @@ export class Arguments {
     this.target = "";
     this.garmin = "";
     this.msfs = "";
+    this.xplane = "";
     this.direction = -1;
     this.ils = 0;
     this.magneticDeclination = 0;
@@ -93,12 +95,21 @@ export class Arguments {
           case "t":
             this.target = a;
             break;
-          case "garmin":
-          case "g":
-            this.garmin = a;
-            break;
-          case "msfs":
-            this.msfs = a;
+          case "import":
+            const fileEnding = a.replace(/^.*(\.[^.]+)$/, '$1');
+            switch (fileEnding) {
+              case '.pln':
+                this.msfs = a;
+                break;
+              case '.fpl':
+                this.garmin = a;
+                break;
+              case '.fms':
+                this.xplane = a;
+                break;
+              default:
+                throw new Error("Unknown file type: " + fileEnding);
+            }
             break;
           case "title":
             this.title = a;
@@ -142,8 +153,7 @@ ${c.lightBlue}      --description ${c.reset} Description of your mission; line b
 ${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
 ${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of aircraft; defaults to \`${this.direction}\`
 ${c.lightBlue}      --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
-${c.lightBlue}  -g, --garmin      ${c.reset} Location of an optional Garmin FPL file
-${c.lightBlue}      --msfs        ${c.reset} Location of an optional Microsoft FS PLN file
+${c.lightBlue}      --import      ${c.reset} Location of an optional FPL, PLN or FMS file
 
 Switches:
 ${c.lightBlue}  -m  --mission-only${c.reset} Do not export mission list with a single mission,

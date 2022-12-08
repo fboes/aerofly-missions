@@ -1,4 +1,4 @@
-![](favicon-64x64.png) Custom missions
+![](favicon-64x64.png) Building a custom missions file
 ======================================
 
 On reading the Aerofly FS 4 `main.mcf`, a few conversions and assumptions are made:
@@ -30,8 +30,7 @@ Parameters:
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of aircraft
       --magnetic     Magnetic declination used for waypoints
-  -g, --garmin       Location of an optional Garmin FPL file
-      --msfs         Location of an optional Microsoft FS PLN file
+      --import       Location of an optional FPL, PLN or FMS file
 
 Switches:
   -m  --mission-only Do not export mission list with a single mission,
@@ -79,4 +78,4 @@ a fresh installation.
 
 ----
 
-Back to [top](../README.md)
+Back to [top](./README.md)

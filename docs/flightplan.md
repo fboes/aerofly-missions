@@ -1,4 +1,4 @@
-![](favicon-64x64.png) Flight plan
+![](favicon-64x64.png) Flight plan output
 ==================================
 
 This tool also allows for outputting a flight plan inferred from your `main.mcf`.
@@ -42,4 +42,4 @@ TAS   152KTS             ALT   2,000FT
 
 ----
 
-Back to [top](../README.md)
+Back to [top](./README.md)
