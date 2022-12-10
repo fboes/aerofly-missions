@@ -27,14 +27,12 @@ export class GarminFpl {
         });
     }
     getXmlNode(xml, tag) {
-        const regex = new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms');
-        const match = xml.match(regex);
+        const match = xml.match(new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms'));
         return match ? match[1] : "";
     }
     getXmlNodes(xml, tag) {
-        const regex = new RegExp(`</${tag}>\\s*`, 'ms');
-        const regex2 = new RegExp(`^.*?(<${tag}[^>]*>.*)</${tag}>.*?$`, 'ms');
-        return xml.replace(regex2, "$1").split(regex);
+        const nodes = xml.match(new RegExp(`<${tag}.*?</${tag}>`, 'gms'));
+        return nodes ? nodes : [];
     }
     getXmlAttribute(xml, attribute) {
         const regex = new RegExp(` ${attribute}="(.*?)"`, 'ms');

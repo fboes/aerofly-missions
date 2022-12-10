@@ -39,15 +39,14 @@ export class GarminFpl {
   }
 
   protected getXmlNode(xml: string, tag: string): string {
-    const regex = new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms');
-    const match = xml.match(regex);
+    const match = xml.match(new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms'));
     return match ? match[1] : "";
   }
 
   protected getXmlNodes(xml: string, tag: string): string[] {
-    const regex = new RegExp(`</${tag}>\\s*`, 'ms');
-    const regex2 = new RegExp(`^.*?(<${tag}[^>]*>.*)</${tag}>.*?$`, 'ms');
-    return xml.replace(regex2, "$1").split(regex);
+    const nodes = xml.match(new RegExp(`<${tag}.*?</${tag}>`, 'gms'));
+
+    return nodes ? nodes : [];
   }
 
   protected getXmlAttribute(xml: string, attribute: string): string {

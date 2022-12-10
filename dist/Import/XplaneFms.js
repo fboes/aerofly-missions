@@ -9,20 +9,11 @@ export class XplaneFms extends GarminFpl {
         if (!configFileContent) {
             throw new Error("File is empty: " + this.filename);
         }
-        const waypointLines = configFileContent.match(/(^|\n)\d+ [A-Z]+ \S+ \S+ \S+ \S+(\n|$)/mg);
+        const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) ([A-Z]+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/mg);
         if (!waypointLines) {
             throw new Error("No nav lines found: " + this.filename);
         }
-        this.waypoins = waypointLines.map((line) => {
-            const m = line.match(/(\d+) ([A-Z]+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)/);
-            if (!m) {
-                return {
-                    identifier: '',
-                    type: '',
-                    lat: 0,
-                    lon: 0
-                };
-            }
+        this.waypoins = Array.from(waypointLines).map((m) => {
             let type = 'USER WAYPOINT';
             switch (Number(m[1])) {
                 case 1:
