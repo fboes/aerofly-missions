@@ -5,14 +5,14 @@ The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `
 
 Other features:
 
-* Export Aerofly `main.mcf` flight to Aerofly FS 4 `tmc` Custom Missions file.
+* Export Aerofly `main.mcf` flight to Aerofly FS 4 Custom Missions file.
 * Export Aerofly `main.mcf` flight plan as [text briefing](docs/flightplan.md), including weather and aircraft settings.
 * Export Aerofly `main.mcf` flight plan as [GeoJSON](https://geojson.org/).
 * Export Aerofly `main.mcf` flight plan as Markdown file.
 * Open Aerofly `main.mcf` flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
-* [Convert Garmin `fpl` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-* [Convert Microsoft FS `pln` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-* [Convert X-Plane `fms` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
+* [Convert Garmin `fpl` Flight Plan file to Aerofly FS 4 Custom Missions file](docs/importing-flightplans.md).
+* [Convert Microsoft FS `pln` Flight Plan file to Aerofly FS 4 Custom Missions file](docs/importing-flightplans.md).
+* [Convert X-Plane `fms` Flight Plan file to Aerofly FS 4 Custom Missions file](docs/importing-flightplans.md).
 
 ![Flight plan as text briefing](docs/flightplan.png)
 
