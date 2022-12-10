@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as fs from "node:fs/promises";
+import * as fs from "node:fs";
 import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission } from "./Aerofly/Mission.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
@@ -22,14 +22,7 @@ if (args.help) {
   process.exit(0);
 }
 
-const aeroflyConfig = new MainMcf(args.source);
-try {
-  aeroflyConfig.read();
-} catch (err) {
-  process.stderr.write(c.red + (err instanceof Error ? err.message : 'Unknown error') + c.reset);
-  process.exit(1);
-}
-
+const aeroflyConfig = new MainMcf(fs.readFileSync(args.source, "utf8"));
 const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
 mission.fromMainMcf(aeroflyConfig, args.ils, args.magneticDeclination);
@@ -39,33 +32,16 @@ if (mission.warnings) {
   })
 }
 if (args.garmin) {
-  const fpl = new GarminFpl(args.garmin);
-  try {
-    fpl.read();
-  } catch (err) {
-    process.stderr.write(c.red + (err instanceof Error ? err.message : 'Unknown error') + c.reset);
-    process.exit(1);
-  }
+  const fpl = new GarminFpl(fs.readFileSync(args.garmin, "utf8"));
   mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.msfs) {
-  const fpl = new MsfsPln(args.msfs);
-  try {
-    fpl.read();
-  } catch (err) {
-    process.stderr.write(c.red + (err instanceof Error ? err.message : 'Unknown error') + c.reset);
-    process.exit(1);
-  }
+  const fpl = new MsfsPln(fs.readFileSync(args.garmin, "utf8"));
   mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.xplane) {
-  const fpl = new XplaneFms(args.xplane);
-  try {
-    fpl.read();
-  } catch (err) {
-    process.stderr.write(c.red + (err instanceof Error ? err.message : 'Unknown error') + c.reset);
-    process.exit(1);
-  }
+  const fpl = new XplaneFms(fs.readFileSync(args.garmin, "utf8"));
+
   mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 
@@ -75,10 +51,7 @@ missionList.missions.push(mission);
 if (args.geoJson) {
   const target = args.target.replace('.tmc', '') + '.json';
   try {
-    await fs.writeFile(
-      target,
-      JSON.stringify(new GeoJson().fromMission(mission), null, 2)
-    );
+    fs.writeFileSync(target, JSON.stringify(new GeoJson().fromMission(mission), null, 2));
     process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");
   } catch (err) {
     process.stderr.write(c.red + <string>err + c.reset);
@@ -93,10 +66,7 @@ if (args.skyVector) {
 if (args.markdown) {
   const target = args.target.replace('.tmc', '') + '.md';
   try {
-    await fs.writeFile(
-      target,
-      new Markdown(mission).toString()
-    );
+    fs.writeFileSync(target, new Markdown(mission).toString());
     process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");
   } catch (err) {
     process.stderr.write(c.red + <string>err + c.reset);
@@ -104,10 +74,7 @@ if (args.markdown) {
 }
 
 try {
-  await fs.writeFile(
-    args.target,
-    args.missionOnly ? mission.toString() : missionList.toString()
-  );
+  fs.writeFileSync(args.target, args.missionOnly ? mission.toString() : missionList.toString());
   process.stdout.write(c.green + args.target + " written successfully" + c.reset + "\n");
   process.exit(0);
 } catch (err) {

@@ -7,9 +7,11 @@ import { MissionTest } from "./Tests/MissionTest.js";
 import { GarminFplTest } from "./Tests/GarminFplTest.js";
 import { MsfsPlnTest } from "./Tests/MsfsPlnTest.js";
 import { XplaneFmsTest } from "./Tests/XplaneFmsTest.js";
+import { MainMcfTest } from "./Tests/MainMcfTest.js";
 
 const tests = new Tests(process);
 tests.add(new LonLatTest(process));
+tests.add(new MainMcfTest(process));
 tests.add(new MissionTest(process));
 tests.add(new MissionCheckpointTest(process));
 tests.add(new MissionConditionsTest(process));

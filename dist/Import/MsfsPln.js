@@ -1,18 +1,10 @@
-import * as fs from "node:fs";
 import { LonLat } from "../World/LonLat.js";
 import { GarminFpl } from "./GarminFpl.js";
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
  */
 export class MsfsPln extends GarminFpl {
-    read() {
-        if (!fs.existsSync(this.filename)) {
-            throw new Error("File does not exist: " + this.filename);
-        }
-        const configFileContent = fs.readFileSync(this.filename, "utf8");
-        if (!configFileContent) {
-            throw new Error("File is empty: " + this.filename);
-        }
+    read(configFileContent) {
         const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
         this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
         this.waypoins = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml) => {

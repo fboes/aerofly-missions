@@ -1,12 +1,12 @@
 import { Test } from "../Cli/Test.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
+import * as fs from "node:fs";
 export class GarminFplTest extends Test {
     constructor(process) {
         super(process);
         this.group(GarminFpl.name);
         {
-            const gpl = new GarminFpl('./src/Tests/KBLI.fpl');
-            gpl.read();
+            const gpl = new GarminFpl(fs.readFileSync('./src/Tests/KBLI.fpl', 'utf8'));
             this.assertEquals(gpl.waypoins.length, 5);
             this.assertEquals(gpl.waypoins[0].identifier, 'KCLM');
             this.assertEquals(gpl.waypoins[0].type, 'AIRPORT');

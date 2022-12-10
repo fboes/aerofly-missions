@@ -1,5 +1,3 @@
-import * as fs from "node:fs";
-
 export type GaminFplWaypoint = {
   identifier: string;
   type: string;
@@ -14,18 +12,12 @@ export class GarminFpl {
    */
   cruisingAlt: number = 0;
 
-  constructor(protected filename: string) { }
+  constructor(configFileContent: string) {
+    this.read(configFileContent);
+  }
 
-  read(): void {
-    if (!fs.existsSync(this.filename)) {
-      throw new Error("File does not exist: " + this.filename);
-    }
-
-    const configFileContent = fs.readFileSync(this.filename, "utf8");
-    if (!configFileContent) {
-      throw new Error("File is empty: " + this.filename);
-    }
-
+  read(configFileContent: string): void {
+    this.cruisingAlt = 0;
     const waypointTableXml = this.getXmlNode(configFileContent, 'waypoint-table')
 
     this.waypoins = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml): GaminFplWaypoint => {

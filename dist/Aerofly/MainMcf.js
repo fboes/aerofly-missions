@@ -1,10 +1,8 @@
-import * as fs from "node:fs";
 /**
  * The reader is actually junk and would benefit from some serious refactoring.
  */
 export class MainMcf {
-    constructor(filename) {
-        this.filename = filename;
+    constructor(configFileContent) {
         this.aircraft = {
             name: "",
         };
@@ -41,19 +39,9 @@ export class MainMcf {
                 Ways: [],
             },
         };
-        /*filename = filename.replace(/^(~|%userprofile%)/, require("os").homedir());
-        if (!path.isAbsolute(filename)) {
-          filename = path.join(process.cwd(), filename);
-        }*/
+        this.read(configFileContent);
     }
-    read() {
-        if (!fs.existsSync(this.filename)) {
-            throw new Error("File does not exist: " + this.filename);
-        }
-        const configFileContent = fs.readFileSync(this.filename, "utf8");
-        if (!configFileContent) {
-            throw new Error("File is empty: " + this.filename);
-        }
+    read(configFileContent) {
         const tmsettings_aircraft = this.getGroup(configFileContent, "tmsettings_aircraft");
         const tmsettings_flight = this.getGroup(configFileContent, "tmsettings_flight");
         const tm_time_utc = this.getGroup(configFileContent, "tm_time_utc");

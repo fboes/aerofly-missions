@@ -52,23 +52,11 @@ export class MainMcf {
   };
 
 
-  constructor(protected filename: string) {
-    /*filename = filename.replace(/^(~|%userprofile%)/, require("os").homedir());
-    if (!path.isAbsolute(filename)) {
-      filename = path.join(process.cwd(), filename);
-    }*/
+  constructor(configFileContent: string) {
+    this.read(configFileContent);
   }
 
-  read(): void {
-    if (!fs.existsSync(this.filename)) {
-      throw new Error("File does not exist: " + this.filename);
-    }
-
-    const configFileContent = fs.readFileSync(this.filename, "utf8");
-    if (!configFileContent) {
-      throw new Error("File is empty: " + this.filename);
-    }
-
+  read(configFileContent: string): void {
     const tmsettings_aircraft = this.getGroup(configFileContent, "tmsettings_aircraft");
     const tmsettings_flight = this.getGroup(configFileContent, "tmsettings_flight");
     const tm_time_utc = this.getGroup(configFileContent, "tm_time_utc");
