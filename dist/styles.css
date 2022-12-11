@@ -60,6 +60,11 @@ select {
   margin-top: 0.25em;
 }
 
+input,
+select {
+  background: transparent;
+}
+
 .container {
   margin: auto;
   max-width: 40em;

@@ -16,8 +16,13 @@ Other features:
 
 ![Flight plan as text briefing](docs/flightplan.png)
 
-Requirements
-------------
+There are two versions of this tool:
+
+1. **Web version**: Use a simplified tool right out of your browser by visiting https://fboes.github.io/aerofly-missions/dist/
+2. **Local Node.js CLI tool**: More powerful, but more difficult to install and run
+
+Local Node.js CLI tool
+----------------------
 
 You will need the following software installed on your PC:
 
@@ -25,14 +30,12 @@ You will need the following software installed on your PC:
 * [Node.js](https://nodejs.org/en/) (Version 16+)
 * Optional: [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) or use your pre-installed terminal
 
-Installation
-------------
+### Installation
 
 1. Run `npm install -g aerofly-missions` from your terminal to globally install `aerofly-missions`.
 2. Optional: You might want to put [a preconfigured batch file](docs/aerofly-missions.bat) on your desktop for ease of access.
 
-Updating
---------
+### Updating
 
 1. Run `npm install -g aerofly-missions` from your terminal to update `aerofly-missions` to the current version.
 
@@ -44,9 +47,12 @@ This manual is for Windows 10/11 installations. On other operating systems these
 1. Open Aerofly FS 4, set up a flight plan, choose a aircraft, set time and weather. (You may want to use the [Aerofly Wettergerät](https://github.com/fboes/aerofly-wettergeraet/) to get weather data.)
 1. Start the flight and check if the position of your aircraft is correct.
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
-1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
-1. Right click on the folder name and choose "Open in terminal"
-1. Run `aerofly-missions` in the open terminal to convert `main.mcf` to `custom_missions.tmc` (see below).
+1. Web version:
+   1. Open https://fboes.github.io/aerofly-missions/dist/ and point the tool to the `main.mcf`
+1. Local version:
+   1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
+   1. Right click on the folder name and choose "Open in terminal"
+   1. Run `aerofly-missions` in the open terminal to convert `main.mcf` to `custom_missions.tmc` (see below).
 1. Grab your exported `custom_missions.tmc` file with all your settings converted into a single mission file. This file can now be placed into the custom mission directory in Aerofly FS 4.
 
 Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file.
