@@ -131,7 +131,7 @@ export class Flightplan extends Outputtable {
             }
             ;
             output += this.outputLine([
-                this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". ",
+                this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
                 this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
                 (c.frequency) ? frqString : ' '.repeat(6),
                 (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),

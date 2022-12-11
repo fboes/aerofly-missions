@@ -36,7 +36,7 @@ export class Arguments {
   missionOnly: boolean = false;
   geoJson: boolean = false;
   flightplan: boolean = false;
-  useColors: boolean = true;
+  useColors: number = BashColors.COLOR_BASH;
   skyVector: boolean = true;
   markdown: boolean = false;
   magneticDeclination: number;
@@ -79,7 +79,7 @@ export class Arguments {
             this.skyVector = true;
             break;
           case 'no-color':
-            this.useColors = false;
+            this.useColors = BashColors.COLOR_NONE;
             break;
           case 'markdown':
             this.markdown = true;

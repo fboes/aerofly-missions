@@ -101,6 +101,9 @@ export class Mission {
      */
     set aircraft_name(aircraft_name) {
         this._aircraft_name = aircraft_name.toLowerCase();
+        this.aircraft_icao = '';
+        this.cruise_speed = 0;
+        this.callsign = '';
         switch (this._aircraft_name) {
             case "b58":
                 this.aircraft_icao = "BE58";
@@ -201,6 +204,7 @@ export class Mission {
                     ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
                     : String.fromCharCode((this.aircraft_icao.charCodeAt(1) % 26) + 65, (this.aircraft_icao.charCodeAt(0) % 26) + 65, (this.aircraft_icao.charCodeAt(3) % 26) + 65, (this.aircraft_icao.charCodeAt(2) % 26) + 65); // 4 numbers
         }
+        this.calculateDirectionForCheckpoints();
     }
     get aircraft_name() {
         return this._aircraft_name;
@@ -275,16 +279,10 @@ export class Mission {
                 let cp = new MissionCheckpoint();
                 cp.fromMainMcf(w, this.cruise_altitude);
                 cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
-                if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
-                    cp.ground_speed = this.cruise_speed;
-                }
-                if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
-                    cp.ground_speed = 30;
-                }
                 return cp;
             });
             const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-            this.calculateDirectionForCheckpoints(flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
+            this.calculateDirectionForCheckpoints();
             this.origin_icao = this.checkpoints[0].name;
             this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
             this.origin_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.origin_lon_lat, magnetic_declination);
@@ -351,7 +349,7 @@ export class Mission {
             return cp;
         });
         const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-        this.calculateDirectionForCheckpoints(flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
+        this.calculateDirectionForCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_dir = this.checkpoints[1].direction;
         this.origin_lon_lat = this.checkpoints[0].lon_lat;
@@ -388,12 +386,20 @@ export class Mission {
             }
         }
     }
-    calculateDirectionForCheckpoints(isVfr = true) {
+    calculateDirectionForCheckpoints() {
         let lastC = null;
+        const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+        const isVfr = (flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
         // Add directions
         this.checkpoints.forEach(c => {
             if (lastC !== null) {
                 c.setDirectionByCoordinates(lastC.lon_lat, isVfr);
+            }
+            if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
+                c.ground_speed = this.cruise_speed;
+            }
+            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || c.type === MissionCheckpoint.TYPE_DESTINATION) {
+                c.ground_speed = 30;
             }
             // Modify cruising speed by wind
             if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {

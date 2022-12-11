@@ -16,20 +16,43 @@ export class BashColors {
   lightCyan: string = `\x1b[96m`;
   lightWhite: string = `\x1b[97m`;
 
-  constructor(public useColors = true) {
-    if (!useColors) {
-      this.reset = ``;
-      this.red = ``;
-      this.green = ``;
-      this.lightGray = ``;
-      this.lightRed = ``;
-      this.lightGreen = ``;
-      this.lightYellow = ``;
-      this.lightBlue = ``;
-      this.lightMagenta = ``;
-      this.lightCyan = ``;
-      this.lightWhite = ``;
+  static COLOR_NONE = 0;
+  static COLOR_BASH = 1;
+  static COLOR_HTML = 2;
+
+  constructor(public colorType = BashColors.COLOR_BASH) {
+    switch (colorType) {
+      case BashColors.COLOR_NONE:
+        this.reset = ``;
+        this.red = ``;
+        this.green = ``;
+        this.lightGray = ``;
+        this.lightRed = ``;
+        this.lightGreen = ``;
+        this.lightYellow = ``;
+        this.lightBlue = ``;
+        this.lightMagenta = ``;
+        this.lightCyan = ``;
+        this.lightWhite = ``;
+        break;
+      case BashColors.COLOR_HTML:
+        this.reset = `</span>`;
+        this.red = `<span style="color:crimson">`;
+        this.green = `<span style="color:chartreuse">`;
+        this.lightGray = `<span style="color:gray">`;
+        this.lightRed = `<span style="color:deeppink">`;
+        this.lightGreen = `<span style="color:greenyellow">`;
+        this.lightYellow = `<span style="color:gold">`;
+        this.lightBlue = `<span style="color:deepskyblue">`;
+        this.lightMagenta = `<span style="color:magenta">`;
+        this.lightCyan = `<span style="color:cyan">`;
+        this.lightWhite = `<span style="color:gainsboro">`;
+        break;
     }
+  }
+
+  get useColors(): boolean {
+    return this.colorType !== BashColors.COLOR_NONE;
   }
 
   getStringLength(string: string): number {
@@ -38,7 +61,7 @@ export class BashColors {
 
   getColorsLength(string: string): number {
     let length = 0;
-    if (!this.useColors) {
+    if (this.colorType === BashColors.COLOR_NONE) {
       return length;
     }
 

@@ -21,7 +21,8 @@
   },
   "scripts": {
     "start": "./dist/aerofly-missions.js",
-    "test": "node ./dist/test.js"
+    "test": "node ./dist/test.js",
+    "serve": "npx http-server ./dist -o -c-1"
   },
   "main": "index.js",
   "repository": {

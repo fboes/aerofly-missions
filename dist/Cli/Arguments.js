@@ -1,3 +1,4 @@
+import { BashColors } from "./BashColors.js";
 export const asciify = (string) => {
     return string.toLowerCase().replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
         return s.replace(/[äæ]/g, 'ae')
@@ -23,7 +24,7 @@ export class Arguments {
         this.missionOnly = false;
         this.geoJson = false;
         this.flightplan = false;
-        this.useColors = true;
+        this.useColors = BashColors.COLOR_BASH;
         this.skyVector = true;
         this.markdown = false;
         const args = process.argv.slice(2);
@@ -61,7 +62,7 @@ export class Arguments {
                         this.skyVector = true;
                         break;
                     case 'no-color':
-                        this.useColors = false;
+                        this.useColors = BashColors.COLOR_NONE;
                         break;
                     case 'markdown':
                         this.markdown = true;

@@ -1,0 +1,24 @@
+{
+  "name": "Aerofly Missionsgerät",
+  "short_name": "Missionsgerät",
+  "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.",
+  "icons": [
+    {
+      "src": "./favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "./",
+  "theme_color": "#605770",
+  "background_color": "#2e2b3b"
+}

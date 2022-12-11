@@ -46,6 +46,7 @@ Your flights:
 1. [Outskirts of Stockholm](./08_outskirts_of_stockholm.md)
 1. [Finally! Stockholm!](./09_finally_stockholm.md)
 1. [Åland Homecoming](./10_aland_homecoming.md)
+1. [Wave good-bye](./11_wave_good-bye.md)
 
 Inspirations
 ------------
