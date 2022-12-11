@@ -30,6 +30,11 @@ export class MissionConditions {
          * Meters AGL
          */
         this.cloud_base = 0.0;
+        const d = new Date();
+        this.time.time_year = d.getUTCFullYear();
+        this.time.time_month = d.getUTCMonth() + 1;
+        this.time.time_day = d.getUTCDate();
+        this.time.time_hours = d.getUTCHours();
     }
     fromMainMcf(mainMcf) {
         this.time.time_year = mainMcf.time_utc.time_year;

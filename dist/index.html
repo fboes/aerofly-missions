@@ -37,56 +37,69 @@
           class="language-plaintext highlighter-rouge">custom_missions.tmc</code> file, using your current flight plan
         and other settings to generate a shareable mission.</p>
 
-      <h2>Step 1: Set up mission</h2>
+      <section>
+        <h2>Step 1: Set up mission</h2>
 
-      <label for="upload">Aerofly <code>main.mcf</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>, X-Plane
-        <code>fms</code> flight plan file</label>
-      <input type="file" id="upload" accept=".mcf,.fpl,.pln,.fms" />
+        <label for="upload">Aerofly <code>main.mcf</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>,
+          X-Plane
+          <code>fms</code> flight plan file</label>
+        <input type="file" id="upload" accept=".mcf,.fpl,.pln,.fms" />
 
-      <label for="aircraft_name">Aircraft</label>
-      <select id="aircraft_name">
-        <option value="a320">Airbus A320-200</option>
-        <option value="asg29">Schleicher ASG 29</option>
-        <option value="b58">Beechcraft Baron 58</option>
-        <option value="b737">Boeing 737-500</option>
-        <option value="b777">Boeing 777-300ER</option>
-        <option value="c172" selected="selected">Cessna 172</option>
-        <option value="c90gtx">King Air C90 Gtx</option>
-        <option value="camel">Sopwith F.1 Camel</option>
-        <option value="dr1">Fokker DR.1 </option>
-        <option value="ec135">Eurocopter EC135</option>
-        <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
-        <option value="f4u">Vought F4U Corsair</option>
-        <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
-        <option value="lj45">Learjet 45</option>
-        <option value="mb339">Aermacchi MB-339</option>
-        <option value="p38">Lockheed P-38</option>
-        <option value="pitts">Pitts S-2B</option>
-        <option value="q400">Bombardier Dash 8Q-400</option>
-        <option value="r22">Robinson R22</option>
-        <option value="swift">Marganski Swift S1</option>
-      </select>
+        <label for="aircraft_name">Aircraft</label>
+        <select id="aircraft_name">
+          <option value="a320">Airbus A320-200</option>
+          <option value="asg29">Schleicher ASG 29</option>
+          <option value="b58">Beechcraft Baron 58</option>
+          <option value="b737">Boeing 737-500</option>
+          <option value="b777">Boeing 777-300ER</option>
+          <option value="c172" selected="selected">Cessna 172</option>
+          <option value="c90gtx">King Air C90 Gtx</option>
+          <option value="camel">Sopwith F.1 Camel</option>
+          <option value="dr1">Fokker DR.1 </option>
+          <option value="ec135">Eurocopter EC135</option>
+          <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
+          <option value="f4u">Vought F4U Corsair</option>
+          <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
+          <option value="lj45">Learjet 45</option>
+          <option value="mb339">Aermacchi MB-339</option>
+          <option value="p38">Lockheed P-38</option>
+          <option value="pitts">Pitts S-2B</option>
+          <option value="q400">Bombardier Dash 8Q-400</option>
+          <option value="r22">Robinson R22</option>
+          <option value="swift">Marganski Swift S1</option>
+        </select>
 
-      <label for="cruise_speed">Cruise speed (kts)</label>
-      <input type="number" min="0" max="999" id="cruise_speed" value="0" />
+        <label for="date">Date (UTC)</label>
+        <input type="date" id="date" />
 
-      <label for="cruise_altitude_ft">Cruise altitude (ft)</label>
-      <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
+        <label for="time">Time (UTC)</label>
+        <input type="time" id="time" />
 
-      <h2>Step 2: Check</h2>
-      <pre id="flightplan"></pre>
+        <label for="cruise_speed">Cruise speed (kts)</label>
+        <input type="number" min="0" max="999" id="cruise_speed" value="0" />
 
-      <p>Check your <a href="#" id="link-skyvector" target="skyvector">current flight plan on SkyVector</a>.<br />
-        You may also want to take a look at <a href="#" id="link-gmap" target="gmap">Google Maps</a> / <a href="#"
-          id="link-osm" target="osm">OpenStreetMap</a>.</p>
+        <label for="cruise_altitude_ft">Cruise altitude (ft)</label>
+        <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
+      </section>
+      <section>
+        <h2>Step 2: Check</h2>
+        <div class="pre">
+          <pre id="flightplan"></pre>
+        </div>
 
-      <h2>Step 3: Download converted files</h2>
-      <p>
-        <button id="download-tmc">Download <code>custom_missions.tmc</code></button>
-      </p>
-      <p>
-        <button id="download-md">Download <code>custom_missions.md</code></button>
-      </p>
+        <p>Check your <a href="#" id="link-skyvector" target="skyvector">current flight plan on SkyVector</a>.<br />
+          You may also want to take a look at <a href="#" id="link-gmap" target="gmap">Google Maps</a> / <a href="#"
+            id="link-osm" target="osm">OpenStreetMap</a>.</p>
+      </section>
+      <section>
+        <h2>Step 3: Download converted files</h2>
+        <p>
+          <button id="download-tmc" class="primary">Download <code>custom_missions.tmc</code></button>
+        </p>
+        <p>
+          <button id="download-md">Download <code>custom_missions.md</code></button>
+        </p>
+      </section>
     </main>
     <footer>
       <p>Author: <a href="https://3960.org/">Frank Bo&euml;s</a> &middot; <a

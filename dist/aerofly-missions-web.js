@@ -13,6 +13,8 @@ const App = {
     elements: {
         upload: document.getElementById('upload'),
         aircraft_name: document.getElementById('aircraft_name'),
+        date: document.getElementById('date'),
+        time: document.getElementById('time'),
         cruise_speed: document.getElementById('cruise_speed'),
         cruise_altitude_ft: document.getElementById('cruise_altitude_ft'),
         flightplan: document.getElementById('flightplan'),
@@ -107,11 +109,60 @@ const App = {
     },
     syncToForm: () => {
         App.elements.aircraft_name.value = mission.aircraft_name;
+        App.elements.date.value = mission.conditions.time.time_year.toFixed().padStart(4, '0') + '-' + mission.conditions.time.time_month.toFixed().padStart(2, '0') + '-' + mission.conditions.time.time_day.toFixed().padStart(2, '0');
+        App.elements.time.value = Math.floor(mission.conditions.time.time_hours).toFixed().padStart(2, '0') + ':' + Math.floor(mission.conditions.time.time_hours % 1 * 60).toFixed().padStart(2, '0');
         App.elements.cruise_speed.value = mission.cruise_speed.toFixed();
         App.elements.cruise_altitude_ft.value = mission.cruise_altitude_ft.toFixed();
     },
     showError: (message) => {
         console.error(message);
+    },
+    init: () => {
+        App.elements.upload.addEventListener('change', App.uploadFile);
+        App.elements.aircraft_name.addEventListener('change', (e) => {
+            const target = e.target;
+            mission.aircraft_name = target.value;
+            App.syncToForm();
+            App.showFlightplan();
+        });
+        App.elements.date.addEventListener('change', (e) => {
+            const target = e.target;
+            const match = target.value.match(/(\d+)\D(\d+)\D(\d+)/);
+            if (match) {
+                mission.conditions.time.time_year = Number(match[1]);
+                mission.conditions.time.time_month = Number(match[2]);
+                mission.conditions.time.time_day = Number(match[3]);
+            }
+            App.showFlightplan();
+        });
+        App.elements.time.addEventListener('change', (e) => {
+            const target = e.target;
+            const match = target.value.match(/(\d+)\D(\d+)/);
+            if (match) {
+                mission.conditions.time.time_hours = Number(match[1]) + Number(match[2]) / 60;
+            }
+            App.showFlightplan();
+        });
+        App.elements.cruise_speed.addEventListener('change', (e) => {
+            const target = e.target;
+            mission.cruise_speed = target.valueAsNumber;
+            mission.calculateDirectionForCheckpoints();
+            App.showFlightplan();
+        });
+        App.elements.cruise_altitude_ft.addEventListener('change', (e) => {
+            const target = e.target;
+            mission.cruise_altitude_ft = target.valueAsNumber;
+            mission.calculateDirectionForCheckpoints();
+            App.showFlightplan();
+        });
+        App.elements.downloadTmc.addEventListener('click', () => {
+            App.download('custom_mission.tmc', missionList.toString());
+        });
+        App.elements.downloadMd.addEventListener('click', () => {
+            App.download('custom_mission.md', markdown.toString());
+        });
+        App.showFlightplan();
+        App.syncToForm();
     }
 };
 const mission = new Mission('Custom mission', '');
@@ -120,41 +171,4 @@ missionList.missions.push(mission);
 const flightplan = new Flightplan(mission, new BashColors(BashColors.COLOR_HTML));
 const skyVector = new SkyVector(mission);
 const markdown = new Markdown(mission);
-if (App.elements.upload) {
-    App.elements.upload.addEventListener('change', App.uploadFile);
-}
-if (App.elements.aircraft_name) {
-    App.elements.aircraft_name.addEventListener('change', (e) => {
-        const target = e.target;
-        mission.aircraft_name = target.value;
-        App.syncToForm();
-        App.showFlightplan();
-    });
-}
-if (App.elements.cruise_speed) {
-    App.elements.cruise_speed.addEventListener('change', (e) => {
-        const target = e.target;
-        mission.cruise_speed = target.valueAsNumber;
-        mission.calculateDirectionForCheckpoints();
-        App.showFlightplan();
-    });
-}
-if (App.elements.cruise_altitude_ft) {
-    App.elements.cruise_altitude_ft.addEventListener('change', (e) => {
-        const target = e.target;
-        mission.cruise_altitude_ft = target.valueAsNumber;
-        mission.calculateDirectionForCheckpoints();
-        App.showFlightplan();
-    });
-}
-if (App.elements.downloadTmc) {
-    App.elements.downloadTmc.addEventListener('click', () => {
-        App.download('custom_mission.tmc', missionList.toString());
-    });
-}
-if (App.elements.downloadMd) {
-    App.elements.downloadMd.addEventListener('click', () => {
-        App.download('custom_mission.md', markdown.toString());
-    });
-}
-App.showFlightplan();
+App.init();

@@ -1,13 +1,16 @@
 :root {
   --color-highlight: #0366d6;
+  --color-highlight-contra: #ffffff;
   --color-note: #666666;
   --color-accent: #e9e9ed;
+  --color-darken: rgba(0, 0, 0, 0.05);
   --fontweight-bold: 600;
 }
 
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -15,7 +18,7 @@ body {
   line-height: 1.5;
 }
 
-*+:is(label, form, p, h1, h2, h3, h4, pre) {
+*+:is(label, form, p, h1, h2, h3, h4, pre, section) {
   margin-top: 1em;
 }
 
@@ -37,11 +40,16 @@ h3 {
 code,
 pre {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  background-color: rgba(0, 10, 50, 0.05);
+  background-color: var(--color-darken);
   display: inline-block;
   padding: 0 0.2em;
   border-radius: 0.2em;
   font-size: 0.9em;
+}
+
+div.pre {
+  max-width: 100%;
+  overflow: auto;
 }
 
 pre {
@@ -55,9 +63,18 @@ input,
 select {
   padding: 0.25em;
   border-radius: 0.25em;
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-darken);
   font-size: 1em;
   margin-top: 0.25em;
+  min-width: 12em;
+}
+
+button {
+  min-width: 18em;
+}
+button.primary {
+  background-color: var(--color-highlight);
+  color: var(--color-highlight-contra);
 }
 
 input,
@@ -71,7 +88,7 @@ select {
 }
 
 .container>* {
-  padding: 1em 0;
+  padding: 1em;
 }
 
 header {

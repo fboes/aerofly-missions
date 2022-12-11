@@ -46,6 +46,14 @@ export class MissionConditions {
   static WIND_GUSTS_STRONG = 'strong gusts';
   static WIND_GUSTS_VIOLENT = 'violent gusts';
 
+  constructor() {
+    const d = new Date();
+    this.time.time_year = d.getUTCFullYear();
+    this.time.time_month = d.getUTCMonth() + 1;
+    this.time.time_day = d.getUTCDate();
+    this.time.time_hours = d.getUTCHours();
+  }
+
   fromMainMcf(mainMcf: MainMcf): MissionConditions {
     this.time.time_year = mainMcf.time_utc.time_year;
     this.time.time_month = mainMcf.time_utc.time_month;
