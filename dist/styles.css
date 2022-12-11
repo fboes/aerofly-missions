@@ -34,7 +34,8 @@ h3 {
   font-weight: var(--fontweight-bold);
 }
 
-code, pre {
+code,
+pre {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   background-color: rgba(0, 10, 50, 0.05);
   display: inline-block;
@@ -42,13 +43,16 @@ code, pre {
   border-radius: 0.2em;
   font-size: 0.9em;
 }
+
 pre {
   padding: 0.5em;
   color: white;
   background: black;
 }
 
-button, input, select {
+button,
+input,
+select {
   padding: 0.25em;
   border-radius: 0.25em;
   border: 1px solid var(--color-accent);
@@ -80,8 +84,9 @@ header img {
 footer {
   color: var(--color-note);
   border-top: 1px solid var(--color-accent);
-  text-align: right;
+  text-align: center;
   font-size: 0.8em;
+  margin-top: 2em;
 }
 
 label {
