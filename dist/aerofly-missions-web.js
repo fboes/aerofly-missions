@@ -69,7 +69,6 @@ const App = {
             }
         });
         const slug = mission.title ? asciify(mission.title.replace(/(^|\W)(from|to|and|or|in) /gi, '$1')) : 'custom_missions';
-        console.log(App.elements.downloadTmcCode, slug);
         App.elements.downloadTmcCode.innerText = slug + '.tmc';
         App.elements.downloadMdCode.innerText = slug + '.md';
         App.elements.downloadJsonCode.innerText = slug + '.json';
@@ -154,8 +153,10 @@ const App = {
         if (sup) {
             const request = new Request('../package.json');
             const response = await fetch(request);
-            const pkg = await response.json();
-            sup.innerHTML = pkg.version;
+            if (response.ok) {
+                const pkg = await response.json();
+                sup.innerText = pkg.version;
+            }
         }
     },
     init: () => {
