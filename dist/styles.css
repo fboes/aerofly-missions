@@ -2,8 +2,9 @@
   --color-highlight: #0366d6;
   --color-highlight-contra: #ffffff;
   --color-note: #666666;
-  --color-accent: #e9e9ed;
-  --color-darken: rgba(0, 0, 0, 0.05);
+  --color-darken: rgba(0, 0, 0, 0.1);
+  --color-darken-more: rgba(0, 0, 0, 0.2);
+  ;
   --fontweight-bold: 600;
 }
 
@@ -18,9 +19,10 @@ body {
   line-height: 1.5;
 }
 
-*+:is(label, form, p, h1, h2, h3, h4, pre, div.pre) {
+*+:is(label, form, p, h1, h2, h3, h4, details, pre, div.pre) {
   margin-top: 1em;
 }
+
 *+:is(section) {
   margin-top: 2em;
 }
@@ -36,8 +38,13 @@ a:hover {
 
 h1,
 h2,
-h3 {
+h3,
+summary {
   font-weight: var(--fontweight-bold);
+}
+
+h1 sup {
+  font-size: 0.5em;
 }
 
 code,
@@ -53,6 +60,8 @@ pre {
 div.pre {
   max-width: 100%;
   overflow: auto;
+  background: black;
+  border-radius: 0.2em;
 }
 
 pre {
@@ -67,29 +76,15 @@ select,
 textarea {
   padding: 0.25em;
   border-radius: 0.25em;
-  border: 1px solid var(--color-darken);
+  border: 1px solid var(--color-darken-more);
   font: inherit;
-  margin-top: 0.25em;
-  min-width: 20em;
-}
-textarea {
+  display: block;
   width: 100%;
-  height: 5em;
+  accent-color: var(--color-highlight);
 }
 
-button {
-  min-width: 100%;
-  cursor: pointer;
-}
-button.primary {
-  background-color: var(--color-highlight);
-  color: var(--color-highlight-contra);
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-button:disabled {
-  opacity: 0.8;
-  cursor: not-allowed;
+textarea {
+  height: 5em;
 }
 
 input,
@@ -97,21 +92,60 @@ select {
   background: transparent;
 }
 
+label {
+  display: block;
+}
+
+button {
+  margin-top: 0.5em;
+  cursor: pointer;
+}
+
+button.primary {
+  background-color: var(--color-highlight);
+  color: var(--color-highlight-contra);
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
 .container {
   margin: auto;
-  max-width: 40em;
+  max-width: 35em;
 }
 
 .container>* {
   padding: 1em;
 }
 
+summary {
+  cursor: pointer;
+}
+
+@media screen and (min-width: 320px) {
+  .col-2 {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .col-2>* {
+    margin-top: 1em;
+    width: 50%;
+  }
+}
+
+
 header {
   color: var(--color-highlight);
 }
 
 h2 {
-  border-top: 1px solid var(--color-accent)
+  border-top: 1px solid var(--color-darken-more);
+  padding-top: 0.2em;
 }
 
 header img {
@@ -120,12 +154,8 @@ header img {
 
 footer {
   color: var(--color-note);
-  border-top: 1px solid var(--color-accent);
+  border-top: 1px solid var(--color-darken-more);
   text-align: center;
   font-size: 0.8em;
   margin-top: 2em;
-}
-
-label {
-  display: block;
 }

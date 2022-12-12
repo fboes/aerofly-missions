@@ -19,6 +19,7 @@ export const asciify = (string: string) => {
     .replace(/\s/g, '_')
     .replace(/[^a-z0-9-_]/g, '-')
     .replace(/(-)-+/g, '$1')
+    .replace(/(_)_+/g, '$1')
     ;
 }
 

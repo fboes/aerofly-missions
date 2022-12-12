@@ -108,6 +108,9 @@ export class MissionConditions {
         }
         return '●';
     }
+    set cloud_base_feet(cloud_base_feet) {
+        this.cloud_base = cloud_base_feet / Units.feetPerMeter;
+    }
     get cloud_base_feet() {
         return this.cloud_base * Units.feetPerMeter;
     }

@@ -28,66 +28,106 @@
     <header>
       <h1>
         <img src="./favicon-512x512.svg" alt="" height="64" width="64" />
-        <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
+        <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät <sup>0.0.0</sup></a>
       </h1>
     </header>
     <main>
-      <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4’s</a> <code
+      <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code
           class="language-plaintext highlighter-rouge">main.mcf</code> file into a <code
           class="language-plaintext highlighter-rouge">custom_missions.tmc</code> file, using your current flight plan
         and other settings to generate a shareable mission.</p>
 
       <section>
-        <h2>Step 1: Load flight plan</h2>
+        <h2>Step 1: Load flight plan file</h2>
 
         <label for="upload">Aerofly <code>main.mcf</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>,
-          X-Plane
-          <code>fms</code> flight plan file</label>
+          or X-Plane <code>fms</code> flight plan file</label>
         <input type="file" id="upload" accept=".mcf,.fpl,.pln,.fms" />
       </section>
       <section>
         <h2>Step 2: Modify settings</h2>
-        <label for="aircraft_name">Aircraft</label>
-        <select id="aircraft_name">
-          <option value="a320">Airbus A320-200</option>
-          <option value="asg29">Schleicher ASG 29</option>
-          <option value="b58">Beechcraft Baron 58</option>
-          <option value="b737">Boeing 737-500</option>
-          <option value="b777">Boeing 777-300ER</option>
-          <option value="c172" selected="selected">Cessna 172</option>
-          <option value="c90gtx">King Air C90 Gtx</option>
-          <option value="camel">Sopwith F.1 Camel</option>
-          <option value="dr1">Fokker DR.1 </option>
-          <option value="ec135">Eurocopter EC135</option>
-          <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
-          <option value="f4u">Vought F4U Corsair</option>
-          <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
-          <option value="lj45">Learjet 45</option>
-          <option value="mb339">Aermacchi MB-339</option>
-          <option value="p38">Lockheed P-38</option>
-          <option value="pitts">Pitts S-2B</option>
-          <option value="q400">Bombardier Dash 8Q-400</option>
-          <option value="r22">Robinson R22</option>
-          <option value="swift">Marganski Swift S1</option>
-        </select>
-
-        <label for="cruise_speed">Cruise speed (kts)</label>
-        <input type="number" min="0" max="999" id="cruise_speed" value="0" />
-
-        <label for="cruise_altitude_ft">Cruise altitude (ft)</label>
-        <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
-
-        <label for="date">Date (UTC)</label>
-        <input type="date" id="date" />
-
-        <label for="time">Time (UTC)</label>
-        <input type="time" id="time" />
 
         <label for="title">Mission title</label>
         <input type="text" id="title" maxlength="32" />
 
         <label for="description">Mission description</label>
         <textarea id="description"></textarea>
+
+        <details open="open">
+          <summary>Aircraft</summary>
+          <div class="col-2">
+            <label for="aircraft_name">Aircraft</label>
+            <select id="aircraft_name">
+              <option value="a320">Airbus A320-200</option>
+              <option value="asg29">Schleicher ASG 29</option>
+              <option value="b58">Beechcraft Baron 58</option>
+              <option value="b737">Boeing 737-500</option>
+              <option value="b777">Boeing 777-300ER</option>
+              <option value="c172" selected="selected">Cessna 172</option>
+              <option value="c90gtx">King Air C90 Gtx</option>
+              <option value="camel">Sopwith F.1 Camel</option>
+              <option value="dr1">Fokker DR.1 </option>
+              <option value="ec135">Eurocopter EC135</option>
+              <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
+              <option value="f4u">Vought F4U Corsair</option>
+              <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
+              <option value="lj45">Learjet 45</option>
+              <option value="mb339">Aermacchi MB-339</option>
+              <option value="p38">Lockheed P-38</option>
+              <option value="pitts">Pitts S-2B</option>
+              <option value="q400">Bombardier Dash 8Q-400</option>
+              <option value="r22">Robinson R22</option>
+              <option value="swift">Marganski Swift S1</option>
+            </select>
+
+            <label for="callsign">Callsign</label>
+            <input type="text" id="callsign" maxlength="8" pattern="[A-Z0-9 -]+" autocapitalize="characters" />
+
+            <label for="cruise_speed">Cruise speed (kts)</label>
+            <input type="number" min="0" max="999" id="cruise_speed" value="0" />
+
+            <label for="cruise_altitude_ft">Cruise altitude (ft)</label>
+            <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
+          </div>
+        </details>
+        <details>
+          <summary>Time &amp; date</summary>
+          <div class="col-2">
+            <label for="date">Date (UTC)</label>
+            <input type="date" id="date" />
+
+            <label for="time">Time (UTC)</label>
+            <input type="time" id="time" />
+          </div>
+        </details>
+        <details>
+          <summary>Weather</summary>
+          <div class="col-2">
+            <label for="wind_direction">Wind direction (°)</label>
+            <input type="number" min="0" max="359" id="wind_direction" />
+
+            <label for="wind_speed">Wind speed (kts)</label>
+            <input type="number" min="0" max="99" id="wind_speed" />
+
+            <label for="wind_gusts">Wind gusts (kts)</label>
+            <input type="number" min="0" max="99" id="wind_gusts" />
+
+            <label for="visibility">Visibility (m)</label>
+            <input type="number" min="0" max="20000" step="500" id="visibility" />
+
+            <label for="cloud_base_feet">Cloud base (ft)</label>
+            <input type="number" min="0" max="50000" step="100" id="cloud_base_feet" />
+
+            <label for="cloud_cover">Cloud cover (%)</label>
+            <input type="range" min="0" max="100" step="12.5" id="cloud_cover" />
+
+            <label for="thermal_strength">Thermal strength (%)</label>
+            <input type="range" min="0" max="100" step="1" id="thermal_strength" />
+
+            <label for="turbulence_strength">Turbulence strength (%)</label>
+            <input type="range" min="0" max="100" step="1" id="turbulence_strength" />
+          </div>
+        </details>
       </section>
       <section>
         <h2>Step 3: Check flight plan</h2>
@@ -100,7 +140,7 @@
             id="link-osm" target="osm">OpenStreetMap</a>.</p>
       </section>
       <section>
-        <h2>Step 4: Download converted files</h2>
+        <h2>Step 4: Save converted files</h2>
         <p>
           <button id="download-tmc" class="primary">Download <code>custom_missions.tmc</code> flight plan</button>
           <button id="download-md">Download <code>custom_missions.md</code> documentation</button>
@@ -124,11 +164,11 @@
 
   </div>
   <script type="module" src="./aerofly-missions-web.js"></script>
-  <!--script>
+  <script>
     if (window.isSecureContext && 'serviceWorker' in navigator && !navigator.serviceWorker.controller) {
       navigator.serviceWorker.register('./sw.js');
     }
-  </script-->
+  </script>
 </body>
 
 </html>

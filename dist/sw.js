@@ -2,14 +2,15 @@
 // @see https://pwabuilder.com
 'use strict';
 
-const CACHE = 'ujagd';
+const CACHE = 'aerofly-missions';
 
 const offlineFallbackPage = [
   './index.html',
+  './styles.css',
   './favicon-180x180.png',
   './favicon-512x512.png',
   './favicon-512x512.svg',
-  './js/index.js',
+  './aerofly-missions-web.js',
 ];
 
 self.addEventListener('install', function (event) {

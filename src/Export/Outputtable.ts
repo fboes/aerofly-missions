@@ -45,7 +45,7 @@ export class Outputtable {
     let wind_speed = conditions.wind_speed.toFixed();
     const gust_type = conditions.wind_gusts_type;
     if (gust_type) {
-      wind_speed += '-' + conditions.wind_gusts.toFixed();
+      wind_speed += 'G' + conditions.wind_gusts.toFixed();
     }
     return this.padThree(conditions.wind_direction) + '° @ ' + wind_speed;
   }

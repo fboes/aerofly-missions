@@ -16,7 +16,8 @@ export const asciify = (string) => {
         .replace(/[!?.'":;]/g, '')
         .replace(/\s/g, '_')
         .replace(/[^a-z0-9-_]/g, '-')
-        .replace(/(-)-+/g, '$1');
+        .replace(/(-)-+/g, '$1')
+        .replace(/(_)_+/g, '$1');
 };
 export class Arguments {
     constructor(process) {

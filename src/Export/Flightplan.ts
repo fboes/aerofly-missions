@@ -38,7 +38,7 @@ export class Flightplan extends Outputtable {
   }
 
   getWind(conditions: MissionConditions): string {
-    return super.getWind(conditions) + 'KTS';
+    return super.getWind(conditions).replace(/(G)/, this.clr.lightGray + "$1" + this.clr.reset) + 'KTS';
   }
 
   outputDashes(length: number, char: string = '-') {

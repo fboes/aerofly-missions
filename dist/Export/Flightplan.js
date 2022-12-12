@@ -39,7 +39,7 @@ export class Flightplan extends Outputtable {
         return color + flight_category + this.clr.reset;
     }
     getWind(conditions) {
-        return super.getWind(conditions) + 'KTS';
+        return super.getWind(conditions).replace(/(G)/, this.clr.lightGray + "$1" + this.clr.reset) + 'KTS';
     }
     outputDashes(length, char = '-') {
         return this.clr.lightGray + char.repeat(length) + this.clr.reset + "\n";
