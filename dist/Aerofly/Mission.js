@@ -277,7 +277,7 @@ export class Mission {
                 // Filtering departure, approach and arrival - these points have no coordinates
             }).map((w) => {
                 let cp = new MissionCheckpoint();
-                cp.fromMainMcf(w, this.cruise_altitude);
+                cp.fromMainMcf(w);
                 cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
                 return cp;
             });
@@ -335,9 +335,6 @@ export class Mission {
             cp.name = w.identifier;
             if (w.type === 'AIRPORT') {
                 cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
-            }
-            else {
-                cp.altitude = this.cruise_altitude;
             }
             cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
             if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
@@ -400,6 +397,9 @@ export class Mission {
             }
             if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || c.type === MissionCheckpoint.TYPE_DESTINATION) {
                 c.ground_speed = 30;
+            }
+            if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+                c.altitude = this.cruise_altitude;
             }
             // Modify cruising speed by wind
             if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {

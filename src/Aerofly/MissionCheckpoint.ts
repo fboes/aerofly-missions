@@ -136,11 +136,11 @@ export class MissionCheckpoint {
    * @param cruiseAltitude in meters
    * @returns MissionCheckpoint
    */
-  fromMainMcf(waypoint: MainMcfWaypointInterface, cruiseAltitude: number = 0): MissionCheckpoint {
+  fromMainMcf(waypoint: MainMcfWaypointInterface): MissionCheckpoint {
     this.type = waypoint.type;
     this.name = waypoint.Identifier;
     this.lon_lat = LonLat.fromMainMcf(waypoint.Position);
-    this.altitude = waypoint.Elevation || cruiseAltitude;
+    this.altitude = waypoint.Elevation;
     if (waypoint.Altitude[0]) {
       this.altitude = Math.max(this.altitude, waypoint.Altitude[0]);
     }
