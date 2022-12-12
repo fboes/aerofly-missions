@@ -63,7 +63,7 @@ export class LonLatDate {
    * In hours
    */
   get localSolarTime(): number {
-    return this.localTime + (this.timeCorrectionFactor / 60);
+    return (this.localTime + (this.timeCorrectionFactor / 60) + 24) % 24;
   }
 
   /**
