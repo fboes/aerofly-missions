@@ -389,6 +389,9 @@ export class Mission {
         const isVfr = (flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
         // Add directions
         this.checkpoints.forEach(c => {
+            if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+                c.altitude = this.cruise_altitude;
+            }
             if (lastC !== null) {
                 c.setDirectionByCoordinates(lastC.lon_lat, isVfr);
             }
@@ -397,9 +400,6 @@ export class Mission {
             }
             if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || c.type === MissionCheckpoint.TYPE_DESTINATION) {
                 c.ground_speed = 30;
-            }
-            if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
-                c.altitude = this.cruise_altitude;
             }
             // Modify cruising speed by wind
             if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {
