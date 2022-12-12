@@ -55,7 +55,9 @@ export class BashColors {
         if (this.colorType === BashColors.COLOR_NONE) {
             return length;
         }
-        const matches = string.match(/\x1b.+?m/g);
+        const matches = this.colorType === BashColors.COLOR_BASH
+            ? string.match(/\x1b.+?m/g)
+            : string.match(/<\/?span[^>]*>/g);
         if (matches) {
             matches.forEach(l => {
                 length += l.length;
