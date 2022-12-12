@@ -52,7 +52,7 @@ export class Flightplan extends Outputtable {
         else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
             sunColor = this.clr.lightRed;
         }
-        return sunColor + ' ' + (super.outputSunState(sunState).toUpperCase()) + this.clr.reset;
+        return sunColor + (super.outputSunState(sunState).toUpperCase()) + this.clr.reset;
     }
     outputDateTime(date) {
         return super.outputDateTime(date).replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);
@@ -121,32 +121,34 @@ export class Flightplan extends Outputtable {
             'ALT',
             m.cruise_altitude_ft.toLocaleString('en') + 'FT'
         ]);
-        output += this.outputDashes(lineLength, '=');
-        // Waypoint table
-        output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
-        m.checkpoints.forEach((c, i) => {
-            let frqString = '';
-            if (c.frequency) {
-                frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
-            }
-            ;
+        if (m.checkpoints.length) {
+            output += this.outputDashes(lineLength, '=');
+            // Waypoint table
+            output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
+            m.checkpoints.forEach((c, i) => {
+                let frqString = '';
+                if (c.frequency) {
+                    frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
+                }
+                ;
+                output += this.outputLine([
+                    this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
+                    this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
+                    (c.frequency) ? frqString : ' '.repeat(6),
+                    (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
+                    (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
+                    (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
+                    (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
+                    (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute) : ' '.repeat(5),
+                ]);
+            });
+            output += this.outputDashes(lineLength);
             output += this.outputLine([
-                this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
-                this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
-                (c.frequency) ? frqString : ' '.repeat(6),
-                (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
-                (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
-                (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
-                (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
-                (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute) : ' '.repeat(5),
+                this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
+                this.pad(total_distance, 4, 1),
+                this.convertHoursToMinutesString(total_time_enroute)
             ]);
-        });
-        output += this.outputDashes(lineLength);
-        output += this.outputLine([
-            this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
-            this.pad(total_distance, 4, 1),
-            this.convertHoursToMinutesString(total_time_enroute)
-        ]);
+        }
         return output;
     }
 }

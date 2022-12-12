@@ -3,6 +3,7 @@ import { Mission } from "./Aerofly/Mission.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { BashColors } from "./Cli/BashColors.js";
 import { Flightplan } from "./Export/Flightplan.js";
+import { GeoJson } from "./Export/GeoJson.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
@@ -16,6 +17,8 @@ const App = {
     aircraft_name: <HTMLSelectElement>document.getElementById('aircraft_name'),
     date: <HTMLInputElement>document.getElementById('date'),
     time: <HTMLInputElement>document.getElementById('time'),
+    title: <HTMLInputElement>document.getElementById('title'),
+    description: <HTMLTextAreaElement>document.getElementById('description'),
     cruise_speed: <HTMLSelectElement>document.getElementById('cruise_speed'),
     cruise_altitude_ft: <HTMLSelectElement>document.getElementById('cruise_altitude_ft'),
     flightplan: <HTMLPreElement>document.getElementById('flightplan'),
@@ -24,6 +27,7 @@ const App = {
     linkOpenStreetMap: <HTMLAnchorElement>document.getElementById('link-osm'),
     downloadTmc: <HTMLButtonElement>document.getElementById('download-tmc'),
     downloadMd: <HTMLButtonElement>document.getElementById('download-md'),
+    downloadJson: <HTMLButtonElement>document.getElementById('download-json'),
   },
   showFlightplan: () => {
     const lonLatArea = new LonLatArea(mission.origin_lon_lat);
@@ -44,59 +48,57 @@ const App = {
     if (App.elements.linkOpenStreetMap) {
       App.elements.linkOpenStreetMap.href = `https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}`;
     }
+    document.querySelectorAll('button').forEach(b => {
+      if (mission.checkpoints.length > 0) {
+        b.removeAttribute('disabled')
+      } else {
+        b.setAttribute('disabled', 'disabled')
+      }
+    })
   },
   uploadFile: () => {
     if (!App.elements.upload || !App.elements.upload.files) {
+      App.showError('No file given');
       return;
     }
     for (const file of App.elements.upload.files) {
       const reader = new FileReader();
       const fileEnding = file.name.replace(/^.*(\.[^.]+)$/, '$1');
 
-      switch (fileEnding) {
-        case '.mcf':
-          reader.onload = (e) => {
-            if (e.target) {
-              const mainMcf = new MainMcf(<string>e.target.result)
-              mission.fromMainMcf(mainMcf);
-              App.syncToForm();
-              App.showFlightplan();
-            }
+      reader.onload = (e) => {
+        if (e.target) {
+          switch (fileEnding) {
+            case '.mcf':
+              {
+                const mainMcf = new MainMcf(<string>e.target.result)
+                mission.fromMainMcf(mainMcf);
+              }
+              break;
+            case '.fpl':
+              {
+                const fpl = new GarminFpl(<string>e.target.result)
+                mission.fromGarminFpl(fpl);
+              }
+              break;
+            case '.pln':
+              {
+                const fpl = new MsfsPln(<string>e.target.result)
+                mission.fromGarminFpl(fpl);
+              }
+              break;
+            case '.fms':
+              {
+                const fpl = new XplaneFms(<string>e.target.result)
+                mission.fromGarminFpl(fpl);
+              }
+              break;
+            default:
+              App.showError('Unsupported file: ' + file.name);
+              break;
           }
-          break;
-        case '.fpl':
-          reader.onload = (e) => {
-            if (e.target) {
-              const fpl = new GarminFpl(<string>e.target.result)
-              mission.fromGarminFpl(fpl);
-              App.syncToForm();
-              App.showFlightplan();
-            }
-          }
-          break;
-        case '.pln':
-          reader.onload = (e) => {
-            if (e.target) {
-              const fpl = new MsfsPln(<string>e.target.result)
-              mission.fromGarminFpl(fpl);
-              App.syncToForm();
-              App.showFlightplan();
-            }
-          }
-          break;
-        case '.fms':
-          reader.onload = (e) => {
-            if (e.target) {
-              const fpl = new XplaneFms(<string>e.target.result)
-              mission.fromGarminFpl(fpl);
-              App.syncToForm();
-              App.showFlightplan();
-            }
-          }
-          break;
-        default:
-          App.showError('Unsupported file: ' + file.name);
-          break;
+          App.syncToForm();
+          App.showFlightplan();
+        }
       }
 
       reader.readAsText(file);
@@ -116,53 +118,55 @@ const App = {
     App.elements.time.value = Math.floor(mission.conditions.time.time_hours).toFixed().padStart(2, '0') + ':' + Math.floor(mission.conditions.time.time_hours % 1 * 60).toFixed().padStart(2, '0');
     App.elements.cruise_speed.value = mission.cruise_speed.toFixed();
     App.elements.cruise_altitude_ft.value = mission.cruise_altitude_ft.toFixed();
+    App.elements.title.value = mission.title;
+    App.elements.description.value = mission.description;
   },
   showError: (message: string) => {
     console.error(message)
   },
   init: () => {
-    App.elements.upload.addEventListener('change', App.uploadFile);
-    App.elements.aircraft_name.addEventListener('change', (e) => {
-      const target = e.target as HTMLSelectElement;
-      mission.aircraft_name = target.value;
-      App.syncToForm();
-      App.showFlightplan();
+    document.querySelectorAll('input, select, textarea').forEach(i => {
+      i.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        switch (target.id) {
+          case 'upload': App.uploadFile(); break;
+          case 'aircraft_name': mission.aircraft_name = target.value; break;
+          case 'cruise_speed': mission.cruise_speed = target.valueAsNumber; mission.calculateDirectionForCheckpoints(); break;
+          case 'cruise_altitude_ft': mission.cruise_altitude_ft = target.valueAsNumber; mission.calculateDirectionForCheckpoints(); break;
+          case 'title': mission.title = target.value; break;
+          case 'description': mission.description = target.value; break;
+          case 'date':
+            {
+              const match = target.value.match(/(\d+)\D(\d+)\D(\d+)/);
+              if (match) {
+                mission.conditions.time.time_year = Number(match[1]);
+                mission.conditions.time.time_month = Number(match[2]);
+                mission.conditions.time.time_day = Number(match[3]);
+              }
+            }
+            break;
+          case 'time':
+            {
+              const match = target.value.match(/(\d+)\D(\d+)/);
+              if (match) {
+                mission.conditions.time.time_hours = Number(match[1]) + Number(match[2]) / 60;
+              }
+            }
+            break;
+        }
+        App.syncToForm();
+        App.showFlightplan();
+      })
     });
-    App.elements.date.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      const match = target.value.match(/(\d+)\D(\d+)\D(\d+)/);
-      if (match) {
-        mission.conditions.time.time_year = Number(match[1]);
-        mission.conditions.time.time_month = Number(match[2]);
-        mission.conditions.time.time_day = Number(match[3]);
-      }
-      App.showFlightplan();
-    });
-    App.elements.time.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      const match = target.value.match(/(\d+)\D(\d+)/);
-      if (match) {
-        mission.conditions.time.time_hours = Number(match[1]) + Number(match[2]) / 60;
-      }
-      App.showFlightplan();
-    });
-    App.elements.cruise_speed.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      mission.cruise_speed = target.valueAsNumber;
-      mission.calculateDirectionForCheckpoints();
-      App.showFlightplan();
-    });
-    App.elements.cruise_altitude_ft.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      mission.cruise_altitude_ft = target.valueAsNumber;
-      mission.calculateDirectionForCheckpoints();
-      App.showFlightplan();
-    });
+
     App.elements.downloadTmc.addEventListener('click', () => {
-      App.download('custom_mission.tmc', missionList.toString());
+      App.download('custom_missions.tmc', missionList.toString());
     });
     App.elements.downloadMd.addEventListener('click', () => {
-      App.download('custom_mission.md', markdown.toString());
+      App.download('custom_missions.md', new Markdown(mission).toString());
+    });
+    App.elements.downloadMd.addEventListener('click', () => {
+      App.download('custom_missions.json', JSON.stringify(new GeoJson().fromMission(mission), null, 2));
     });
 
     App.showFlightplan();
@@ -170,12 +174,11 @@ const App = {
   }
 }
 
-const mission = new Mission('Custom mission', '');
+const mission = new Mission('', '');
 const missionList = new MissionsList('');
 missionList.missions.push(mission);
 const flightplan = new Flightplan(mission, new BashColors(BashColors.COLOR_HTML));
 const skyVector = new SkyVector(mission);
-const markdown = new Markdown(mission);
 
 App.init();
 
