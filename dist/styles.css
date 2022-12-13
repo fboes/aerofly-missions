@@ -1,7 +1,7 @@
 :root {
   --color-text: black;
   --color-background: white;
-  --color-highlight: #0366d6;
+  --color-highlight: #1f6ed6;
   --color-highlight-contra: #ffffff;
   --color-note: #666666;
   --color-darken: rgba(0, 0, 0, 0.1);
@@ -13,8 +13,6 @@
   :root {
     --color-text: white;
     --color-background: #0c1019;
-    --color-highlight: #0366d6;
-    --color-highlight-contra: #ffffff;
     --color-note: #999999;
     --color-darken: rgba(255, 255, 255, 0.2);
     --color-darken-more: rgba(255, 255, 255, 0.3);
