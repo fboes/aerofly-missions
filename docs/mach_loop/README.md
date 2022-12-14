@@ -5,27 +5,7 @@ Do you have what it takes to fly [the Mach Loop](https://machloop.co.uk/)? Strap
 
 How to fly the Mach Loop? Have a look at this [video of a BAe Hawk flying the Mach Loop](https://www.youtube.com/watch?v=uTxxXv9XhbM). Because of the speed you will have to memorize your flight plan.
 
-> This is a custom mission for [Aerofly FS 4](https://www.aerofly.com/).
-
-Installation
-------------
-
-To install this custom mission file:
-
-1. Open a file explorer in your Aerofly FS 4 game folder.
-2. Open up the `missions` folder.
-3. Rename `custom_missions.tmc` to any other file name,
-   e.g. `_custom_missions.tmc`.
-4. Place the [`mach_loop.tmc`](./mach_loop.tmc) in the `missions` folder.
-5. Rename `mach_loop.tmc` to `custom_missions.tmc`,
-5. On starting Aerofly FS 4, all your custom missions will be loaded from the 
-   new `custom_missions.tmc`.
-
-To revert back to the original custom missions file, simply delete the new file 
-and rename the old file `_custom_missions.tmc` back to `custom_missions.tmc`.
-
-In case your Aerofly FS 4 installation gets damaged in this process, consider
-a fresh installation.
+> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
 Flight briefing
 ---------------

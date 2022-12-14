@@ -52,10 +52,11 @@ This manual is for Windows 10/11 installations. On other operating systems these
 1. Local version:
    1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
    1. Right click on the folder name and choose "Open in terminal"
-   1. Run `aerofly-missions` in the open terminal to convert `main.mcf` to `custom_missions.tmc` (see below).
-1. Grab your exported `custom_missions.tmc` file with all your settings converted into a single mission file. This file can now be placed into the custom mission directory in Aerofly FS 4.
+   1. Run `aerofly-missions` in the open terminal to convert `main.mcf` to a `tmc` file (see below).
+1. Grab your exported `tmc` file with all your settings converted into a single mission file. This file can now be placed into the custom mission directory in Aerofly FS 4.
 
-Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file.
+Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file. See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
+
 
 See the [custom missions documentation](docs/custom-missions.md) for more information.
 

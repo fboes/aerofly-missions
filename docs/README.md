@@ -4,6 +4,7 @@
 1. [Building a custom missions file](./custom-missions.md)
 1. [Flight plan output](./flightplan.md)
 1. [Importing flight plans](./importing-flightplans.md)
+1. [Generic installation instructions for custom missions](./generic-installation.md)
 
 On a more theoretical level:
 

@@ -30,7 +30,7 @@ Parameters:
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of aircraft
       --magnetic     Magnetic declination used for waypoints
-      --import       Location of an optional FPL, PLN or FMS file
+      --import       Location of an optional TMC, FPL, PLN or FMS file
 
 Switches:
   -m  --mission-only Do not export mission list with a single mission,
@@ -52,29 +52,7 @@ As the generated file is a text file, it can be edited with any kind of text edi
 Redistribution
 --------------
 
-If you want to redistribute your mission file, you may want to include installation instructions:
-
-```markdown
-YOUR MISSION NAME
------------------
-
-To install this custom mission file:
-
-1. Open a file explorer in your Aerofly FS 4 game folder.
-2. Open up the `missions` folder.
-3. Rename `custom_missions.tmc` to any other file name,
-   e.g. `_custom_missions.tmc`.
-4. Place the `custom_missions.tmc` from this ZIP archive in the
-   `missions` folder.
-5. On starting Aerofly FS 4, all your custom missions will be loaded from the 
-   new `custom_missions.tmc`.
-
-To revert back to the original custom missions file, simply delete the new file 
-and rename the old file `_custom_missions.tmc` back to `custom_missions.tmc`.
-
-In case your Aerofly FS 4 installation gets damaged in this process, consider
-a fresh installation.
-```
+If you want to redistribute your mission file, you may want to include [these generic installation instructions](./generic-installation.md).
 
 ----
 
