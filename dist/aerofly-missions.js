@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as fs from "node:fs";
 import { MainMcf } from "./Aerofly/MainMcf.js";
-import { Mission } from "./Aerofly/Mission.js";
+import { Mission, MissionParsed } from "./Aerofly/Mission.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { Arguments } from "./Cli/Arguments.js";
 import { BashColors } from "./Cli/BashColors.js";
@@ -32,12 +32,15 @@ if (args.garmin) {
     mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.msfs) {
-    const fpl = new MsfsPln(fs.readFileSync(args.garmin, "utf8"));
+    const fpl = new MsfsPln(fs.readFileSync(args.msfs, "utf8"));
     mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.xplane) {
-    const fpl = new XplaneFms(fs.readFileSync(args.garmin, "utf8"));
+    const fpl = new XplaneFms(fs.readFileSync(args.xplane, "utf8"));
     mission.fromGarminFpl(fpl, args.magneticDeclination);
+}
+if (args.tmc) {
+    const fpl = new MissionParsed(fs.readFileSync(args.tmc, "utf8"), mission);
 }
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);

@@ -10,10 +10,38 @@ export interface MainMcfWaypointInterface {
   Length: number;
 }
 
+export class MainMcfParser {
+  constructor(configFileContent: string) {
+  }
+
+  getNumber(subject: string, key: string, defaultValue: number = 0): number {
+    return Number(this.getValue(subject, key, String(defaultValue)));
+  }
+
+  getNumberArray(subject: string, key: string): number[] {
+    return this.getValue(subject, key)
+      .split(" ")
+      .map((i) => Number(i));
+  }
+
+  getValue(subject: string, key: string, defaultValue: string = ""): string {
+    const match = subject.match(new RegExp("(?:\\]\\s*\\[" + key + "\\]\\s*\\[)([^\\]]*)(?:\\])"));
+    return match ? match[1] : defaultValue;
+  }
+
+  getGroup(subject: string, group: string, indent: number = 2): string {
+    const indentString = "    ".repeat(indent);
+    const match = subject.match(
+      new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">")
+    );
+    return match ? match[0] : "";
+  }
+}
+
 /**
  * The reader is actually junk and would benefit from some serious refactoring.
  */
-export class MainMcf {
+export class MainMcf extends MainMcfParser {
   aircraft = {
     name: "",
   };
@@ -51,8 +79,8 @@ export class MainMcf {
     },
   };
 
-
   constructor(configFileContent: string) {
+    super(configFileContent);
     this.read(configFileContent);
   }
 
@@ -120,28 +148,5 @@ export class MainMcf {
         Ways: waypoints,
       },
     };
-  }
-
-  getNumber(subject: string, key: string, defaultValue: number = 0): number {
-    return Number(this.getValue(subject, key, String(defaultValue)));
-  }
-
-  getNumberArray(subject: string, key: string): number[] {
-    return this.getValue(subject, key)
-      .split(" ")
-      .map((i) => Number(i));
-  }
-
-  getValue(subject: string, key: string, defaultValue: string = ""): string {
-    const match = subject.match(new RegExp("(?:\\]\\[" + key + "\\]\\[)([^\\]]*)(?:\\])"));
-    return match ? match[1] : defaultValue;
-  }
-
-  getGroup(subject: string, group: string, indent: number = 2): string {
-    const indentString = "    ".repeat(indent);
-    const match = subject.match(
-      new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">")
-    );
-    return match ? match[0] : "";
   }
 }

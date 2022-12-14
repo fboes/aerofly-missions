@@ -1,0 +1,92 @@
+<[file][][]
+    <[tmmissions_list][][]
+        <[list_tmmission_definition][missions][]
+// -----------------------------------------------------------------------------
+            <[tmmission_definition][mission][]
+                <[string8][title][From KCLM to KBLI]>
+                <[string8][description][A night flight from KCLM to KBLI under VFR conditions. Wind is 0 kts from 0°.]>
+                <[string8]   [flight_setting]     [taxi]>
+                <[string8u]  [aircraft_name]      [c172]>
+                <[stringt8c] [aircraft_icao]      [C172]>
+                <[stringt8c] [callsign]           [N51911]>
+                <[stringt8c] [origin_icao]        [KCLM]>
+                <[tmvector2d][origin_lon_lat]     [-123.499694 48.120194]>
+                <[float64]   [origin_dir]         [62.46030074053124]>
+                <[stringt8c] [destination_icao]   [KBLI]>
+                <[tmvector2d][destination_lon_lat][-122.537528 48.792694]>
+                <[float64]   [destination_dir]    [346.39184541530057]>
+                //<[float64]   [cruise_altitude]    [1523.9999512320016]>
+                //<[float64]   [cruise_speed]       [122]>
+                <[tmmission_conditions][conditions][]
+                    <[tm_time_utc][time][]
+                        <[int32][time_year][2022]>
+                        <[int32][time_month][12]>
+                        <[int32][time_day][13]>
+                        <[float64][time_hours][16]>
+                    >
+                    <[float64][wind_direction][334.39184541530057]>
+                    <[float64][wind_speed][3]> // kts
+                    <[float64][wind_gusts][13]> // kts
+                    <[float64][turbulence_strength][0.6595469187953649]>
+                    <[float64][thermal_strength][0.8931942951881658]>
+                    <[float64][visibility][6000]> // meters
+                    <[float64][cloud_cover][0.8541889921742454]>
+                    <[float64][cloud_base][1066.799965862401]> // meters AGL
+                >
+                <[list_tmmission_checkpoint][checkpoints][]
+                    <[tmmission_checkpoint][element][0]
+                        <[string8u][type][origin]>
+                        <[string8u][name][KCLM]>
+                        <[vector2_float64][lon_lat][-123.499694 48.120194]>
+                        <[float64][altitude][0]>
+                        <[float64][direction][-1]>
+                        <[float64][slope][0]>
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][1]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][SV001]>
+                        <[vector2_float64][lon_lat][-123.082993 48.264090]>
+                        <[float64][altitude][1676.3999463552018]>
+                        <[float64][direction][62.46030074053124]>
+                        <[float64][slope][0]>
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][2]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][CVV]>
+                        <[vector2_float64][lon_lat][-122.724417 48.244694]>
+                        <[float64][altitude][1676.3999463552018]>
+                        <[float64][direction][94.51073933322095]>
+                        <[float64][slope][0]>
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][3]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][BVS]>
+                        <[vector2_float64][lon_lat][-122.418414 48.468597]>
+                        <[float64][altitude][1676.3999463552018]>
+                        <[float64][direction][42.129766074931695]>
+                        <[float64][slope][0]>
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][4]
+                        <[string8u][type][destination]>
+                        <[string8u][name][KBLI]>
+                        <[vector2_float64][lon_lat][-122.537528 48.792694]>
+                        <[float64][altitude][0]>
+                        <[float64][direction][346.39184541530057]>
+                        <[float64][slope][0]>
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                >
+            >
+// -----------------------------------------------------------------------------
+        >
+    >
+>

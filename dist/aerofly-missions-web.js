@@ -1,5 +1,6 @@
 import { MainMcf } from "./Aerofly/MainMcf.js";
-import { Mission } from "./Aerofly/Mission.js";
+import { Mission, MissionParsed } from "./Aerofly/Mission.js";
+import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
 import { BashColors } from "./Cli/BashColors.js";
@@ -22,6 +23,8 @@ class App {
             description: document.getElementById('description'),
             cruise_speed: document.getElementById('cruise_speed'),
             cruise_altitude_ft: document.getElementById('cruise_altitude_ft'),
+            origin_dir: document.getElementById('origin_dir'),
+            ils_frequency: document.getElementById('ils_frequency'),
             wind_direction: document.getElementById('wind_direction'),
             wind_speed: document.getElementById('wind_speed'),
             visibility: document.getElementById('visibility'),
@@ -48,7 +51,6 @@ class App {
         this.missionList.missions.push(this.mission);
         this.flightplan = new Flightplan(this.mission, new BashColors(BashColors.COLOR_HTML));
         this.skyVector = new SkyVector(this.mission);
-        this.fetchVersion();
         document.querySelectorAll('input, select, textarea').forEach(i => {
             i.addEventListener('input', (e) => {
                 const target = e.currentTarget;
@@ -66,6 +68,12 @@ class App {
                         break;
                     case 'cruise_altitude_ft':
                         this.mission.cruise_altitude_ft = target.valueAsNumber;
+                        break;
+                    case 'origin_dir':
+                        this.mission.origin_dir = target.valueAsNumber;
+                        break;
+                    case 'origin_dir':
+                        this.mission.origin_dir = target.valueAsNumber;
                         break;
                     case 'title':
                         this.mission.title = target.value;
@@ -161,6 +169,13 @@ class App {
         });
         const center = lonLatArea.center;
         const zoomLevel = lonLatArea.zoomLevel;
+        if (this.elements.ils_frequency.valueAsNumber > 0 && this.mission.checkpoints.length > 2) {
+            let runway = this.mission.checkpoints[this.mission.checkpoints.length - 2];
+            if (runway.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
+                runway = this.mission.checkpoints[this.mission.checkpoints.length - 1];
+            }
+            runway.frequency_mhz = this.elements.ils_frequency.valueAsNumber;
+        }
         if (this.elements.flightplan) {
             this.elements.flightplan.innerHTML = this.flightplan.toString();
         }
@@ -203,6 +218,11 @@ class App {
                                 this.mission.fromMainMcf(mainMcf);
                             }
                             break;
+                        case '.tmc':
+                            {
+                                new MissionParsed(e.target.result, this.mission);
+                            }
+                            break;
                         case '.fpl':
                             {
                                 const fpl = new GarminFpl(e.target.result);
@@ -234,14 +254,14 @@ class App {
     }
     randomizeWeather() {
         const lastHeading = this.mission.checkpoints.length ? this.mission.checkpoints[this.mission.checkpoints.length - 1].direction : Math.floor(Math.random() * 360);
+        this.mission.conditions.thermal_strength = Math.random() * 0.5;
+        this.mission.conditions.turbulence_strength = Math.random() * 0.5;
         this.mission.conditions.wind_speed = Math.floor(Math.random() * 10);
-        this.mission.conditions.wind_gusts = Math.max(this.mission.conditions.wind_speed, Math.floor(Math.random() * 20));
-        this.mission.conditions.wind_direction = lastHeading - 30 + Math.floor(Math.random() * 60);
-        this.mission.conditions.cloud_base_feet = 1000 + Math.floor(Math.random() * 90) * 100;
+        this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
+        this.mission.conditions.wind_direction = (360 + lastHeading - 30 + Math.floor(Math.random() * 61)) % 360;
+        this.mission.conditions.cloud_base_feet = 1000 + Math.floor(Math.random() * 91) * 100;
         this.mission.conditions.cloud_cover = Math.random();
-        this.mission.conditions.thermal_strength = Math.random();
-        this.mission.conditions.turbulence_strength = Math.random();
-        this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 15) * 1000;
+        this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 16) * 1000;
     }
     download(filename, content, type = 'text/plain') {
         const a = document.createElement('a');
@@ -257,6 +277,7 @@ class App {
         this.elements.time.value = Math.floor(this.mission.conditions.time.time_hours).toFixed().padStart(2, '0') + ':' + Math.floor(this.mission.conditions.time.time_hours % 1 * 60).toFixed().padStart(2, '0');
         this.elements.cruise_speed.value = this.mission.cruise_speed.toFixed();
         this.elements.cruise_altitude_ft.value = this.mission.cruise_altitude_ft.toFixed();
+        this.elements.origin_dir.value = this.mission.origin_dir.toFixed();
         this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
         this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
         this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
@@ -271,17 +292,6 @@ class App {
     }
     showError(message) {
         console.error(message);
-    }
-    async fetchVersion() {
-        const sup = document.querySelector('h1 sup');
-        if (sup) {
-            const request = new Request('../package.json');
-            const response = await fetch(request);
-            if (response.ok) {
-                const pkg = await response.json();
-                sup.innerText = pkg.version;
-            }
-        }
     }
 }
 new App();

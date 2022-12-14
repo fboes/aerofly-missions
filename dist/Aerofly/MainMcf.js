@@ -1,8 +1,30 @@
+export class MainMcfParser {
+    constructor(configFileContent) {
+    }
+    getNumber(subject, key, defaultValue = 0) {
+        return Number(this.getValue(subject, key, String(defaultValue)));
+    }
+    getNumberArray(subject, key) {
+        return this.getValue(subject, key)
+            .split(" ")
+            .map((i) => Number(i));
+    }
+    getValue(subject, key, defaultValue = "") {
+        const match = subject.match(new RegExp("(?:\\]\\s*\\[" + key + "\\]\\s*\\[)([^\\]]*)(?:\\])"));
+        return match ? match[1] : defaultValue;
+    }
+    getGroup(subject, group, indent = 2) {
+        const indentString = "    ".repeat(indent);
+        const match = subject.match(new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">"));
+        return match ? match[0] : "";
+    }
+}
 /**
  * The reader is actually junk and would benefit from some serious refactoring.
  */
-export class MainMcf {
+export class MainMcf extends MainMcfParser {
     constructor(configFileContent) {
+        super(configFileContent);
         this.aircraft = {
             name: "",
         };
@@ -103,22 +125,5 @@ export class MainMcf {
                 Ways: waypoints,
             },
         };
-    }
-    getNumber(subject, key, defaultValue = 0) {
-        return Number(this.getValue(subject, key, String(defaultValue)));
-    }
-    getNumberArray(subject, key) {
-        return this.getValue(subject, key)
-            .split(" ")
-            .map((i) => Number(i));
-    }
-    getValue(subject, key, defaultValue = "") {
-        const match = subject.match(new RegExp("(?:\\]\\[" + key + "\\]\\[)([^\\]]*)(?:\\])"));
-        return match ? match[1] : defaultValue;
-    }
-    getGroup(subject, group, indent = 2) {
-        const indentString = "    ".repeat(indent);
-        const match = subject.match(new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">"));
-        return match ? match[0] : "";
     }
 }

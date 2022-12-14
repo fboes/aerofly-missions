@@ -1,6 +1,7 @@
 import { LonLat } from "../World/LonLat.js";
-import { Mission } from "../Aerofly/Mission.js";
+import { Mission, MissionParsed } from "../Aerofly/Mission.js";
 import { Test } from "../Cli/Test.js";
+import * as fs from "node:fs";
 export class MissionTest extends Test {
     constructor(process) {
         super(process);
@@ -27,11 +28,20 @@ export class MissionTest extends Test {
             const mission3 = new Mission('a'.repeat(32), "b\n".repeat(10));
             this.assertEquals(mission3.warnings.length, 1, 'Not throwing warnings');
         }
-        /*this.group(Mission.name + ': Wind drift');
+        this.group(MissionParsed.name);
         {
-          const mission = new Mission('','');
-          mission.conditions = new MissionConditions();
-          mission.conditions.wind_speed = 10;
-        }*/
+            const tmc = new MissionParsed(fs.readFileSync('./src/Tests/kclm_kbli.tmc', 'utf8'), new Mission('', ''));
+            const mission = tmc.mission;
+            this.assertEquals(mission.title, 'From KCLM to KBLI');
+            this.assertEquals(mission.flight_setting, 'taxi');
+            this.assertEquals(mission.origin_lon_lat.lon, -123.499694);
+            this.assertEquals(mission.origin_lon_lat.lat, 48.120194);
+            this.assertEquals(mission.conditions.time.time_year, 2022);
+            this.assertEquals(mission.conditions.turbulence_strength, 0.6595469187953649);
+            this.assertEquals(mission.cruise_altitude, 1676.3999463552018);
+            this.assertEquals(mission.checkpoints.length, 5);
+            this.assertEquals(mission.checkpoints[4].name, 'KBLI');
+            this.assertEquals(mission.checkpoints[1].altitude, 1676.3999463552018);
+        }
     }
 }

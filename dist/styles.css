@@ -4,6 +4,7 @@
   --color-highlight: #1f6ed6;
   --color-highlight-contra: #ffffff;
   --color-note: #666666;
+  --color-darken-less: rgba(0, 0, 0, 0.01);
   --color-darken: rgba(0, 0, 0, 0.1);
   --color-darken-more: rgba(0, 0, 0, 0.2);
   --fontweight-bold: 600;
@@ -14,6 +15,7 @@
     --color-text: white;
     --color-background: #0c1019;
     --color-note: #999999;
+    --color-darken-less: rgba(0, 0, 0, 0.5);
     --color-darken: rgba(255, 255, 255, 0.2);
     --color-darken-more: rgba(255, 255, 255, 0.3);
   }
@@ -56,10 +58,6 @@ summary {
   font-weight: var(--fontweight-bold);
 }
 
-h1 sup {
-  font-size: 0.5em;
-}
-
 h2 {
   border-top: 1px solid var(--color-darken-more);
   padding-top: 0.2em;
@@ -92,10 +90,11 @@ textarea {
 input,
 textarea,
 select {
-  background: transparent;
+  background: var(--color-darken-less);
 }
 
 label {
+  padding: 0.25em 0;
   display: block;
 }
 
@@ -116,6 +115,10 @@ button.primary {
 button:disabled {
   opacity: 0.8;
   cursor: not-allowed;
+}
+
+button:is(:hover, :focus):not(:disabled) {
+  box-shadow: var(--color-darken-more) 0px 0.5em 0.5em;
 }
 
 /* Code */
@@ -147,7 +150,7 @@ pre {
 
 .container {
   margin: auto;
-  max-width: 35em;
+  max-width: 50em;
 }
 
 .container>* {
@@ -171,14 +174,46 @@ footer {
 }
 
 
-@media screen and (min-width: 320px) {
+@media screen and (min-width: 24em) {
+  .col-4 {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 2%;
+  }
+
+  .col-4>* {
+    margin-top: 1em;
+    width: 49%;
+  }
+}
+
+@media screen and (min-width: 42em) {
   .col-2 {
     display: flex;
     flex-flow: row wrap;
+    column-gap: 2%;
   }
 
-  .col-2>* {
+  .col-2>*,
+  .col-4>* {
     margin-top: 1em;
-    width: 50%;
+    width: 23.5%;
+  }
+
+  .col-2>*:nth-child(even) {
+    width: 74.5%;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  pre,
+  div.pre,
+  pre span {
+    color: black !important;
+    background-color: white;
   }
 }

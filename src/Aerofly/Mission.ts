@@ -1,7 +1,7 @@
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { MainMcf } from "./MainMcf.js";
+import { MainMcf, MainMcfParser } from "./MainMcf.js";
 import { MissionCheckpoint } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";
 
@@ -39,7 +39,7 @@ export class Mission {
   /**
  * Not official: In kts TAS
  */
-  cruise_speed: number = 0;
+  cruise_speed: number = 122;
   /**
    * Not official: In meters
    */
@@ -193,11 +193,22 @@ export class Mission {
       case "b737":
         this.aircraft_icao = "B735";
         break;
+      case "b747":
+        this.aircraft_icao = "B744";
+        break;
       case "b787":
         this.aircraft_icao = "B78X";
         break;
       case "b777":
         this.aircraft_icao = "B77W";
+        break;
+      case "b747":
+        this.aircraft_icao = "B744";
+        break;
+      case "concorde":
+        this.aircraft_icao = "CONC";
+        this.callsign = 'F-BVFB';
+        this.cruise_speed = 1165;
         break;
       case "ec135":
         this.aircraft_icao = "EC35";
@@ -528,5 +539,80 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
 // -----------------------------------------------------------------------------
 `;
     return string;
+  }
+}
+
+export class MissionParsed extends MainMcfParser {
+  mission: Mission;
+
+  constructor(configFileContent: string, mission: Mission) {
+    super(configFileContent);
+    this.mission = this.read(configFileContent, mission);
+  }
+
+  read(configFileContent: string, mission: Mission): Mission {
+    const tmmission_definition = this.getGroup(configFileContent, "tmmission_definition", 3);
+    const tmmission_conditions = this.getGroup(configFileContent, "tmmission_conditions", 4);
+    const list_tmmission_checkpoint = this.getGroup(configFileContent, "list_tmmission_checkpoint", 4);
+
+    mission.title = this.getValue(tmmission_definition, "title");
+    mission.description = this.getValue(tmmission_definition, "description");
+    mission.flight_setting = this.getValue(tmmission_definition, "flight_setting");
+    mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
+    mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
+    mission.callsign = this.getValue(tmmission_definition, "callsign");
+    mission.origin_icao = this.getValue(tmmission_definition, "origin_icao");
+
+    const origin_lon_lat = this.getNumberArray(tmmission_definition, "origin_lon_lat");
+    mission.origin_lon_lat.lon = origin_lon_lat[0];
+    mission.origin_lon_lat.lat = origin_lon_lat[1];
+
+    mission.origin_dir = this.getNumber(tmmission_definition, "origin_dir");
+    mission.destination_icao = this.getValue(tmmission_definition, "destination_icao");
+
+    const destination_lon_lat = this.getNumberArray(tmmission_definition, "destination_lon_lat");
+    mission.destination_lon_lat.lon = destination_lon_lat[0];
+    mission.destination_lon_lat.lat = destination_lon_lat[1];
+    mission.destination_dir = this.getNumber(tmmission_definition, "destination_dir");
+    mission.cruise_altitude = this.getNumber(tmmission_conditions, 'cruise_altitude', mission.cruise_altitude);
+    mission.cruise_speed = this.getNumber(tmmission_conditions, 'cruise_speed', mission.cruise_speed);
+
+    mission.conditions.time.time_year = this.getNumber(tmmission_conditions, 'time_year');
+    mission.conditions.time.time_month = this.getNumber(tmmission_conditions, 'time_month');
+    mission.conditions.time.time_day = this.getNumber(tmmission_conditions, 'time_day');
+    mission.conditions.time.time_hours = this.getNumber(tmmission_conditions, 'time_hours');
+    mission.conditions.wind_direction = this.getNumber(tmmission_conditions, 'wind_direction');
+    mission.conditions.wind_speed = this.getNumber(tmmission_conditions, 'wind_speed');
+    mission.conditions.wind_gusts = this.getNumber(tmmission_conditions, 'wind_gusts');
+    mission.conditions.turbulence_strength = this.getNumber(tmmission_conditions, 'turbulence_strength');
+    mission.conditions.thermal_strength = this.getNumber(tmmission_conditions, 'thermal_strength');
+    mission.conditions.visibility = this.getNumber(tmmission_conditions, 'visibility');
+    mission.conditions.cloud_cover = this.getNumber(tmmission_conditions, 'cloud_cover');
+    mission.conditions.cloud_base = this.getNumber(tmmission_conditions, 'cloud_base');
+
+    mission.checkpoints = list_tmmission_checkpoint
+      .split("<[tmmission_checkpoint")
+      .slice(1)
+      .map((wp) => {
+        const cp = new MissionCheckpoint();
+        cp.type = this.getValue(wp, 'type');
+        cp.name = this.getValue(wp, 'name');
+
+        const lon_lat = this.getNumberArray(wp, "lon_lat");
+        cp.lon_lat.lon = lon_lat[0];
+        cp.lon_lat.lat = lon_lat[1];
+
+        cp.altitude = this.getNumber(wp, 'altitude');
+        cp.direction = this.getNumber(wp, 'direction');
+        cp.slope = this.getNumber(wp, 'slope');
+        cp.length = this.getNumber(wp, 'length');
+        cp.frequency = this.getNumber(wp, 'frequency');
+        mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.altitude)
+        return cp;
+      });
+
+    mission.calculateDirectionForCheckpoints();
+
+    return mission;
   }
 }

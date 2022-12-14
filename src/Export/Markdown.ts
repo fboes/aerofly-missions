@@ -36,7 +36,7 @@ export class Markdown extends Outputtable {
 
 ${m.description}
 
-> This is a custom mission for [Aerofly FS 4](https://www.aerofly.com/).
+> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
 Flight briefing
 ---------------

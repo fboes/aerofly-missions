@@ -28,7 +28,7 @@
     <header>
       <h1>
         <img src="./favicon-512x512.svg" alt="" height="64" width="64" />
-        <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät <sup>0.0.0</sup></a>
+        <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
       </h1>
     </header>
     <main>
@@ -37,51 +37,79 @@
           class="language-plaintext highlighter-rouge">custom_missions.tmc</code> file, using your current flight plan
         and other settings to generate a shareable mission.</p>
 
-      <section>
+      <section class="no-print">
         <h2>Step 1: Load flight plan file</h2>
 
-        <label for="upload">Aerofly <code>main.mcf</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>,
+        <label for="upload">Aerofly <code>main.mcf</code>, Aerofly <code>tmc</code>, Garmin <code>fpl</code>, Microsoft
+          FS <code>pln</code>,
           or X-Plane <code>fms</code> flight plan file</label>
-        <input type="file" id="upload" accept=".mcf,.fpl,.pln,.fms" />
+        <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms" />
       </section>
-      <section>
+      <section class="no-print">
         <h2>Step 2: Modify settings</h2>
 
-        <label for="title">Mission title</label>
-        <input type="text" id="title" maxlength="32" />
+        <div class="col-2">
+          <label for="title">Mission title</label>
+          <input type="text" id="title" maxlength="32" required="required" />
 
-        <label for="description">Mission description</label>
-        <textarea id="description"></textarea>
+          <label for="description">Mission description</label>
+          <textarea id="description" required="required"></textarea>
+        </div>
 
         <details open="open">
           <summary>Aircraft</summary>
-          <div class="col-2">
+          <div class="col-4">
             <label for="aircraft_name">Aircraft</label>
-            <select id="aircraft_name">
-              <option value="a320">Airbus A320-200</option>
-              <option value="asg29">Schleicher ASG 29</option>
-              <option value="b58">Beechcraft Baron 58</option>
-              <option value="b737">Boeing 737-500</option>
-              <option value="b777">Boeing 777-300ER</option>
-              <option value="c172" selected="selected">Cessna 172</option>
-              <option value="c90gtx">King Air C90 Gtx</option>
-              <option value="camel">Sopwith F.1 Camel</option>
-              <option value="dr1">Fokker DR.1 </option>
-              <option value="ec135">Eurocopter EC135</option>
-              <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
-              <option value="f4u">Vought F4U Corsair</option>
-              <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
-              <option value="lj45">Learjet 45</option>
-              <option value="mb339">Aermacchi MB-339</option>
-              <option value="p38">Lockheed P-38</option>
-              <option value="pitts">Pitts S-2B</option>
-              <option value="q400">Bombardier Dash 8Q-400</option>
-              <option value="r22">Robinson R22</option>
-              <option value="swift">Marganski Swift S1</option>
+            <select id="aircraft_name" required="required">
+              <optgroup label="Airliners">
+                <option value="a320">Airbus A320-200</option>
+                <option value="a380">Airbus A380</option>
+                <option value="b737">Boeing 737-500</option>
+                <option value="b747">Boeing 747-400</option>
+                <option value="b777">Boeing 777-300ER</option>
+                <option value="b787">Boeing 787-10 Dreamliner</option>
+                <option value="q400">Bombardier Dash 8Q-400</option>
+                <option value="concorde">Concorde</option>
+                <option value="lj45">Learjet 45</option>
+              </optgroup>
+              <optgroup label="Helicopters">
+                <option value="ec135">Eurocopter EC135</option>
+                <option value="r22">Robinson R22</option>
+              </optgroup>
+              <optgroup label="General Aviation">
+                <option value="b58">Beechcraft Baron 58</option>
+                <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
+                <option value="c172" selected="selected">Cessna 172</option>
+                <option value="c90gtx">King Air C90 Gtx</option>
+                <option value="pitts">Pitts S-2B</option>
+              </optgroup>
+              <optgroup label="Historical Aircraft">
+                <option value="dr1">Fokker DR.1 </option>
+                <option value="p38">Lockheed P-38</option>
+                <option value="bf109e">Messerschmitt Bf 109</option>
+                <option value="camel">Sopwith F.1 Camel</option>
+                <option value="f4u">Vought F4U Corsair</option>
+              </optgroup>
+              <optgroup label="Military Jets">
+                <option value="mb339">Aermacchi MB-339</option>
+                <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
+                <option value="f18">McDonnell Douglas F/A-18C Hornet </option>
+              </optgroup>
+              <optgroup label="Gliders">
+                <option value="swift">Marganski Swift S1</option>
+                <option value="asg29">Schleicher ASG 29</option>
+              </optgroup>
+              <!--
+                <option value="">Bombardier CRJ-900ER</option> // CRJ9
+                <option value="">Extra 330LX</option> // E300
+                <option value="">Junkers Ju-52/3m</option> // JU52
+                <option value="">Sikorsky UH-60 Black Hawk</option> // H60
+              -->
             </select>
 
             <label for="callsign">Callsign</label>
-            <input type="text" id="callsign" maxlength="8" pattern="[A-Z0-9 -]+" autocapitalize="characters" />
+            <input type="text" id="callsign" maxlength="8" pattern="[A-Z0-9 -]+" autocapitalize="characters"
+              required="required" />
 
             <label for="cruise_speed">Cruise speed (kts)</label>
             <input type="number" min="0" max="999" id="cruise_speed" value="0" />
@@ -92,17 +120,17 @@
         </details>
         <details>
           <summary>Time &amp; date</summary>
-          <div class="col-2">
+          <div class="col-4">
             <label for="date">Date (UTC)</label>
-            <input type="date" id="date" />
+            <input type="date" id="date" required="required" />
 
             <label for="time">Time (UTC)</label>
-            <input type="time" id="time" />
+            <input type="time" id="time" required="required" />
           </div>
         </details>
         <details>
           <summary>Weather</summary>
-          <div class="col-2">
+          <div class="col-4">
             <label for="wind_direction">Wind direction (°)</label>
             <input type="number" min="0" max="359" id="wind_direction" />
 
@@ -130,21 +158,33 @@
             <span></span><button id="randomize-weather">Set random weather</button>
           </div>
         </details>
+        <details>
+          <summary>Miscellaneous</summary>
+          <div class="col-4">
+            <label for="origin_dir">Initial heading (°)</label>
+            <input type="number" min="0" max="359" id="origin_dir" />
+
+            <label for="ils_frequency">ILS frequency (MHz)</label>
+            <input type="number" min="0" max="113" step="0.1" id="ils_frequency" />
+          </div>
+        </details>
       </section>
       <section>
-        <h2>Step 3: Check flight plan</h2>
+        <h2 class="no-print">Step 3: Check flight plan</h2>
         <div class="pre">
           <pre id="flightplan"></pre>
         </div>
 
-        <p>Check your <a href="#" id="link-skyvector" target="skyvector">current flight plan on SkyVector</a>.<br />
+        <p class="no-print">Check your <a href="#" id="link-skyvector" target="skyvector">current flight plan on
+            SkyVector</a>.<br />
           You may also want to take a look at <a href="#" id="link-gmap" target="gmap">Google Maps</a> / <a href="#"
             id="link-osm" target="osm">OpenStreetMap</a>.</p>
       </section>
-      <section>
+      <section class="no-print">
         <h2>Step 4: Save converted files</h2>
         <p>
-          <button class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code> flight plan</button>
+          <button class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code> flight
+            plan</button>
           <button class="download" id="download-md">Download <code>custom_missions.md</code> documentation</button>
           <button class="download" id="download-json">Download <code>custom_missions.json</code> GeoJSON</button>
         </p>
@@ -155,11 +195,12 @@
           href="https://github.com/fboes/aerofly-missions">GitHub</a> &middot; Copyright & license: See <a
           href="../LICENSE.txt">LICENSE.txt</a></p>
 
-      <p>This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the
+      <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the
         <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.
       </p>
 
-      <p>This software complies with the General Data Protection Regulation (GDPR) as it does not collect nor transmits
+      <p class="no-print">This software complies with the General Data Protection Regulation (GDPR) as it does not
+        collect nor transmits
         any personal data to third parties.</p>
     </footer>
 
