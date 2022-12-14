@@ -61,7 +61,7 @@ export class Flightplan extends Outputtable {
 
   toString(): string {
     const m = this.mission;
-    const lineLength = 53;
+    const lineLength = 55;
     const total_distance = m.distance;
     const total_time_enroute = m.time_enroute;
     const time = m.conditions.time_object;
@@ -134,7 +134,7 @@ export class Flightplan extends Outputtable {
       output += this.outputDashes(lineLength, '=');
 
       // Waypoint table
-      output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', ' DIS', '  ETE']) + this.clr.reset;
+      output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', '  DIS', '   ETE']) + this.clr.reset;
 
       m.checkpoints.forEach((c, i) => {
         let frqString = '';
@@ -149,15 +149,15 @@ export class Flightplan extends Outputtable {
           (c.altitude) ? this.pad(c.altitude_ft, 6, 0) : ' '.repeat(6),
           (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
           (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
-          (c.distance >= 0) ? this.pad(c.distance, 4, 1) : ' '.repeat(4),
-          (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute) : ' '.repeat(5),
+          (c.distance >= 0) ? this.pad(c.distance, 5, 1) : ' '.repeat(5),
+          (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute).padStart(6) : ' '.repeat(6),
         ]);
       })
       output += this.outputDashes(lineLength);
       output += this.outputLine([
         this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
-        this.pad(total_distance, 4, 1),
-        this.convertHoursToMinutesString(total_time_enroute)
+        this.pad(total_distance, 5, 1),
+        this.convertHoursToMinutesString(total_time_enroute).padStart(6)
       ]);
     }
 
