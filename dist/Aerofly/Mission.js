@@ -193,6 +193,11 @@ export class Mission {
                 this.callsign = 'N51911';
                 this.cruise_speed = 122;
                 break;
+            case "uh60":
+                this.aircraft_icao = "H60";
+                this.callsign = 'EVAC26212';
+                this.cruise_speed = 152;
+                break;
         }
         if (!this.aircraft_icao) {
             this.aircraft_icao = aircraft_name.toUpperCase();
