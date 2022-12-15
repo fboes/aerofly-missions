@@ -1,23 +1,38 @@
 import { BashColors } from "./BashColors.js";
 
 export const asciify = (string: string) => {
-  return string.toLowerCase().replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
-    return s.replace(/[äæ]/g, 'ae')
-      .replace(/[åáàâã]/, 'a')
-      .replace(/[öøœ]/, 'oe')
-      .replace(/[óòôõ]/, 'o')
-      .replace(/[ü]/, 'ue')
-      .replace(/[úùû]/, 'u')
-      .replace(/[ëéèê]/, 'e')
-      .replace(/[ïíìî]/, 'i')
-      .replace(/[ÿý]/, 'y')
-      .replace(/[ñ]/, 'n')
-      .replace(/[ß]/, 'ss')
-      ;
-  })
-    .replace(/[!?.'":;]/g, '')
+  return string
+    .replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
+      return s.replace(/[äæ]/, 'ae')
+        .replace(/[åáàâã]/, 'a')
+        .replace(/[öøœ]/, 'oe')
+        .replace(/[óòôõ]/, 'o')
+        .replace(/[ü]/, 'ue')
+        .replace(/[úùû]/, 'u')
+        .replace(/[ëéèê]/, 'e')
+        .replace(/[ïíìî]/, 'i')
+        .replace(/[ÿý]/, 'y')
+        .replace(/[ñ]/, 'n')
+        .replace(/[ß]/, 'ss')
+        ;
+    })
+    .replace(/[ÄÅÆÁÀÂÃÖØŒÓÒÔÕÜÚÙÛËÉÈÊÏÍÌÎŸÝÑSS]/g, function (s) {
+      return s.replace(/[ÄÆ]/, 'AE')
+        .replace(/[ÅÁÀÂÃ]/, 'A')
+        .replace(/[ÖØŒ]/, 'OE')
+        .replace(/[ÓÒÔÕ]/, 'O')
+        .replace(/[Ü]/, 'UE')
+        .replace(/[ÚÙÛ]/, 'U')
+        .replace(/[ËÉÈÊ]/, 'E')
+        .replace(/[ÏÍÌÎ]/, 'I')
+        .replace(/[ŸÝ]/, 'Y')
+        .replace(/[Ñ]/, 'N')
+        .replace(/[SS]/, 'SS')
+        ;
+    })
+    .replace(/[!?.,'":;]/g, '')
     .replace(/\s/g, '_')
-    .replace(/[^a-z0-9-_]/g, '-')
+    .replace(/[^a-zA-Z0-9-_]/g, '-')
     .replace(/(-)-+/g, '$1')
     .replace(/(_)_+/g, '$1')
     ;

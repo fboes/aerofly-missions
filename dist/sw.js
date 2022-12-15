@@ -38,20 +38,16 @@ self.addEventListener('fetch', function (event) {
   );
 });
 
-function fromCache(request) {
-  return caches.open(CACHE).then(function (cache) {
-    return cache.match(request).then(function (matching) {
-      if (!matching || matching.status >= 400) {
-        return Promise.reject('no-match');
-      }
-
-      return matching;
-    });
-  });
+async function fromCache(request) {
+  const cache = await caches.open(CACHE);
+  const matching = await cache.match(request);
+  if (!matching || matching.status >= 400) {
+    return Promise.reject('no-match');
+  }
+  return matching;
 }
 
-function updateCache(request, response) {
-  return caches.open(CACHE).then(function (cache) {
-    return cache.put(request, response);
-  });
+async function updateCache(request, response) {
+  const cache = await caches.open(CACHE);
+  return await cache.put(request, response);
 }

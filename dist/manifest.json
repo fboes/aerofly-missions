@@ -26,5 +26,14 @@
   "orientation": "any",
   "start_url": "./",
   "theme_color": "#605770",
-  "background_color": "#2e2b3b"
+  "background_color": "#2e2b3b",
+  "lang": "en",
+  "dir": "auto",
+  "categories": [
+    "aerofly-fs4",
+    "flight",
+    "simulator",
+    "weather",
+    "flightplan"
+  ]
 }

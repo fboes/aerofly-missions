@@ -32,10 +32,9 @@
       </h1>
     </header>
     <main>
-      <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code
-          class="language-plaintext highlighter-rouge">main.mcf</code> file into a <code
-          class="language-plaintext highlighter-rouge">custom_missions.tmc</code> file, using your current flight plan
-        and other settings to generate a shareable mission.</p>
+      <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
+        file into a <code>custom_missions.tmc</code> file, using your current flight plan and other settings to generate
+        a shareable mission.</p>
 
       <section class="no-print">
         <h2>Step 1: Load flight plan file</h2>
@@ -46,7 +45,7 @@
         <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms" />
       </section>
       <section class="no-print">
-        <h2>Step 2: Modify settings</h2>
+        <h2>Step 2: Set up flight plan</h2>
 
         <div class="col-2">
           <label for="title">Mission title</label>
@@ -139,24 +138,35 @@
 
             <label for="wind_gusts">Wind gusts (kts)</label>
             <input type="number" min="0" max="99" id="wind_gusts" />
-
+          </div>
+          <div class="col-4">
             <label for="visibility">Visibility (m)</label>
             <input type="number" min="0" max="20000" step="500" id="visibility" />
 
-            <label for="cloud_base_feet">Cloud base (ft)</label>
-            <input type="number" min="0" max="50000" step="100" id="cloud_base_feet" />
+            <label for="visibility_sm">Visibility (SM)</label>
+            <output id="visibility_sm"></output>
 
             <label for="cloud_cover">Cloud cover (%)</label>
-            <input type="range" min="0" max="100" step="12.5" id="cloud_cover" />
+            <input type="range" min="0" max="100" id="cloud_cover" />
 
+            <label for="cloud_cover_code">Cloude cover (code)</label>
+            <output id="cloud_cover_code"></output>
+
+            <label for="cloud_base_feet">Cloud base (ft)</label>
+            <input type="number" min="0" max="50000" step="100" id="cloud_base_feet" />
+          </div>
+          <div class="col-4">
             <label for="thermal_strength">Thermal strength (%)</label>
-            <input type="range" min="0" max="100" step="1" id="thermal_strength" />
+            <input type="range" min="0" max="100" id="thermal_strength" />
 
             <label for="turbulence_strength">Turbulence strength (%)</label>
-            <input type="range" min="0" max="100" step="1" id="turbulence_strength" />
+            <input type="range" min="0" max="100" id="turbulence_strength" />
 
-            <span></span><button id="randomize-weather">Set random weather</button>
+            <label for="flight_rules">Flight rules</label>
+            <output id="flight_rules"></output>
           </div>
+
+          <button id="randomize-weather">Set random weather</button>
         </details>
         <details>
           <summary>Miscellaneous</summary>

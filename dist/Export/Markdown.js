@@ -58,7 +58,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 
 |             | Location                                   | Date & time    | Local solar time | Sun |
 |-------------|--------------------------------------------|----------------|------------------|-----|
-| Origin      | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time_object)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
+| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time_object)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
 | Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints

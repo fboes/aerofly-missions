@@ -11,7 +11,7 @@ import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
 import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
-import { LonLatArea } from "./World/LonLat.js";
+import { LonLat, LonLatArea } from "./World/LonLat.js";
 
 class App {
   elements = {
@@ -28,8 +28,11 @@ class App {
     wind_direction: <HTMLInputElement>document.getElementById('wind_direction'),
     wind_speed: <HTMLInputElement>document.getElementById('wind_speed'),
     visibility: <HTMLInputElement>document.getElementById('visibility'),
+    visibility_sm: <HTMLOutputElement>document.getElementById('visibility_sm'),
     cloud_base_feet: <HTMLInputElement>document.getElementById('cloud_base_feet'),
     cloud_cover: <HTMLInputElement>document.getElementById('cloud_cover'),
+    cloud_cover_code: <HTMLOutputElement>document.getElementById('cloud_cover_code'),
+    flight_rules: <HTMLOutputElement>document.getElementById('flight_rules'),
     wind_gusts: <HTMLInputElement>document.getElementById('wind_gusts'),
     turbulence_strength: <HTMLInputElement>document.getElementById('turbulence_strength'),
     thermal_strength: <HTMLInputElement>document.getElementById('thermal_strength'),
@@ -44,12 +47,13 @@ class App {
     downloadTmcCode: <HTMLElement>document.querySelector('#download-tmc code'),
     downloadMdCode: <HTMLElement>document.querySelector('#download-md code'),
     downloadJsonCode: <HTMLElement>document.querySelector('#download-json code'),
-    randomizeWeather: <HTMLButtonElement>document.getElementById('randomize-weather'),
+    randomizeWeather: <HTMLButtonElement>document.getElementById('randomize-weather')
   }
   mission: Mission;
   missionList: MissionsList;
   flightplan: Flightplan;
   skyVector: SkyVector;
+  useIcao = true;
 
 
   constructor() {
@@ -67,7 +71,6 @@ class App {
           case 'aircraft_name': this.mission.aircraft_name = target.value; this.syncToForm(); break;
           case 'cruise_speed': this.mission.cruise_speed = target.valueAsNumber; break;
           case 'cruise_altitude_ft': this.mission.cruise_altitude_ft = target.valueAsNumber; break;
-          case 'origin_dir': this.mission.origin_dir = target.valueAsNumber; break;
           case 'origin_dir': this.mission.origin_dir = target.valueAsNumber; break;
           case 'title': this.mission.title = target.value; break;
           case 'callsign': this.mission.callsign = target.value; break;
@@ -93,9 +96,9 @@ class App {
           case 'wind_direction': this.mission.conditions.wind_direction = target.valueAsNumber; break;
           case 'wind_speed': this.mission.conditions.wind_speed = target.valueAsNumber; break;
           case 'wind_gusts': this.mission.conditions.wind_gusts = target.valueAsNumber; break;
-          case 'visibility': this.mission.conditions.visibility = target.valueAsNumber; break;
-          case 'cloud_base_feet': this.mission.conditions.cloud_base_feet = target.valueAsNumber; break;
-          case 'cloud_cover': this.mission.conditions.cloud_cover = target.valueAsNumber / 100; break;
+          case 'visibility': this.mission.conditions.visibility = target.valueAsNumber; this.syncToOutput(); break;
+          case 'cloud_base_feet': this.mission.conditions.cloud_base_feet = target.valueAsNumber; this.syncToOutput(); break;
+          case 'cloud_cover': this.mission.conditions.cloud_cover = target.valueAsNumber / 100; this.syncToOutput(); break;
           case 'turbulence_strength': this.mission.conditions.turbulence_strength = target.valueAsNumber / 100; break;
           case 'thermal_strength': this.mission.conditions.thermal_strength = target.valueAsNumber / 100; break;
         }
@@ -164,7 +167,7 @@ class App {
         b.setAttribute('disabled', 'disabled')
       }
     });
-    const slug = this.mission.title ? asciify(this.mission.title.replace(/(^|\W)(from|to|and|or|in) /gi, '$1')) : 'custom_this.missions';
+    const slug = this.mission.title ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, '$1-$2')) : 'custom_missions';
     this.elements.downloadTmcCode.innerText = slug + '.tmc';
     this.elements.downloadMdCode.innerText = slug + '.md';
     this.elements.downloadJsonCode.innerText = slug + '.json';
@@ -215,6 +218,7 @@ class App {
               this.showError('Unsupported file: ' + file.name);
               break;
           }
+          this.useIcao = this.mission.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA
           this.syncToForm();
           this.showFlightplan();
         }
@@ -264,6 +268,15 @@ class App {
     this.elements.title.value = this.mission.title;
     this.elements.callsign.value = this.mission.callsign;
     this.elements.description.value = this.mission.description;
+    this.elements.origin_dir.valueAsNumber = this.mission.origin_dir;
+    //this.elements.ils_frequency.valueAsNumber
+    this.syncToOutput();
+  }
+
+  syncToOutput() {
+    this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
+    this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_symbol + ' ' + this.mission.conditions.cloud_cover_code;
+    this.elements.flight_rules.value = this.mission.conditions.getFlightCategory(this.useIcao);
   }
 
   showError(message: string) {

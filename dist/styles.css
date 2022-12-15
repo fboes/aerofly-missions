@@ -72,7 +72,8 @@ summary {
 button,
 input,
 select,
-textarea {
+textarea,
+output {
   padding: 0.25em;
   border-radius: 0.25em;
   border: 1px solid var(--color-darken-more);
@@ -85,6 +86,11 @@ textarea {
 
 textarea {
   height: 5em;
+}
+
+output {
+  background-color: transparent;
+  border-color: var(--color-darken)
 }
 
 input,
