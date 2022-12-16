@@ -16,7 +16,7 @@ export const asciify = (string: string) => {
         .replace(/[ß]/, 'ss')
         ;
     })
-    .replace(/[ÄÅÆÁÀÂÃÖØŒÓÒÔÕÜÚÙÛËÉÈÊÏÍÌÎŸÝÑSS]/g, function (s) {
+    .replace(/[ÄÅÆÁÀÂÃÖØŒÓÒÔÕÜÚÙÛËÉÈÊÏÍÌÎŸÝÑ]/g, function (s) {
       return s.replace(/[ÄÆ]/, 'AE')
         .replace(/[ÅÁÀÂÃ]/, 'A')
         .replace(/[ÖØŒ]/, 'OE')
@@ -27,7 +27,6 @@ export const asciify = (string: string) => {
         .replace(/[ÏÍÌÎ]/, 'I')
         .replace(/[ŸÝ]/, 'Y')
         .replace(/[Ñ]/, 'N')
-        .replace(/[SS]/, 'SS')
         ;
     })
     .replace(/[!?.,'":;]/g, '')
