@@ -3,15 +3,14 @@ import { Mission, MissionParsed } from "./Aerofly/Mission.js";
 import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
-import { BashColors } from "./Cli/BashColors.js";
-import { Flightplan } from "./Export/Flightplan.js";
 import { GeoJson } from "./Export/GeoJson.js";
+import Html from "./Export/Html.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
 import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
-import { LonLat, LonLatArea } from "./World/LonLat.js";
+import { LonLat } from "./World/LonLat.js";
 
 class App {
   elements = {
@@ -38,9 +37,6 @@ class App {
     thermal_strength: <HTMLInputElement>document.getElementById('thermal_strength'),
     callsign: <HTMLInputElement>document.getElementById('callsign'),
     flightplan: <HTMLPreElement>document.getElementById('flightplan'),
-    linkSkyvector: <HTMLAnchorElement>document.getElementById('link-skyvector'),
-    linkGoogleMap: <HTMLAnchorElement>document.getElementById('link-gmap'),
-    linkOpenStreetMap: <HTMLAnchorElement>document.getElementById('link-osm'),
     downloadTmc: <HTMLButtonElement>document.getElementById('download-tmc'),
     downloadMd: <HTMLButtonElement>document.getElementById('download-md'),
     downloadJson: <HTMLButtonElement>document.getElementById('download-json'),
@@ -51,7 +47,7 @@ class App {
   }
   mission: Mission;
   missionList: MissionsList;
-  flightplan: Flightplan;
+  flightplan: Html;
   skyVector: SkyVector;
   useIcao = true;
 
@@ -60,7 +56,7 @@ class App {
     this.mission = new Mission('', '');
     this.missionList = new MissionsList('');
     this.missionList.missions.push(this.mission);
-    this.flightplan = new Flightplan(this.mission, new BashColors(BashColors.COLOR_HTML));
+    this.flightplan = new Html(this.mission);
     this.skyVector = new SkyVector(this.mission);
 
     document.querySelectorAll('input, select, textarea').forEach(i => {
@@ -135,12 +131,6 @@ class App {
   }
 
   showFlightplan() {
-    const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
-    this.mission.checkpoints.forEach((c) => {
-      lonLatArea.push(c.lon_lat);
-    });
-    const center = lonLatArea.center;
-    const zoomLevel = lonLatArea.zoomLevel
     if (this.elements.ils_frequency.valueAsNumber > 0 && this.mission.checkpoints.length > 2) {
       let runway = this.mission.checkpoints[this.mission.checkpoints.length - 2];
       if (runway.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
@@ -150,15 +140,6 @@ class App {
     }
     if (this.elements.flightplan) {
       this.elements.flightplan.innerHTML = this.flightplan.toString();
-    }
-    if (this.elements.linkSkyvector) {
-      this.elements.linkSkyvector.href = this.skyVector.toString();
-    }
-    if (this.elements.linkGoogleMap) {
-      this.elements.linkGoogleMap.href = `https://www.google.com/maps/@?api=1&map_action=map&center=${center.lat},${center.lon}&zoom=${zoomLevel}&basemap=terrain`;
-    }
-    if (this.elements.linkOpenStreetMap) {
-      this.elements.linkOpenStreetMap.href = `https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}`;
     }
     document.querySelectorAll('button.download').forEach(b => {
       if (this.mission.checkpoints.length > 0) {
@@ -268,14 +249,14 @@ class App {
     this.elements.title.value = this.mission.title;
     this.elements.callsign.value = this.mission.callsign;
     this.elements.description.value = this.mission.description;
-    this.elements.origin_dir.valueAsNumber = this.mission.origin_dir;
+    this.elements.origin_dir.valueAsNumber = Math.round(this.mission.origin_dir);
     //this.elements.ils_frequency.valueAsNumber
     this.syncToOutput();
   }
 
   syncToOutput() {
     this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
-    this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_symbol + ' ' + this.mission.conditions.cloud_cover_code;
+    this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
     this.elements.flight_rules.value = this.mission.conditions.getFlightCategory(this.useIcao);
   }
 

@@ -106,9 +106,28 @@
               -->
             </select>
 
-            <label for="callsign">Callsign</label>
-            <input type="text" id="callsign" maxlength="8" pattern="[A-Z0-9 -]+" autocapitalize="characters"
-              required="required" />
+            <label for="callsign">Call sign</label>
+            <input type="text" id="callsign" list="callsign-dl" maxlength="8" pattern="[A-Z0-9]+"
+              autocapitalize="characters" required="required" />
+            <datalist id="callsign-dl">
+              <option value="AAL">American Airlines</option>
+              <option value="ACA">Air Canada</option>
+              <option value="AFR">Air France</option>
+              <option value="AUA">Austrian Airlines</option>
+              <option value="BAW">British Airways</option>
+              <option value="CCA">Air China</option>
+              <option value="CES">China Eastern Airlines</option>
+              <option value="CSN">China Southern Airlines</option>
+              <option value="DAL">Delta Air Lines</option>
+              <option value="KLM">KLM Royal Dutch Airlines</option>
+              <option value="DLH">Lufthansa</option>
+              <option value="RYR">Ryanair</option>
+              <option value="SIA">Singapore Airlines</option>
+              <option value="SWA">Southwest Airlines</option>
+              <option value="THY">Turkish Airlines</option>
+              <option value="UAE">Emirates Airlines</option>
+              <option value="UAL">United Airlines</option>
+            </datalist>
 
             <label for="cruise_speed">Cruise speed (kts)</label>
             <input type="number" min="0" max="999" id="cruise_speed" value="0" />
@@ -166,7 +185,7 @@
             <output id="flight_rules"></output>
           </div>
 
-          <button id="randomize-weather">Set random weather</button>
+          <button type="button" id="randomize-weather">Set random weather</button>
         </details>
         <details>
           <summary>Miscellaneous</summary>
@@ -181,22 +200,18 @@
       </section>
       <section>
         <h2 class="no-print">Step 3: Check flight plan</h2>
-        <div class="pre">
-          <pre id="flightplan"></pre>
-        </div>
-
-        <p class="no-print">Check your <a href="#" id="link-skyvector" target="skyvector">current flight plan on
-            SkyVector</a>.<br />
-          You may also want to take a look at <a href="#" id="link-gmap" target="gmap">Google Maps</a> / <a href="#"
-            id="link-osm" target="osm">OpenStreetMap</a>.</p>
+        <div id="flightplan"></div>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
         <p>
-          <button class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code> flight
+          <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
+            flight
             plan</button>
-          <button class="download" id="download-md">Download <code>custom_missions.md</code> documentation</button>
-          <button class="download" id="download-json">Download <code>custom_missions.json</code> GeoJSON</button>
+          <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
+            documentation</button>
+          <button type="button" class="download" id="download-json">Download <code>custom_missions.json</code>
+            GeoJSON</button>
         </p>
       </section>
     </main>

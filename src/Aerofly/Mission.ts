@@ -21,6 +21,12 @@ export class Mission {
   protected _aircraft_name: string = "c172";
   protected _aircraft_icao: string = "C172";
 
+  /**
+   * @see https://en.wikipedia.org/wiki/Aviation_call_signs
+   * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
+   * @see https://en.wikipedia.org/wiki/List_of_airline_codes
+   * @see http://c-aviation.net/military-callsigns/
+   */
   callsign: string = "N5472R";
   origin_icao: string = "";
   origin_lon_lat: LonLat = new LonLat(0, 0);
@@ -121,10 +127,6 @@ export class Mission {
 
   /**
    * ...this also sets `this.aircraft_icao`, `this._cruise_speed` and `this.callsign`
-   *
-   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
-   * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
-   * @see http://c-aviation.net/military-callsigns/
    */
   set aircraft_name(aircraft_name: string) {
     this._aircraft_name = aircraft_name.toLowerCase();
@@ -139,7 +141,7 @@ export class Mission {
         break;
       case "jungmeister":
         this.aircraft_icao = "BU33";
-        this.callsign = 'HB-MIZ';
+        this.callsign = 'HBMIZ';
         this.cruise_speed = 110;
         break;
       case "q400":
@@ -151,7 +153,7 @@ export class Mission {
         break;
       case "c90gtx":
         this.aircraft_icao = "BE9L";
-        this.callsign = 'D-IBYP';
+        this.callsign = 'DIBYP';
         this.cruise_speed = 226;
         break;
       case "f15e":
@@ -179,12 +181,12 @@ export class Mission {
         break;
       case "mb339":
         this.aircraft_icao = "M339";
-        this.callsign = 'UAF-431';
+        this.callsign = 'UAF431';
         this.cruise_speed = 350;
         break;
       case "pitts":
         this.aircraft_icao = "PTS2";
-        this.callsign = 'D-EUJS';
+        this.callsign = 'DEUJS';
         this.cruise_speed = 152;
         break;
       case "a320":
@@ -207,12 +209,12 @@ export class Mission {
         break;
       case "concorde":
         this.aircraft_icao = "CONC";
-        this.callsign = 'F-BVFB';
+        this.callsign = 'FBVFB';
         this.cruise_speed = 1165;
         break;
       case "ec135":
         this.aircraft_icao = "EC35";
-        this.callsign = 'D-HDRS';
+        this.callsign = 'DHDRS';
         this.cruise_speed = 137;
         break;
       case 'c172':
@@ -235,14 +237,14 @@ export class Mission {
     if (!this.callsign) {
       this.callsign = "N";
       if (this.origin_lon_lat.lon > 14) {
-        this.callsign = this.origin_lon_lat.lat < 44 ? "SE-" : "SP-";
+        this.callsign = this.origin_lon_lat.lat < 44 ? "SE" : "SP";
       } else if (this.origin_lon_lat.lon > 4) {
-        this.callsign = this.origin_lon_lat.lat < 55 ? "D-" : "LN-";
+        this.callsign = this.origin_lon_lat.lat < 55 ? "D" : "LN";
       } else if (this.origin_lon_lat.lon > -30) {
-        this.callsign = this.origin_lon_lat.lat < 49 ? "F-" : "G-";
+        this.callsign = this.origin_lon_lat.lat < 49 ? "F" : "G";
       }
       this.callsign +=
-        this.callsign !== "D-" && this.callsign !== "G-"
+        this.callsign !== "D" && this.callsign !== "G"
           ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
           : String.fromCharCode(
             (this.aircraft_icao.charCodeAt(1) % 26) + 65,
@@ -258,10 +260,16 @@ export class Mission {
     return this._aircraft_name;
   }
 
+  /**
+   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
+   */
   set aircraft_icao(aircraft_icao: string) {
     this._aircraft_icao = aircraft_icao.substring(0, 4).toUpperCase();
   }
 
+  /**
+   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
+   */
   get aircraft_icao() {
     return this._aircraft_icao;
   }
