@@ -10,6 +10,9 @@ export default class Html extends Outputtable {
     outputLine(fields, join = 'td') {
         return `<tr><${join}>` + fields.join(`</${join}><${join}>`) + `</${join}></tr>`;
     }
+    outputSunState(sunState) {
+        return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
+    }
     outputDateTime(date) {
         return super.outputDateTime(date).replace(/(T|Z)/g, "<small>$1</small>");
     }
@@ -37,7 +40,7 @@ export default class Html extends Outputtable {
         html += `<div class="table table-airports"><table>
     <caption>Airports</caption>
     <thead>`;
-        html += this.outputLine(["Type", "Location ", "Date &amp; time ", "Local solar time", " Sun"], 'th');
+        html += this.outputLine(["Type", "Location ", "Date &amp; time ", "<abbr title=\"Local solar time\">LST</abbr>", " Sun"], 'th');
         html += '</thead><tbody>';
         html += this.outputLine([
             "Departure",
@@ -60,7 +63,7 @@ export default class Html extends Outputtable {
         html += `<div class="table table-checkpoints"><table>
     <caption>Checkpoints</caption>
     <thead>`;
-        html += this.outputLine(["No", "Waypoint ", "Freq ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"], 'th');
+        html += this.outputLine(["No", "Waypoint ", "<abbr title=\"Frequency\">FRQ</abbr>", "Altitude ", "<abbr title=\"Desired track magnetic\">DTK</abbr>", "<abbr title=\"Heading magnetic\">HDG</abbr> ", "Distance", "<abbr title=\"Estimated time enroute\">ETE</abbr>"], 'th');
         html += '</thead><tbody>';
         m.checkpoints.forEach((c, i) => {
             let frqString = "";

@@ -1,6 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { LonLatArea } from "../World/LonLat.js";
-import { LonLatDate } from "../World/LonLatDate.js";
+import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
 
@@ -12,6 +12,10 @@ export default class Html extends Outputtable {
 
   outputLine(fields: string[], join = 'td'): string {
     return `<tr><${join}>` + fields.join(`</${join}><${join}>`) + `</${join}></tr>`;
+  }
+
+  outputSunState(sunState: LonLateDateSunState): string {
+    return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
   }
 
   outputDateTime(date: Date) {
@@ -46,7 +50,7 @@ export default class Html extends Outputtable {
     html += `<div class="table table-airports"><table>
     <caption>Airports</caption>
     <thead>`;
-    html += this.outputLine(["Type", "Location ", "Date &amp; time ", "Local solar time", " Sun"], 'th');
+    html += this.outputLine(["Type", "Location ", "Date &amp; time ", "<abbr title=\"Local solar time\">LST</abbr>", " Sun"], 'th');
     html += '</thead><tbody>';
     html += this.outputLine([
       "Departure",
@@ -70,7 +74,7 @@ export default class Html extends Outputtable {
     html += `<div class="table table-checkpoints"><table>
     <caption>Checkpoints</caption>
     <thead>`;
-    html += this.outputLine(["No", "Waypoint ", "Freq ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"], 'th');
+    html += this.outputLine(["No", "Waypoint ", "<abbr title=\"Frequency\">FRQ</abbr>", "Altitude ", "<abbr title=\"Desired track magnetic\">DTK</abbr>", "<abbr title=\"Heading magnetic\">HDG</abbr> ", "Distance", "<abbr title=\"Estimated time enroute\">ETE</abbr>"], 'th');
     html += '</thead><tbody>';
 
     m.checkpoints.forEach((c, i) => {
