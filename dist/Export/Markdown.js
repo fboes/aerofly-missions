@@ -14,7 +14,7 @@ export class Markdown extends Outputtable {
     outputLine(fields) {
         return "| " + fields.join(" | ") + " |\n";
     }
-    toString() {
+    toString(filename = 'custom_missions.tmc') {
         const m = this.mission;
         const s = new SkyVector(m);
         const total_distance = m.distance;
@@ -30,7 +30,7 @@ export class Markdown extends Outputtable {
 
 ${m.description}
 
-> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
+> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [\`${filename}\`](./${filename}) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
 Flight briefing
 ---------------

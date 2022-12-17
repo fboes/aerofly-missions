@@ -1,4 +1,4 @@
-import { LonLatArea } from "../World/LonLat.js";
+import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
@@ -7,8 +7,16 @@ export default class Html extends Outputtable {
         super();
         this.mission = mission;
     }
+    /**
+     * @param fields Table cell contents
+     * @param join `td` or `th`; to supress a `th` at the beginnining of a `tr` with `td`s set it to `ttd`, which will be converted to `td`
+     * @returns string
+     */
     outputLine(fields, join = 'td') {
-        return `<tr><${join}>` + fields.join(`</${join}><${join}>`) + `</${join}></tr>`;
+        const tag = join === 'ttd' ? 'td' : join;
+        return join === 'td'
+            ? `<tr><th scope="row">` + fields[0] + `</th><${tag}>` + fields.slice(1).join(`</${tag}><${tag}>`) + `</${tag}></tr>`
+            : `<tr><${tag}>` + fields.join(`</${tag}><${tag}>`) + `</${tag}></tr>`;
     }
     outputSunState(sunState) {
         return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
@@ -35,8 +43,20 @@ export default class Html extends Outputtable {
         const zoomLevel = lonLatArea.zoomLevel;
         const center = lonLatArea.center;
         let html = '';
-        html += `<p class="no-print">Check your <a href="${s.toString()}" target="skyvector">current flight plan on Sky Vector</a>.<br />
+        html += `<p class="no-print">Check your <a href="${s.toString()}" target="skyvector">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${center.lat},${center.lon}&amp;zoom=${zoomLevel}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}" target="osm">OpenStreetMap</a>.</p>`;
+        html += `<div class="table table-weather"><table>
+    <caption>Weather</caption>
+    <thead>`;
+        html += this.outputLine(["Wind ", "Clouds", "Visibility", " Flight rules"], 'th');
+        html += '</thead><tbody>';
+        html += this.outputLine([
+            this.getWind(m.conditions) + '&nbsp;kts',
+            m.conditions.cloud_cover_symbol + "&nbsp;" + m.conditions.cloud_cover_code + " @ " + m.conditions.cloud_base_feet.toLocaleString("en") + "&nbsp;ft",
+            m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
+            m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
+        ], 'ttd');
+        html += '</tbody></table></div>';
         html += `<div class="table table-airports"><table>
     <caption>Airports</caption>
     <thead>`;
@@ -63,7 +83,16 @@ export default class Html extends Outputtable {
         html += `<div class="table table-checkpoints"><table>
     <caption>Checkpoints</caption>
     <thead>`;
-        html += this.outputLine(["No", "Waypoint ", "<abbr title=\"Frequency\">FRQ</abbr>", "Altitude ", "<abbr title=\"Desired track magnetic\">DTK</abbr>", "<abbr title=\"Heading magnetic\">HDG</abbr> ", "Distance", "<abbr title=\"Estimated time enroute\">ETE</abbr>"], 'th');
+        html += this.outputLine([
+            "#",
+            "Waypoint ",
+            "<abbr title=\"Frequency\">FRQ</abbr>",
+            "Altitude ",
+            "<abbr title=\"Desired track magnetic\">DTK</abbr>",
+            "<abbr title=\"Heading magnetic\">HDG</abbr> ",
+            "Distance",
+            "<abbr title=\"Estimated time enroute\">ETE</abbr>"
+        ], 'th');
         html += '</thead><tbody>';
         m.checkpoints.forEach((c, i) => {
             let frqString = "";
@@ -84,12 +113,12 @@ export default class Html extends Outputtable {
         });
         html += '</tbody><tfoot>';
         html += this.outputLine([
-            "   ",
+            "",
             "Total",
-            "          ",
-            "         ",
-            "    ",
-            "    ",
+            "",
+            "",
+            "",
+            "",
             this.pad(total_distance, 4, 1) + "&nbsp;NM",
             this.convertHoursToMinutesString(total_time_enroute),
         ]);

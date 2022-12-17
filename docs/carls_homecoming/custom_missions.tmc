@@ -8,7 +8,7 @@
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [EDHI]>
                 <[tmvector2d][origin_lon_lat]     [9.826637 53.537633]>
                 <[float64]   [origin_dir]         [194]>
@@ -102,7 +102,7 @@
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [EDHI]>
                 <[tmvector2d][origin_lon_lat]     [9.826625 53.537605]>
                 <[float64]   [origin_dir]         [194]>
@@ -212,7 +212,7 @@
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [EKAE]>
                 <[tmvector2d][origin_lon_lat]     [10.456314 54.854086]>
                 <[float64]   [origin_dir]         [240]>
@@ -334,7 +334,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [EKRK]>
                 <[tmvector2d][origin_lon_lat]     [12.134655 55.591429]>
                 <[float64]   [origin_dir]         [235]>
@@ -487,7 +487,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESTA]>
                 <[tmvector2d][origin_lon_lat]     [12.868487 56.286622]>
                 <[float64]   [origin_dir]         [322]>
@@ -604,7 +604,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESGG]>
                 <[tmvector2d][origin_lon_lat]     [12.297583 57.674791]>
                 <[float64]   [origin_dir]         [306]>
@@ -721,7 +721,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESGJ]>
                 <[tmvector2d][origin_lon_lat]     [14.069127 57.751501]>
                 <[float64]   [origin_dir]         [306]>
@@ -839,7 +839,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESIA]>
                 <[tmvector2d][origin_lon_lat]     [14.526192 58.520263]>
                 <[float64]   [origin_dir]         [315]>
@@ -956,7 +956,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESSL]>
                 <[tmvector2d][origin_lon_lat]     [15.658056 58.407958]>
                 <[float64]   [origin_dir]         [360]>
@@ -1061,7 +1061,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESKN]>
                 <[tmvector2d][origin_lon_lat]     [16.927816 58.784540]>
                 <[float64]   [origin_dir]         [90]>
@@ -1164,7 +1164,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [ESSB]>
                 <[tmvector2d][origin_lon_lat]     [17.947081 59.349214]>
                 <[float64]   [origin_dir]         [340]>
@@ -1287,7 +1287,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>
-                <[stringt8c] [callsign]           [D-EUJS]>
+                <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [EFMA]>
                 <[tmvector2d][origin_lon_lat]     [19.904975 60.123931]>
                 <[float64]   [origin_dir]         [350]>

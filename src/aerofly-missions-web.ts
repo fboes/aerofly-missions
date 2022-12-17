@@ -15,6 +15,7 @@ import { LonLat } from "./World/LonLat.js";
 class App {
   elements = {
     upload: <HTMLInputElement>document.getElementById('upload'),
+    metar: <HTMLAnchorElement>document.getElementById('metar'),
     aircraft_name: <HTMLSelectElement>document.getElementById('aircraft_name'),
     date: <HTMLInputElement>document.getElementById('date'),
     time: <HTMLInputElement>document.getElementById('time'),
@@ -31,7 +32,6 @@ class App {
     cloud_base_feet: <HTMLInputElement>document.getElementById('cloud_base_feet'),
     cloud_cover: <HTMLInputElement>document.getElementById('cloud_cover'),
     cloud_cover_code: <HTMLOutputElement>document.getElementById('cloud_cover_code'),
-    flight_rules: <HTMLOutputElement>document.getElementById('flight_rules'),
     wind_gusts: <HTMLInputElement>document.getElementById('wind_gusts'),
     turbulence_strength: <HTMLInputElement>document.getElementById('turbulence_strength'),
     thermal_strength: <HTMLInputElement>document.getElementById('thermal_strength'),
@@ -114,7 +114,7 @@ class App {
         }
         switch (target.id) {
           case 'download-tmc': this.download(filename, this.missionList.toString()); break;
-          case 'download-md': this.download(filename, new Markdown(this.mission).toString()); break;
+          case 'download-md': this.download(filename, new Markdown(this.mission).toString(filename.replace('.md', '.tmc'))); break;
           case 'download-json': this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission), null, 2), 'text/json'); break;
         }
       });
@@ -257,7 +257,10 @@ class App {
   syncToOutput() {
     this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
     this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
-    this.elements.flight_rules.value = this.mission.conditions.getFlightCategory(this.useIcao);
+    if (this.mission.destination_icao) {
+      this.elements.metar.setAttribute('href', 'https://www.checkwx.com/weather/' + this.mission.destination_icao + '/metar');
+      this.elements.metar.innerText = 'check the weather for ' + this.mission.destination_icao;
+    }
   }
 
   showError(message: string) {

@@ -226,6 +226,7 @@ footer {
     font-size: 0.9em;
   }
 }
+
 @media screen and (min-width: 24em) {
   .col-4 {
     display: flex;
@@ -240,6 +241,8 @@ footer {
 }
 
 @media screen and (min-width: 42em) {
+
+  .col-1,
   .col-2 {
     display: flex;
     flex-flow: row wrap;
@@ -254,6 +257,10 @@ footer {
 
   .col-2>*:nth-child(even) {
     width: 74.5%;
+  }
+
+  .col-1>* {
+    width: 49%;
   }
 }
 

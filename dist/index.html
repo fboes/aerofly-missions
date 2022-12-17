@@ -148,6 +148,9 @@
         </details>
         <details>
           <summary>Weather</summary>
+
+          <p>You might want to <a href="https://www.checkwx.com/" id="metar" target="metar">check the weather</a>.</p>
+
           <div class="col-4">
             <label for="wind_direction">Wind direction (°)</label>
             <input type="number" min="0" max="359" id="wind_direction" />
@@ -168,7 +171,7 @@
             <label for="cloud_cover">Cloud cover (%)</label>
             <input type="range" min="0" max="100" id="cloud_cover" />
 
-            <label for="cloud_cover_code">Cloude cover (code)</label>
+            <label for="cloud_cover_code">Cloud cover (code)</label>
             <output id="cloud_cover_code"></output>
 
             <label for="cloud_base_feet">Cloud base (ft)</label>
@@ -180,9 +183,6 @@
 
             <label for="turbulence_strength">Turbulence strength (%)</label>
             <input type="range" min="0" max="100" id="turbulence_strength" />
-
-            <label for="flight_rules">Flight rules</label>
-            <output id="flight_rules"></output>
           </div>
 
           <button type="button" id="randomize-weather">Set random weather</button>
@@ -206,12 +206,13 @@
         <h2>Step 4: Save converted files</h2>
         <p>
           <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
-            flight
-            plan</button>
+            flight plan</button>
+        <div class="col-1">
           <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
             documentation</button>
           <button type="button" class="download" id="download-json">Download <code>custom_missions.json</code>
             GeoJSON</button>
+        </div>
         </p>
       </section>
     </main>
