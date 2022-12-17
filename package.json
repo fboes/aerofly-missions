@@ -7,7 +7,7 @@
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
   "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "exports": "./dist/aerofly-missions.js",
   "bin": {
     "aerofly-missions": "dist/aerofly-missions.js"
