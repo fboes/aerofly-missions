@@ -247,6 +247,10 @@ export class MissionConditions {
     }
   }
 
+  makeTurbulence() {
+    this.turbulence_strength = Math.min(1, this.wind_speed / 80 + this.wind_gusts / 20);
+  }
+
   toString(): string {
     return `                <[tmmission_conditions][conditions][]
                     <[tm_time_utc][time][]

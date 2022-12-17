@@ -219,6 +219,9 @@ export class MissionConditions {
             heading: (heading_rad * 180 / Math.PI) % 360
         };
     }
+    makeTurbulence() {
+        this.turbulence_strength = Math.min(1, this.wind_speed / 80 + this.wind_gusts / 20);
+    }
     toString() {
         return `                <[tmmission_conditions][conditions][]
                     <[tm_time_utc][time][]

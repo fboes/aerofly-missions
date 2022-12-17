@@ -12,6 +12,26 @@ import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
 import { LonLat } from "./World/LonLat.js";
 
+type ApiResult = {
+  data: {
+    clouds: {
+      code: string,
+      feet: number
+    }[],
+    visibility: {
+      meters_float: number
+    },
+    wind: {
+      degrees: number,
+      speed_kts: number,
+      gust_kts: number
+    },
+    temperature: {
+      celsius: number
+    }
+  }[]
+}
+
 class App {
   elements = {
     upload: <HTMLInputElement>document.getElementById('upload'),
@@ -43,13 +63,14 @@ class App {
     downloadTmcCode: <HTMLElement>document.querySelector('#download-tmc code'),
     downloadMdCode: <HTMLElement>document.querySelector('#download-md code'),
     downloadJsonCode: <HTMLElement>document.querySelector('#download-json code'),
-    randomizeWeather: <HTMLButtonElement>document.getElementById('randomize-weather')
+    makeWeather: <HTMLButtonElement>document.getElementById('make-weather')
   }
   mission: Mission;
   missionList: MissionsList;
   flightplan: Html;
   skyVector: SkyVector;
   useIcao = true;
+  metarApikey = '';
 
 
   constructor() {
@@ -121,8 +142,8 @@ class App {
       });
     });
 
-    this.elements.randomizeWeather.addEventListener('click', () => {
-      this.randomizeWeather();
+    this.elements.makeWeather.addEventListener('click', () => {
+      this.makeWeather();
       this.syncToForm();
       this.showFlightplan();
     })
@@ -210,7 +231,59 @@ class App {
     }
   }
 
-  randomizeWeather() {
+  makeWeather() {
+    if (this.mission.destination_icao && this.metarApikey) {
+      const url = 'https://api.checkwx.com/metar/' + encodeURIComponent(this.mission.destination_icao) + '/decoded';
+      fetch(url, {
+        headers: {
+          'X-API-Key': this.metarApikey,
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (!response.ok) {
+          this.showError(`Error getting METAR data, got ${response.status} status code`)
+        }
+
+        return response.json();
+      }).then((responseJson: ApiResult) => {
+        if (responseJson.data.length < 1) {
+          this.showError(`No data in METAR response`)
+        }
+        const metar = responseJson.data[0];
+
+        console.log(this.mission.conditions)
+
+        if (metar.wind) {
+          this.mission.conditions.wind_speed = metar.wind.speed_kts || 0;
+          this.mission.conditions.wind_gusts = metar.wind.gust_kts || 0;
+          this.mission.conditions.wind_direction = metar.wind.degrees || 0;
+        } else {
+          this.mission.conditions.wind_speed = 0;
+          this.mission.conditions.wind_gusts = 0;
+          this.mission.conditions.wind_direction = 0;
+        }
+
+        let visibility = metar.visibility.meters_float;
+        if (visibility === 9999) {
+          visibility = 20000;
+        }
+        this.mission.conditions.visibility = visibility || 0;
+        if (metar.clouds.length > 0) {
+          this.mission.conditions.cloud_base_feet = metar.clouds[0].feet || 0
+          this.mission.conditions.cloud_cover_code = metar.clouds[0].code || 'CLR'
+        } else {
+          this.mission.conditions.cloud_base_feet = 0
+          this.mission.conditions.cloud_cover_code = 'CLR'
+        }
+        // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
+        this.mission.conditions.thermal_strength = (((metar.temperature.celsius || 14) - 5) / 25);
+        this.mission.conditions.makeTurbulence();
+        this.syncToForm();
+        this.showFlightplan();
+      });
+
+      return;
+    }
     const lastHeading = this.mission.checkpoints.length ? this.mission.checkpoints[this.mission.checkpoints.length - 1].direction : Math.floor(Math.random() * 360);
 
     this.mission.conditions.thermal_strength = Math.random() * 0.5;
@@ -271,6 +344,7 @@ class App {
   }
 
   restore() {
+    this.metarApikey = localStorage.getItem('metarApikey') || this.metarApikey;
     this.mission.aircraft_name = localStorage.getItem('aircraft_name') || this.mission.aircraft_name;
     this.mission.callsign = localStorage.getItem('callsign') || this.mission.callsign;
     this.mission.cruise_speed = Number(localStorage.getItem('cruise_speed')) || this.mission.cruise_speed;
@@ -288,7 +362,11 @@ class App {
     this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
     this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
     if (this.mission.destination_icao) {
-      this.elements.metar.setAttribute('href', 'https://www.checkwx.com/weather/' + this.mission.destination_icao + '/metar');
+      if (this.metarApikey) {
+        this.elements.makeWeather.innerText = 'Fetch weather for ' + this.mission.destination_icao;
+      }
+
+      this.elements.metar.setAttribute('href', 'https://metar-taf.com/' + this.mission.destination_icao);
       this.elements.metar.innerText = 'check the weather for ' + this.mission.destination_icao;
     }
   }
