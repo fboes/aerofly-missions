@@ -7,7 +7,7 @@ Being a close friend to him, your name came up in his testament. You are to carr
 
 So take a seat in Carl's Pitts S-2, and starting in Hamburg travel up to Denmark, Sweden and finally Finnland.
 
-> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
+> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`custom_missions.tmc`](./custom_missions.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
 The tour
 --------

@@ -5,7 +5,7 @@ Do you have what it takes to fly [the Mach Loop](https://machloop.co.uk/)? Strap
 
 How to fly the Mach Loop? Have a look at this [video of a BAe Hawk flying the Mach Loop](https://www.youtube.com/watch?v=uTxxXv9XhbM). Because of the speed you will have to memorize your flight plan.
 
-> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
+> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`mach_loop.tmc`](./mach_loop.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
 Flight briefing
 ---------------
@@ -16,7 +16,7 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.24984430214315,
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
 |---------------|----------------|---------------:|------------------:|
-| M339          | FPR-456        |        350 kts |         10,000 ft |
+| M339          | UAF431         |        350 kts |         10,000 ft |
 
 ### Weather
 

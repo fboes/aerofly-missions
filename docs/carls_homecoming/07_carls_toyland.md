@@ -12,7 +12,7 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.520264578726795
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
 |---------------|----------------|----------------|-------------------|
-| PTS2 | D-EUJS | 152 kts | 2,000 ft |
+| PTS2 | DEUJS | 152 kts | 2,000 ft |
 
 ### Weather
 

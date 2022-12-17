@@ -10,7 +10,7 @@
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [mb339]>
                 <[stringt8c] [aircraft_icao]      [M339]>
-                <[stringt8c] [callsign]           [FPR-456]>
+                <[stringt8c] [callsign]           [UAF431]>
                 <[stringt8c] [origin_icao]        [EGOV]>
                 <[tmvector2d][origin_lon_lat]     [-4.531257 53.249844]>
                 <[float64]   [origin_dir]         [340]>
