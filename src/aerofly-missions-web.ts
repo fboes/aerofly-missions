@@ -56,6 +56,7 @@ class App {
     this.mission = new Mission('', '');
     this.missionList = new MissionsList('');
     this.missionList.missions.push(this.mission);
+    this.restore();
     this.flightplan = new Html(this.mission);
     this.skyVector = new SkyVector(this.mission);
 
@@ -252,6 +253,35 @@ class App {
     this.elements.origin_dir.valueAsNumber = Math.round(this.mission.origin_dir);
     //this.elements.ils_frequency.valueAsNumber
     this.syncToOutput();
+    this.store();
+  }
+
+  store() {
+    localStorage.setItem('aircraft_name', this.mission.aircraft_name)
+    localStorage.setItem('callsign', this.mission.callsign)
+    localStorage.setItem('cruise_speed', this.mission.cruise_speed.toFixed())
+    localStorage.setItem('conditions.wind_direction', this.mission.conditions.wind_direction.toFixed())
+    localStorage.setItem('conditions.wind_speed', this.mission.conditions.wind_speed.toFixed())
+    localStorage.setItem('conditions.wind_gusts', this.mission.conditions.wind_gusts.toFixed())
+    localStorage.setItem('conditions.visibility', this.mission.conditions.visibility.toFixed(4))
+    localStorage.setItem('conditions.cloud_base_feet', this.mission.conditions.cloud_base_feet.toFixed())
+    localStorage.setItem('conditions.cloud_cover', this.mission.conditions.cloud_cover.toFixed(4))
+    localStorage.setItem('conditions.turbulence_strength', this.mission.conditions.turbulence_strength.toFixed(4))
+    localStorage.setItem('conditions.thermal_strength', this.mission.conditions.thermal_strength.toFixed(4))
+  }
+
+  restore() {
+    this.mission.aircraft_name = localStorage.getItem('aircraft_name') || this.mission.aircraft_name;
+    this.mission.callsign = localStorage.getItem('callsign') || this.mission.callsign;
+    this.mission.cruise_speed = Number(localStorage.getItem('cruise_speed')) || this.mission.cruise_speed;
+    this.mission.conditions.wind_direction = Number(localStorage.getItem('conditions.wind_direction')) || this.mission.conditions.wind_direction;
+    this.mission.conditions.wind_speed = Number(localStorage.getItem('conditions.wind_speed')) || this.mission.conditions.wind_speed;
+    this.mission.conditions.wind_gusts = Number(localStorage.getItem('conditions.wind_gusts')) || this.mission.conditions.wind_gusts;
+    this.mission.conditions.visibility = Number(localStorage.getItem('conditions.visibility')) || this.mission.conditions.visibility;
+    this.mission.conditions.cloud_base_feet = Number(localStorage.getItem('conditions.cloud_base_feet')) || this.mission.conditions.cloud_base_feet;
+    this.mission.conditions.cloud_cover = Number(localStorage.getItem('conditions.cloud_cover')) || this.mission.conditions.cloud_cover;
+    this.mission.conditions.turbulence_strength = Number(localStorage.getItem('conditions.turbulence_strength')) || this.mission.conditions.turbulence_strength;
+    this.mission.conditions.thermal_strength = Number(localStorage.getItem('conditions.thermal_strength')) || this.mission.conditions.thermal_strength;
   }
 
   syncToOutput() {

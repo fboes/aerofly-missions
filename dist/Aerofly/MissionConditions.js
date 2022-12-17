@@ -69,6 +69,28 @@ export class MissionConditions {
     set cloud_base_percent(percent) {
         this.cloud_base = percent * 10000 / Units.feetPerMeter; // Max cloud height
     }
+    set cloud_cover_code(cloud_cover_code) {
+        switch (cloud_cover_code) {
+            case 'CLR':
+                this.cloud_cover = Math.random() * 1 / 8;
+                break;
+            case 'FEW':
+                this.cloud_cover = 1 / 8 + (Math.random() * 1 / 8);
+                break;
+            case 'SCT':
+                this.cloud_cover = 2 / 8 + (Math.random() * 2 / 8);
+                break;
+            case 'BKN':
+                this.cloud_cover = 4 / 8 + (Math.random() * 3 / 8);
+                break;
+            case 'OVC':
+                this.cloud_cover = 7 / 8 + (Math.random() * 1 / 8);
+                break;
+            default:
+                this.cloud_cover = 0;
+                break;
+        }
+    }
     /**
      * @see https://en.wikipedia.org/wiki/METAR
      */
