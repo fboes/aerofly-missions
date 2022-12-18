@@ -44,7 +44,7 @@ if (args.xplane) {
   mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.tmc) {
-  const fpl = new MissionParsed(fs.readFileSync(args.tmc, "utf8"), mission);
+  new MissionParsed(fs.readFileSync(args.tmc, "utf8"), mission);
 }
 
 const missionList = new MissionsList(args.title);

@@ -4,30 +4,30 @@
 <head>
   <meta charset="utf-8">
   <title>Aerofly Missionsgerät</title>
-  <meta name="application-name" content="Ujagd" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://journal.3960.org/index.html" />
-  <meta property="og:title" name="title" content="Mission converter" />
-  <meta property="og:locale" content="en_GB" />
+  <meta name="application-name" content="Aerofly Missionsgerät">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://journal.3960.org/index.html">
+  <meta property="og:title" name="title" content="Mission converter">
+  <meta property="og:locale" content="en_GB">
   <meta property="og:description" name="description"
-    content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission." />
-  <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät" />
-  <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/favicon-512x512.png" />
-  <meta name="twitter:site" content="@fboes" />
-  <meta name="twitter:card" content="summary" />
-  <link rel="icon" sizes="180x180" href="favicon-180x180.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png" />
-  <meta name="theme-color" content="#1f6ed6" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="stylesheet" href="./styles.css" />
+    content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` file into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.">
+  <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät">
+  <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/favicon-512x512.png">
+  <meta name="twitter:site" content="@fboes">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" sizes="180x180" href="favicon-180x180.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
+  <meta name="theme-color" content="#1f6ed6">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
   <div class="container">
     <header>
       <h1>
-        <img src="./favicon-512x512.svg" alt="" height="64" width="64" />
+        <img src="./favicon-512x512.svg" alt="" height="64" width="64">
         <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
       </h1>
     </header>
@@ -42,14 +42,14 @@
         <label for="upload">Aerofly <code>main.mcf</code>, Aerofly <code>tmc</code>, Garmin <code>fpl</code>, Microsoft
           FS <code>pln</code>,
           or X-Plane <code>fms</code> flight plan file</label>
-        <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms" />
+        <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms">
       </section>
       <section class="no-print">
         <h2>Step 2: Set up flight plan</h2>
 
         <div class="col-2">
           <label for="title">Mission title</label>
-          <input type="text" id="title" maxlength="32" required="required" />
+          <input type="text" id="title" maxlength="32" required="required">
 
           <label for="description">Mission description</label>
           <textarea id="description" required="required"></textarea>
@@ -108,7 +108,7 @@
 
             <label for="callsign">Call sign</label>
             <input type="text" id="callsign" list="callsign-dl" maxlength="8" pattern="[A-Z0-9]+"
-              autocapitalize="characters" required="required" />
+              autocapitalize="characters" required="required">
             <datalist id="callsign-dl">
               <option value="AAL">American Airlines</option>
               <option value="ACA">Air Canada</option>
@@ -130,21 +130,23 @@
             </datalist>
 
             <label for="cruise_speed">Cruise speed (kts)</label>
-            <input type="number" min="0" max="999" id="cruise_speed" value="0" />
+            <input type="number" min="0" max="999" id="cruise_speed" value="0">
 
             <label for="cruise_altitude_ft">Cruise altitude (ft)</label>
-            <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
+            <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0">
           </div>
         </details>
         <details>
           <summary>Time &amp; date</summary>
           <div class="col-4">
             <label for="date">Date (UTC)</label>
-            <input type="date" id="date" required="required" />
+            <input type="date" id="date" required="required">
 
             <label for="time">Time (UTC)</label>
-            <input type="time" id="time" required="required" />
+            <input type="time" id="time" required="required">
           </div>
+
+          <button type="button" id="make-time">Set to current time &amp; date</button>
         </details>
         <details>
           <summary>Weather</summary>
@@ -152,48 +154,55 @@
 
           <div class="col-4">
             <label for="wind_direction">Wind direction (°)</label>
-            <input type="number" min="0" max="359" id="wind_direction" />
+            <input type="number" min="0" max="359" id="wind_direction">
 
             <label for="wind_speed">Wind speed (kts)</label>
-            <input type="number" min="0" max="99" id="wind_speed" />
+            <input type="number" min="0" max="99" id="wind_speed">
 
             <label for="wind_gusts">Wind gusts (kts)</label>
-            <input type="number" min="0" max="99" id="wind_gusts" />
+            <input type="number" min="0" max="99" id="wind_gusts">
           </div>
           <div class="col-4">
             <label for="visibility">Visibility (m)</label>
-            <input type="number" min="0" max="20000" step="500" id="visibility" />
+            <input type="number" min="0" max="20000" step="500" id="visibility">
 
             <label for="visibility_sm">Visibility (SM)</label>
             <output id="visibility_sm"></output>
 
             <label for="cloud_cover">Cloud cover (%)</label>
-            <input type="range" min="0" max="100" id="cloud_cover" />
+            <input type="range" min="0" max="100" id="cloud_cover">
 
             <label for="cloud_cover_code">Cloud cover (code)</label>
             <output id="cloud_cover_code"></output>
 
             <label for="cloud_base_feet">Cloud base (ft)</label>
-            <input type="number" min="0" max="50000" step="100" id="cloud_base_feet" />
+            <input type="number" min="0" max="50000" step="100" id="cloud_base_feet">
           </div>
           <div class="col-4">
             <label for="thermal_strength">Thermal strength (%)</label>
-            <input type="range" min="0" max="100" id="thermal_strength" />
+            <input type="range" min="0" max="100" id="thermal_strength">
 
             <label for="turbulence_strength">Turbulence strength (%)</label>
-            <input type="range" min="0" max="100" id="turbulence_strength" />
+            <input type="range" min="0" max="100" id="turbulence_strength">
           </div>
 
           <button type="button" id="make-weather">Set random weather</button>
+
+          <details>
+            <summary>⚙️ METAR API</summary>
+            <label for="metar-api-key">If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API
+                key</a>, the Missionsgerät can fetch the current weather for you.</label>
+            <input type="text" id="metar-api-key">
+          </details>
         </details>
         <details>
           <summary>Miscellaneous</summary>
           <div class="col-4">
             <label for="origin_dir">Initial heading (°)</label>
-            <input type="number" min="0" max="359" id="origin_dir" />
+            <input type="number" min="0" max="359" id="origin_dir">
 
             <label for="ils_frequency">ILS frequency (MHz)</label>
-            <input type="number" min="0" max="113" step="0.05" id="ils_frequency" />
+            <input type="number" min="0" max="113" step="0.05" id="ils_frequency">
           </div>
         </details>
       </section>
@@ -203,16 +212,14 @@
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
-        <p>
-          <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
-            flight plan</button>
+        <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
+          flight plan</button>
         <div class="col-1">
           <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
             documentation</button>
           <button type="button" class="download" id="download-json">Download <code>custom_missions.json</code>
             GeoJSON</button>
         </div>
-        </p>
       </section>
     </main>
     <footer>
