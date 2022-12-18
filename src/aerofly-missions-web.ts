@@ -54,7 +54,7 @@ class App {
     makeTime: <HTMLButtonElement>document.getElementById('make-time'),
     makeWeather: <HTMLButtonElement>document.getElementById('make-weather'),
     metar: <HTMLAnchorElement>document.getElementById('metar'),
-    metarApikey: <HTMLInputElement>document.getElementById('metar-api-key'),
+    metarApiKey: <HTMLInputElement>document.getElementById('metar-api-key'),
     origin_dir: <HTMLInputElement>document.getElementById('origin_dir'),
     thermal_strength: <HTMLInputElement>document.getElementById('thermal_strength'),
     time: <HTMLInputElement>document.getElementById('time'),
@@ -72,7 +72,7 @@ class App {
   flightplan: Html;
   skyVector: SkyVector;
   useIcao = true;
-  metarApikey = '';
+  metarApiKey = '';
 
 
   constructor() {
@@ -104,7 +104,7 @@ class App {
             }
             break;
           case 'description': this.mission.description = target.value; break;
-          case 'metar-api-key': this.metarApikey = target.value; break;
+          case 'metar-api-key': this.metarApiKey = target.value;  break;
           case 'origin_dir': this.mission.origin_dir = target.valueAsNumber; break;
           case 'thermal_strength': this.mission.conditions.thermal_strength = target.valueAsNumber / 100; break;
           case 'time':
@@ -127,6 +127,7 @@ class App {
           this.mission.calculateDirectionForCheckpoints();
         }
         this.showFlightplan();
+        this.store();
       })
     });
 
@@ -246,11 +247,11 @@ class App {
   }
 
   makeWeather() {
-    if (this.mission.destination_icao && this.metarApikey) {
+    if (this.mission.destination_icao && this.metarApiKey) {
       const url = 'https://api.checkwx.com/metar/' + encodeURIComponent(this.mission.destination_icao) + '/decoded';
       fetch(url, {
         headers: {
-          'X-API-Key': this.metarApikey,
+          'X-API-Key': this.metarApiKey,
           'Accept': 'application/json'
         }
       }).then(response => {
@@ -331,7 +332,7 @@ class App {
     this.elements.cloud_base_feet.value = this.mission.conditions.cloud_base_feet.toFixed();
     this.elements.cloud_cover.value = (this.mission.conditions.cloud_cover * 100).toFixed();
     this.elements.turbulence_strength.value = (this.mission.conditions.turbulence_strength * 100).toFixed();
-    this.elements.metarApikey.value = this.metarApikey;
+    this.elements.metarApiKey.value = this.metarApiKey;
     this.elements.thermal_strength.value = (this.mission.conditions.thermal_strength * 100).toFixed();
     this.elements.title.value = this.mission.title;
     this.elements.callsign.value = this.mission.callsign;
@@ -339,7 +340,6 @@ class App {
     this.elements.origin_dir.valueAsNumber = Math.round(this.mission.origin_dir);
     //this.elements.ils_frequency.valueAsNumber
     this.syncToOutput();
-    this.store();
   }
 
   store() {
@@ -354,11 +354,11 @@ class App {
     localStorage.setItem('conditions.wind_gusts', this.mission.conditions.wind_gusts.toFixed())
     localStorage.setItem('conditions.wind_speed', this.mission.conditions.wind_speed.toFixed())
     localStorage.setItem('cruise_speed', this.mission.cruise_speed.toFixed())
-    localStorage.setItem('metarApiKey', this.metarApikey)
+    localStorage.setItem('metarApiKey', this.metarApiKey)
   }
 
   restore() {
-    this.metarApikey = localStorage.getItem('metarApikey') || this.metarApikey;
+    this.metarApiKey = localStorage.getItem('metarApiKey') || this.metarApiKey;
     this.mission.aircraft_name = localStorage.getItem('aircraft_name') || this.mission.aircraft_name;
     this.mission.callsign = localStorage.getItem('callsign') || this.mission.callsign;
     this.mission.conditions.cloud_base_feet = Number(localStorage.getItem('conditions.cloud_base_feet')) || this.mission.conditions.cloud_base_feet;
@@ -376,7 +376,7 @@ class App {
     this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
     this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
     if (this.mission.destination_icao) {
-      this.elements.makeWeather.innerText = this.metarApikey
+      this.elements.makeWeather.innerText = this.metarApiKey
         ? 'Fetch weather for ' + this.mission.destination_icao
         : 'Set random weather';
 

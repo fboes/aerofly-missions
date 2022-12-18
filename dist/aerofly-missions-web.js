@@ -34,7 +34,7 @@ class App {
             makeTime: document.getElementById('make-time'),
             makeWeather: document.getElementById('make-weather'),
             metar: document.getElementById('metar'),
-            metarApikey: document.getElementById('metar-api-key'),
+            metarApiKey: document.getElementById('metar-api-key'),
             origin_dir: document.getElementById('origin_dir'),
             thermal_strength: document.getElementById('thermal_strength'),
             time: document.getElementById('time'),
@@ -48,7 +48,7 @@ class App {
             wind_speed: document.getElementById('wind_speed'),
         };
         this.useIcao = true;
-        this.metarApikey = '';
+        this.metarApiKey = '';
         this.mission = new Mission('', '');
         this.missionList = new MissionsList('');
         this.missionList.missions.push(this.mission);
@@ -94,7 +94,7 @@ class App {
                         this.mission.description = target.value;
                         break;
                     case 'metar-api-key':
-                        this.metarApikey = target.value;
+                        this.metarApiKey = target.value;
                         break;
                     case 'origin_dir':
                         this.mission.origin_dir = target.valueAsNumber;
@@ -138,6 +138,7 @@ class App {
                     this.mission.calculateDirectionForCheckpoints();
                 }
                 this.showFlightplan();
+                this.store();
             });
         });
         document.querySelectorAll('button.download').forEach(i => {
@@ -255,11 +256,11 @@ class App {
         }
     }
     makeWeather() {
-        if (this.mission.destination_icao && this.metarApikey) {
+        if (this.mission.destination_icao && this.metarApiKey) {
             const url = 'https://api.checkwx.com/metar/' + encodeURIComponent(this.mission.destination_icao) + '/decoded';
             fetch(url, {
                 headers: {
-                    'X-API-Key': this.metarApikey,
+                    'X-API-Key': this.metarApiKey,
                     'Accept': 'application/json'
                 }
             }).then(response => {
@@ -335,7 +336,7 @@ class App {
         this.elements.cloud_base_feet.value = this.mission.conditions.cloud_base_feet.toFixed();
         this.elements.cloud_cover.value = (this.mission.conditions.cloud_cover * 100).toFixed();
         this.elements.turbulence_strength.value = (this.mission.conditions.turbulence_strength * 100).toFixed();
-        this.elements.metarApikey.value = this.metarApikey;
+        this.elements.metarApiKey.value = this.metarApiKey;
         this.elements.thermal_strength.value = (this.mission.conditions.thermal_strength * 100).toFixed();
         this.elements.title.value = this.mission.title;
         this.elements.callsign.value = this.mission.callsign;
@@ -343,7 +344,6 @@ class App {
         this.elements.origin_dir.valueAsNumber = Math.round(this.mission.origin_dir);
         //this.elements.ils_frequency.valueAsNumber
         this.syncToOutput();
-        this.store();
     }
     store() {
         localStorage.setItem('aircraft_name', this.mission.aircraft_name);
@@ -357,10 +357,10 @@ class App {
         localStorage.setItem('conditions.wind_gusts', this.mission.conditions.wind_gusts.toFixed());
         localStorage.setItem('conditions.wind_speed', this.mission.conditions.wind_speed.toFixed());
         localStorage.setItem('cruise_speed', this.mission.cruise_speed.toFixed());
-        localStorage.setItem('metarApiKey', this.metarApikey);
+        localStorage.setItem('metarApiKey', this.metarApiKey);
     }
     restore() {
-        this.metarApikey = localStorage.getItem('metarApikey') || this.metarApikey;
+        this.metarApiKey = localStorage.getItem('metarApiKey') || this.metarApiKey;
         this.mission.aircraft_name = localStorage.getItem('aircraft_name') || this.mission.aircraft_name;
         this.mission.callsign = localStorage.getItem('callsign') || this.mission.callsign;
         this.mission.conditions.cloud_base_feet = Number(localStorage.getItem('conditions.cloud_base_feet')) || this.mission.conditions.cloud_base_feet;
@@ -377,7 +377,7 @@ class App {
         this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
         this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
         if (this.mission.destination_icao) {
-            this.elements.makeWeather.innerText = this.metarApikey
+            this.elements.makeWeather.innerText = this.metarApiKey
                 ? 'Fetch weather for ' + this.mission.destination_icao
                 : 'Set random weather';
             this.elements.metar.setAttribute('href', 'https://metar-taf.com/' + this.mission.destination_icao);
