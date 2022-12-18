@@ -88,8 +88,8 @@ export default class Html extends Outputtable {
             "Waypoint ",
             "<abbr title=\"Frequency\">FRQ</abbr>",
             "Altitude ",
-            "<abbr title=\"Desired track magnetic\">DTK</abbr>",
-            "<abbr title=\"Heading magnetic\">HDG</abbr> ",
+            "<abbr title=\"Desired track (magnetic)\">DTK</abbr>",
+            "<abbr title=\"Heading (magnetic)\">HDG</abbr> ",
             "Distance",
             "<abbr title=\"Estimated time enroute\">ETE</abbr>"
         ], 'th');
