@@ -154,13 +154,35 @@ export class MissionConditions {
   static WIND_GUSTS_VIOLENT = 'violent gusts';
 
   /**
-   * @see MissionConditionsCloud.cover
+   * Get lowest cloud
    */
   get cloud(): MissionConditionsCloud {
-    if (this.clouds[0]) {
+    if (this.clouds.length < 1) {
       this.clouds.push(new MissionConditionsCloud());
     }
     return this.clouds[0]
+  }
+
+  /**
+ * Get medium cloud
+ */
+  get cloud2(): MissionConditionsCloud {
+    if (this.clouds.length < 2) {
+      this.cloud;
+      this.clouds.push(new MissionConditionsCloud());
+    }
+    return this.clouds[1]
+  }
+
+  /**
+* Get lowest cloud
+*/
+  get cloud3(): MissionConditionsCloud {
+    if (this.clouds.length < 3) {
+      this.cloud2;
+      this.clouds.push(new MissionConditionsCloud());
+    }
+    return this.clouds[2]
   }
 
   set visibility_percent(percent: number) {
@@ -302,6 +324,10 @@ export class MissionConditions {
                     <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud.cover}]>
                     <[float64][cloud_base][${this.cloud.height}]> // meters AGL
+                    //<[float64][cloud2_cover][${this.cloud2.cover}]>
+                    //<[float64][cloud2_base][${this.cloud2.height}]> // meters AGL
+                    //<[float64][cloud3_cover][${this.cloud3.cover}]>
+                    //<[float64][cloud3_base][${this.cloud3.height}]> // meters AGL
                 >
 `;
   }

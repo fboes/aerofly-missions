@@ -136,13 +136,33 @@ export class MissionConditions {
         this.clouds = [new MissionConditionsCloud()];
     }
     /**
-     * @see MissionConditionsCloud.cover
+     * Get lowest cloud
      */
     get cloud() {
-        if (this.clouds[0]) {
+        if (this.clouds.length < 1) {
             this.clouds.push(new MissionConditionsCloud());
         }
         return this.clouds[0];
+    }
+    /**
+   * Get medium cloud
+   */
+    get cloud2() {
+        if (this.clouds.length < 2) {
+            this.cloud;
+            this.clouds.push(new MissionConditionsCloud());
+        }
+        return this.clouds[1];
+    }
+    /**
+  * Get lowest cloud
+  */
+    get cloud3() {
+        if (this.clouds.length < 3) {
+            this.cloud2;
+            this.clouds.push(new MissionConditionsCloud());
+        }
+        return this.clouds[2];
     }
     set visibility_percent(percent) {
         this.visibility = Math.round(percent * 15000); // Max visibility
@@ -269,6 +289,10 @@ export class MissionConditions {
                     <[float64][visibility][${this.visibility}]> // meters
                     <[float64][cloud_cover][${this.cloud.cover}]>
                     <[float64][cloud_base][${this.cloud.height}]> // meters AGL
+                    //<[float64][cloud2_cover][${this.cloud2.cover}]>
+                    //<[float64][cloud2_base][${this.cloud2.height}]> // meters AGL
+                    //<[float64][cloud3_cover][${this.cloud3.cover}]>
+                    //<[float64][cloud3_base][${this.cloud3.height}]> // meters AGL
                 >
 `;
     }
