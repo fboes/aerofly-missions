@@ -25,7 +25,7 @@ export class Markdown extends Outputtable {
 
     const total_distance = m.distance;
     const total_time_enroute = m.time_enroute;
-    const time = m.conditions.time_object;
+    const time = new Date(m.conditions.time.dateTime);
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
@@ -53,11 +53,11 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 
 | Wind         | Clouds          | Visibility       | Flight rules |
 |--------------|-----------------|------------------|--------------|
-| ${this.getWind(m.conditions)} kts | ${m.conditions.cloud_cover_symbol +
+| ${this.getWind(m.conditions)} kts | ${m.conditions.cloud.cover_symbol +
       " " +
-      m.conditions.cloud_cover_code +
+      m.conditions.cloud.cover_code +
       " @ " +
-      m.conditions.cloud_base_feet.toLocaleString("en") +
+      m.conditions.cloud.height_feet.toLocaleString("en") +
       " ft"
       } | ${m.conditions.visibility.toLocaleString("en") + " m / " + Math.round(m.conditions.visibility_sm)
       } SM | ${m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)} |
@@ -66,7 +66,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 
 |             | Location                                   | Date & time    | Local solar time | Sun |
 |-------------|--------------------------------------------|----------------|------------------|-----|
-| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time_object)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
+| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
 | Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints

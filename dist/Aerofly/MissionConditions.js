@@ -1,12 +1,123 @@
 import { Units } from "../World/Units.js";
+export class MissionConditionsCloud {
+    constructor(cover_percent = 0, height_percent = 0) {
+        /**
+        * Percentage, 0..1
+        */
+        this.cover = 0.0;
+        /**
+         * Meters AGL
+         */
+        this.height = 0.0;
+        this.height_percent = height_percent;
+        this.cover = cover_percent;
+    }
+    set height_percent(percent) {
+        this.height = percent * 10000 / Units.feetPerMeter; // Max cloud height
+    }
+    set cover_code(cover_code) {
+        switch (cover_code) {
+            case 'CLR':
+                this.cover = Math.random() * 1 / 8;
+                break;
+            case 'FEW':
+                this.cover = 1 / 8 + (Math.random() * 1 / 8);
+                break;
+            case 'SCT':
+                this.cover = 2 / 8 + (Math.random() * 2 / 8);
+                break;
+            case 'BKN':
+                this.cover = 4 / 8 + (Math.random() * 3 / 8);
+                break;
+            case 'OVC':
+                this.cover = 7 / 8 + (Math.random() * 1 / 8);
+                break;
+            default:
+                this.cover = 0;
+                break;
+        }
+    }
+    /**
+     * @see https://en.wikipedia.org/wiki/METAR
+     */
+    get cover_code() {
+        if (this.cover < 1 / 8) {
+            return 'CLR';
+        }
+        else if (this.cover <= 2 / 8) {
+            return 'FEW';
+        }
+        else if (this.cover <= 4 / 8) {
+            return 'SCT';
+        }
+        else if (this.cover <= 7 / 8) {
+            return 'BKN';
+        }
+        return 'OVC';
+    }
+    /**
+     * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
+     */
+    get cover_symbol() {
+        if (this.cover === 0) {
+            return '○';
+        }
+        else if (this.cover <= 0.125) {
+            return '⦶';
+        }
+        else if (this.cover <= 0.375) {
+            return '◔';
+        }
+        else if (this.cover <= 0.625) {
+            return '◑';
+        }
+        else if (this.cover <= 0.875) {
+            return '◕';
+        }
+        return '●';
+    }
+    set height_feet(height_feet) {
+        this.height = height_feet / Units.feetPerMeter;
+    }
+    get height_feet() {
+        return this.height * Units.feetPerMeter;
+    }
+}
+export class MissionConditionsTime {
+    constructor() {
+        this.dateTime = new Date();
+        this.dateTime.setUTCSeconds(0);
+        this.dateTime.setUTCMilliseconds(0);
+    }
+    get time_year() {
+        return this.dateTime.getUTCFullYear();
+    }
+    set time_year(time_year) {
+        this.dateTime.setUTCFullYear(time_year);
+    }
+    get time_month() {
+        return this.dateTime.getUTCMonth() + 1;
+    }
+    set time_month(time_month) {
+        this.dateTime.setUTCMonth(time_month - 1);
+    }
+    get time_day() {
+        return this.dateTime.getUTCDate();
+    }
+    set time_day(time_day) {
+        this.dateTime.setUTCDate(time_day);
+    }
+    get time_hours() {
+        return this.dateTime.getUTCHours() + this.dateTime.getUTCMinutes() / 60;
+    }
+    set time_hours(time_hours) {
+        this.dateTime.setUTCHours(Math.ceil(time_hours));
+        this.dateTime.setUTCMinutes((time_hours % 1)) * 60;
+    }
+}
 export class MissionConditions {
     constructor() {
-        this.time = {
-            time_year: 2022,
-            time_month: 1,
-            time_day: 1,
-            time_hours: 20,
-        };
+        this.time = new MissionConditionsTime();
         /**
          * True direction wind is coming from in Degrees
          */
@@ -22,119 +133,16 @@ export class MissionConditions {
          * Meters
          */
         this.visibility = 20000;
-        /**
-         * Percentage, 0..1
-         */
-        this.cloud_cover = 0.0;
-        /**
-         * Meters AGL
-         */
-        this.cloud_base = 0.0;
-        const d = new Date();
-        this.time.time_year = d.getUTCFullYear();
-        this.time.time_month = d.getUTCMonth() + 1;
-        this.time.time_day = d.getUTCDate();
-        this.time.time_hours = d.getUTCHours();
-    }
-    fromMainMcf(mainMcf) {
-        this.time.time_year = mainMcf.time_utc.time_year;
-        this.time.time_month = mainMcf.time_utc.time_month;
-        this.time.time_day = mainMcf.time_utc.time_day;
-        this.time.time_hours = mainMcf.time_utc.time_hours;
-        this.wind_direction = mainMcf.wind.direction_in_degree;
-        this.wind_speed_percent = mainMcf.wind.strength;
-        this.wind_gusts = this.wind_speed + (mainMcf.wind.turbulence * 25);
-        this.turbulence_strength = mainMcf.wind.turbulence;
-        this.thermal_strength = mainMcf.wind.thermal_activity;
-        this.visibility_percent = mainMcf.visibility;
-        // Order clouds from lowest to highest, ignoring empty cloud layers
-        const clouds = [
-            [mainMcf.clouds.cumulus_density, mainMcf.clouds.cumulus_height],
-            [mainMcf.clouds.cumulus_mediocris_density, mainMcf.clouds.cumulus_mediocris_height],
-            [mainMcf.clouds.cirrus_density, mainMcf.clouds.cirrus_height],
-        ].map((a) => {
-            if (a[0] <= 0) {
-                a[1] = 99999;
-            }
-            return a;
-        }).sort((a, b) => {
-            return a[1] - b[1];
-        });
-        // Get lowest cloud - but if it is to thin check if the next cloud has more substance
-        const lowestCloud = (clouds[0][0] > 0.5 || clouds[0][0] > clouds[1][0]) ? clouds[0] : clouds[1];
-        this.cloud_base_percent = lowestCloud[1];
-        this.cloud_cover = lowestCloud[0];
-        return this;
-    }
-    set cloud_base_percent(percent) {
-        this.cloud_base = percent * 10000 / Units.feetPerMeter; // Max cloud height
-    }
-    set cloud_cover_code(cloud_cover_code) {
-        switch (cloud_cover_code) {
-            case 'CLR':
-                this.cloud_cover = Math.random() * 1 / 8;
-                break;
-            case 'FEW':
-                this.cloud_cover = 1 / 8 + (Math.random() * 1 / 8);
-                break;
-            case 'SCT':
-                this.cloud_cover = 2 / 8 + (Math.random() * 2 / 8);
-                break;
-            case 'BKN':
-                this.cloud_cover = 4 / 8 + (Math.random() * 3 / 8);
-                break;
-            case 'OVC':
-                this.cloud_cover = 7 / 8 + (Math.random() * 1 / 8);
-                break;
-            default:
-                this.cloud_cover = 0;
-                break;
-        }
+        this.clouds = [new MissionConditionsCloud()];
     }
     /**
-     * @see https://en.wikipedia.org/wiki/METAR
+     * @see MissionConditionsCloud.cover
      */
-    get cloud_cover_code() {
-        if (this.cloud_cover < 1 / 8) {
-            return 'CLR';
+    get cloud() {
+        if (this.clouds[0]) {
+            this.clouds.push(new MissionConditionsCloud());
         }
-        else if (this.cloud_cover <= 2 / 8) {
-            return 'FEW';
-        }
-        else if (this.cloud_cover <= 4 / 8) {
-            return 'SCT';
-        }
-        else if (this.cloud_cover <= 7 / 8) {
-            return 'BKN';
-        }
-        return 'OVC';
-    }
-    /**
-     * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
-     */
-    get cloud_cover_symbol() {
-        if (this.cloud_cover === 0) {
-            return '○';
-        }
-        else if (this.cloud_cover <= 0.125) {
-            return '⦶';
-        }
-        else if (this.cloud_cover <= 0.375) {
-            return '◔';
-        }
-        else if (this.cloud_cover <= 0.625) {
-            return '◑';
-        }
-        else if (this.cloud_cover <= 0.875) {
-            return '◕';
-        }
-        return '●';
-    }
-    set cloud_base_feet(cloud_base_feet) {
-        this.cloud_base = cloud_base_feet / Units.feetPerMeter;
-    }
-    get cloud_base_feet() {
-        return this.cloud_base * Units.feetPerMeter;
+        return this.clouds[0];
     }
     set visibility_percent(percent) {
         this.visibility = Math.round(percent * 15000); // Max visibility
@@ -161,12 +169,38 @@ export class MissionConditions {
         }
         return '';
     }
+    fromMainMcf(mainMcf) {
+        this.time.time_year = mainMcf.time_utc.time_year;
+        this.time.time_month = mainMcf.time_utc.time_month;
+        this.time.time_day = mainMcf.time_utc.time_day;
+        this.time.time_hours = mainMcf.time_utc.time_hours;
+        this.wind_direction = mainMcf.wind.direction_in_degree;
+        this.wind_speed_percent = mainMcf.wind.strength;
+        this.wind_gusts = this.wind_speed + (mainMcf.wind.turbulence * 25);
+        this.turbulence_strength = mainMcf.wind.turbulence;
+        this.thermal_strength = mainMcf.wind.thermal_activity;
+        this.visibility_percent = mainMcf.visibility;
+        // Order clouds from lowest to highest, ignoring empty cloud layers
+        this.clouds = [
+            [mainMcf.clouds.cumulus_density, mainMcf.clouds.cumulus_height],
+            [mainMcf.clouds.cumulus_mediocris_density, mainMcf.clouds.cumulus_mediocris_height],
+            [mainMcf.clouds.cirrus_density, mainMcf.clouds.cirrus_height],
+        ].map((a) => {
+            return new MissionConditionsCloud(a[0], a[1]);
+        });
+        return this;
+    }
     /**
      * @see https://www.thinkaviation.net/levels-of-vfr-ifr-explained/
      * @see https://en.wikipedia.org/wiki/Ceiling_(cloud)
      */
     getFlightCategory(useIcao = false) {
-        const cloud_base_feet = this.cloud_cover > 0.5 ? this.cloud_base_feet : 9999;
+        let cloud_base_feet = 9999;
+        this.clouds.forEach(cloud => {
+            if (cloud.cover > 0.5) {
+                cloud_base_feet = Math.min(cloud_base_feet, cloud.height_feet);
+            }
+        });
         if (useIcao) {
             if (this.visibility >= 5000 && cloud_base_feet > 1500) {
                 return MissionConditions.CONDITION_VFR;
@@ -186,9 +220,6 @@ export class MissionConditions {
             }
             return MissionConditions.CONDITION_LIFR;
         }
-    }
-    get time_object() {
-        return new Date(Date.UTC(this.time.time_year, this.time.time_month - 1, this.time.time_day, Math.floor(this.time.time_hours), Math.floor(this.time.time_hours % 1 * 60), Math.floor(this.time.time_hours % 1 * 60 % 1 * 60)));
     }
     /**
      * @see https://e6bx.com/e6b
@@ -236,8 +267,8 @@ export class MissionConditions {
                     <[float64][turbulence_strength][${this.turbulence_strength}]>
                     <[float64][thermal_strength][${this.thermal_strength}]>
                     <[float64][visibility][${this.visibility}]> // meters
-                    <[float64][cloud_cover][${this.cloud_cover}]>
-                    <[float64][cloud_base][${this.cloud_base}]> // meters AGL
+                    <[float64][cloud_cover][${this.cloud.cover}]>
+                    <[float64][cloud_base][${this.cloud.height}]> // meters AGL
                 >
 `;
     }

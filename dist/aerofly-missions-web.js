@@ -1,6 +1,7 @@
 import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission, MissionParsed } from "./Aerofly/Mission.js";
 import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
+import { MissionConditionsCloud } from "./Aerofly/MissionConditions.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
 import { GeoJson } from "./Export/GeoJson.js";
@@ -67,27 +68,24 @@ class App {
                         this.mission.callsign = target.value;
                         break;
                     case 'cloud_base_feet':
-                        this.mission.conditions.cloud_base_feet = target.valueAsNumber;
+                        this.mission.conditions.cloud.height_feet = target.valueAsNumber;
                         this.syncToOutput();
                         break;
                     case 'cloud_cover':
-                        this.mission.conditions.cloud_cover = target.valueAsNumber / 100;
+                        this.mission.conditions.cloud.cover = target.valueAsNumber / 100;
                         this.syncToOutput();
                         break;
                     case 'cruise_altitude_ft':
                         this.mission.cruise_altitude_ft = target.valueAsNumber;
                         break;
                     case 'cruise_speed':
-                        this.mission.cruise_speed = target.valueAsNumber;
+                        this.mission[target.id] = target.valueAsNumber;
                         break;
                     case 'date':
-                        {
-                            const match = target.value.match(/(\d+)\D(\d+)\D(\d+)/);
-                            if (match) {
-                                this.mission.conditions.time.time_year = Number(match[1]);
-                                this.mission.conditions.time.time_month = Number(match[2]);
-                                this.mission.conditions.time.time_day = Number(match[3]);
-                            }
+                        if (target.valueAsDate) {
+                            this.mission.conditions.time.dateTime.setUTCFullYear(target.valueAsDate.getUTCFullYear());
+                            this.mission.conditions.time.dateTime.setUTCMonth(target.valueAsDate.getUTCMonth());
+                            this.mission.conditions.time.dateTime.setUTCDate(target.valueAsDate.getUTCDate());
                         }
                         break;
                     case 'description':
@@ -103,11 +101,9 @@ class App {
                         this.mission.conditions.thermal_strength = target.valueAsNumber / 100;
                         break;
                     case 'time':
-                        {
-                            const match = target.value.match(/(\d+)\D(\d+)/);
-                            if (match) {
-                                this.mission.conditions.time.time_hours = Number(match[1]) + Number(match[2]) / 60;
-                            }
+                        if (target.valueAsDate) {
+                            this.mission.conditions.time.dateTime.setUTCHours(target.valueAsDate.getUTCHours());
+                            this.mission.conditions.time.dateTime.setUTCMinutes(target.valueAsDate.getUTCMinutes());
                         }
                         break;
                     case 'title':
@@ -168,11 +164,9 @@ class App {
             this.showFlightplan();
         });
         this.elements.makeTime.addEventListener('click', () => {
-            const d = new Date();
-            this.mission.conditions.time.time_year = d.getUTCFullYear();
-            this.mission.conditions.time.time_month = d.getUTCMonth() + 1;
-            this.mission.conditions.time.time_day = d.getUTCDate();
-            this.mission.conditions.time.time_hours = d.getUTCHours();
+            this.mission.conditions.time.dateTime = new Date();
+            this.mission.conditions.time.dateTime.setUTCSeconds(0);
+            this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
             this.syncToForm();
             this.showFlightplan();
         });
@@ -215,33 +209,23 @@ class App {
                 if (e.target) {
                     switch (fileEnding) {
                         case '.mcf':
-                            {
-                                const mainMcf = new MainMcf(e.target.result);
-                                this.mission.fromMainMcf(mainMcf);
-                            }
+                            const mainMcf = new MainMcf(e.target.result);
+                            this.mission.fromMainMcf(mainMcf);
                             break;
                         case '.tmc':
-                            {
-                                new MissionParsed(e.target.result, this.mission);
-                            }
+                            new MissionParsed(e.target.result, this.mission);
                             break;
                         case '.fpl':
-                            {
-                                const fpl = new GarminFpl(e.target.result);
-                                this.mission.fromGarminFpl(fpl);
-                            }
+                            const fpl = new GarminFpl(e.target.result);
+                            this.mission.fromGarminFpl(fpl);
                             break;
                         case '.pln':
-                            {
-                                const fpl = new MsfsPln(e.target.result);
-                                this.mission.fromGarminFpl(fpl);
-                            }
+                            const msfs = new MsfsPln(e.target.result);
+                            this.mission.fromGarminFpl(msfs);
                             break;
                         case '.fms':
-                            {
-                                const fpl = new XplaneFms(e.target.result);
-                                this.mission.fromGarminFpl(fpl);
-                            }
+                            const xplane = new XplaneFms(e.target.result);
+                            this.mission.fromGarminFpl(xplane);
                             break;
                         default:
                             this.showError('Unsupported file: ' + file.name);
@@ -288,14 +272,12 @@ class App {
                     visibility = 20000;
                 }
                 this.mission.conditions.visibility = visibility || 0;
-                if (metar.clouds.length > 0) {
-                    this.mission.conditions.cloud_base_feet = metar.clouds[0].feet || 0;
-                    this.mission.conditions.cloud_cover_code = metar.clouds[0].code || 'CLR';
-                }
-                else {
-                    this.mission.conditions.cloud_base_feet = 0;
-                    this.mission.conditions.cloud_cover_code = 'CLR';
-                }
+                this.mission.conditions.clouds = metar.clouds.map(c => {
+                    const cloud = new MissionConditionsCloud();
+                    cloud.cover_code = c.code;
+                    cloud.height_feet = c.feet;
+                    return cloud;
+                });
                 // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
                 this.mission.conditions.thermal_strength = (((metar.temperature.celsius || 14) - 5) / 25);
                 this.mission.conditions.makeTurbulence();
@@ -305,14 +287,14 @@ class App {
             return;
         }
         const lastHeading = this.mission.checkpoints.length ? this.mission.checkpoints[this.mission.checkpoints.length - 1].direction : Math.floor(Math.random() * 360);
-        this.mission.conditions.cloud_base_feet = 1000 + Math.floor(Math.random() * 91) * 100;
-        this.mission.conditions.cloud_cover = Math.random();
+        this.mission.conditions.cloud.height_feet = 1000 + Math.floor(Math.random() * 91) * 100;
+        this.mission.conditions.cloud.cover = Math.random();
         this.mission.conditions.thermal_strength = Math.random() * 0.5;
         this.mission.conditions.turbulence_strength = Math.random() * 0.5;
         this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 16) * 1000;
         this.mission.conditions.wind_direction = (360 + lastHeading - 30 + Math.floor(Math.random() * 61)) % 360;
-        this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
         this.mission.conditions.wind_speed = Math.floor(Math.random() * 10);
+        this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
     }
     download(filename, content, type = 'text/plain') {
         const a = document.createElement('a');
@@ -324,32 +306,33 @@ class App {
     }
     syncToForm() {
         this.elements.aircraft_name.value = this.mission.aircraft_name;
-        this.elements.date.value = this.mission.conditions.time.time_year.toFixed().padStart(4, '0') + '-' + this.mission.conditions.time.time_month.toFixed().padStart(2, '0') + '-' + this.mission.conditions.time.time_day.toFixed().padStart(2, '0');
-        this.elements.time.value = Math.floor(this.mission.conditions.time.time_hours).toFixed().padStart(2, '0') + ':' + Math.floor(this.mission.conditions.time.time_hours % 1 * 60).toFixed().padStart(2, '0');
-        this.elements.cruise_speed.value = this.mission.cruise_speed.toFixed();
-        this.elements.cruise_altitude_ft.value = this.mission.cruise_altitude_ft.toFixed();
-        this.elements.origin_dir.value = this.mission.origin_dir.toFixed();
-        this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
-        this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
-        this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
-        this.elements.visibility.value = this.mission.conditions.visibility.toFixed();
-        this.elements.cloud_base_feet.value = this.mission.conditions.cloud_base_feet.toFixed();
-        this.elements.cloud_cover.value = (this.mission.conditions.cloud_cover * 100).toFixed();
-        this.elements.turbulence_strength.value = (this.mission.conditions.turbulence_strength * 100).toFixed();
-        this.elements.metarApiKey.value = this.metarApiKey;
-        this.elements.thermal_strength.value = (this.mission.conditions.thermal_strength * 100).toFixed();
-        this.elements.title.value = this.mission.title;
         this.elements.callsign.value = this.mission.callsign;
+        this.elements.cloud_base_feet.value = this.mission.conditions.cloud.height_feet.toFixed();
+        this.elements.cloud_cover.value = (this.mission.conditions.cloud.cover * 100).toFixed();
+        this.elements.cruise_altitude_ft.value = this.mission.cruise_altitude_ft.toFixed();
+        this.elements.cruise_speed.value = this.mission.cruise_speed.toFixed();
+        this.elements.date.valueAsDate = this.mission.conditions.time.dateTime;
         this.elements.description.value = this.mission.description;
+        this.elements.metarApiKey.value = this.metarApiKey;
+        this.elements.origin_dir.value = this.mission.origin_dir.toFixed();
         this.elements.origin_dir.valueAsNumber = Math.round(this.mission.origin_dir);
+        this.elements.thermal_strength.value = (this.mission.conditions.thermal_strength * 100).toFixed();
+        this.elements.time.valueAsDate = this.mission.conditions.time.dateTime;
+        ;
+        this.elements.title.value = this.mission.title;
+        this.elements.turbulence_strength.value = (this.mission.conditions.turbulence_strength * 100).toFixed();
+        this.elements.visibility.value = this.mission.conditions.visibility.toFixed();
+        this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
+        this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
+        this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
         //this.elements.ils_frequency.valueAsNumber
         this.syncToOutput();
     }
     store() {
         localStorage.setItem('aircraft_name', this.mission.aircraft_name);
         localStorage.setItem('callsign', this.mission.callsign);
-        localStorage.setItem('conditions.cloud_base_feet', this.mission.conditions.cloud_base_feet.toFixed());
-        localStorage.setItem('conditions.cloud_cover', this.mission.conditions.cloud_cover.toFixed(4));
+        localStorage.setItem('conditions.cloud.height_feet', this.mission.conditions.cloud.height_feet.toFixed());
+        localStorage.setItem('conditions.cloud.cover', this.mission.conditions.cloud.cover.toFixed(4));
         localStorage.setItem('conditions.thermal_strength', this.mission.conditions.thermal_strength.toFixed(4));
         localStorage.setItem('conditions.turbulence_strength', this.mission.conditions.turbulence_strength.toFixed(4));
         localStorage.setItem('conditions.visibility', this.mission.conditions.visibility.toFixed(4));
@@ -363,8 +346,8 @@ class App {
         this.metarApiKey = localStorage.getItem('metarApiKey') || this.metarApiKey;
         this.mission.aircraft_name = localStorage.getItem('aircraft_name') || this.mission.aircraft_name;
         this.mission.callsign = localStorage.getItem('callsign') || this.mission.callsign;
-        this.mission.conditions.cloud_base_feet = Number(localStorage.getItem('conditions.cloud_base_feet')) || this.mission.conditions.cloud_base_feet;
-        this.mission.conditions.cloud_cover = Number(localStorage.getItem('conditions.cloud_cover')) || this.mission.conditions.cloud_cover;
+        this.mission.conditions.cloud.height_feet = Number(localStorage.getItem('conditions.cloud.height_feet')) || this.mission.conditions.cloud.height_feet;
+        this.mission.conditions.cloud.cover = Number(localStorage.getItem('conditions.cloud.cover')) || this.mission.conditions.cloud.cover;
         this.mission.conditions.thermal_strength = Number(localStorage.getItem('conditions.thermal_strength')) || this.mission.conditions.thermal_strength;
         this.mission.conditions.turbulence_strength = Number(localStorage.getItem('conditions.turbulence_strength')) || this.mission.conditions.turbulence_strength;
         this.mission.conditions.visibility = Number(localStorage.getItem('conditions.visibility')) || this.mission.conditions.visibility;
@@ -375,7 +358,7 @@ class App {
     }
     syncToOutput() {
         this.elements.visibility_sm.value = this.mission.conditions.visibility_sm.toFixed();
-        this.elements.cloud_cover_code.value = this.mission.conditions.cloud_cover_code;
+        this.elements.cloud_cover_code.value = this.mission.conditions.cloud.cover_code;
         if (this.mission.destination_icao) {
             this.elements.makeWeather.innerText = this.metarApiKey
                 ? 'Fetch weather for ' + this.mission.destination_icao

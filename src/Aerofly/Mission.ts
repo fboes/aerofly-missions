@@ -600,8 +600,8 @@ export class MissionParsed extends MainMcfParser {
     mission.conditions.turbulence_strength = this.getNumber(tmmission_conditions, 'turbulence_strength');
     mission.conditions.thermal_strength = this.getNumber(tmmission_conditions, 'thermal_strength');
     mission.conditions.visibility = this.getNumber(tmmission_conditions, 'visibility');
-    mission.conditions.cloud_cover = this.getNumber(tmmission_conditions, 'cloud_cover');
-    mission.conditions.cloud_base = this.getNumber(tmmission_conditions, 'cloud_base');
+    mission.conditions.cloud.cover = this.getNumber(tmmission_conditions, 'cloud_cover');
+    mission.conditions.cloud.height = this.getNumber(tmmission_conditions, 'cloud_base');
 
     mission.checkpoints = list_tmmission_checkpoint
       .split("<[tmmission_checkpoint")

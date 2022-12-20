@@ -6,8 +6,8 @@ export class MissionConditionsTest extends Test {
         this.group(MissionConditions.name);
         {
             const missionConditions = new MissionConditions();
-            this.assertEquals(missionConditions.cloud_base, 0);
-            this.assertEquals(missionConditions.cloud_cover, 0);
+            this.assertEquals(missionConditions.cloud.height, 0);
+            this.assertEquals(missionConditions.cloud.cover, 0);
             this.assertEquals(missionConditions.wind_speed, 0);
             this.assertEquals(missionConditions.visibility, 20000);
             missionConditions.visibility_percent = 1;
@@ -16,10 +16,10 @@ export class MissionConditionsTest extends Test {
             this.assertEquals(missionConditions.visibility, 15000 / 2, 'Visbility percentage test');
             missionConditions.visibility_percent = 0;
             this.assertEquals(missionConditions.visibility, 0, 'Visbility percentage test');
-            missionConditions.cloud_base_percent = 1;
-            this.assert(missionConditions.cloud_base > 3000, 'Cloud base percentage test');
-            missionConditions.cloud_base_percent = 0;
-            this.assertEquals(missionConditions.cloud_base, 0, 'Cloud base percentage test');
+            missionConditions.clouds[0].height_percent = 1;
+            this.assert(missionConditions.cloud.height > 3000, 'Cloud base percentage test');
+            missionConditions.clouds[0].height_percent = 0;
+            this.assertEquals(missionConditions.cloud.height, 0, 'Cloud base percentage test');
             missionConditions.wind_speed_percent = 1;
             this.assertEquals(missionConditions.wind_speed, 16, 'Wind speed percentage test');
             missionConditions.wind_speed_percent = 0.5;
@@ -89,34 +89,18 @@ export class MissionConditionsTest extends Test {
         this.group(MissionConditions.name + ': Flight conditions 1');
         {
             const missionConditions = new MissionConditions();
-            missionConditions.cloud_base = 0;
-            missionConditions.cloud_cover = 0;
+            missionConditions.cloud.height = 0;
+            missionConditions.cloud.cover = 0;
             this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
-            missionConditions.cloud_base = 5000;
-            missionConditions.cloud_cover = 0.1;
+            missionConditions.cloud.height = 5000;
+            missionConditions.cloud.cover = 0.1;
             this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
-            missionConditions.cloud_base = 1000;
-            missionConditions.cloud_cover = 0.5;
+            missionConditions.cloud.height = 1000;
+            missionConditions.cloud.cover = 0.5;
             this.assertEquals(missionConditions.getFlightCategory(), 'VFR');
-            missionConditions.cloud_base = 800;
-            missionConditions.cloud_cover = 0.6;
+            missionConditions.cloud.height = 800;
+            missionConditions.cloud.cover = 0.6;
             this.assertEquals(missionConditions.getFlightCategory(), 'MVFR');
-        }
-        this.group(MissionConditions.name + ': Time');
-        {
-            const missionConditions = new MissionConditions();
-            missionConditions.time.time_year = 2022;
-            missionConditions.time.time_month = 1;
-            missionConditions.time.time_day = 1;
-            missionConditions.time.time_hours = 0.75;
-            const obj = missionConditions.time_object;
-            this.assertEquals(obj.getUTCFullYear(), 2022);
-            this.assertEquals(obj.getUTCMonth(), 0);
-            this.assertEquals(obj.getUTCDate(), 1);
-            this.assertEquals(obj.getUTCDay(), 6);
-            this.assertEquals(obj.getUTCHours(), 0);
-            this.assertEquals(obj.getUTCMinutes(), 45);
-            this.assertEquals(obj.getUTCSeconds(), 0);
         }
     }
 }

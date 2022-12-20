@@ -36,7 +36,7 @@ export default class Html extends Outputtable {
         });
         const total_distance = m.distance;
         const total_time_enroute = m.time_enroute;
-        const time = m.conditions.time_object;
+        const time = new Date(m.conditions.time.dateTime);
         const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
         time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
         const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
@@ -52,7 +52,7 @@ export default class Html extends Outputtable {
         html += '</thead><tbody>';
         html += this.outputLine([
             this.getWind(m.conditions) + '&nbsp;kts',
-            m.conditions.cloud_cover_symbol + "&nbsp;" + m.conditions.cloud_cover_code + " @ " + m.conditions.cloud_base_feet.toLocaleString("en") + "&nbsp;ft",
+            m.conditions.cloud.cover_symbol + "&nbsp;" + m.conditions.cloud.cover_code + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
             m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
             m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
         ], 'ttd');
@@ -65,7 +65,7 @@ export default class Html extends Outputtable {
         html += this.outputLine([
             "Departure",
             `<a target="skyvector" href="https://skyvector.com/airport/${m.origin_icao}">${m.origin_icao}</a>`,
-            this.outputDateTime(m.conditions.time_object),
+            this.outputDateTime(m.conditions.time.dateTime),
             sunStateOrigin.localSolarTime,
             this.outputSunState(sunStateOrigin)
         ]);
@@ -88,8 +88,8 @@ export default class Html extends Outputtable {
             "Waypoint ",
             "<abbr title=\"Frequency\">FRQ</abbr>",
             "Altitude ",
-            "<abbr title=\"Desired track (magnetic)\">DTK</abbr>",
-            "<abbr title=\"Heading (magnetic)\">HDG</abbr> ",
+            "<abbr title=\"Desired track magnetic\">DTK</abbr>",
+            "<abbr title=\"Heading magnetic\">HDG</abbr> ",
             "Distance",
             "<abbr title=\"Estimated time enroute\">ETE</abbr>"
         ], 'th');

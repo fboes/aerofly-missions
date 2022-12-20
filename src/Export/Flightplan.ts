@@ -64,7 +64,7 @@ export class Flightplan extends Outputtable {
     const lineLength = 55;
     const total_distance = m.distance;
     const total_time_enroute = m.time_enroute;
-    const time = m.conditions.time_object;
+    const time = new Date(m.conditions.time.dateTime);
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600)
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
@@ -76,7 +76,7 @@ export class Flightplan extends Outputtable {
       'ORIG',
       m.origin_icao,
       'DEP', // Departure date & time
-      this.outputDateTime(m.conditions.time_object),
+      this.outputDateTime(m.conditions.time.dateTime),
     ]);
     output += this.outputFourColumn([
       'DSUN',
@@ -107,7 +107,7 @@ export class Flightplan extends Outputtable {
       'WIND', // Wind
       this.getWind(m.conditions),
       'CLD', // Clouds
-      m.conditions.cloud_cover_symbol + ' ' + m.conditions.cloud_cover_code + ' @ ' + m.conditions.cloud_base_feet.toLocaleString('en') + 'FT'
+      m.conditions.cloud.cover_symbol + ' ' + m.conditions.cloud.cover_code + ' @ ' + m.conditions.cloud.height_feet.toLocaleString('en') + 'FT'
     ]);
     output += this.outputFourColumn([
       'VIS', // Visbility
