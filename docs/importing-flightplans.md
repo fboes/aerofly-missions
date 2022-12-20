@@ -6,6 +6,7 @@ The Aerofly Missionsgerät is also able to convert other flight plan formats int
 * Import Garmin `fpl` Flight Plan file into Aerofly FS 4
 * Import [Microsoft FS `pln` Flight Plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) into Aerofly FS 4
 * Import X-Plane `fms` Flight Plan file into Aerofly FS 4
+* Import `gpx` GPS Route file into Aerofly FS 4
 
 Instructions
 ------------

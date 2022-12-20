@@ -30,7 +30,7 @@ Parameters:
   -i, --ils          ILS frequency like '123.45'
   -d, --direction    Initial orientation of aircraft
       --magnetic     Magnetic declination used for waypoints
-      --import       Location of an optional TMC, FPL, PLN or FMS file
+      --import       Location of an optional TMC, FPL, PLN, FMS or GPX file
 
 Switches:
   -m  --mission-only Do not export mission list with a single mission,

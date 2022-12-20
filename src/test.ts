@@ -8,6 +8,7 @@ import { GarminFplTest } from "./Tests/GarminFplTest.js";
 import { MsfsPlnTest } from "./Tests/MsfsPlnTest.js";
 import { XplaneFmsTest } from "./Tests/XplaneFmsTest.js";
 import { MainMcfTest } from "./Tests/MainMcfTest.js";
+import { GpxTest } from "./Tests/GpxTest.js";
 
 const tests = new Tests(process);
 tests.add(new LonLatTest(process));
@@ -19,4 +20,5 @@ tests.add(new LonLatDateTest(process));
 tests.add(new GarminFplTest(process));
 tests.add(new MsfsPlnTest(process));
 tests.add(new XplaneFmsTest(process));
+tests.add(new GpxTest(process));
 tests.exit();

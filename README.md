@@ -13,6 +13,7 @@ Other features:
 * [Convert Garmin `fpl` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
 * [Convert Microsoft FS `pln` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
 * [Convert X-Plane `fms` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
+* [Convert `gpx` GPS Route file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
 
 ![Flight plan as text briefing](docs/flightplan.png)
 

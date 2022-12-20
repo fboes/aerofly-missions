@@ -9,6 +9,7 @@ import Html from "./Export/Html.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
+import { Gpx } from "./Import/Gpx.js";
 import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
 import { LonLat } from "./World/LonLat.js";
@@ -226,6 +227,10 @@ class App {
                         case '.fms':
                             const xplane = new XplaneFms(e.target.result);
                             this.mission.fromGarminFpl(xplane);
+                            break;
+                        case '.gpx':
+                            const gpx = new Gpx(e.target.result);
+                            this.mission.fromGarminFpl(gpx);
                             break;
                         default:
                             this.showError('Unsupported file: ' + file.name);

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="SkyVector" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <rte>
+    <name>EGOV-EGOV</name>
+    <rtept lat="53.248167" lon="-4.535333">
+      <name>EGOV</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.716667" lon="-4.066667">
+      <name>SV001</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.750000" lon="-3.883333">
+      <name>SV002</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.716667" lon="-3.833333">
+      <name>SV003</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.683333" lon="-3.883333">
+      <name>SV004</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.650000" lon="-3.833333">
+      <name>SV005</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.600000" lon="-3.850000">
+      <name>SV006</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.633333" lon="-3.716667">
+      <name>SV007</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.700000" lon="-3.683333">
+      <name>SV008</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.733333" lon="-3.800000">
+      <name>SV009</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="52.595958" lon="-4.053406">
+      <name>SV010</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="53.241797" lon="-4.554657">
+      <name>SV011</name>
+      <overfly>false</overfly>
+    </rtept>
+    <rtept lat="53.248167" lon="-4.535333">
+      <name>EGOV</name>
+      <overfly>false</overfly>
+    </rtept>
+
+  </rte>
+</gpx>

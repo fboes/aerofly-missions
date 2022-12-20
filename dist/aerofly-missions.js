@@ -10,6 +10,7 @@ import { GeoJson } from "./Export/GeoJson.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
 import { GarminFpl } from "./Import/GarminFpl.js";
+import { Gpx } from "./Import/Gpx.js";
 import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
 const args = new Arguments(process);
@@ -37,6 +38,10 @@ if (args.msfs) {
 }
 if (args.xplane) {
     const fpl = new XplaneFms(fs.readFileSync(args.xplane, "utf8"));
+    mission.fromGarminFpl(fpl, args.magneticDeclination);
+}
+if (args.gpx) {
+    const fpl = new Gpx(fs.readFileSync(args.gpx, "utf8"));
     mission.fromGarminFpl(fpl, args.magneticDeclination);
 }
 if (args.tmc) {

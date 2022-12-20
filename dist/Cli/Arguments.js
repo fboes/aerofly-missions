@@ -50,6 +50,7 @@ export class Arguments {
         this.garmin = "";
         this.msfs = "";
         this.xplane = "";
+        this.gpx = "";
         this.tmc = "";
         this.direction = -1;
         this.ils = 0;
@@ -109,6 +110,9 @@ export class Arguments {
                             case '.tmc':
                                 this.tmc = a;
                                 break;
+                            case '.gpx':
+                                this.gpx = a;
+                                break;
                             default:
                                 throw new Error("Unknown file type: " + fileEnding);
                         }
@@ -152,7 +156,7 @@ ${c.lightBlue}      --description ${c.reset} Description of your mission; line b
 ${c.lightBlue}  -i, --ils         ${c.reset} ILS frequency like '123.45'; defaults to \`${this.ils}\`
 ${c.lightBlue}  -d, --direction   ${c.reset} True initial heading of aircraft; defaults to \`${this.direction}\`
 ${c.lightBlue}      --magnetic    ${c.reset} Magnetic declination used for waypoints; defaults to \`${this.magneticDeclination}\`
-${c.lightBlue}      --import      ${c.reset} Location of an optional TMC, FPL, PLN or FMS file
+${c.lightBlue}      --import      ${c.reset} Location of an optional TMC, FPL, PLN, FMS or GPX file
 
 Switches:
 ${c.lightBlue}  -m  --mission-only${c.reset} Do not export mission list with a single mission,
