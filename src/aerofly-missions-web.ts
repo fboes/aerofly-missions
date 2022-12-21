@@ -5,6 +5,7 @@ import { MissionConditionsCloud } from "./Aerofly/MissionConditions.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
 import { GeoJson } from "./Export/GeoJson.js";
+import { GeoJson as GeoJsonImport } from "./Import/GeoJson.js";
 import Html from "./Export/Html.js";
 import { Markdown } from "./Export/Markdown.js";
 import { SkyVector } from "./Export/SkyVector.js";
@@ -219,6 +220,10 @@ class App {
             case '.gpx':
               const gpx = new Gpx(<string>e.target.result)
               this.mission.fromGarminFpl(gpx);
+              break;
+            case '.geojson':
+              const geojson = new GeoJsonImport(<string>e.target.result)
+              this.mission.fromGarminFpl(geojson);
               break;
             default:
               this.showError('Unsupported file: ' + file.name);

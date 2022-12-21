@@ -145,8 +145,8 @@ export class MissionConditions {
         return this.clouds[0];
     }
     /**
-   * Get medium cloud
-   */
+     * Get medium cloud
+     */
     get cloud2() {
         if (this.clouds.length < 2) {
             this.cloud;
@@ -155,8 +155,8 @@ export class MissionConditions {
         return this.clouds[1];
     }
     /**
-  * Get lowest cloud
-  */
+     * Get highest cloud
+     */
     get cloud3() {
         if (this.clouds.length < 3) {
             this.cloud2;

@@ -118,12 +118,12 @@ export default class Html extends Outputtable {
       html += this.outputLine([
         this.pad(i + 1, 2, 0, "0") + ".",
         c.name,
-        (c.frequency ? frqString : ""),
-        (c.altitude ? this.pad(c.altitude_ft, 6, 0) + '&nbsp;ft' : ''),
-        c.direction >= 0 ? this.padThree(c.direction_magnetic) + "°" : " ".repeat(4),
-        c.heading >= 0 ? this.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
-        c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : " ".repeat(8),
-        c.time_enroute > 0 ? this.convertHoursToMinutesString(c.time_enroute) : " ".repeat(5),
+        c.frequency ? frqString : "",
+        c.altitude ? this.pad(c.altitude_ft, 6, 0) + '&nbsp;ft' : '',
+        this.padThree(c.direction_magnetic) + "°",
+        this.padThree(c.heading_magnetic) + "°",
+        c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",
+        c.time_enroute > 0 ? this.convertHoursToMinutesString(c.time_enroute) : "",
       ]);
     });
     html += '</tbody><tfoot>';

@@ -214,7 +214,7 @@ export class Mission {
         break;
       case "ec135":
         this.aircraft_icao = "EC35";
-        this.callsign = 'DHDRS';
+        this.callsign = 'CHX64';
         this.cruise_speed = 137;
         break;
       case 'c172':

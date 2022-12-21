@@ -28,17 +28,18 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-background);
 }
 
-*+:is(label, form, p, h1, h2, h3, h4, details, pre, .table, #flightplan) {
+*+ :is(label, form, p, h1, h2, h3, h4, details, pre, .table, #flightplan) {
   margin-top: 1em;
 }
 
-*+:is(section) {
+*+ :is(section) {
   margin-top: 2em;
 }
 
@@ -67,6 +68,20 @@ summary {
   cursor: pointer;
 }
 
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  background-color: var(--color-darken);
+  display: inline-block;
+  padding: 0 0.2em;
+  border-radius: 0.2em;
+  font-size: 0.9em;
+}
+
+abbr {
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+
 /* Form */
 
 button,
@@ -79,10 +94,27 @@ output {
   border: 1px solid var(--color-darken-more);
   color: inherit;
   font: inherit;
-  display: block;
+  display: inline-block;
   width: 100%;
   accent-color: var(--color-highlight);
 }
+
+input[type="range"] {
+  vertical-align: middle;
+}
+
+input[type="number"],
+output.number,
+input.has-output {
+  width: calc(100% - 2.5em);
+}
+
+input.has-output+output {
+  width: 2em;
+  border: none;
+  padding: none;
+}
+
 
 :invalid {
   border-color: deeppink;
@@ -94,7 +126,7 @@ textarea {
 
 output {
   background-color: transparent;
-  border-color: var(--color-darken)
+  border-color: var(--color-darken);
 }
 
 input,
@@ -104,8 +136,9 @@ select {
 }
 
 label {
-  padding: 0.25em 0;
+  padding: 0.25em 0 0;
   display: block;
+  font-size: 0.66em;
 }
 
 button {
@@ -130,31 +163,6 @@ button:disabled {
 button:is(:hover, :focus):not(:disabled) {
   box-shadow: var(--color-darken-more) 0px 0.5em 0.5em;
 }
-
-/* Code */
-
-code,
-pre {
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  background-color: var(--color-darken);
-  display: inline-block;
-  padding: 0 0.2em;
-  border-radius: 0.2em;
-  font-size: 0.9em;
-}
-
-/*div.pre {
-  max-width: 100%;
-  overflow: auto;
-  background: black;
-  border-radius: 0.2em;
-}
-
-pre {
-  padding: 0.5em;
-  color: white;
-  background: black;
-}*/
 
 /* Table */
 
@@ -187,10 +195,10 @@ th {
 }
 
 :is(tbody, tfoot) :is(td, th) {
-  border-top: 1px solid var(--color-darken)
+  border-top: 1px solid var(--color-darken);
 }
 
-.table-checkpoints :is(td, th):nth-child(n+3) {
+.table-checkpoints :is(td, th):nth-child(n + 3) {
   text-align: right;
 }
 
@@ -228,39 +236,32 @@ footer {
 }
 
 @media screen and (min-width: 24em) {
-  .col-4 {
-    display: flex;
-    flex-flow: row wrap;
-    column-gap: 2%;
-  }
 
-  .col-4>* {
-    margin-top: 1em;
-    width: 49%;
-  }
-}
-
-@media screen and (min-width: 42em) {
-
-  .col-1,
+  .col-4,
+  .col-3,
   .col-2 {
     display: flex;
     flex-flow: row wrap;
     column-gap: 2%;
   }
 
-  .col-2>*,
-  .col-4>* {
-    margin-top: 1em;
-    width: 23.5%;
+  :is(.col-4, .col-3, .col-2)>* {
+    margin-top: 0.5em;
   }
 
-  .col-2>*:nth-child(even) {
-    width: 74.5%;
-  }
-
-  .col-1>* {
+  .col-4>*,
+  .col-2>* {
     width: 49%;
+  }
+
+  .col-3>* {
+    width: 32%;
+  }
+}
+
+@media screen and (min-width: 42em) {
+  .col-4>* {
+    width: 23.5%;
   }
 }
 
