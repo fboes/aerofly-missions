@@ -285,7 +285,7 @@ class App {
                 this.mission.conditions.clouds = metar.clouds.map(c => {
                     const cloud = new MissionConditionsCloud();
                     cloud.cover_code = c.code;
-                    cloud.height_feet = c.feet;
+                    cloud.height_feet = c.feet || 0;
                     return cloud;
                 });
                 // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
