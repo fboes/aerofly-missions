@@ -2,13 +2,17 @@ import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
 
-type GeoJsonFeature = {
+export type GeoJsonFeature = {
   type: string;
   geometry: {
     type: string;
     coordinates: any[];
   };
-  properties: object;
+  properties: {
+    title: string,
+    type: string,
+    altitude: number
+  };
 };
 
 export class GeoJson {
@@ -45,7 +49,7 @@ export class GeoJson {
       properties: {
         title: "Starting position",
         type: "plane",
-        "marker-symbol": "airport",
+        altitude: -1
       },
     });
 
@@ -66,8 +70,6 @@ export class GeoJson {
           properties: {
             title: c.name,
             type: c.type,
-            direction: c.direction,
-            distance: c.distance,
             altitude: c.altitude
           },
         };
@@ -83,7 +85,7 @@ export class GeoJson {
       properties: {
         title: "Starting position",
         type: "plane",
-        "marker-symbol": "airport",
+        altitude: -1
       },
     });
 
@@ -96,7 +98,7 @@ export class GeoJson {
       properties: {
         title: "Destination position",
         type: "plane",
-        "marker-symbol": "airport",
+        altitude: -1
       },
     });
 
@@ -115,6 +117,8 @@ export class GeoJson {
       },
       properties: {
         title: "Flightplan",
+        type: "Flightplan",
+        altitude: -1
       },
     });
   }

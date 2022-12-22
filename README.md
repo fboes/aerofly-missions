@@ -19,8 +19,8 @@ Other features:
 
 There are two versions of this tool:
 
-1. **Web version**: Use a simplified tool right out of your browser by visiting https://fboes.github.io/aerofly-missions/dist/
-2. **Local Node.js CLI tool**: More powerful, but more difficult to install and run
+1. **Web version**: Use the Missionsgerät right out of your browser by visiting [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/).
+2. **Local Node.js CLI tool**: If you want some automation for your workflow.
 
 Local Node.js CLI tool
 ----------------------
@@ -49,10 +49,10 @@ This manual is for Windows 10/11 installations. On other operating systems these
 1. Start the flight and check if the position of your aircraft is correct.
 1. Quit Aerofly FS 4 so all your settings will be saved to your `main.mcf` configuration file, usually located at `C:\Users\…\Documents\Aerofly FS 4\main.mcf`.
 1. Web version:
-   1. Open https://fboes.github.io/aerofly-missions/dist/ and point the tool to the `main.mcf`
+   1. Open https://fboes.github.io/aerofly-missions/dist/ and point the tool to the `main.mcf`.
 1. Local version:
    1. Open the explorer and point it to the directory `main.mcf` is located, e.g. `Documents\Aerofly FS 4\`.
-   1. Right click on the folder name and choose "Open in terminal"
+   1. Right click on the folder name and choose "Open in terminal".
    1. Run `aerofly-missions` in the open terminal to convert `main.mcf` to a `tmc` file (see below).
 1. Grab your exported `tmc` file with all your settings converted into a single mission file. This file can now be placed into the custom mission directory in Aerofly FS 4.
 

@@ -1,0 +1,390 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.535475,
+          53.24673333333333
+        ]
+      },
+      "properties": {
+        "title": "Starting position",
+        "type": "plane",
+        "marker-symbol": "airport"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.535475,
+          53.24673333333333
+        ]
+      },
+      "properties": {
+        "title": "EGOV",
+        "type": "origin",
+        "direction": -1,
+        "distance": -1,
+        "altitude": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.058341666666666,
+          52.717475
+        ]
+      },
+      "properties": {
+        "title": "1.BARM",
+        "type": "waypoint",
+        "direction": 151.3175528541571,
+        "distance": 36.165920543881214,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.8839333333333332,
+          52.75208611111111
+        ]
+      },
+      "properties": {
+        "title": "2.DOLG",
+        "type": "waypoint",
+        "direction": 71.78454058459653,
+        "distance": 6.674316922855348,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.839647222222222,
+          52.71279444444445
+        ]
+      },
+      "properties": {
+        "title": "3.MACH",
+        "type": "waypoint",
+        "direction": 145.6684848258293,
+        "distance": 2.8569804151606544,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.8810166666666666,
+          52.682624999999994
+        ]
+      },
+      "properties": {
+        "title": "4.MWYN",
+        "type": "waypoint",
+        "direction": 219.742936097226,
+        "distance": 2.3558563083693485,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.8391305555555557,
+          52.651602777777775
+        ]
+      },
+      "properties": {
+        "title": "5.CORS",
+        "type": "waypoint",
+        "direction": 140.67204140743866,
+        "distance": 2.408010937286208,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.8465111111111114,
+          52.60555
+        ]
+      },
+      "properties": {
+        "title": "6.MCHN",
+        "type": "waypoint",
+        "direction": 185.55897633712942,
+        "distance": 2.7788664526099454,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.722916666666667,
+          52.63827222222222
+        ]
+      },
+      "properties": {
+        "title": "7.CMIS",
+        "type": "waypoint",
+        "direction": 66.38803693270393,
+        "distance": 4.916041018748046,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.68515,
+          52.707594444444446
+        ]
+      },
+      "properties": {
+        "title": "8.DNAS",
+        "type": "waypoint",
+        "direction": 18.265775774651047,
+        "distance": 4.384601812932559,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7957,
+          52.739200000000004
+        ]
+      },
+      "properties": {
+        "title": "9.EXIT",
+        "type": "waypoint",
+        "direction": 295.31287945199165,
+        "distance": 4.446695347976082,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.940238888888889,
+          52.92422222222222
+        ]
+      },
+      "properties": {
+        "title": "10.POSN",
+        "type": "waypoint",
+        "direction": 334.79181165500154,
+        "distance": 12.287391280547979,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.9079666666666664,
+          53.107216666666666
+        ]
+      },
+      "properties": {
+        "title": "11.A5EN",
+        "type": "waypoint",
+        "direction": 6.043266347304382,
+        "distance": 11.051855550858637,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.018516666666667,
+          53.12411388888889
+        ]
+      },
+      "properties": {
+        "title": "12.OGWE",
+        "type": "waypoint",
+        "direction": 284.33142594181976,
+        "distance": 4.112131710264527,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.162927777777778,
+          53.220219444444446
+        ]
+      },
+      "properties": {
+        "title": "13.MENI",
+        "type": "waypoint",
+        "direction": 318.0485617120896,
+        "distance": 7.767915227857476,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.397544444444445,
+          53.16941388888888
+        ]
+      },
+      "properties": {
+        "title": "14.FRST",
+        "type": "waypoint",
+        "direction": 250.22123936002458,
+        "distance": 8.976065125411347,
+        "altitude": 761.9999756160008
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.535475,
+          53.24673333333333
+        ]
+      },
+      "properties": {
+        "title": "EGOV",
+        "type": "destination",
+        "direction": 313.1611865541867,
+        "distance": 6.795355020678808,
+        "altitude": 0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.535475,
+          53.24673333333333
+        ]
+      },
+      "properties": {
+        "title": "Destination position",
+        "type": "plane",
+        "marker-symbol": "airport"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -4.535475,
+            53.24673333333333
+          ],
+          [
+            -4.535475,
+            53.24673333333333
+          ],
+          [
+            -4.058341666666666,
+            52.717475
+          ],
+          [
+            -3.8839333333333332,
+            52.75208611111111
+          ],
+          [
+            -3.839647222222222,
+            52.71279444444445
+          ],
+          [
+            -3.8810166666666666,
+            52.682624999999994
+          ],
+          [
+            -3.8391305555555557,
+            52.651602777777775
+          ],
+          [
+            -3.8465111111111114,
+            52.60555
+          ],
+          [
+            -3.722916666666667,
+            52.63827222222222
+          ],
+          [
+            -3.68515,
+            52.707594444444446
+          ],
+          [
+            -3.7957,
+            52.739200000000004
+          ],
+          [
+            -3.940238888888889,
+            52.92422222222222
+          ],
+          [
+            -3.9079666666666664,
+            53.107216666666666
+          ],
+          [
+            -4.018516666666667,
+            53.12411388888889
+          ],
+          [
+            -4.162927777777778,
+            53.220219444444446
+          ],
+          [
+            -4.397544444444445,
+            53.16941388888888
+          ],
+          [
+            -4.535475,
+            53.24673333333333
+          ],
+          [
+            -4.535475,
+            53.24673333333333
+          ]
+        ]
+      },
+      "properties": {
+        "title": "Flightplan"
+      }
+    }
+  ]
+}

@@ -30,7 +30,7 @@ export class GeoJson {
             properties: {
                 title: "Starting position",
                 type: "plane",
-                "marker-symbol": "airport",
+                altitude: -1
             },
         });
         this.drawLine();
@@ -47,8 +47,6 @@ export class GeoJson {
                 properties: {
                     title: c.name,
                     type: c.type,
-                    direction: c.direction,
-                    distance: c.distance,
                     altitude: c.altitude
                 },
             };
@@ -62,7 +60,7 @@ export class GeoJson {
             properties: {
                 title: "Starting position",
                 type: "plane",
-                "marker-symbol": "airport",
+                altitude: -1
             },
         });
         this.features.push({
@@ -74,7 +72,7 @@ export class GeoJson {
             properties: {
                 title: "Destination position",
                 type: "plane",
-                "marker-symbol": "airport",
+                altitude: -1
             },
         });
         this.drawLine();
@@ -91,6 +89,8 @@ export class GeoJson {
             },
             properties: {
                 title: "Flightplan",
+                type: "Flightplan",
+                altitude: -1
             },
         });
     }

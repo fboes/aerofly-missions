@@ -68,6 +68,12 @@ summary {
   cursor: pointer;
 }
 
+svg {
+  vertical-align: -0.1em;
+  height: 1em;
+  width: auto;
+}
+
 code {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   background-color: var(--color-darken);

@@ -23,7 +23,27 @@ export default class Html extends Outputtable {
   }
 
   outputSunState(sunState: LonLateDateSunState): string {
-    return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
+    const deg = Math.ceil(sunState.solarElevationAngleDeg);
+    const degX = Math.max(0, Math.min(18, 12 - deg));
+
+    return `<svg width="20" height="20" version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <title>${deg.toFixed()}°</title>
+    <style>
+      rect, circle, line { stroke-width: 1px; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+    <rect x="1" y="1" width="18" height="18" />
+    <circle cx="10" cy="10" r="3" />
+    <line x1="3" y1="10" x2="5" y2="10" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(45, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(90, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(135, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(180, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(225, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(270, 10, 10)" />
+    <line x1="3" y1="10" x2="5" y2="10" transform="rotate(315, 10, 10)" />
+    <rect x="1" y="${19 - degX}" width="18" height="${degX}" style="fill: currentColor" />
+  </svg> ${sunState.sunState}`
+    //return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
   }
 
   outputDateTime(date: Date) {

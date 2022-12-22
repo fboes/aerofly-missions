@@ -137,8 +137,8 @@ class App {
           this.showError('Missing filename for saving');
         }
         switch (target.id) {
-          case 'download-json': this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission), null, 2), 'text/json'); break;
-          case 'download-md': this.download(filename, new Markdown(this.mission).toString(filename.replace('.md', '.tmc'))); break;
+          case 'download-json': this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission), null, 2), 'application/geo+json'); break;
+          case 'download-md': this.download(filename, new Markdown(this.mission).toString(filename.replace('.md', '.tmc')), 'text/markdown'); break;
           case 'download-tmc': this.download(filename, this.missionList.toString()); break;
         }
       });
@@ -181,7 +181,7 @@ class App {
       }
     });
     const slug = this.mission.title ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, '$1-$2')) : 'custom_missions';
-    this.elements.downloadJsonCode.innerText = slug + '.json';
+    this.elements.downloadJsonCode.innerText = slug + '.geojson';
     this.elements.downloadMdCode.innerText = slug + '.md';
     this.elements.downloadTmcCode.innerText = slug + '.tmc';
   }
@@ -298,7 +298,7 @@ class App {
     this.mission.conditions.turbulence_strength = Math.random() * 0.5;
     this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 16) * 1000;
     this.mission.conditions.wind_direction = (360 + lastHeading - 30 + Math.floor(Math.random() * 61)) % 360;
-    this.mission.conditions.wind_speed = Math.floor(Math.random() * 10);
+    this.mission.conditions.wind_speed = Math.floor(Math.random() * 20);
     this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
   }
 
