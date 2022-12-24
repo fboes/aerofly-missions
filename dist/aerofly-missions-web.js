@@ -1,6 +1,5 @@
 import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission, MissionParsed } from "./Aerofly/Mission.js";
-import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
 import { MissionConditionsCloud } from "./Aerofly/MissionConditions.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
@@ -17,6 +16,7 @@ import { LonLat } from "./World/LonLat.js";
 class App {
     constructor() {
         this.elements = {
+            main: document.querySelector('main'),
             aircraft_name: document.getElementById('aircraft_name'),
             callsign: document.getElementById('callsign'),
             cloud_base_feet: document.getElementById('cloud_base_feet'),
@@ -33,7 +33,6 @@ class App {
             downloadTmc: document.getElementById('download-tmc'),
             downloadTmcCode: document.querySelector('#download-tmc code'),
             flightplan: document.getElementById('flightplan'),
-            ils_frequency: document.getElementById('ils_frequency'),
             makeTime: document.getElementById('make-time'),
             makeWeather: document.getElementById('make-weather'),
             metar: document.getElementById('metar'),
@@ -58,86 +57,105 @@ class App {
         this.restore();
         this.flightplan = new Html(this.mission);
         this.skyVector = new SkyVector(this.mission);
-        document.querySelectorAll('input, select, textarea').forEach(i => {
-            i.addEventListener('input', (e) => {
-                const target = e.currentTarget;
-                switch (target.id) {
-                    case 'aircraft_name':
-                        this.mission.aircraft_name = target.value;
-                        this.syncToForm();
-                        break;
-                    case 'callsign':
-                        this.mission.callsign = target.value;
-                        break;
-                    case 'cloud_base_feet':
-                        this.mission.conditions.cloud.height_feet = target.valueAsNumber;
-                        this.syncToOutput();
-                        break;
-                    case 'cloud_cover':
-                        this.mission.conditions.cloud.cover = target.valueAsNumber / 100;
-                        this.syncToOutput();
-                        break;
-                    case 'cruise_altitude_ft':
-                        this.mission.cruise_altitude_ft = target.valueAsNumber;
-                        break;
-                    case 'cruise_speed':
-                        this.mission[target.id] = target.valueAsNumber;
-                        break;
-                    case 'date':
-                        if (target.valueAsDate) {
-                            this.mission.conditions.time.dateTime.setUTCFullYear(target.valueAsDate.getUTCFullYear());
-                            this.mission.conditions.time.dateTime.setUTCMonth(target.valueAsDate.getUTCMonth());
-                            this.mission.conditions.time.dateTime.setUTCDate(target.valueAsDate.getUTCDate());
+        this.elements.main.addEventListener('input', (e) => {
+            const target = e.target;
+            let redraw = true;
+            switch (target.id) {
+                case 'aircraft_name':
+                    this.mission.aircraft_name = target.value;
+                    this.syncToForm();
+                    break;
+                case 'callsign':
+                    this.mission.callsign = target.value;
+                    break;
+                case 'cloud_base_feet':
+                    this.mission.conditions.cloud.height_feet = target.valueAsNumber;
+                    this.syncToOutput();
+                    break;
+                case 'cloud_cover':
+                    this.mission.conditions.cloud.cover = target.valueAsNumber / 100;
+                    this.syncToOutput();
+                    break;
+                case 'cruise_altitude_ft':
+                    this.mission.cruise_altitude_ft = target.valueAsNumber;
+                    break;
+                case 'cruise_speed':
+                    this.mission[target.id] = target.valueAsNumber;
+                    break;
+                case 'date':
+                    if (target.valueAsDate) {
+                        this.mission.conditions.time.dateTime.setUTCFullYear(target.valueAsDate.getUTCFullYear());
+                        this.mission.conditions.time.dateTime.setUTCMonth(target.valueAsDate.getUTCMonth());
+                        this.mission.conditions.time.dateTime.setUTCDate(target.valueAsDate.getUTCDate());
+                    }
+                    break;
+                case 'description':
+                    this.mission.description = target.value;
+                    break;
+                case 'metar-api-key':
+                    this.metarApiKey = target.value;
+                    break;
+                case 'origin_dir':
+                    this.mission.origin_dir = target.valueAsNumber;
+                    break;
+                case 'thermal_strength':
+                    this.mission.conditions.thermal_strength = target.valueAsNumber / 100;
+                    break;
+                case 'time':
+                    if (target.valueAsDate) {
+                        this.mission.conditions.time.dateTime.setUTCHours(target.valueAsDate.getUTCHours());
+                        this.mission.conditions.time.dateTime.setUTCMinutes(target.valueAsDate.getUTCMinutes());
+                    }
+                    break;
+                case 'title':
+                    this.mission.title = target.value;
+                    break;
+                case 'turbulence_strength':
+                    this.mission.conditions.turbulence_strength = target.valueAsNumber / 100;
+                    break;
+                case 'upload':
+                    this.uploadFile();
+                    this.syncToForm();
+                    break;
+                case 'visibility':
+                    this.mission.conditions.visibility = target.valueAsNumber;
+                    this.syncToOutput();
+                    break;
+                case 'wind_direction':
+                    this.mission.conditions.wind_direction = target.valueAsNumber;
+                    break;
+                case 'wind_gusts':
+                    this.mission.conditions.wind_gusts = target.valueAsNumber;
+                    break;
+                case 'wind_speed':
+                    this.mission.conditions.wind_speed = target.valueAsNumber;
+                    break;
+                default:
+                    const prop = target.getAttribute('data-cp-prop');
+                    const id = target.getAttribute('data-cp-id');
+                    redraw = false;
+                    if (prop && id) {
+                        switch (prop) {
+                            case 'name':
+                                this.mission.checkpoints[Number(id)].name = target.value;
+                                break;
+                            case 'altitude_ft':
+                                this.mission.checkpoints[Number(id)].altitude_ft = target.valueAsNumber;
+                                break;
+                            case 'frequency_mhz':
+                                this.mission.checkpoints[Number(id)].frequency_mhz = target.valueAsNumber;
+                                break;
                         }
-                        break;
-                    case 'description':
-                        this.mission.description = target.value;
-                        break;
-                    case 'metar-api-key':
-                        this.metarApiKey = target.value;
-                        break;
-                    case 'origin_dir':
-                        this.mission.origin_dir = target.valueAsNumber;
-                        break;
-                    case 'thermal_strength':
-                        this.mission.conditions.thermal_strength = target.valueAsNumber / 100;
-                        break;
-                    case 'time':
-                        if (target.valueAsDate) {
-                            this.mission.conditions.time.dateTime.setUTCHours(target.valueAsDate.getUTCHours());
-                            this.mission.conditions.time.dateTime.setUTCMinutes(target.valueAsDate.getUTCMinutes());
-                        }
-                        break;
-                    case 'title':
-                        this.mission.title = target.value;
-                        break;
-                    case 'turbulence_strength':
-                        this.mission.conditions.turbulence_strength = target.valueAsNumber / 100;
-                        break;
-                    case 'upload':
-                        this.uploadFile();
-                        this.syncToForm();
-                        break;
-                    case 'visibility':
-                        this.mission.conditions.visibility = target.valueAsNumber;
-                        this.syncToOutput();
-                        break;
-                    case 'wind_direction':
-                        this.mission.conditions.wind_direction = target.valueAsNumber;
-                        break;
-                    case 'wind_gusts':
-                        this.mission.conditions.wind_gusts = target.valueAsNumber;
-                        break;
-                    case 'wind_speed':
-                        this.mission.conditions.wind_speed = target.valueAsNumber;
-                        break;
-                }
+                    }
+                    break;
+            }
+            if (redraw) {
                 if (target.id !== 'upload') {
                     this.mission.calculateDirectionForCheckpoints();
                 }
                 this.showFlightplan();
-                this.store();
-            });
+            }
+            this.store();
         });
         document.querySelectorAll('button.download').forEach(i => {
             i.addEventListener('click', (e) => {
@@ -176,13 +194,6 @@ class App {
         this.syncToForm();
     }
     showFlightplan() {
-        if (this.elements.ils_frequency.valueAsNumber > 0 && this.mission.checkpoints.length > 2) {
-            let runway = this.mission.checkpoints[this.mission.checkpoints.length - 2];
-            if (runway.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
-                runway = this.mission.checkpoints[this.mission.checkpoints.length - 1];
-            }
-            runway.frequency_mhz = this.elements.ils_frequency.valueAsNumber;
-        }
         if (this.elements.flightplan) {
             this.elements.flightplan.innerHTML = this.flightplan.toString();
         }
@@ -335,7 +346,6 @@ class App {
         this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
         this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
         this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
-        //this.elements.ils_frequency.valueAsNumber
         this.syncToOutput();
     }
     store() {

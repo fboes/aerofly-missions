@@ -189,6 +189,14 @@ table {
   width: 100%;
 }
 
+table input {
+  max-width: 7em;
+}
+
+table input[type="number"] {
+  width: 6em;
+}
+
 thead,
 tfoot {
   font-weight: var(--fontweight-bold);
@@ -198,13 +206,14 @@ td,
 th {
   padding: 0.05em 0.25em;
   text-align: left;
+  white-space: nowrap;
 }
 
 :is(tbody, tfoot) :is(td, th) {
   border-top: 1px solid var(--color-darken);
 }
 
-.table-checkpoints :is(td, th):nth-child(n + 3) {
+.table-checkpoints :is(td, th):nth-child(n + 5) {
   text-align: right;
 }
 
@@ -287,6 +296,10 @@ footer {
     border: none;
     padding: 0;
     margin: 0;
+  }
+
+  input[type="number"] {
+    text-align: right;
   }
 
   pre,

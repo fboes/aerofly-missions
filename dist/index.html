@@ -228,20 +228,11 @@
           </div>
 
           <button type="button" id="make-weather">Set random weather</button>
-
-          <details>
-            <summary>⚙️ METAR API</summary>
-            <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
-              the Missionsgerät can fetch the current weather for you.</p>
-
-            <div>
-              <label for="metar-api-key">CheckWX API key</label>
-              <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
-            </div>
-          </details>
         </details>
         <details>
           <summary>Miscellaneous</summary>
+          <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
+            the Missionsgerät can fetch the current weather for you.</p>
           <div class="col-2">
             <div>
               <label for="origin_dir">Initial heading</label>
@@ -250,9 +241,8 @@
             </div>
 
             <div>
-              <label for="ils_frequency">ILS frequency</label>
-              <input type="number" min="0" max="113" step="0.05" id="ils_frequency">
-              <span>MHz</span>
+              <label for="metar-api-key">CheckWX API key</label>
+              <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
             </div>
           </div>
         </details>
@@ -265,12 +255,10 @@
         <h2>Step 4: Save converted files</h2>
         <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
           flight plan</button>
-        <div class="col-2">
-          <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
-            documentation</button>
-          <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code>
-            GeoJSON</button>
-        </div>
+        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
+          documentation</button>
+        <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code>
+          GeoJSON</button>
       </section>
     </main>
     <footer>

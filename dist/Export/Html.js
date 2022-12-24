@@ -9,7 +9,8 @@ export default class Html extends Outputtable {
     }
     /**
      * @param fields Table cell contents
-     * @param join `td` or `th`; to supress a `th` at the beginnining of a `tr` with `td`s set it to `ttd`, which will be converted to `td`
+     * @param join `td` or `th`; to supress a `th` at the beginnining of a `tr`
+     *              with `td`s set it to `ttd`, which will be converted to `td`
      * @returns string
      */
     outputLine(fields, join = 'td') {
@@ -19,7 +20,7 @@ export default class Html extends Outputtable {
             : `<tr><${tag}>` + fields.join(`</${tag}><${tag}>`) + `</${tag}></tr>`;
     }
     outputSunState(sunState) {
-        const deg = Math.ceil(sunState.solarElevationAngleDeg);
+        const deg = sunState.solarElevationAngleDeg / 6 * 5;
         const degX = Math.max(0, Math.min(18, 12 - deg));
         return `<svg width="20" height="20" version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <title>${deg.toFixed()}°</title>
@@ -42,6 +43,39 @@ export default class Html extends Outputtable {
     }
     outputDateTime(date) {
         return super.outputDateTime(date).replace(/(T|Z)/g, "<small>$1</small>");
+    }
+    outputCover(cloud) {
+        const octas = Math.round(cloud.cover * 8);
+        let svg = `<svg width="20" height="20" version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      circle, line, path { stroke-width: 1px; stroke: currentColor; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      path { fill: currentColor; stroke: none; }
+    </style>
+    <title>${octas}/8</title>
+    <circle cx="10" cy="10" r="9" />`;
+        const middle = octas === 7 ? 0.5 : 0;
+        if (octas > 0) {
+            if (octas === 1 || octas === 3) {
+                svg += '<line x1="10" y1="1" x2="10" y2="19" />';
+            }
+            if (octas === 5) {
+                svg += '<line x1="1" y1="10" x2="19" y2="10" />';
+            }
+            if (octas >= 2) {
+                svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" />`;
+            }
+            if (octas >= 4) {
+                svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(1,-1) translate(0,-20)" />`;
+            }
+            if (octas >= 6) {
+                svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(-1,-1) translate(-20,-20)" />`;
+            }
+            if (octas >= 7) {
+                svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(-1,1) translate(-20, 0)" />`;
+            }
+        }
+        svg += '</svg>';
+        return svg;
     }
     /**
      * @returns string without proper HTML quoting, so go hack yourself ;)
@@ -71,7 +105,7 @@ export default class Html extends Outputtable {
         html += '</thead><tbody>';
         html += this.outputLine([
             this.getWind(m.conditions) + '&nbsp;kts',
-            m.conditions.cloud.cover_symbol + "&nbsp;" + m.conditions.cloud.cover_code + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
+            this.outputCover(m.conditions.cloud) + "&nbsp;" + m.conditions.cloud.cover_code + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
             m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
             m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
         ], 'ttd');
@@ -114,16 +148,11 @@ export default class Html extends Outputtable {
         ], 'th');
         html += '</thead><tbody>';
         m.checkpoints.forEach((c, i) => {
-            let frqString = "";
-            if (c.frequency) {
-                frqString = c.frequency_unit === "M" ? this.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
-                frqString += "&nbsp;" + c.frequency_unit + "Hz";
-            }
             html += this.outputLine([
                 this.pad(i + 1, 2, 0, "0") + ".",
-                c.name,
-                c.frequency ? frqString : "",
-                c.altitude ? this.pad(c.altitude_ft, 6, 0) + '&nbsp;ft' : '',
+                (i !== 0 && i !== m.checkpoints.length - 1) ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9]+" maxlength="5" />` : c.name,
+                `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.19" step="0.01" max="113" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
+                `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${(i !== 0 && i !== m.checkpoints.length - 1) ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
                 this.padThree(c.direction_magnetic) + "°",
                 this.padThree(c.heading_magnetic) + "°",
                 c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",

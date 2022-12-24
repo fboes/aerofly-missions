@@ -18,19 +18,19 @@ export class MissionConditionsCloud {
     set cover_code(cover_code) {
         switch (cover_code) {
             case 'CLR':
-                this.cover = Math.random() * 1 / 8;
+                this.cover = 0;
                 break;
             case 'FEW':
-                this.cover = 1 / 8 + (Math.random() * 1 / 8);
+                this.cover = 1 / 8;
                 break;
             case 'SCT':
-                this.cover = 2 / 8 + (Math.random() * 2 / 8);
+                this.cover = 2 / 8;
                 break;
             case 'BKN':
-                this.cover = 4 / 8 + (Math.random() * 3 / 8);
+                this.cover = 4 / 8;
                 break;
             case 'OVC':
-                this.cover = 7 / 8 + (Math.random() * 1 / 8);
+                this.cover = 1;
                 break;
             default:
                 this.cover = 0;
@@ -41,16 +41,17 @@ export class MissionConditionsCloud {
      * @see https://en.wikipedia.org/wiki/METAR
      */
     get cover_code() {
-        if (this.cover < 1 / 8) {
+        const octas = Math.round(this.cover * 8);
+        if (octas < 1) {
             return 'CLR';
         }
-        else if (this.cover <= 2 / 8) {
+        else if (octas <= 2) {
             return 'FEW';
         }
-        else if (this.cover <= 4 / 8) {
+        else if (octas <= 4) {
             return 'SCT';
         }
-        else if (this.cover <= 7 / 8) {
+        else if (octas <= 7) {
             return 'BKN';
         }
         return 'OVC';
