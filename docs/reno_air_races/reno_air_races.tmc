@@ -11,7 +11,7 @@
                 <[stringt8c] [callsign]           [FPR456]>
                 <[stringt8c] [origin_icao]        [KRTS]>
                 <[tmvector2d][origin_lon_lat]     [-119.869300 39.664293]>
-                <[float64]   [origin_dir]         [291.3354779008938]>
+                <[float64]   [origin_dir]         [319]>
                 <[stringt8c] [destination_icao]   [KRTS]>
                 <[tmvector2d][destination_lon_lat][-119.876439 39.668178]>
                 <[float64]   [destination_dir]    [305.7088423666257]>
@@ -220,7 +220,7 @@
                 <[stringt8c] [callsign]           [DEUJS]>
                 <[stringt8c] [origin_icao]        [KRTS]>
                 <[tmvector2d][origin_lon_lat]     [-119.869301 39.664293]>
-                <[float64]   [origin_dir]         [291.3354779008938]>
+                <[float64]   [origin_dir]         [319]>
                 <[stringt8c] [destination_icao]   [KRTS]>
                 <[tmvector2d][destination_lon_lat][-119.876439 39.668178]>
                 <[float64]   [destination_dir]    [305.7088423666257]>

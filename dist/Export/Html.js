@@ -1,3 +1,4 @@
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
@@ -148,11 +149,17 @@ export default class Html extends Outputtable {
         ], 'th');
         html += '</thead><tbody>';
         m.checkpoints.forEach((c, i) => {
+            const specialPoint = c.type === MissionCheckpoint.TYPE_ORIGIN
+                || c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
+                || c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+                || c.type === MissionCheckpoint.TYPE_DESTINATION
+                || i == 0
+                || i == m.checkpoints.length - 1;
             html += this.outputLine([
                 this.pad(i + 1, 2, 0, "0") + ".",
-                (i !== 0 && i !== m.checkpoints.length - 1) ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9]+" maxlength="5" />` : c.name,
+                !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9_-.]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
                 `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.19" step="0.01" max="113" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
-                `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${(i !== 0 && i !== m.checkpoints.length - 1) ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
+                `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${!specialPoint ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
                 this.padThree(c.direction_magnetic) + "°",
                 this.padThree(c.heading_magnetic) + "°",
                 c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",

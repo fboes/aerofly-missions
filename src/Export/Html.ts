@@ -1,5 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionConditions, MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
@@ -71,16 +72,16 @@ export default class Html extends Outputtable {
         svg += '<line x1="1" y1="10" x2="19" y2="10" />';
       }
       if (octas >= 2) {
-        svg += `<path d="m ${10+middle},1 a ${9-middle},${9-middle} 0 0 1 9,9 h -9 z" />`;
+        svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" />`;
       }
       if (octas >= 4) {
-        svg += `<path d="m ${10+middle},1 a ${9-middle},${9-middle} 0 0 1 9,9 h -9 z" transform="scale(1,-1) translate(0,-20)" />`;
+        svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(1,-1) translate(0,-20)" />`;
       }
       if (octas >= 6) {
-        svg += `<path d="m ${10+middle},1 a ${9-middle},${9-middle} 0 0 1 9,9 h -9 z" transform="scale(-1,-1) translate(-20,-20)" />`;
+        svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(-1,-1) translate(-20,-20)" />`;
       }
       if (octas >= 7) {
-        svg += `<path d="m ${10+middle},1 a ${9-middle},${9-middle} 0 0 1 9,9 h -9 z" transform="scale(-1,1) translate(-20, 0)" />`;
+        svg += `<path d="m ${10 + middle},1 a ${9 - middle},${9 - middle} 0 0 1 9,9 h -9 z" transform="scale(-1,1) translate(-20, 0)" />`;
       }
     }
 
@@ -167,11 +168,17 @@ export default class Html extends Outputtable {
     html += '</thead><tbody>';
 
     m.checkpoints.forEach((c, i) => {
+      const specialPoint = c.type === MissionCheckpoint.TYPE_ORIGIN
+        || c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
+        || c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+        || c.type === MissionCheckpoint.TYPE_DESTINATION
+        || i == 0
+        || i == m.checkpoints.length - 1;
       html += this.outputLine([
         this.pad(i + 1, 2, 0, "0") + ".",
-        (i !== 0 && i !== m.checkpoints.length - 1) ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9]+" maxlength="5" />` : c.name,
+        !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9_-.]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
         `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.19" step="0.01" max="113" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
-        `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${(i !== 0 && i !== m.checkpoints.length - 1) ? 100 : 1}" value="${c.altitude_ft ?Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
+        `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${!specialPoint ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
         this.padThree(c.direction_magnetic) + "°",
         this.padThree(c.heading_magnetic) + "°",
         c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",
