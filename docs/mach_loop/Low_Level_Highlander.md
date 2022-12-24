@@ -5,8 +5,6 @@ Take your combat jet trainer on a low level training sortie in the Scottish High
 
 How to fly the Mach Loop? Have a look at this [video of a BAe Hawk flying theStar Wars valley and Loch Ness](https://www.youtube.com/watch?v=ufj6o2I0aas).
 
-> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`Low_Level_Highlander.tmc`](./Low_Level_Highlander.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
-
 Flight briefing
 ---------------
 
