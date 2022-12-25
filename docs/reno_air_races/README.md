@@ -5,6 +5,12 @@ Welcome to the [Reno Air Races](https://airrace.org/). Make yourself familiar wi
 
 > This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`reno_air_races.tmc`](./reno_air_races.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
+Please note: You will have the exact positions of the poles marked in your map for the jet course (with a MB-339) and bi-plane course (with a Pitts S-2).
+
+The flight plan itself will not show up properly in Aerofly FS4, as the waypoints are way too close - and sadly the poles are not modelled. But glancing on the moving map gives you an idea where the poles are supposed to be, and you may have a glimpse as some funny spots on the aerial images, which are the poles.
+
+You may also want to take a look at [Krzysk's Reno Course](https://github.com/krzysk1/reno_course) and [ApfelFliegers's installation instructions](https://www.aerofly.com/community/forum/index.php?thread/19105-user-created-custom-missions/&postID=121141#post121141).
+
 Your flights
 ------------
 
