@@ -15,6 +15,9 @@ export class MissionConditionsCloud {
     set height_percent(percent) {
         this.height = percent * 10000 / Units.feetPerMeter; // Max cloud height
     }
+    get height_percent() {
+        return this.height * Units.feetPerMeter / 10000; // Max cloud height
+    }
     set cover_code(cover_code) {
         switch (cover_code) {
             case 'CLR':
@@ -168,11 +171,17 @@ export class MissionConditions {
     set visibility_percent(percent) {
         this.visibility = Math.round(percent * 15000); // Max visibility
     }
+    get visibility_percent() {
+        return Math.min(1, this.visibility / 15000); // Max visibility
+    }
     get visibility_sm() {
         return (this.visibility === 15000) ? 10 : this.visibility / Units.meterPerStatuteMile;
     }
     set wind_speed_percent(percent) {
         this.wind_speed = 8 * (percent + Math.pow(percent, 2));
+    }
+    get wind_speed_percent() {
+        return Math.sqrt((this.wind_speed / 8) + 0.25) - 0.5;
     }
     get wind_direction_rad() {
         return (this.wind_direction % 360) / 180 * Math.PI;

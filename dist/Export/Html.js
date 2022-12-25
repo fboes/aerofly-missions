@@ -157,7 +157,7 @@ export default class Html extends Outputtable {
                 || i == m.checkpoints.length - 1;
             html += this.outputLine([
                 this.pad(i + 1, 2, 0, "0") + ".",
-                !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9_-.]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
+                !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._-]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
                 `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.19" step="0.01" max="113" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
                 `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${!specialPoint ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
                 this.padThree(c.direction_magnetic) + "°",

@@ -1,6 +1,5 @@
 import { MainMcf } from "./Aerofly/MainMcf.js";
 import { Mission, MissionParsed } from "./Aerofly/Mission.js";
-import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
 import { MissionConditionsCloud } from "./Aerofly/MissionConditions.js";
 import { MissionsList } from "./Aerofly/MissionsList.js";
 import { asciify } from "./Cli/Arguments.js";
@@ -37,7 +36,6 @@ type ApiResult = {
 
 class App {
   elements = {
-    main: <HTMLElement>document.querySelector('main'),
     aircraft_name: <HTMLSelectElement>document.getElementById('aircraft_name'),
     callsign: <HTMLInputElement>document.getElementById('callsign'),
     cloud_base_feet: <HTMLInputElement>document.getElementById('cloud_base_feet'),
@@ -49,11 +47,13 @@ class App {
     description: <HTMLTextAreaElement>document.getElementById('description'),
     downloadJson: <HTMLButtonElement>document.getElementById('download-json'),
     downloadJsonCode: <HTMLElement>document.querySelector('#download-json code'),
+    downloadMcf: <HTMLButtonElement>document.getElementById('download-mcf'),
     downloadMd: <HTMLButtonElement>document.getElementById('download-md'),
     downloadMdCode: <HTMLElement>document.querySelector('#download-md code'),
     downloadTmc: <HTMLButtonElement>document.getElementById('download-tmc'),
     downloadTmcCode: <HTMLElement>document.querySelector('#download-tmc code'),
     flightplan: <HTMLPreElement>document.getElementById('flightplan'),
+    main: <HTMLElement>document.querySelector('main'),
     makeTime: <HTMLButtonElement>document.getElementById('make-time'),
     makeWeather: <HTMLButtonElement>document.getElementById('make-weather'),
     metar: <HTMLAnchorElement>document.getElementById('metar'),
@@ -76,6 +76,7 @@ class App {
   skyVector: SkyVector;
   useIcao = true;
   metarApiKey = '';
+  mainMcf: MainMcf | null = null;
 
 
   constructor() {
@@ -153,6 +154,12 @@ class App {
           case 'download-json': this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission), null, 2), 'application/geo+json'); break;
           case 'download-md': this.download(filename, new Markdown(this.mission).toString(filename.replace('.md', '.tmc')), 'text/markdown'); break;
           case 'download-tmc': this.download(filename, this.missionList.toString()); break;
+          case 'download-mcf':
+            if (this.mainMcf) {
+              this.mainMcf.fromMission(this.mission);
+              this.download('main.mcf', this.mainMcf.toString());
+            }
+            break;
         }
       });
     });
@@ -186,6 +193,7 @@ class App {
         b.setAttribute('disabled', 'disabled')
       }
     });
+    this.elements.downloadMcf.style.display = this.mainMcf !== null ? 'block' : 'none';
     const slug = this.mission.title ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, '$1-$2')) : 'custom_missions';
     this.elements.downloadJsonCode.innerText = slug + '.geojson';
     this.elements.downloadMdCode.innerText = slug + '.md';
@@ -205,8 +213,9 @@ class App {
         if (e.target) {
           switch (fileEnding) {
             case '.mcf':
-              const mainMcf = new MainMcf(<string>e.target.result)
-              this.mission.fromMainMcf(mainMcf);
+              this.mainMcf = new MainMcf(<string>e.target.result)
+              this.mission.fromMainMcf(this.mainMcf);
+              this.elements.downloadMcf.style.display = this.mainMcf !== null ? 'block' : 'none';
               break;
             case '.tmc':
               new MissionParsed(<string>e.target.result, this.mission)

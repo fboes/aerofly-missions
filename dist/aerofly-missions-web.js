@@ -16,7 +16,6 @@ import { LonLat } from "./World/LonLat.js";
 class App {
     constructor() {
         this.elements = {
-            main: document.querySelector('main'),
             aircraft_name: document.getElementById('aircraft_name'),
             callsign: document.getElementById('callsign'),
             cloud_base_feet: document.getElementById('cloud_base_feet'),
@@ -28,11 +27,13 @@ class App {
             description: document.getElementById('description'),
             downloadJson: document.getElementById('download-json'),
             downloadJsonCode: document.querySelector('#download-json code'),
+            downloadMcf: document.getElementById('download-mcf'),
             downloadMd: document.getElementById('download-md'),
             downloadMdCode: document.querySelector('#download-md code'),
             downloadTmc: document.getElementById('download-tmc'),
             downloadTmcCode: document.querySelector('#download-tmc code'),
             flightplan: document.getElementById('flightplan'),
+            main: document.querySelector('main'),
             makeTime: document.getElementById('make-time'),
             makeWeather: document.getElementById('make-weather'),
             metar: document.getElementById('metar'),
@@ -51,6 +52,7 @@ class App {
         };
         this.useIcao = true;
         this.metarApiKey = '';
+        this.mainMcf = null;
         this.mission = new Mission('', '');
         this.missionList = new MissionsList('');
         this.missionList.missions.push(this.mission);
@@ -175,6 +177,12 @@ class App {
                     case 'download-tmc':
                         this.download(filename, this.missionList.toString());
                         break;
+                    case 'download-mcf':
+                        if (this.mainMcf) {
+                            this.mainMcf.fromMission(this.mission);
+                            this.download('main.mcf', this.mainMcf.toString());
+                        }
+                        break;
                 }
             });
         });
@@ -205,6 +213,7 @@ class App {
                 b.setAttribute('disabled', 'disabled');
             }
         });
+        this.elements.downloadMcf.style.display = this.mainMcf !== null ? 'block' : 'none';
         const slug = this.mission.title ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, '$1-$2')) : 'custom_missions';
         this.elements.downloadJsonCode.innerText = slug + '.geojson';
         this.elements.downloadMdCode.innerText = slug + '.md';
@@ -222,8 +231,9 @@ class App {
                 if (e.target) {
                     switch (fileEnding) {
                         case '.mcf':
-                            const mainMcf = new MainMcf(e.target.result);
-                            this.mission.fromMainMcf(mainMcf);
+                            this.mainMcf = new MainMcf(e.target.result);
+                            this.mission.fromMainMcf(this.mainMcf);
+                            this.elements.downloadMcf.style.display = this.mainMcf !== null ? 'block' : 'none';
                             break;
                         case '.tmc':
                             new MissionParsed(e.target.result, this.mission);
