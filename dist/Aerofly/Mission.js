@@ -358,7 +358,7 @@ export class Mission {
             cp.lon_lat.lat = w.lat;
             cp.lon_lat.lon = w.lon;
             cp.name = w.identifier;
-            if (w.type === 'AIRPORT') {
+            if (w.type === 'AIRPORT' && (i === 0 || i === this.checkpoints.length - 1)) {
                 cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
             }
             cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
