@@ -306,6 +306,24 @@ export class MissionConditions {
                 >
 `;
     }
+    fromJSON(json) {
+        this.time.time_day = json.time.time_day || this.time.time_day;
+        this.time.time_hours = json.time.time_hours || this.time.time_hours;
+        this.time.time_month = json.time.time_month || this.time.time_month;
+        this.time.time_year = json.time.time_year || this.time.time_year;
+        this.wind_direction = json.wind_direction || this.wind_direction;
+        this.wind_speed = json.wind_speed || this.wind_speed;
+        this.wind_gusts = json.wind_gusts || this.wind_gusts;
+        this.turbulence_strength = json.turbulence_strength || this.turbulence_strength;
+        this.thermal_strength = json.thermal_strength || this.thermal_strength;
+        this.visibility = json.visibility || this.visibility;
+        this.clouds = json.clouds.map(c => {
+            const cx = new MissionConditionsCloud(0, 0);
+            cx.cover = c.cover;
+            cx.height = c.height;
+            return cx;
+        });
+    }
 }
 MissionConditions.CONDITION_VFR = 'VFR';
 MissionConditions.CONDITION_MVFR = 'MVFR';

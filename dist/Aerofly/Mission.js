@@ -486,6 +486,32 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
 `;
         return string;
     }
+    fromJSON(json) {
+        this._title = json._title || this._title;
+        this._description = json._description || this._description;
+        this._flight_setting = json._flight_setting || this._flight_setting;
+        this._aircraft_name = json._aircraft_name || this._aircraft_name;
+        this._aircraft_icao = json._aircraft_icao || this._aircraft_icao;
+        this.callsign = json.callsign || this.callsign;
+        this.origin_icao = json.origin_icao || this.origin_icao;
+        this.origin_lon_lat.magnetic_declination = json.origin_lon_lat.magnetic_declination || this.origin_lon_lat.magnetic_declination;
+        this.origin_lon_lat.lon = json.origin_lon_lat.lon || this.origin_lon_lat.lon;
+        this.origin_lon_lat.lat = json.origin_lon_lat.lat || this.origin_lon_lat.lat;
+        this.origin_dir = json.origin_dir || this.origin_dir;
+        this.destination_icao = json.destination_icao || this.destination_icao;
+        this.destination_lon_lat.magnetic_declination = json.destination_lon_lat.magnetic_declination || this.destination_lon_lat.magnetic_declination;
+        this.destination_lon_lat.lon = json.destination_lon_lat.lon || this.destination_lon_lat.lon;
+        this.destination_lon_lat.lat = json.destination_lon_lat.lat || this.destination_lon_lat.lat;
+        this.destination_dir = json.destination_dir || this.destination_dir;
+        this.cruise_speed = json.cruise_speed || this.cruise_speed;
+        this.cruise_altitude = json.cruise_altitude || this.cruise_altitude;
+        this.conditions.fromJSON(json.conditions);
+        this.checkpoints = json.checkpoints.map(c => {
+            const cx = new MissionCheckpoint();
+            cx.fromJSON(c);
+            return cx;
+        });
+    }
 }
 Mission.FLIGHT_SETTING_LANDING = "landing";
 Mission.FLIGHT_SETTING_TAKEOFF = "takeoff";

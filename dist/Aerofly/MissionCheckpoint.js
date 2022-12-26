@@ -168,6 +168,20 @@ export class MissionCheckpoint {
                     >
 `;
     }
+    fromJSON(cp) {
+        this._type = cp._type;
+        this.name = cp.name;
+        this.lon_lat.lon = cp.lon_lat.lon;
+        this.lon_lat.lat = cp.lon_lat.lat;
+        this.altitude = cp.altitude;
+        this.direction = cp.direction;
+        this.distance = cp.distance;
+        this.slope = cp.slope;
+        this.length = cp.length;
+        this.frequency = cp.frequency;
+        this.ground_speed = cp.ground_speed;
+        this.heading = cp.heading;
+    }
 }
 MissionCheckpoint.TYPE_ORIGIN = "origin";
 MissionCheckpoint.TYPE_DEPARTURE_RUNWAY = "departure_runway";
