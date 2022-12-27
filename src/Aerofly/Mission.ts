@@ -407,7 +407,7 @@ export class Mission {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
-      cp.altitude_ft = w.alt;
+      cp.lon_lat.altitude_ft = w.alt;
       cp.name = w.identifier;
       if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoins.length - 1)) {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
@@ -473,23 +473,21 @@ export class Mission {
   syncCruiseAltitude() {
     this.checkpoints.forEach(c => {
       if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
-        c.altitude = this.cruise_altitude;
+        c.lon_lat.altitude_m = this.cruise_altitude;
       }
     });
   }
 
   calculateDirectionForCheckpoints() {
     let lastC: MissionCheckpoint | null = null;
-    const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-    const isVfr = (flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
 
     // Add directions
     this.checkpoints.forEach(c => {
-      if (c.type == MissionCheckpoint.TYPE_WAYPOINT && c.altitude === 0) {
-        c.altitude = this.cruise_altitude;
+      if (c.type == MissionCheckpoint.TYPE_WAYPOINT && c.lon_lat.altitude_m === 0) {
+        c.lon_lat.altitude_m = this.cruise_altitude;
       }
       if (lastC !== null) {
-        c.setDirectionByCoordinates(lastC.lon_lat, isVfr);
+        c.setDirectionByCoordinates(lastC.lon_lat);
       }
       if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
         c.ground_speed = this.cruise_speed;
@@ -651,13 +649,13 @@ export class MissionParsed extends MainMcfParser {
         const lon_lat = this.getNumberArray(wp, "lon_lat");
         cp.lon_lat.lon = lon_lat[0];
         cp.lon_lat.lat = lon_lat[1];
+        cp.lon_lat.altitude_m = this.getNumber(wp, 'altitude');
 
-        cp.altitude = this.getNumber(wp, 'altitude');
         cp.direction = this.getNumber(wp, 'direction');
         cp.slope = this.getNumber(wp, 'slope');
         cp.length = this.getNumber(wp, 'length');
         cp.frequency = this.getNumber(wp, 'frequency');
-        mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.altitude)
+        mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.lon_lat.altitude_m)
         return cp;
       });
 

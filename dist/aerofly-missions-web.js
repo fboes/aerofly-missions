@@ -154,7 +154,7 @@ class App {
                                 }
                                 break;
                             case 'altitude_ft':
-                                this.mission.checkpoints[index].altitude_ft = target.valueAsNumber;
+                                this.mission.checkpoints[index].lon_lat.altitude_ft = target.valueAsNumber;
                                 break;
                             case 'frequency_mhz':
                                 this.mission.checkpoints[index].frequency_mhz = target.valueAsNumber;

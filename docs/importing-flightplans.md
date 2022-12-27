@@ -21,6 +21,7 @@ Sources for flight plans
 Flight planners:
 
 * [SkyVector](https://skyvector.com/): Use the "Save Plan" option and download your flight plan as Garmin `fpl` file
+* [SimBrief.com](https://www.simbrief.com/)
 * [Little Nav Map](https://github.com/albar965/littlenavmap)
 
 Flight plans:

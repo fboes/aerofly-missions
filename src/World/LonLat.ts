@@ -1,3 +1,5 @@
+import { Units } from "./Units.js";
+
 export class LonLat {
   /**
    * In degrees, -180..180. Positive for East, negative for West
@@ -22,7 +24,7 @@ export class LonLat {
    */
   magnetic_declination: number = 0;
 
-  constructor(lon: number, lat: number) {
+  constructor(lon: number, lat: number, public altitude_m = 0) {
     this.lon = lon % 360;
     if (lon > 180) {
       this.lon -= 360;
@@ -50,6 +52,15 @@ export class LonLat {
    */
   get latHemisphere(): string {
     return this.lat > 0 ? 'N' : 'S';
+  }
+
+
+  get altitude_ft(): number {
+    return this.altitude_m * Units.feetPerMeter;
+  }
+
+  set altitude_ft(altitude_ft: number) {
+    this.altitude_m = altitude_ft / Units.feetPerMeter;
   }
 
   get continent(): string {
@@ -104,7 +115,7 @@ export class LonLat {
   /**
    * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
    */
-  static fromMainMcf(coordinates: number[]): LonLat {
+  static fromMainMcf(coordinates: number[], altitude_m: number = 0): LonLat {
     const f = 1.0 / 298.257223563; // WGS84
     const e2 = 2 * f - f * f;
 
@@ -127,13 +138,7 @@ export class LonLat {
     const rho = Math.sqrt(coordinates[0] * coordinates[0] + coordinates[1] * coordinates[1]);
 
     const phi = Math.atan(coordinates[2] / ((1.0 - e2) * rho));
-    return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI);
-  }
-}
-
-export class LonLatAlt extends LonLat {
-  constructor(lon: number, lat: number, public altitude_ft = 0) {
-    super(lon, lat);
+    return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI, altitude_m);
   }
 }
 

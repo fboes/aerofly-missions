@@ -1,4 +1,5 @@
-import { LonLatAlt } from "../World/LonLat.js";
+import { LonLat } from "../World/LonLat.js";
+import { Units } from "../World/Units.js";
 import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
 
 /**
@@ -28,7 +29,7 @@ export class MsfsPln extends GarminFpl {
     });
   }
 
-  convertCoordinate(coordinate: string): LonLatAlt {
+  convertCoordinate(coordinate: string): LonLat {
     const parts = coordinate.split(/,\s*/);
     if (parts.length < 2) {
       throw new Error(`Wrong coordinates format "${coordinate}", expexted something like N52° 45' 7.51",W3° 53' 2.16",+002500.00`);
@@ -44,6 +45,6 @@ export class MsfsPln extends GarminFpl {
       }
       return 0;
     })
-    return new LonLatAlt(numbers[1], numbers[0], Number(parts[2] || 0));
+    return new LonLat(numbers[1], numbers[0], Number(parts[2] || 0) / Units.feetPerMeter);
   }
 }

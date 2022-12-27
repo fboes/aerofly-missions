@@ -1,14 +1,9 @@
-import { Units } from "../World/Units.js";
 import { LonLat } from "../World/LonLat.js";
 export class MissionCheckpoint {
     constructor() {
         this._type = "waypoint";
         this.name = "";
         this.lon_lat = new LonLat(0, 0);
-        /**
-         * Altitude in meters MSL
-         */
-        this.altitude = 0;
         /**
          * True course in degrees to fly from last point to this point.
          * -1 on first, but seems rather unrelevant
@@ -98,12 +93,6 @@ export class MissionCheckpoint {
     get time_enroute() {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
-    get altitude_ft() {
-        return this.altitude * Units.feetPerMeter;
-    }
-    set altitude_ft(altitude_ft) {
-        this.altitude = altitude_ft / Units.feetPerMeter;
-    }
     get direction_rad() {
         return (this.direction % 360) / 180 * Math.PI;
     }
@@ -116,13 +105,12 @@ export class MissionCheckpoint {
     fromMainMcf(waypoint) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;
-        this.lon_lat = LonLat.fromMainMcf(waypoint.Position);
-        this.altitude = waypoint.Elevation;
+        this.lon_lat = LonLat.fromMainMcf(waypoint.Position, waypoint.Elevation);
         if (waypoint.Altitude[0]) {
-            this.altitude = Math.max(this.altitude, waypoint.Altitude[0]);
+            this.lon_lat.altitude_m = Math.max(this.lon_lat.altitude_m, waypoint.Altitude[0]);
         }
         if (waypoint.Altitude[1]) {
-            this.altitude = Math.min(this.altitude, waypoint.Altitude[1]);
+            this.lon_lat.altitude_m = Math.min(this.lon_lat.altitude_m, waypoint.Altitude[1]);
         }
         this.frequency = waypoint.NavaidFrequency;
         this.length = waypoint.Length;
@@ -133,7 +121,7 @@ export class MissionCheckpoint {
      *
      * @param lonLat LonLat of last checkpoint before this one
      */
-    setDirectionByCoordinates(lonLat, isVfr = true) {
+    setDirectionByCoordinates(lonLat) {
         this.direction = lonLat.getBearingTo(this.lon_lat);
         this.heading = this.direction;
         this.distance = lonLat.getDistanceTo(this.lon_lat);
@@ -143,7 +131,7 @@ export class MissionCheckpoint {
                         <[string8u][type][${this.type}]>
                         <[string8u][name][${this.name}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
-                        <[float64][altitude][${this.altitude}]>
+                        <[float64][altitude][${this.lon_lat.altitude_m}]>
                         <[float64][direction][${this.direction}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
@@ -156,7 +144,7 @@ export class MissionCheckpoint {
         this.name = cp.name;
         this.lon_lat.lon = cp.lon_lat.lon;
         this.lon_lat.lat = cp.lon_lat.lat;
-        this.altitude = cp.altitude;
+        this.lon_lat.altitude_m = cp.lon_lat.altitude_m;
         this.direction = cp.direction;
         this.distance = cp.distance;
         this.slope = cp.slope;

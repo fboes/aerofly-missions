@@ -47,7 +47,7 @@ export class GeoJson {
                 properties: {
                     title: c.name,
                     type: c.type,
-                    altitude: c.altitude
+                    altitude: c.lon_lat.altitude_m
                 },
             };
         });

@@ -178,7 +178,7 @@ export default class Html extends Outputtable {
         this.pad(i + 1, 2, 0, "0") + ".",
         !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._-]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
         `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.19" step="0.01" max="113" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
-        `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${!specialPoint ? 100 : 1}" value="${c.altitude_ft ? Math.round(c.altitude_ft) : ''}" />&nbsp;ft`,
+        `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="0" step="${!specialPoint ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ''}" />&nbsp;ft`,
         this.padThree(c.direction_magnetic) + "°",
         this.padThree(c.heading_magnetic) + "°",
         c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",

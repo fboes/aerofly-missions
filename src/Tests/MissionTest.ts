@@ -51,7 +51,7 @@ export class MissionTest extends Test {
       this.assertEquals(mission.cruise_altitude, 1676.3999463552018)
       this.assertEquals(mission.checkpoints.length, 5)
       this.assertEquals(mission.checkpoints[4].name, 'KBLI')
-      this.assertEquals(mission.checkpoints[1].altitude, 1676.3999463552018)
+      this.assertEquals(mission.checkpoints[1].lon_lat.altitude_m, 1676.3999463552018)
     }
   }
 }

@@ -1,5 +1,7 @@
+import { Units } from "./Units.js";
 export class LonLat {
-    constructor(lon, lat) {
+    constructor(lon, lat, altitude_m = 0) {
+        this.altitude_m = altitude_m;
         /**
          * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
          * @see https://en.wikipedia.org/wiki/Magnetic_declination
@@ -28,6 +30,12 @@ export class LonLat {
      */
     get latHemisphere() {
         return this.lat > 0 ? 'N' : 'S';
+    }
+    get altitude_ft() {
+        return this.altitude_m * Units.feetPerMeter;
+    }
+    set altitude_ft(altitude_ft) {
+        this.altitude_m = altitude_ft / Units.feetPerMeter;
     }
     get continent() {
         if (this.lon < -24) {
@@ -73,7 +81,7 @@ export class LonLat {
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
      */
-    static fromMainMcf(coordinates) {
+    static fromMainMcf(coordinates, altitude_m = 0) {
         const f = 1.0 / 298.257223563; // WGS84
         const e2 = 2 * f - f * f;
         //const lambda = VectorToAngle( coordinates[0], coordinates[1] );
@@ -97,7 +105,7 @@ export class LonLat {
         }
         const rho = Math.sqrt(coordinates[0] * coordinates[0] + coordinates[1] * coordinates[1]);
         const phi = Math.atan(coordinates[2] / ((1.0 - e2) * rho));
-        return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI);
+        return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI, altitude_m);
     }
 }
 LonLat.CONTINENT_NORTH_AMERICA = 'NA';
@@ -107,12 +115,6 @@ LonLat.CONTINENT_AFRICA = 'AF';
 LonLat.CONTINENT_ASIA = 'AS';
 LonLat.CONTINENT_AUSTRALIA = 'AUS';
 LonLat.CONTINENT_OTHER = 'OT';
-export class LonLatAlt extends LonLat {
-    constructor(lon, lat, altitude_ft = 0) {
-        super(lon, lat);
-        this.altitude_ft = altitude_ft;
-    }
-}
 export class LonLatArea {
     constructor(lonLat) {
         this.coordinates = [];

@@ -145,7 +145,7 @@ class App {
                   this.mission.checkpoints[index].type = target.value.match(/^\d\d[A-Z]?$/) ? MissionCheckpoint.TYPE_DESTINATION_RUNWAY : MissionCheckpoint.TYPE_WAYPOINT;
                 }
               break;
-              case 'altitude_ft': this.mission.checkpoints[index].altitude_ft = target.valueAsNumber; break;
+              case 'altitude_ft': this.mission.checkpoints[index].lon_lat.altitude_ft = target.valueAsNumber; break;
               case 'frequency_mhz': this.mission.checkpoints[index].frequency_mhz = target.valueAsNumber; break;
             }
           }
