@@ -1,3 +1,4 @@
+import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
 export class GeoJson extends GarminFpl {
     read(configFileContent) {
@@ -17,6 +18,7 @@ export class GeoJson extends GarminFpl {
                     type: (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT',
                     lon: f.geometry.coordinates[0],
                     lat: f.geometry.coordinates[1],
+                    alt: f.properties.altitude * Units.feetPerMeter
                 };
             });
         }
@@ -27,7 +29,8 @@ export class GeoJson extends GarminFpl {
                     identifier: 'WP' + index.toFixed().padStart(2, '0'),
                     type: (index === 0 || index === coordinates.length - 1) ? 'AIRPORT' : 'USER WAYPOINT',
                     lon: coords[0],
-                    lat: coords[1]
+                    lat: coords[1],
+                    alt: 0
                 };
             });
             if (json.features[0].properties.origin) {

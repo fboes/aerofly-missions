@@ -11,7 +11,8 @@ export class Gpx extends GarminFpl {
         identifier: this.getXmlNode(xml, 'name') || 'WP' + index.toFixed().padStart(2, '0'),
         type: (index === 0 || index === rteptXmls.length -1) ? 'AIRPORT' : 'USER WAYPOINT',
         lat: Number(this.getXmlAttribute(xml, 'lat')),
-        lon: Number(this.getXmlAttribute(xml, 'lon'))
+        lon: Number(this.getXmlAttribute(xml, 'lon')),
+        alt: 0
       }
     })
   }

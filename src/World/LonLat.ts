@@ -131,6 +131,12 @@ export class LonLat {
   }
 }
 
+export class LonLatAlt extends LonLat {
+  constructor(lon: number, lat: number, public altitude_ft = 0) {
+    super(lon, lat);
+  }
+}
+
 export class LonLatArea {
   protected coordinates: LonLat[] = [];
   min: LonLat;

@@ -103,7 +103,7 @@ class App {
         case 'callsign': this.mission.callsign = target.value; break;
         case 'cloud_base_feet': this.mission.conditions.cloud.height_feet = target.valueAsNumber; this.syncToOutput(); break;
         case 'cloud_cover': this.mission.conditions.cloud.cover = target.valueAsNumber / 100; this.syncToOutput(); break;
-        case 'cruise_altitude_ft': this.mission.cruise_altitude_ft = target.valueAsNumber; break;
+        case 'cruise_altitude_ft': this.mission.cruise_altitude_ft = target.valueAsNumber; this.mission.syncCruiseAltitude(); break;
         case 'cruise_speed': this.mission[target.id] = target.valueAsNumber; break;
         case 'date':
           if (target.valueAsDate) {

@@ -23,7 +23,8 @@ export class XplaneFms extends GarminFpl {
                 identifier: m[2],
                 type: type,
                 lat: Number(m[4]),
-                lon: Number(m[5])
+                lon: Number(m[5]),
+                alt: Number(m[3])
             };
         });
     }

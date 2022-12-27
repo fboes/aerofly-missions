@@ -83,6 +83,7 @@ class App {
                     break;
                 case 'cruise_altitude_ft':
                     this.mission.cruise_altitude_ft = target.valueAsNumber;
+                    this.mission.syncCruiseAltitude();
                     break;
                 case 'cruise_speed':
                     this.mission[target.id] = target.valueAsNumber;

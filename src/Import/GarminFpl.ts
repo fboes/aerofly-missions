@@ -1,8 +1,9 @@
 export type GaminFplWaypoint = {
-  identifier: string;
-  type: string;
-  lat: number;
-  lon: number;
+  identifier: string,
+  type: string,
+  lat: number,
+  lon: number,
+  alt: number,
 };
 
 export class GarminFpl {
@@ -25,7 +26,8 @@ export class GarminFpl {
         identifier: this.getXmlNode(xml, 'identifier'),
         type: this.getXmlNode(xml, 'type'),
         lat: Number(this.getXmlNode(xml, 'lat')),
-        lon: Number(this.getXmlNode(xml, 'lon'))
+        lon: Number(this.getXmlNode(xml, 'lon')),
+        alt: 0
       }
     })
   }

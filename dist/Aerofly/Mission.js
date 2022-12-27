@@ -357,8 +357,9 @@ export class Mission {
             let cp = new MissionCheckpoint();
             cp.lon_lat.lat = w.lat;
             cp.lon_lat.lon = w.lon;
+            cp.altitude_ft = w.alt;
             cp.name = w.identifier;
-            if (w.type === 'AIRPORT' && (i === 0 || i === this.checkpoints.length - 1)) {
+            if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoins.length - 1)) {
                 cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
             }
             cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
@@ -408,13 +409,20 @@ export class Mission {
             }
         }
     }
+    syncCruiseAltitude() {
+        this.checkpoints.forEach(c => {
+            if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+                c.altitude = this.cruise_altitude;
+            }
+        });
+    }
     calculateDirectionForCheckpoints() {
         let lastC = null;
         const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
         const isVfr = (flight_category === MissionConditions.CONDITION_MVFR || flight_category === MissionConditions.CONDITION_VFR);
         // Add directions
         this.checkpoints.forEach(c => {
-            if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+            if (c.type == MissionCheckpoint.TYPE_WAYPOINT && c.altitude === 0) {
                 c.altitude = this.cruise_altitude;
             }
             if (lastC !== null) {

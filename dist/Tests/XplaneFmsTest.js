@@ -13,6 +13,8 @@ export class XplaneFmsTest extends Test {
             this.assertEquals(fms.waypoins[1].type, 'USER WAYPOINT');
             this.assertEquals(fms.waypoins[1].lat, 53.206400);
             this.assertEquals(fms.waypoins[1].lon, -0.861111);
+            this.assertEquals(fms.waypoins[1].alt, 18400);
+            this.assertEquals(fms.waypoins[2].alt, 35000);
             this.assertEquals(fms.cruisingAlt, 35000);
         }
     }

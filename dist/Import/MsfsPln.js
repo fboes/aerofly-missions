@@ -1,4 +1,4 @@
-import { LonLat } from "../World/LonLat.js";
+import { LonLatAlt } from "../World/LonLat.js";
 import { GarminFpl } from "./GarminFpl.js";
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
@@ -20,6 +20,7 @@ export class MsfsPln extends GarminFpl {
                 type: type,
                 lat: coords.lat,
                 lon: coords.lon,
+                alt: coords.altitude_ft
             };
         });
     }
@@ -38,6 +39,6 @@ export class MsfsPln extends GarminFpl {
             }
             return 0;
         });
-        return new LonLat(numbers[1], numbers[0]);
+        return new LonLatAlt(numbers[1], numbers[0], Number(parts[2] || 0));
     }
 }

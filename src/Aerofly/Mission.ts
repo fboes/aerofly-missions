@@ -407,8 +407,9 @@ export class Mission {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
+      cp.altitude_ft = w.alt;
       cp.name = w.identifier;
-      if (w.type === 'AIRPORT' && (i === 0 || i === this.checkpoints.length - 1)) {
+      if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoins.length - 1)) {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
       }
 
@@ -419,7 +420,6 @@ export class Mission {
       if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
         cp.ground_speed = 30;
       }
-
       return cp;
     });
 
@@ -470,6 +470,14 @@ export class Mission {
     }
   }
 
+  syncCruiseAltitude() {
+    this.checkpoints.forEach(c => {
+      if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+        c.altitude = this.cruise_altitude;
+      }
+    });
+  }
+
   calculateDirectionForCheckpoints() {
     let lastC: MissionCheckpoint | null = null;
     const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
@@ -477,7 +485,7 @@ export class Mission {
 
     // Add directions
     this.checkpoints.forEach(c => {
-      if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
+      if (c.type == MissionCheckpoint.TYPE_WAYPOINT && c.altitude === 0) {
         c.altitude = this.cruise_altitude;
       }
       if (lastC !== null) {

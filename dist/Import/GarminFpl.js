@@ -15,7 +15,8 @@ export class GarminFpl {
                 identifier: this.getXmlNode(xml, 'identifier'),
                 type: this.getXmlNode(xml, 'type'),
                 lat: Number(this.getXmlNode(xml, 'lat')),
-                lon: Number(this.getXmlNode(xml, 'lon'))
+                lon: Number(this.getXmlNode(xml, 'lon')),
+                alt: 0
             };
         });
     }

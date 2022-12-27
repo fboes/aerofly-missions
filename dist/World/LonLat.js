@@ -107,6 +107,12 @@ LonLat.CONTINENT_AFRICA = 'AF';
 LonLat.CONTINENT_ASIA = 'AS';
 LonLat.CONTINENT_AUSTRALIA = 'AUS';
 LonLat.CONTINENT_OTHER = 'OT';
+export class LonLatAlt extends LonLat {
+    constructor(lon, lat, altitude_ft = 0) {
+        super(lon, lat);
+        this.altitude_ft = altitude_ft;
+    }
+}
 export class LonLatArea {
     constructor(lonLat) {
         this.coordinates = [];
