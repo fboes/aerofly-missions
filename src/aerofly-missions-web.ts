@@ -13,6 +13,7 @@ import { Gpx } from "./Import/Gpx.js";
 import { MsfsPln } from "./Import/MsfsPln.js";
 import { XplaneFms } from "./Import/XplaneFms.js";
 import { LonLat } from "./World/LonLat.js";
+import { MissionCheckpoint } from "./Aerofly/MissionCheckpoint.js";
 
 type ApiResult = {
   data: {
@@ -133,10 +134,19 @@ class App {
           const id = target.getAttribute('data-cp-id');
           redraw = false;
           if (prop && id) {
+            const index = Number(id);
             switch (prop) {
-              case 'name': this.mission.checkpoints[Number(id)].name = target.value; break;
-              case 'altitude_ft': this.mission.checkpoints[Number(id)].altitude_ft = target.valueAsNumber; break;
-              case 'frequency_mhz': this.mission.checkpoints[Number(id)].frequency_mhz = target.valueAsNumber; break;
+              case 'name':
+                this.mission.checkpoints[index].name = target.value;
+                if (index === 1) {
+                  this.mission.checkpoints[index].type = target.value.match(/^\d\d[A-Z]?$/) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_WAYPOINT;
+                }
+                else if (index === this.mission.checkpoints.length - 2) {
+                  this.mission.checkpoints[index].type = target.value.match(/^\d\d[A-Z]?$/) ? MissionCheckpoint.TYPE_DESTINATION_RUNWAY : MissionCheckpoint.TYPE_WAYPOINT;
+                }
+              break;
+              case 'altitude_ft': this.mission.checkpoints[index].altitude_ft = target.valueAsNumber; break;
+              case 'frequency_mhz': this.mission.checkpoints[index].frequency_mhz = target.valueAsNumber; break;
             }
           }
           break;

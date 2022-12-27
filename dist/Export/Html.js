@@ -97,7 +97,7 @@ export default class Html extends Outputtable {
         const zoomLevel = lonLatArea.zoomLevel;
         const center = lonLatArea.center;
         let html = '';
-        html += `<p class="no-print">Check your <a href="${s.toString()}" target="skyvector">current flight plan on Sky Vector</a>.
+        html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${center.lat},${center.lon}&amp;zoom=${zoomLevel}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}" target="osm">OpenStreetMap</a>.</p>`;
         html += `<div class="table table-weather"><table>
     <caption>Weather</caption>

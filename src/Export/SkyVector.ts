@@ -12,11 +12,12 @@ export class SkyVector {
   /**
    * @returns string like 'https://skyvector.com/?ll=58.64732108,16.32458497&chart=301&zoom=4&fpl=N0122A025%20ESSL%205831N01558E%20ESVE%20ESKN'
    */
-  toString(): string {
+  toString(filterRunway = true): string {
     const checkpoints = this.mission.checkpoints
       .filter((c) => {
         return (
-          c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+          !filterRunway ||
+          (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY)
         );
       })
       .map((c) => {
