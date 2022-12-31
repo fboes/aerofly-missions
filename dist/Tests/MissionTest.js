@@ -1,5 +1,5 @@
 import { LonLat } from "../World/LonLat.js";
-import { Mission, MissionParsed } from "../Aerofly/Mission.js";
+import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { Test } from "../Cli/Test.js";
 import * as fs from "node:fs";
 export class MissionTest extends Test {
@@ -28,10 +28,9 @@ export class MissionTest extends Test {
             const mission3 = new Mission('a'.repeat(32), "b\n".repeat(10));
             this.assertEquals(mission3.warnings.length, 1, 'Not throwing warnings');
         }
-        this.group(MissionParsed.name);
+        this.group(MissionFactory.name);
         {
-            const tmc = new MissionParsed(fs.readFileSync('./src/Tests/kclm_kbli.tmc', 'utf8'), new Mission('', ''));
-            const mission = tmc.mission;
+            const mission = new MissionFactory().create(fs.readFileSync('./src/Tests/kclm_kbli.tmc', 'utf8'), new Mission('', ''));
             this.assertEquals(mission.title, 'From KCLM to KBLI');
             this.assertEquals(mission.flight_setting, 'taxi');
             this.assertEquals(mission.origin_lon_lat.lon, -123.499694);

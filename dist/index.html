@@ -215,15 +215,39 @@
             </div>
 
             <div>
-              <label for="cloud_base_feet">Cloud base</label>
+              <label for="cloud_base_feet">Cloud 1 height</label>
               <input type="number" min="0" max="50000" step="100" id="cloud_base_feet">
               <span>ft</span>
             </div>
 
             <div>
-              <label for="cloud_cover">Cloud cover</label>
+              <label for="cloud_cover">Cloud 1 cover</label>
               <input class="has-output" type="range" min="0" max="100" id="cloud_cover">
               <output id="cloud_cover_code"></output>
+            </div>
+
+            <div>
+              <label for="cloud2_base_feet">Cloud 2 height</label>
+              <input type="number" min="0" max="50000" step="100" id="cloud2_base_feet">
+              <span>ft</span>
+            </div>
+
+            <div>
+              <label for="cloud2_cover">Cloud 2 cover</label>
+              <input class="has-output" type="range" min="0" max="100" id="cloud2_cover">
+              <output id="cloud2_cover_code"></output>
+            </div>
+
+            <div>
+              <label for="cloud3_base_feet">Cloud 3 height</label>
+              <input type="number" min="0" max="50000" step="100" id="cloud3_base_feet">
+              <span>ft</span>
+            </div>
+
+            <div>
+              <label for="cloud3_cover">Cloud 3 cover</label>
+              <input class="has-output" type="range" min="0" max="100" id="cloud3_cover">
+              <output id="cloud3_cover_code"></output>
             </div>
           </div>
 
@@ -262,7 +286,6 @@
         <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
           documentation</button>
         <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code>
-        <button type="button" class="download primary" id="download-mcf">Download changed <code>main.mcf</code></button>
       </section>
     </main>
     <footer>

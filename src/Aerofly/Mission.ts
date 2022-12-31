@@ -1,7 +1,8 @@
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { MainMcf, MainMcfParser } from "./MainMcf.js";
+import { FileParser } from "./FileParser.js";
+import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";
 
@@ -560,7 +561,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
     return string;
   }
 
-  fromJSON(json: Mission) {
+  hydrate(json: Mission) {
     this._title = json._title || this._title;
     this._description = json._description || this._description;
     this._flight_setting = json._flight_setting || this._flight_setting;
@@ -580,25 +581,18 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
     this.cruise_speed = json.cruise_speed || this.cruise_speed;
     this.cruise_altitude = json.cruise_altitude || this.cruise_altitude;
 
-    this.conditions.fromJSON(json.conditions);
+    this.conditions.hydrate(json.conditions);
 
     this.checkpoints = json.checkpoints.map(c => {
       const cx = new MissionCheckpoint()
-      cx.fromJSON(c);
+      cx.hydrate(c);
       return cx;
     })
   }
 }
 
-export class MissionParsed extends MainMcfParser {
-  mission: Mission;
-
-  constructor(configFileContent: string, mission: Mission) {
-    super(configFileContent);
-    this.mission = this.read(configFileContent, mission);
-  }
-
-  read(configFileContent: string, mission: Mission): Mission {
+export class MissionFactory extends FileParser {
+  create(configFileContent: string, mission: Mission): Mission {
     const tmmission_definition = this.getGroup(configFileContent, "tmmission_definition", 3);
     const tmmission_conditions = this.getGroup(configFileContent, "tmmission_conditions", 4);
     const list_tmmission_checkpoint = this.getGroup(configFileContent, "list_tmmission_checkpoint", 4);

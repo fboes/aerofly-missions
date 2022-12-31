@@ -164,7 +164,7 @@ export class MissionCheckpoint {
 `;
   }
 
-  fromJSON(cp: MissionCheckpoint) {
+  hydrate(cp: MissionCheckpoint) {
     this._type = cp._type;
     this.name = cp.name;
     this.lon_lat.lon = cp.lon_lat.lon;

@@ -306,7 +306,7 @@ export class MissionConditions {
                 >
 `;
     }
-    fromJSON(json) {
+    hydrate(json) {
         this.time.time_day = json.time.time_day || this.time.time_day;
         this.time.time_hours = json.time.time_hours || this.time.time_hours;
         this.time.time_month = json.time.time_month || this.time.time_month;
