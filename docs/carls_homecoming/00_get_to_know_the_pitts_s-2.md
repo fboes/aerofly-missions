@@ -5,6 +5,11 @@ Carl's Pitts is waiting for you to practice some takeoffs and landings. She is q
 
 The Pitts S-2 is a [tail dragger](https://de.wikipedia.org/wiki/Tail_Dragger) - so [landing techniques](https://www.youtube.com/watch?v=5BwvCvieZN4) are somewhat difficult to master. You will practice quiet a few go-arounds.
 
+Carl's letter
+-------------
+
+> Take good care of my Pitts S-2. She is nearly as old as I am. I got her back when I worked for Saab in Linköping. You know, aviation has always been my secret passion, even though I grew up in a family of fishermen in a nice little coastal town on Åland. Building planes and flying them was my life - but the sea had its place too.
+
 Flight briefing
 ---------------
 

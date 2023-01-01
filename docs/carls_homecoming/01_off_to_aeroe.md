@@ -5,6 +5,17 @@ It's a weekend, and your are leaving the beautiful city of [Hamburg](https://en.
 
 You may also have to brush up on your [VFR skills](https://journal.3960.org/posts/2019-09-22-vfr-ohne-technischen-schnickschnack/).
 
+Carl's letter
+-------------
+
+> Back than moving from Sweden to Germany was a big leap for me - but my life always was about changes. I moved so many times that my life pretty much boiled down to a suitcase and my small Pitts S-2 to carry it.
+>
+> Well, your flight today will my urn and me riding as a passenger along. I want you to take my ashes back to Åland, and along the way take me back to the important milestones in my life.
+>
+> We are leaving Hamburg, where I was working for Airbus. I moved here in the Eighties, and never regretted living in this beautiful town. Back than I was lucky to move into my small Winterhude apartment. And, well, I was part of the construction of the famous A320 - a giant milestone in my life.
+>
+> On Ærø we had our family gatherings. Once or twice a year I would meet here with my wife Varvaara, and my son Einar and daughter Britt. Well, we all were some kind of gypsies - the women becoming artists, the men building machines.
+
 Flight briefing
 ---------------
 
