@@ -6,7 +6,7 @@ import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
 
-export default class Html extends Outputtable {
+export class Html extends Outputtable {
 
   constructor(protected mission: Mission) {
     super();

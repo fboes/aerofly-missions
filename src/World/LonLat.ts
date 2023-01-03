@@ -182,4 +182,11 @@ export class LonLatArea {
 
     return Math.floor(3 + zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 3..19
   }
+
+  get zoomLevelMapbox(): number {
+    const maxRange = Math.max(this.lonRange, this.latRange * 2); // 0..360
+    const zoom = 8;
+
+    return Math.floor(zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 0..16
+  }
 }

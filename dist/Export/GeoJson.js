@@ -4,7 +4,7 @@ export class GeoJson {
         this.type = "FeatureCollection";
         this.features = [];
     }
-    fromMainMcf(mainMcf) {
+    fromMainMcf(mainMcf, withDepDest = true) {
         this.features = mainMcf.navigation.Route.Ways.map((waypoint) => {
             const lon_lat = LonLat.fromMainMcf(waypoint.Position);
             return {
@@ -20,23 +20,25 @@ export class GeoJson {
                 },
             };
         });
-        const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-        this.features.unshift({
-            type: "Feature",
-            geometry: {
-                type: "Point",
-                coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
-            },
-            properties: {
-                title: "Starting position",
-                type: "plane",
-                altitude: -1
-            },
-        });
+        if (withDepDest) {
+            const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+            this.features.unshift({
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
+                },
+                properties: {
+                    title: "Departure",
+                    type: "plane",
+                    altitude: -1
+                },
+            });
+        }
         this.drawLine();
         return this;
     }
-    fromMission(mission) {
+    fromMission(mission, withDepDest = true) {
         this.features = mission.checkpoints.map((c) => {
             return {
                 type: "Feature",
@@ -51,30 +53,32 @@ export class GeoJson {
                 },
             };
         });
-        this.features.unshift({
-            type: "Feature",
-            geometry: {
-                type: "Point",
-                coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
-            },
-            properties: {
-                title: "Starting position",
-                type: "plane",
-                altitude: -1
-            },
-        });
-        this.features.push({
-            type: "Feature",
-            geometry: {
-                type: "Point",
-                coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
-            },
-            properties: {
-                title: "Destination position",
-                type: "plane",
-                altitude: -1
-            },
-        });
+        if (withDepDest) {
+            this.features.unshift({
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
+                },
+                properties: {
+                    title: mission.origin_icao,
+                    type: "plane",
+                    altitude: -1
+                },
+            });
+            this.features.push({
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
+                },
+                properties: {
+                    title: mission.destination_icao,
+                    type: "plane",
+                    altitude: -1
+                },
+            });
+        }
         this.drawLine();
         return this;
     }

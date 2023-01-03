@@ -21,6 +21,16 @@
   <meta name="theme-color" content="#1f6ed6">
   <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" href="./styles.css">
+  <script>
+    if (localStorage.getItem('mapbox.consent')) {
+      const script = document.createElement('script')
+      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'
+      const link = document.createElement('link')
+      link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css'
+      link.rel = 'stylesheet'
+      document.head.append(script, link)
+    }
+  </script>
 </head>
 
 <body>
@@ -278,6 +288,12 @@
       <section>
         <h2 class="no-print">Step 3: Check flight plan</h2>
         <div id="flightplan"></div>
+        <div id="map">
+          <p>By activating the Mapbox map you consent to the integration probably sending personal data across the
+            internet. Please reload the page after activating Mapbox.</p>
+          <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
+            map</button>
+        </div>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
@@ -297,14 +313,20 @@
         <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.
       </p>
 
-      <p class="no-print">This software complies with the General Data Protection Regulation (GDPR) as it does not
-        collect nor transmits
-        any personal data to third parties.</p>
+      <p class="no-print">This software complies with the General Data Protection Regulation (GDPR). See also the <a
+          href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
     </footer>
 
 
   </div>
-  <script type="module" src="./aerofly-missions-web.js"></script>
+  <script type="module">
+    import { App } from "./Web/App.js";
+    new App((typeof mapboxgl != "undefined") ? new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/outdoors-v12',
+      accessToken: 'pk.eyJ1IjoiZmJvZXMiLCJhIjoiY2xjZWsyZmo2MDh3cjNybWljM2cxNDA4cSJ9.jsRuxcBPqXXsDjDOnUAZFw',
+    }) : null);
+  </script>
   <script>
     if (window.isSecureContext && 'serviceWorker' in navigator && !navigator.serviceWorker.controller) {
       navigator.serviceWorker.register('./sw.js');

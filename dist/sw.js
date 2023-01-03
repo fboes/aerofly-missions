@@ -10,7 +10,7 @@ const offlineFallbackPage = [
   './favicon-180x180.png',
   './favicon-512x512.png',
   './favicon-512x512.svg',
-  './aerofly-missions-web.js',
+  './Web/App.js',
 ];
 
 self.addEventListener('install', function (event) {

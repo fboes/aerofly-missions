@@ -3,7 +3,7 @@ import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
-export default class Html extends Outputtable {
+export class Html extends Outputtable {
     constructor(mission) {
         super();
         this.mission = mission;
