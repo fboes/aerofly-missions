@@ -3,6 +3,11 @@
 
 Keeping clear of the restricted airspace around Karlsborg and lake Vättern, you make your way to Carls' first employer: Saab. Following the lakes of the [Göta Canal](https://en.wikipedia.org/wiki/G%C3%B6ta_Canal), your approach [Linköping](https://en.wikipedia.org/wiki/Link%C3%B6ping) in this quick dash - birth place of Carl's [Saab 37 Viggen](https://en.wikipedia.org/wiki/Saab_37_Viggen).
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 

@@ -3,6 +3,13 @@
 
 On this windy day heading north along the E6 highway you pass the famous [Grimeton VLF Radio Station](https://en.wikipedia.org/wiki/Grimeton_Radio_Station) - back than the only link to send messages to relatives in the United States. Avoiding the restricted airspace around the nuclear power plant Ringehals, you will end your flight in [Göteborg](https://en.wikipedia.org/wiki/Gothenburg).
 
+Carl's letter
+-------------
+
+> On this part you will see the Grimeton VLF Radio Station. When the Einar and Britt were born in the Seventies their mother had moved to København, and all of us often met in Göteborg. I would later take the kids to Grimeton to show them the wonders of engineering.
+>
+> When Einar and Britt moved to Norway, the Grimeton was our symbol how even though families sometimes do not live together, the still stay in touch. Britt did some art around this subject. Einar even had a small short wave radio and even though the Internet later made this technology obsolete, we still stayed in touch via radio.
+
 Flight briefing
 ---------------
 

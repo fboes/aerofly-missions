@@ -12,7 +12,7 @@ Carl's letter
 >
 > Well, your flight today will my urn and me riding as a passenger along. I want you to take my ashes back to Åland, and along the way take me back to the important milestones in my life.
 >
-> We are leaving Hamburg, where I was working for Airbus. I moved here in the Eighties, and never regretted living in this beautiful town. Back than I was lucky to move into my small Winterhude apartment. And, well, I was part of the construction of the famous A320 - a giant milestone in my life.
+> We are leaving Hamburg, where I was working for Airbus. I moved here in the Eighties, and never regretted living in this beautiful town. And, well, I was part of the construction of the famous A320 - a giant milestone in my life.
 >
 > On Ærø we had our family gatherings. Once or twice a year I would meet here with my wife Varvaara, and my son Einar and daughter Britt. Well, we all were some kind of gypsies - the women becoming artists, the men building machines.
 

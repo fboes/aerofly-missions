@@ -3,6 +3,11 @@
 
 As you enter the vicinity of Stockholm, you catch a last glimpse of forests and water before diving into the city of [Stockholm](https://en.wikipedia.org/wiki/Stockholm), keeping above 2,000ft to avoid flight restriction zones. Your approach to Brömma airport gives you a fine view of Stockholm's sights, before landing in the small city airport.
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 

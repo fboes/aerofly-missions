@@ -3,6 +3,11 @@
 
 A compass and your watch are your best friends on this part of your trip, as there are lots of beautiful forests and lakes - but not much else. Dodging clouds, finally your reach Jönköping on the southern shore of Sweden's second largest lake, Vättern.
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 

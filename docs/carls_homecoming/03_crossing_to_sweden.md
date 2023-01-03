@@ -5,6 +5,11 @@ Beautiful [København](https://en.wikipedia.org/wiki/Copenhagen)! Flying around 
 
 Later on you cross the Øresund between the twin cities of Helsingør and Helsingborg.
 
+Carl's letter
+-------------
+
+> 
+
 Flight briefing
 ---------------
 

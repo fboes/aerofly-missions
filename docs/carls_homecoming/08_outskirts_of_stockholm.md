@@ -3,6 +3,11 @@
 
 Again you have to take a detour to avoid the busy airspace around Norrköping. Flying along the Götakanal up to the Baltic Sea, you make a hard turn at Stegeborg Castle and its air field. Passing some skerry landscapes, you land at Nyköping.
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 

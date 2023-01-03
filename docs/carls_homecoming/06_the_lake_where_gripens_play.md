@@ -3,6 +3,11 @@
 
 Old friends of Carl have invited you to an interesting trip, clearing your for passing the restricted airspace over lake Vättern. Keeping strictly to your route, you make your way to Karlsborg, famous for its fortress. There your are cleared to land on the military air base - so don't mess up your landing as Carl's friends are watching.
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 

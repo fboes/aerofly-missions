@@ -5,6 +5,11 @@ The weather looks fine, but you are still nervous. Wearing a survival suit and s
 
 You land at the capital of [Åland](https://en.wikipedia.org/wiki/%C3%85land), [Mariehamn](https://en.wikipedia.org/wiki/Mariehamn).
 
+Carl's letter
+-------------
+
+>
+
 Flight briefing
 ---------------
 
