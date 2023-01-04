@@ -327,6 +327,10 @@ export class App {
         center: [center.lon, center.lat],
         zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
       });
+    }
+
+    const oldDemSource = this.mapboxMap.getSource("mapbox-dem");
+    if (!oldDemSource) {
       this.mapboxMap.addSource('mapbox-dem', {
         'type': 'raster-dem',
         'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
@@ -335,6 +339,7 @@ export class App {
       });
       this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
     }
+
 
     const geoJsonData = new GeoJson().fromMission(this.mission, false);
     const oldSource = this.mapboxMap.getSource("waypoints");
@@ -432,9 +437,9 @@ export class App {
               break;
           }
           this.useIcao = this.mission.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA;
-          this.drawMap(true);
           this.syncToForm();
           this.showFlightplan();
+          this.drawMap(true);
         }
       };
 
