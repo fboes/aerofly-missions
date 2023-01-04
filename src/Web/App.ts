@@ -3,7 +3,7 @@ import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
-import { GeoJson } from "../Export/GeoJson.js";
+import { GeoJson, GeoJsonFeature } from "../Export/GeoJson.js";
 import { GeoJson as GeoJsonImport } from "../Import/GeoJson.js";
 import { Html } from "../Export/Html.js";
 import { Markdown } from "../Export/Markdown.js";
@@ -91,6 +91,7 @@ export class App {
   useIcao = true;
   metarApiKey = "";
   protected mapboxMap: Map | null = null;
+  protected geoJson: GeoJson;
 
   constructor() {
     this.mission = new Mission("", "");
@@ -99,6 +100,7 @@ export class App {
     this.restore();
     this.flightplan = new Html(this.mission);
     this.skyVector = new SkyVector(this.mission);
+    this.geoJson = new GeoJson();
 
     this.elements.main.addEventListener("input", (e) => {
       const target = e.target as HTMLInputElement;
@@ -242,7 +244,7 @@ export class App {
           case "download-json":
             this.download(
               filename,
-              JSON.stringify(new GeoJson().fromMission(this.mission), null, 2),
+              JSON.stringify(this.geoJson.fromMission(this.mission), null, 2),
               "application/geo+json"
             );
             break;
@@ -288,23 +290,6 @@ export class App {
     this.syncToForm();
   }
 
-  addMapbox(mapboxMap: Map) {
-    this.mapboxMap = mapboxMap;
-    this.mapboxMap.on("load", () => {
-      if (! this.mapboxMap) {
-        return;
-      }
-      this.mapboxMap.addSource('mapbox-dem', {
-        'type': 'raster-dem',
-        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 512,
-        'maxzoom': 14
-      });
-      this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
-      this.drawMap(true);
-    });
-  }
-
   showFlightplan() {
     if (this.elements.flightplan) {
       this.elements.flightplan.innerHTML = this.flightplan.toString();
@@ -326,30 +311,24 @@ export class App {
     this.store();
   }
 
-  drawMap(resetCenter = false) {
-    if (!this.mapboxMap) {
-      return;
-    }
-    if (resetCenter && this.mission.checkpoints.length) {
-      const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
-      this.mission.checkpoints.forEach((c) => {
-        lonLatArea.push(c.lon_lat);
+  addMapbox(mapboxMap: Map) {
+    this.mapboxMap = mapboxMap;
+    this.mapboxMap.on("load", () => {
+      if (!this.mapboxMap) {
+        return;
+      }
+      this.mapboxMap.addSource('mapbox-dem', {
+        'type': 'raster-dem',
+        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        'tileSize': 512,
+        'maxzoom': 14
       });
-      const center = lonLatArea.center;
-      this.mapboxMap.flyTo({
-        center: [center.lon, center.lat],
-        zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
-      });
-    }
+      this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
-    const geoJsonData = new GeoJson().fromMission(this.mission, false);
-    const oldSource = this.mapboxMap.getSource("waypoints");
-    if (oldSource && oldSource.type === "geojson") {
-      oldSource.setData(geoJsonData);
-    } else {
+      this.geoJson.fromMission(this.mission, false);
       this.mapboxMap.addSource("waypoints", {
         type: "geojson",
-        data: geoJsonData,
+        data: this.geoJson,
       });
       this.mapboxMap.addLayer({
         id: "waypoints-line",
@@ -381,16 +360,79 @@ export class App {
         },
         //filter: ['==', '$type', 'Point']
       });
-      /*this.mapboxMap.on('click', 'waypoints', (e) => {
-        console.log(e);
-      })
+      this.drawMap(true);
+
+      // -----------------------------------------------------------------------
+
       this.mapboxMap.on('mouseenter', 'waypoints', () => {
-        this.mapboxMap && (this.mapboxMap.getCanvas().style.cursor = 'pointer');
+        if (!this.mapboxMap) { return }
+        this.mapboxMap.getCanvasContainer().style.cursor = 'move';
       });
-      // Change it back to a pointer when it leaves.
+
       this.mapboxMap.on('mouseleave', 'waypoints', () => {
-        this.mapboxMap && (this.mapboxMap.getCanvas().style.cursor = '');
-      });*/
+        if (!this.mapboxMap) { return }
+        this.mapboxMap.getCanvasContainer().style.cursor = '';
+      });
+
+      let currentFeature: null | mapboxgl.MapboxGeoJSONFeature = null;
+      const source = this.mapboxMap.getSource('waypoints');
+      const onMove = (e: any) => {
+        if (!this.mapboxMap) { return }
+        const coords = e.lngLat;
+
+        if (!currentFeature || !currentFeature.id || !source || source.type !== "geojson") {
+          return;
+        }
+        this.geoJson.features[<number>currentFeature.id].geometry.coordinates = [coords.lng, coords.lat];
+        this.mission.checkpoints[<number>currentFeature.id].lon_lat.lon = coords.lng;
+        this.mission.checkpoints[<number>currentFeature.id].lon_lat.lat = coords.lat;
+        source.setData(this.geoJson);
+      };
+
+      // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
+      this.mapboxMap.on('mousedown', 'waypoints', (e) => {
+        if (!this.mapboxMap) { return }
+        e.preventDefault();
+
+        const features = this.mapboxMap.queryRenderedFeatures(e.point, {
+          layers: ['waypoints']
+        });
+        currentFeature = features[0];
+
+        this.mapboxMap.getCanvasContainer().style.cursor = 'grab';
+        this.mapboxMap.on('mousemove', onMove);
+        this.mapboxMap.once('mouseup', (e) => {
+          if (!this.mapboxMap) { return }
+          this.mapboxMap.off('mousemove', onMove);
+          currentFeature = null;
+          this.drawMap();
+          this.mission.calculateDirectionForCheckpoints();
+          this.showFlightplan();
+        });
+      });
+    });
+  }
+
+  drawMap(resetCenter = false) {
+    if (!this.mapboxMap || this.mission.checkpoints.length === 0) {
+      return;
+    }
+    if (resetCenter) {
+      const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
+      this.mission.checkpoints.forEach((c) => {
+        lonLatArea.push(c.lon_lat);
+      });
+      const center = lonLatArea.center;
+      this.mapboxMap.flyTo({
+        center: [center.lon, center.lat],
+        zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
+      });
+    }
+
+    const source = this.mapboxMap.getSource("waypoints");
+    if (source && source.type === "geojson") {
+      const geoJsonData = this.geoJson.fromMission(this.mission, false);
+      source.setData(geoJsonData);
     }
   }
 

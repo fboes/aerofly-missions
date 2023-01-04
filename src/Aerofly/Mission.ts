@@ -476,6 +476,10 @@ export class Mission {
       if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
         c.ground_speed = this.cruise_speed;
       }
+      /*if ((lastC && lastC.type !== MissionCheckpoint.TYPE_WAYPOINT) && c.type === MissionCheckpoint.TYPE_WAYPOINT) {
+        // TODO: Acceleration after takeoff, gaining 50 kts per NM
+        c.ground_speed = Math.min(c.ground_speed, 30 + (c.distance * 50) / 2);
+      }*/
       if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
         c.ground_speed = 30;
       } else {

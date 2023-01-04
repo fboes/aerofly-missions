@@ -6,10 +6,11 @@ export class GeoJson {
         this.features = [];
     }
     fromMainMcf(mainMcf, withDepDest = true) {
-        this.features = mainMcf.navigation.Route.Ways.map((waypoint) => {
+        this.features = mainMcf.navigation.Route.Ways.map((waypoint, index) => {
             const lon_lat = LonLat.fromMainMcf(waypoint.Position);
             return {
                 type: "Feature",
+                id: index,
                 geometry: {
                     type: "Point",
                     coordinates: [lon_lat.lon, lon_lat.lat],
@@ -26,6 +27,7 @@ export class GeoJson {
             const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
             this.features.unshift({
                 type: "Feature",
+                id: this.features.length,
                 geometry: {
                     type: "Point",
                     coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
@@ -42,9 +44,10 @@ export class GeoJson {
         return this;
     }
     fromMission(mission, withDepDest = true) {
-        this.features = mission.checkpoints.map((c) => {
+        this.features = mission.checkpoints.map((c, index) => {
             return {
                 type: "Feature",
+                id: index,
                 geometry: {
                     type: "Point",
                     coordinates: [c.lon_lat.lon, c.lon_lat.lat],
@@ -60,6 +63,7 @@ export class GeoJson {
         if (withDepDest) {
             this.features.unshift({
                 type: "Feature",
+                id: this.features.length,
                 geometry: {
                     type: "Point",
                     coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
@@ -73,6 +77,7 @@ export class GeoJson {
             });
             this.features.push({
                 type: "Feature",
+                id: this.features.length,
                 geometry: {
                     type: "Point",
                     coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
@@ -91,6 +96,7 @@ export class GeoJson {
     drawLine() {
         this.features.push({
             type: "Feature",
+            id: this.features.length,
             geometry: {
                 type: "LineString",
                 coordinates: this.features.map((feature) => {
@@ -101,7 +107,7 @@ export class GeoJson {
                 title: "Flightplan",
                 type: "Flightplan",
                 altitude: -1,
-                "marker-symbol": "dot-10"
+                "marker-symbol": "dot-10",
             },
         });
     }

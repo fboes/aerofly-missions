@@ -146,8 +146,8 @@ export class LonLatArea {
         else {
             y *= rangeAspectRatio / aspectRatio;
         }
-        const maxRange = Math.max(x, y * 2); // 0..360
-        const zoom = 4 + (Math.sqrt(360 / maxRange) - 1) / factor; // 4..19
+        const maxRange = Math.max(0.35, Math.max(x, y * 2)); // 0..360
+        const zoom = 4 + (Math.sqrt(360 / maxRange) - 1) / factor;
         return fraction ? zoom : Math.floor(zoom);
     }
 }

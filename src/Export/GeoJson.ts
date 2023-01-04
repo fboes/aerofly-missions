@@ -4,6 +4,7 @@ import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
+  id: number,
   geometry: {
     coordinates: any[];
   };
@@ -11,7 +12,7 @@ export type GeoJsonFeature = GeoJSON.Feature & {
     title: string,
     type: string,
     altitude: number,
-    "marker-symbol": string
+    "marker-symbol": string,
   };
 };
 
@@ -21,11 +22,12 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
   fromMainMcf(mainMcf: MainMcf, withDepDest = true) {
     this.features = mainMcf.navigation.Route.Ways.map(
-      (waypoint): GeoJsonFeature => {
+      (waypoint, index): GeoJsonFeature => {
         const lon_lat = LonLat.fromMainMcf(waypoint.Position);
 
         return {
           type: "Feature",
+          id: index,
           geometry: {
             type: "Point",
             coordinates: [lon_lat.lon, lon_lat.lat],
@@ -44,6 +46,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
       this.features.unshift({
         type: "Feature",
+        id: this.features.length,
         geometry: {
           type: "Point",
           coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
@@ -63,9 +66,10 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
   fromMission(mission: Mission, withDepDest = true) {
     this.features = mission.checkpoints.map(
-      (c): GeoJsonFeature => {
+      (c, index): GeoJsonFeature => {
         return {
           type: "Feature",
+          id: index,
           geometry: {
             type: "Point",
             coordinates: [c.lon_lat.lon, c.lon_lat.lat],
@@ -83,6 +87,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
     if (withDepDest) {
       this.features.unshift({
         type: "Feature",
+        id: this.features.length,
         geometry: {
           type: "Point",
           coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
@@ -97,6 +102,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
       this.features.push({
         type: "Feature",
+        id: this.features.length,
         geometry: {
           type: "Point",
           coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
@@ -117,6 +123,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
   drawLine() {
     this.features.push({
       type: "Feature",
+      id: this.features.length,
       geometry: {
         type: "LineString",
         coordinates: this.features.map((feature) => {
@@ -127,7 +134,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         title: "Flightplan",
         type: "Flightplan",
         altitude: -1,
-        "marker-symbol": "dot-10"
+        "marker-symbol": "dot-10",
       },
     });
   }
