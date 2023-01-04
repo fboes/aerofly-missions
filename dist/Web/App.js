@@ -15,8 +15,7 @@ import { XplaneFms } from "../Import/XplaneFms.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 export class App {
-    constructor(mapboxMap) {
-        this.mapboxMap = mapboxMap;
+    constructor() {
         this.elements = {
             aircraft_name: document.getElementById("aircraft_name"),
             callsign: document.getElementById("callsign"),
@@ -61,6 +60,7 @@ export class App {
         };
         this.useIcao = true;
         this.metarApiKey = "";
+        this.mapboxMap = null;
         this.mission = new Mission("", "");
         this.missionList = new MissionsList("");
         this.missionList.missions.push(this.mission);
@@ -242,13 +242,14 @@ export class App {
             this.syncToForm();
             this.showFlightplan();
         });
-        if (this.mapboxMap) {
-            this.mapboxMap.on("load", () => {
-                this.drawMap(true);
-            });
-        }
         this.showFlightplan();
         this.syncToForm();
+    }
+    addMapbox(mapboxMap) {
+        this.mapboxMap = mapboxMap;
+        this.mapboxMap.on("load", () => {
+            this.drawMap(true);
+        });
     }
     showFlightplan() {
         if (this.elements.flightplan) {

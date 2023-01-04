@@ -309,6 +309,7 @@
   </div>
   <script type="module">
     import { App } from "./Web/App.js";
+    const app = new App();
 
     if (localStorage.getItem('mapbox.consent')) {
       const link = document.createElement('link')
@@ -317,15 +318,13 @@
       const script = document.createElement('script')
       script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'
       script.addEventListener('load', () => {
-        new App(new mapboxgl.Map({
+        app.addMapbox(new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/mapbox/outdoors-v12',
           accessToken: 'pk.eyJ1IjoiZmJvZXMiLCJhIjoiY2xjZWsyZmo2MDh3cjNybWljM2cxNDA4cSJ9.jsRuxcBPqXXsDjDOnUAZFw',
         }));
       })
       document.head.append(script, link)
-    } else {
-      new App(null);
     }
   </script>
   <script>

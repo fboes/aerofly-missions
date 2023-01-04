@@ -90,8 +90,9 @@ export class App {
   skyVector: SkyVector;
   useIcao = true;
   metarApiKey = "";
+  protected mapboxMap: Map | null = null;
 
-  constructor(protected mapboxMap: Map | null) {
+  constructor() {
     this.mission = new Mission("", "");
     this.missionList = new MissionsList("");
     this.missionList.missions.push(this.mission);
@@ -283,13 +284,15 @@ export class App {
       this.showFlightplan();
     });
 
-    if (this.mapboxMap) {
-      this.mapboxMap.on("load", () => {
-        this.drawMap(true);
-      });
-    }
     this.showFlightplan();
     this.syncToForm();
+  }
+
+  addMapbox(mapboxMap: Map) {
+    this.mapboxMap = mapboxMap;
+    this.mapboxMap.on("load", () => {
+      this.drawMap(true);
+    });
   }
 
   showFlightplan() {
@@ -339,7 +342,6 @@ export class App {
       });
       this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
     }
-
 
     const geoJsonData = new GeoJson().fromMission(this.mission, false);
     const oldSource = this.mapboxMap.getSource("waypoints");
