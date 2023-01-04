@@ -248,6 +248,16 @@ export class App {
     addMapbox(mapboxMap) {
         this.mapboxMap = mapboxMap;
         this.mapboxMap.on("load", () => {
+            if (!this.mapboxMap) {
+                return;
+            }
+            this.mapboxMap.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+                'tileSize': 512,
+                'maxzoom': 14
+            });
+            this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
             this.drawMap(true);
         });
     }
@@ -285,16 +295,6 @@ export class App {
                 center: [center.lon, center.lat],
                 zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
             });
-        }
-        const oldDemSource = this.mapboxMap.getSource("mapbox-dem");
-        if (!oldDemSource) {
-            this.mapboxMap.addSource('mapbox-dem', {
-                'type': 'raster-dem',
-                'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-                'tileSize': 512,
-                'maxzoom': 14
-            });
-            this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
         }
         const geoJsonData = new GeoJson().fromMission(this.mission, false);
         const oldSource = this.mapboxMap.getSource("waypoints");

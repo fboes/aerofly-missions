@@ -14,7 +14,7 @@ import { MsfsPln } from "../Import/MsfsPln.js";
 import { XplaneFms } from "../Import/XplaneFms.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { Map } from "mapbox-gl";
+import mapboxgl, { Map } from "mapbox-gl";
 
 type ApiResult = {
   data: {
@@ -291,6 +291,16 @@ export class App {
   addMapbox(mapboxMap: Map) {
     this.mapboxMap = mapboxMap;
     this.mapboxMap.on("load", () => {
+      if (! this.mapboxMap) {
+        return;
+      }
+      this.mapboxMap.addSource('mapbox-dem', {
+        'type': 'raster-dem',
+        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        'tileSize': 512,
+        'maxzoom': 14
+      });
+      this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
       this.drawMap(true);
     });
   }
@@ -330,17 +340,6 @@ export class App {
         center: [center.lon, center.lat],
         zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
       });
-    }
-
-    const oldDemSource = this.mapboxMap.getSource("mapbox-dem");
-    if (!oldDemSource) {
-      this.mapboxMap.addSource('mapbox-dem', {
-        'type': 'raster-dem',
-        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 512,
-        'maxzoom': 14
-      });
-      this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
     }
 
     const geoJsonData = new GeoJson().fromMission(this.mission, false);
