@@ -25,6 +25,9 @@ self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') {
     return;
   }
+  if (event.request.url.match(/mapbox/)) {
+    return false;
+  }
 
   event.respondWith(
     fetch(event.request)

@@ -317,7 +317,7 @@ export class App {
     if (!this.mapboxMap) {
       return;
     }
-    if (resetCenter) {
+    if (resetCenter && this.mission.checkpoints.length) {
       const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
       this.mission.checkpoints.forEach((c) => {
         lonLatArea.push(c.lon_lat);
@@ -325,12 +325,18 @@ export class App {
       const center = lonLatArea.center;
       this.mapboxMap.flyTo({
         center: [center.lon, center.lat],
-        zoom: lonLatArea.zoomLevelMapbox
+        zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
       });
+      this.mapboxMap.addSource('mapbox-dem', {
+        'type': 'raster-dem',
+        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        'tileSize': 512,
+        'maxzoom': 14
+      });
+      this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
     }
 
     const geoJsonData = new GeoJson().fromMission(this.mission, false);
-    //const geoJsonData = geoJson.features[geoJson.features.length - 1];
     const oldSource = this.mapboxMap.getSource("waypoints");
     if (oldSource && oldSource.type === "geojson") {
       oldSource.setData(geoJsonData);
@@ -351,27 +357,34 @@ export class App {
           "line-color": "#FF1493",
           "line-width": 2,
         },
+        //filter: ['==', '$type', 'Polygon']
       });
       this.mapboxMap.addLayer({
         'id': 'waypoints',
         'type': 'symbol',
         'source': 'waypoints',
         'layout': {
-          'icon-image': [ // data-driven styling, @see https://docs.mapbox.com/mapbox-gl-js/example/data-driven-circle-colors/
-            'match',
-            ['get', 'type'],
-            MissionCheckpoint.TYPE_ORIGIN, 'airport',
-            MissionCheckpoint.TYPE_DESTINATION, 'airport',
-            /* other */ 'dot-10'
-          ],
+          'icon-image': ['get', 'marker-symbol'],
           'text-field': ['get', 'title'],
           'text-offset': [0, 0.5],
-          'text-anchor': 'top'
+          'text-anchor': 'top',
+          'text-size': 12
         },
         paint: {
           "icon-color": "#FF1493"
-        }
+        },
+        //filter: ['==', '$type', 'Point']
       });
+      /*this.mapboxMap.on('click', 'waypoints', (e) => {
+        console.log(e);
+      })
+      this.mapboxMap.on('mouseenter', 'waypoints', () => {
+        this.mapboxMap && (this.mapboxMap.getCanvas().style.cursor = 'pointer');
+      });
+      // Change it back to a pointer when it leaves.
+      this.mapboxMap.on('mouseleave', 'waypoints', () => {
+        this.mapboxMap && (this.mapboxMap.getCanvas().style.cursor = '');
+      });*/
     }
   }
 

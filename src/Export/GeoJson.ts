@@ -1,6 +1,7 @@
 import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
   geometry: {
@@ -9,7 +10,8 @@ export type GeoJsonFeature = GeoJSON.Feature & {
   properties: {
     title: string,
     type: string,
-    altitude: number
+    altitude: number,
+    "marker-symbol": string
   };
 };
 
@@ -31,7 +33,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           properties: {
             title: waypoint.Identifier,
             type: waypoint.type,
-            altitude: waypoint.Elevation
+            altitude: waypoint.Elevation,
+            "marker-symbol": (waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
           },
         };
       }
@@ -48,7 +51,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: "Departure",
           type: "plane",
-          altitude: -1
+          altitude: -1,
+          "marker-symbol": "airport"
         },
       });
     }
@@ -60,7 +64,6 @@ export class GeoJson implements GeoJSON.FeatureCollection {
   fromMission(mission: Mission, withDepDest = true) {
     this.features = mission.checkpoints.map(
       (c): GeoJsonFeature => {
-
         return {
           type: "Feature",
           geometry: {
@@ -70,7 +73,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           properties: {
             title: c.name,
             type: c.type,
-            altitude: c.lon_lat.altitude_m
+            altitude: c.lon_lat.altitude_m,
+            "marker-symbol": (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
           },
         };
       }
@@ -86,7 +90,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: mission.origin_icao,
           type: "plane",
-          altitude: -1
+          altitude: -1,
+          "marker-symbol": "airport"
         },
       });
 
@@ -99,7 +104,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: mission.destination_icao,
           type: "plane",
-          altitude: -1
+          altitude: -1,
+          "marker-symbol": "airport"
         },
       });
     }
@@ -120,7 +126,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       properties: {
         title: "Flightplan",
         type: "Flightplan",
-        altitude: -1
+        altitude: -1,
+        "marker-symbol": "dot-10"
       },
     });
   }

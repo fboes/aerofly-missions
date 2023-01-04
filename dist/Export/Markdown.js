@@ -23,7 +23,7 @@ export class Markdown extends Outputtable {
         const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
         time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
         const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-        const zoomLevel = this.lonLatArea.zoomLevel;
+        const zoomLevel = this.lonLatArea.getZoomLevel();
         const center = this.lonLatArea.center;
         let markdown = `${m.title}
 ==================

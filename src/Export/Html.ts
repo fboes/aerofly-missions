@@ -106,7 +106,7 @@ export class Html extends Outputtable {
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-    const zoomLevel = lonLatArea.zoomLevel
+    const zoomLevel = lonLatArea.getZoomLevel()
     const center = lonLatArea.center;
     let html = '';
 

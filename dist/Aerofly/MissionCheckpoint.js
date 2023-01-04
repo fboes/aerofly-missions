@@ -1,7 +1,7 @@
 import { LonLat } from "../World/LonLat.js";
 export class MissionCheckpoint {
     constructor() {
-        this._type = "waypoint";
+        this.type = "waypoint";
         this.name = "";
         this.lon_lat = new LonLat(0, 0);
         /**
@@ -47,9 +47,9 @@ export class MissionCheckpoint {
         return this.frequency / 1000000;
     }
     /**
-   * Aerofly represents frequencies in Hz.
-   * If you want to set a frequency in KHz, use this setter.
-   */
+     * Aerofly represents frequencies in Hz.
+     * If you want to set a frequency in KHz, use this setter.
+     */
     set frequency_khz(frequency_khz) {
         this.frequency = frequency_khz * 1000;
     }
@@ -57,35 +57,23 @@ export class MissionCheckpoint {
         return this.frequency / 1000;
     }
     get frequency_unit() {
-        return this.frequency > 10000000 ? 'M' : 'k';
+        return this.frequency > 10000000 ? "M" : "k";
     }
     get frequency_string() {
         if (!this.frequency) {
-            return '';
+            return "";
         }
         const frequency_unit = this.frequency_unit;
-        return ((frequency_unit === 'M') ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) + ' ' + frequency_unit + 'Hz';
+        return ((frequency_unit === "M" ? this.frequency_mhz.toFixed(2) : this.frequency_khz.toFixed()) +
+            " " +
+            frequency_unit +
+            "Hz");
     }
     get direction_magnetic() {
         return (this.direction - this.lon_lat.magnetic_declination + 360) % 360;
     }
     get heading_magnetic() {
         return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
-    }
-    set type(type) {
-        if (![
-            MissionCheckpoint.TYPE_ORIGIN,
-            MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
-            MissionCheckpoint.TYPE_WAYPOINT,
-            MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
-            MissionCheckpoint.TYPE_DESTINATION,
-        ].includes(type)) {
-            throw new Error("Unknown checkpoint type: " + type);
-        }
-        this._type = type;
-    }
-    get type() {
-        return this._type;
     }
     /**
      * In hours
@@ -94,7 +82,7 @@ export class MissionCheckpoint {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
     get direction_rad() {
-        return (this.direction % 360) / 180 * Math.PI;
+        return ((this.direction % 360) / 180) * Math.PI;
     }
     /**
      *
@@ -140,7 +128,7 @@ export class MissionCheckpoint {
 `;
     }
     hydrate(cp) {
-        this._type = cp._type;
+        this.type = cp.type;
         this.name = cp.name;
         this.lon_lat.lon = cp.lon_lat.lon;
         this.lon_lat.lat = cp.lon_lat.lat;

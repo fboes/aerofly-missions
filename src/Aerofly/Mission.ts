@@ -3,8 +3,10 @@ import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { FileParser } from "./FileParser.js";
 import { MainMcf } from "./MainMcf.js";
-import { MissionCheckpoint } from "./MissionCheckpoint.js";
+import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";
+
+export type MissionFlightSetting = "landing" | "takeoff" | "approach" | "taxi" | "cruise";
 
 export class Mission {
   /**
@@ -15,7 +17,7 @@ export class Mission {
    * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
    */
   protected _description: string = '';
-  protected _flight_setting: string = Mission.FLIGHT_SETTING_TAXI;
+  flight_setting: MissionFlightSetting = Mission.FLIGHT_SETTING_TAXI;
   /**
    * Internal Aerofly name of aircraft type.
    */
@@ -52,11 +54,11 @@ export class Mission {
    */
   cruise_altitude: number = 0;
 
-  static FLIGHT_SETTING_LANDING = "landing";
-  static FLIGHT_SETTING_TAKEOFF = "takeoff";
-  static FLIGHT_SETTING_APPROACH = "approach";
-  static FLIGHT_SETTING_TAXI = "taxi";
-  static FLIGHT_SETTING_CRUISE = "cruise";
+  static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
+  static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";
+  static FLIGHT_SETTING_APPROACH: MissionFlightSetting = "approach";
+  static FLIGHT_SETTING_TAXI: MissionFlightSetting = "taxi";
+  static FLIGHT_SETTING_CRUISE: MissionFlightSetting = "cruise";
   static MAX_LENGTH_TITLE = 32;
   static MAX_LENGTH_DESCRIPTION = 50;
   static MAX_LINES_DESCRIPTION = 8;
@@ -97,25 +99,6 @@ export class Mission {
 
   get description(): string {
     return this._description;
-  }
-
-  set flight_setting(flight_setting: string) {
-    if (
-      ![
-        Mission.FLIGHT_SETTING_LANDING,
-        Mission.FLIGHT_SETTING_TAKEOFF,
-        Mission.FLIGHT_SETTING_APPROACH,
-        Mission.FLIGHT_SETTING_TAXI,
-        Mission.FLIGHT_SETTING_CRUISE,
-      ].includes(flight_setting)
-    ) {
-      throw new Error("Unknown flight setting: " + flight_setting);
-    }
-    this._flight_setting = flight_setting;
-  }
-
-  get flight_setting() {
-    return this._flight_setting;
   }
 
   get cruise_altitude_ft() {
@@ -493,11 +476,10 @@ export class Mission {
       if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
         c.ground_speed = this.cruise_speed;
       }
-      if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || c.type === MissionCheckpoint.TYPE_DESTINATION) {
+      if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
         c.ground_speed = 30;
-      }
-      // Modify cruising speed by wind
-      if (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION) {
+      } else {
+        // Modify cruising speed by wind
         if (c.ground_speed && c.direction >= 0 && this.conditions.wind_speed) {
           const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.ground_speed);
           c.ground_speed = windCorrection.ground_speed;
@@ -564,7 +546,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
   hydrate(json: Mission) {
     this._title = json._title || this._title;
     this._description = json._description || this._description;
-    this._flight_setting = json._flight_setting || this._flight_setting;
+    this.flight_setting = json.flight_setting || this.flight_setting;
     this._aircraft_name = json._aircraft_name || this._aircraft_name;
     this._aircraft_icao = json._aircraft_icao || this._aircraft_icao;
     this.callsign = json.callsign || this.callsign;
@@ -599,7 +581,7 @@ export class MissionFactory extends FileParser {
 
     mission.title = this.getValue(tmmission_definition, "title");
     mission.description = this.getValue(tmmission_definition, "description");
-    mission.flight_setting = this.getValue(tmmission_definition, "flight_setting");
+    mission.flight_setting = <MissionFlightSetting>this.getValue(tmmission_definition, "flight_setting");
     mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
     mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
     mission.callsign = this.getValue(tmmission_definition, "callsign");
@@ -637,7 +619,7 @@ export class MissionFactory extends FileParser {
       .slice(1)
       .map((wp) => {
         const cp = new MissionCheckpoint();
-        cp.type = this.getValue(wp, 'type');
+        cp.type = <MissionCheckpointType>this.getValue(wp, 'type');
         cp.name = this.getValue(wp, 'name');
 
         const lon_lat = this.getNumberArray(wp, "lon_lat");

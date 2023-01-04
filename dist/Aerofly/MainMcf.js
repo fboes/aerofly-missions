@@ -60,7 +60,7 @@ export class MainMcfFactory extends FileParser {
                 .map((wp) => {
                 const typeMatch = wp.match(/^[^\]]+/);
                 return {
-                    type: typeMatch ? String(typeMatch[0]) : "waypoint",
+                    type: (typeMatch ? String(typeMatch[0]) : "waypoint"),
                     Identifier: this.getValue(wp, "Identifier"),
                     Position: this.getNumberArray(wp, "Position"),
                     NavaidFrequency: this.getNumber(wp, "NavaidFrequency"),

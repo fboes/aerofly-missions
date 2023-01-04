@@ -137,14 +137,17 @@ export class LonLatArea {
     get latRange() {
         return this.max.lat - this.min.lat;
     }
-    get zoomLevel() {
-        const maxRange = Math.max(this.lonRange, this.latRange * 2); // 0..360
-        const zoom = 8;
-        return Math.floor(3 + zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 3..19
-    }
-    get zoomLevelMapbox() {
-        const maxRange = Math.max(this.lonRange, this.latRange * 2); // 0..360
-        const zoom = 8;
-        return Math.floor(zoom - Math.sqrt(maxRange / 360 * zoom * zoom)); // 0..16
+    getZoomLevel(aspectRatio = 2 / 1, factor = 3, fraction = false) {
+        let x = this.lonRange, y = this.latRange;
+        const rangeAspectRatio = x / y; // 0.5
+        if (aspectRatio > rangeAspectRatio) {
+            x *= aspectRatio / rangeAspectRatio;
+        }
+        else {
+            y *= rangeAspectRatio / aspectRatio;
+        }
+        const maxRange = Math.max(x, y * 2); // 0..360
+        const zoom = 4 + (Math.sqrt(360 / maxRange) - 1) / factor; // 4..19
+        return fraction ? zoom : Math.floor(zoom);
     }
 }

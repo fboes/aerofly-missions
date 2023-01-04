@@ -1,7 +1,8 @@
 import { FileParser } from "./FileParser.js";
+import { MissionCheckpointType } from "./MissionCheckpoint.js";
 
 export interface MainMcfWaypointInterface {
-  type: string;
+  type: MissionCheckpointType;
   Identifier: string;
   Position: number[];
   NavaidFrequency: number;
@@ -71,7 +72,7 @@ export class MainMcfFactory extends FileParser {
         .map((wp) => {
           const typeMatch = wp.match(/^[^\]]+/);
           return {
-            type: typeMatch ? String(typeMatch[0]) : "waypoint",
+            type: <MissionCheckpointType>(typeMatch ? String(typeMatch[0]) : "waypoint"),
             Identifier: this.getValue(wp, "Identifier"),
             Position: this.getNumberArray(wp, "Position"),
             NavaidFrequency: this.getNumber(wp, "NavaidFrequency"),
