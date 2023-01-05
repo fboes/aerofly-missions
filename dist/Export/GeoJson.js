@@ -5,12 +5,12 @@ export class GeoJson {
         this.type = "FeatureCollection";
         this.features = [];
     }
-    fromMainMcf(mainMcf, withDepDest = true) {
+    fromMainMcf(mainMcf) {
         this.features = mainMcf.navigation.Route.Ways.map((waypoint, index) => {
             const lon_lat = LonLat.fromMainMcf(waypoint.Position);
             return {
                 type: "Feature",
-                id: index,
+                id: index + 1,
                 geometry: {
                     type: "Point",
                     coordinates: [lon_lat.lon, lon_lat.lat],
@@ -23,31 +23,29 @@ export class GeoJson {
                 },
             };
         });
-        if (withDepDest) {
-            const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-            this.features.unshift({
-                type: "Feature",
-                id: this.features.length,
-                geometry: {
-                    type: "Point",
-                    coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
-                },
-                properties: {
-                    title: "Departure",
-                    type: "plane",
-                    altitude: -1,
-                    "marker-symbol": "airport"
-                },
-            });
-        }
+        const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+        this.features.unshift({
+            type: "Feature",
+            id: 0,
+            geometry: {
+                type: "Point",
+                coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
+            },
+            properties: {
+                title: "Departure",
+                type: "plane",
+                altitude: -1,
+                "marker-symbol": "airport"
+            },
+        });
         this.drawLine();
         return this;
     }
-    fromMission(mission, withDepDest = true) {
+    fromMission(mission) {
         this.features = mission.checkpoints.map((c, index) => {
             return {
                 type: "Feature",
-                id: index,
+                id: index + 1,
                 geometry: {
                     type: "Point",
                     coordinates: [c.lon_lat.lon, c.lon_lat.lat],
@@ -60,36 +58,34 @@ export class GeoJson {
                 },
             };
         });
-        if (withDepDest) {
-            this.features.unshift({
-                type: "Feature",
-                id: this.features.length,
-                geometry: {
-                    type: "Point",
-                    coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
-                },
-                properties: {
-                    title: mission.origin_icao,
-                    type: "plane",
-                    altitude: -1,
-                    "marker-symbol": "airport"
-                },
-            });
-            this.features.push({
-                type: "Feature",
-                id: this.features.length,
-                geometry: {
-                    type: "Point",
-                    coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
-                },
-                properties: {
-                    title: mission.destination_icao,
-                    type: "plane",
-                    altitude: -1,
-                    "marker-symbol": "airport"
-                },
-            });
-        }
+        this.features.unshift({
+            type: "Feature",
+            id: 0,
+            geometry: {
+                type: "Point",
+                coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
+            },
+            properties: {
+                title: mission.origin_icao,
+                type: "plane",
+                altitude: -1,
+                "marker-symbol": "airport"
+            },
+        });
+        this.features.push({
+            type: "Feature",
+            id: this.features.length,
+            geometry: {
+                type: "Point",
+                coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
+            },
+            properties: {
+                title: mission.destination_icao,
+                type: "plane",
+                altitude: -1,
+                "marker-symbol": "airport"
+            },
+        });
         this.drawLine();
         return this;
     }
@@ -99,7 +95,9 @@ export class GeoJson {
             id: this.features.length,
             geometry: {
                 type: "LineString",
-                coordinates: this.features.map((feature) => {
+                coordinates: this.features.filter((feature) => {
+                    return feature.properties.type !== 'plane';
+                }).map((feature) => {
                     return feature.geometry.coordinates;
                 }),
             },

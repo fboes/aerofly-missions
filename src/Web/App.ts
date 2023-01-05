@@ -325,7 +325,7 @@ export class App {
       });
       this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
-      this.geoJson.fromMission(this.mission, false);
+      this.geoJson.fromMission(this.mission);
       this.mapboxMap.addSource("waypoints", {
         type: "geojson",
         data: this.geoJson,
@@ -380,12 +380,21 @@ export class App {
         if (!this.mapboxMap) { return }
         const coords = e.lngLat;
 
-        if (!currentFeature || !currentFeature.id || !source || source.type !== "geojson") {
+        if (!currentFeature || !source || source.type !== "geojson") {
           return;
         }
-        this.geoJson.features[<number>currentFeature.id].geometry.coordinates = [coords.lng, coords.lat];
-        this.mission.checkpoints[<number>currentFeature.id].lon_lat.lon = coords.lng;
-        this.mission.checkpoints[<number>currentFeature.id].lon_lat.lat = coords.lat;
+        const featureId = <number>currentFeature.id;
+        this.geoJson.features[featureId].geometry.coordinates = [coords.lng, coords.lat];
+        if (featureId === 0) {
+          this.mission.origin_lon_lat.lon = coords.lng;
+          this.mission.origin_lon_lat.lat = coords.lat;
+        } else if(featureId === this.mission.checkpoints.length + 1) {
+          this.mission.destination_lon_lat.lon = coords.lng;
+          this.mission.destination_lon_lat.lat = coords.lat;
+        } else {
+          this.mission.checkpoints[featureId - 1].lon_lat.lon = coords.lng;
+          this.mission.checkpoints[featureId - 1].lon_lat.lat = coords.lat;
+        }
         source.setData(this.geoJson);
       };
 
@@ -431,7 +440,7 @@ export class App {
 
     const source = this.mapboxMap.getSource("waypoints");
     if (source && source.type === "geojson") {
-      const geoJsonData = this.geoJson.fromMission(this.mission, false);
+      const geoJsonData = this.geoJson.fromMission(this.mission);
       source.setData(geoJsonData);
     }
   }

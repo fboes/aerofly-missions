@@ -365,9 +365,9 @@ export class Mission {
       const checkpointDestination = this.checkpoints.find(c => {
         return c.type === MissionCheckpoint.TYPE_DESTINATION
       }) || this.checkpoints[this.checkpoints.length - 1];
-      this.destination_icao = checkpointDestination.name;
-      this.destination_dir = checkpointDestination.direction;
-      this.destination_lon_lat = checkpointDestination.lon_lat;
+      this.destination_icao = structuredClone(checkpointDestination.name);
+      this.destination_dir = structuredClone(checkpointDestination.direction);
+      this.destination_lon_lat = structuredClone(checkpointDestination.lon_lat);
 
       const checkpointDestinationRunway = this.checkpoints.find(c => {
         return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
@@ -410,16 +410,16 @@ export class Mission {
     const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
     this.calculateDirectionForCheckpoints();
 
-    this.origin_icao = this.checkpoints[0].name;
-    this.origin_dir = this.checkpoints[1].direction;
-    this.origin_lon_lat = this.checkpoints[0].lon_lat;
+    this.origin_icao = structuredClone(this.checkpoints[0].name);
+    this.origin_dir = structuredClone(this.checkpoints[1].direction);
+    this.origin_lon_lat = structuredClone(this.checkpoints[0].lon_lat);
 
     const checkpointDestination = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DESTINATION
     }) || this.checkpoints[this.checkpoints.length - 1];
-    this.destination_icao = checkpointDestination.name;
-    this.destination_dir = checkpointDestination.direction;
-    this.destination_lon_lat = checkpointDestination.lon_lat;
+    this.destination_icao = structuredClone(checkpointDestination.name);
+    this.destination_dir = structuredClone(checkpointDestination.direction);
+    this.destination_lon_lat = structuredClone(checkpointDestination.lon_lat);
 
     this.setAutoTitleDescription(flight_category);
 
