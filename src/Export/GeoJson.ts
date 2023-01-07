@@ -12,6 +12,7 @@ export type GeoJsonFeature = GeoJSON.Feature & {
     title: string,
     type: string,
     altitude: number,
+    direction: number,
     "marker-symbol": string,
   };
 };
@@ -36,6 +37,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
             title: waypoint.Identifier,
             type: waypoint.type,
             altitude: waypoint.Elevation,
+            direction: 0,
             "marker-symbol": (waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
           },
         };
@@ -54,6 +56,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         title: "Departure",
         type: "plane",
         altitude: -1,
+        direction: 0,
         "marker-symbol": "airport"
       },
     });
@@ -76,6 +79,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
             title: c.name,
             type: c.type,
             altitude: c.lon_lat.altitude_m,
+            direction: c.direction,
             "marker-symbol": (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
           },
         };
@@ -93,6 +97,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         title: mission.origin_icao,
         type: "plane",
         altitude: -1,
+        direction: mission.origin_dir,
         "marker-symbol": "airport"
       },
     });
@@ -108,6 +113,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         title: mission.destination_icao,
         type: "plane",
         altitude: -1,
+        direction: mission.destination_dir,
         "marker-symbol": "airport"
       },
     });
@@ -118,23 +124,63 @@ export class GeoJson implements GeoJSON.FeatureCollection {
   }
 
   drawLine() {
-    this.features.push({
-      type: "Feature",
-      id: this.features.length,
-      geometry: {
-        type: "LineString",
-        coordinates: this.features.filter((feature) => {
-          return feature.properties.type !== 'plane'
-        }).map((feature) => {
-          return feature.geometry.coordinates;
-        }),
+    const paths: GeoJsonFeature[] = [
+      {
+        type: "Feature",
+        id: this.features.length,
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            this.features[0].geometry.coordinates,
+            this.features[1].geometry.coordinates
+          ],
+        },
+        properties: {
+          title: "Taxi",
+          type: "Taxi",
+          altitude: -1,
+          direction: 0,
+          "marker-symbol": "dot-10",
+        },
       },
-      properties: {
-        title: "Flightplan",
-        type: "Flightplan",
-        altitude: -1,
-        "marker-symbol": "dot-10",
+      {
+        type: "Feature",
+        id: this.features.length + 1,
+        geometry: {
+          type: "LineString",
+          coordinates: this.features.filter((feature) => {
+            return feature.properties.type !== 'plane'
+          }).map((feature) => {
+            return feature.geometry.coordinates;
+          }),
+        },
+        properties: {
+          title: "Flightplan",
+          type: "Flightplan",
+          altitude: -1,
+          direction: 0,
+          "marker-symbol": "dot-10",
+        },
       },
-    });
+      {
+        type: "Feature",
+        id: this.features.length + 2,
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            this.features[this.features.length - 2].geometry.coordinates,
+            this.features[this.features.length - 1].geometry.coordinates
+          ],
+        },
+        properties: {
+          title: "Taxi",
+          type: "Taxi",
+          altitude: -1,
+          direction: 0,
+          "marker-symbol": "dot-10",
+        },
+      }
+    ]
+    this.features.push(...paths);
   }
 }

@@ -324,9 +324,11 @@
           style: 'mapbox://styles/mapbox/outdoors-v12',
           accessToken: 'pk.eyJ1IjoiZmJvZXMiLCJhIjoiY2xjZWsyZmo2MDh3cjNybWljM2cxNDA4cSJ9.jsRuxcBPqXXsDjDOnUAZFw',
         });
+
         map.addControl(new mapboxgl.NavigationControl({
           visualizePitch: true
         }), 'top-left');
+        map.addControl(new mapboxgl.FullscreenControl());
         app.addMapbox(map);
       })
       document.head.append(script, link)

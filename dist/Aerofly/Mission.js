@@ -303,8 +303,8 @@ export class Mission {
             if (distanceOriginAircraft > 2) {
                 this.warnings.push(`Position of aircraft too far away from origin of flight plan: ${distanceOriginAircraft.toFixed(2)} NM`);
                 if (checkpointDepartureRunway) {
-                    this.origin_lon_lat = checkpointDepartureRunway.lon_lat;
-                    this.warnings.push(`Setting positon of aircraft to departure runway: ${checkpointDepartureRunway.lon_lat}`);
+                    this.origin_lon_lat = new LonLat(checkpointDepartureRunway.lon_lat.lon, checkpointDepartureRunway.lon_lat.lat, checkpointDepartureRunway.lon_lat.altitude_m);
+                    this.warnings.push(`Setting positon of aircraft to departure runway: ${this.origin_lon_lat}`);
                     this.origin_dir = (checkpointDepartureRunway.direction + 180) % 360;
                     this.warnings.push(`Setting orientation of aircraft to departure runway: ${this.origin_dir.toFixed()}°`);
                 }
@@ -323,7 +323,7 @@ export class Mission {
             }) || this.checkpoints[this.checkpoints.length - 1];
             this.destination_icao = structuredClone(checkpointDestination.name);
             this.destination_dir = structuredClone(checkpointDestination.direction);
-            this.destination_lon_lat = structuredClone(checkpointDestination.lon_lat);
+            this.destination_lon_lat = checkpointDestination.lon_lat.clone();
             const checkpointDestinationRunway = this.checkpoints.find(c => {
                 return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
             }) || checkpointDestination;
@@ -360,13 +360,13 @@ export class Mission {
         this.calculateDirectionForCheckpoints();
         this.origin_icao = structuredClone(this.checkpoints[0].name);
         this.origin_dir = structuredClone(this.checkpoints[1].direction);
-        this.origin_lon_lat = structuredClone(this.checkpoints[0].lon_lat);
+        this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
         const checkpointDestination = this.checkpoints.find(c => {
             return c.type === MissionCheckpoint.TYPE_DESTINATION;
         }) || this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = structuredClone(checkpointDestination.name);
         this.destination_dir = structuredClone(checkpointDestination.direction);
-        this.destination_lon_lat = structuredClone(checkpointDestination.lon_lat);
+        this.destination_lon_lat = checkpointDestination.lon_lat.clone();
         this.setAutoTitleDescription(flight_category);
         return this;
     }

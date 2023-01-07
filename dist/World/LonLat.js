@@ -108,6 +108,11 @@ export class LonLat {
         const phi = Math.atan(coordinates[2] / ((1.0 - e2) * rho));
         return new LonLat((lambda * 180) / Math.PI, (phi * 180) / Math.PI, altitude_m);
     }
+    clone() {
+        const l = new LonLat(this.lon, this.lat, this.altitude_m);
+        l.magnetic_declination = this.magnetic_declination;
+        return l;
+    }
 }
 LonLat.CONTINENT_NORTH_AMERICA = 'NA';
 LonLat.CONTINENT_SOUTH_AMERICA = 'SA';

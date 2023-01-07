@@ -295,6 +295,11 @@ export class App {
                 paint: {
                     "line-color": "#FF1493",
                     "line-width": 2,
+                    "line-dasharray": [
+                        "match", ["get", "type"],
+                        "Taxi", ["literal", [1, 2]],
+                        ["literal", [10, 0]]
+                    ]
                 },
                 //filter: ['==', '$type', 'Polygon']
             });
@@ -316,20 +321,18 @@ export class App {
             });
             this.drawMap(true);
             // -----------------------------------------------------------------------
-            this.mapboxMap.on('mouseenter', 'waypoints', () => {
-                if (!this.mapboxMap) {
-                    return;
-                }
-                this.mapboxMap.getCanvasContainer().style.cursor = 'move';
-            });
-            this.mapboxMap.on('mouseleave', 'waypoints', () => {
-                if (!this.mapboxMap) {
-                    return;
-                }
-                this.mapboxMap.getCanvasContainer().style.cursor = '';
-            });
             let currentFeature = null;
             const source = this.mapboxMap.getSource('waypoints');
+            const onDown = (e) => {
+                if (!this.mapboxMap) {
+                    return;
+                }
+                e.preventDefault();
+                const features = this.mapboxMap.queryRenderedFeatures(e.point, {
+                    layers: ['waypoints']
+                });
+                currentFeature = features[0];
+            };
             const onMove = (e) => {
                 if (!this.mapboxMap) {
                     return;
@@ -354,28 +357,46 @@ export class App {
                 }
                 source.setData(this.geoJson);
             };
+            const onUp = () => {
+                if (!this.mapboxMap) {
+                    return;
+                }
+                this.mapboxMap.off('mousemove', onMove);
+                currentFeature = null;
+                this.drawMap();
+                this.mission.calculateDirectionForCheckpoints();
+                this.showFlightplan();
+            };
+            // -----------------------------------------------------------------------
             // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
+            this.mapboxMap.on('mouseenter', 'waypoints', () => {
+                if (!this.mapboxMap) {
+                    return;
+                }
+                this.mapboxMap.getCanvasContainer().style.cursor = 'move';
+            });
+            this.mapboxMap.on('mouseleave', 'waypoints', () => {
+                if (!this.mapboxMap) {
+                    return;
+                }
+                this.mapboxMap.getCanvasContainer().style.cursor = '';
+            });
             this.mapboxMap.on('mousedown', 'waypoints', (e) => {
                 if (!this.mapboxMap) {
                     return;
                 }
-                e.preventDefault();
-                const features = this.mapboxMap.queryRenderedFeatures(e.point, {
-                    layers: ['waypoints']
-                });
-                currentFeature = features[0];
+                onDown(e);
                 this.mapboxMap.getCanvasContainer().style.cursor = 'grab';
                 this.mapboxMap.on('mousemove', onMove);
-                this.mapboxMap.once('mouseup', (e) => {
-                    if (!this.mapboxMap) {
-                        return;
-                    }
-                    this.mapboxMap.off('mousemove', onMove);
-                    currentFeature = null;
-                    this.drawMap();
-                    this.mission.calculateDirectionForCheckpoints();
-                    this.showFlightplan();
-                });
+                this.mapboxMap.once('mouseup', onUp);
+            });
+            this.mapboxMap.on('touchstart', 'waypoints', (e) => {
+                if (!this.mapboxMap || e.points.length !== 1) {
+                    return;
+                }
+                onDown(e);
+                this.mapboxMap.on('touchmove', onMove);
+                this.mapboxMap.once('touchend', onUp);
             });
         });
     }
