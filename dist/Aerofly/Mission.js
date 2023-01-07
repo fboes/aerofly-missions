@@ -1,3 +1,4 @@
+import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { FileParser } from "./FileParser.js";
@@ -456,16 +457,16 @@ export class Mission {
     }
     toString() {
         let string = `            <[tmmission_definition][mission][]
-                <[string8][title][${this.title}]>
-                <[string8][description][${this.description}]>
-                <[string8]   [flight_setting]     [${this.flight_setting}]>
-                <[string8u]  [aircraft_name]      [${this.aircraft_name}]>
-                <[stringt8c] [aircraft_icao]      [${this.aircraft_icao}]>
-                <[stringt8c] [callsign]           [${this.callsign}]>
-                <[stringt8c] [origin_icao]        [${this.origin_icao}]>
+                <[string8][title][${Quote.tmc(this.title)}]>
+                <[string8][description][${Quote.tmc(this.description)}]>
+                <[string8]   [flight_setting]     [${Quote.tmc(this.flight_setting)}]>
+                <[string8u]  [aircraft_name]      [${Quote.tmc(this.aircraft_name)}]>
+                <[stringt8c] [aircraft_icao]      [${Quote.tmc(this.aircraft_icao)}]>
+                <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
+                <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
                 <[tmvector2d][origin_lon_lat]     [${this.origin_lon_lat}]>
                 <[float64]   [origin_dir]         [${this.origin_dir}]>
-                <[stringt8c] [destination_icao]   [${this.destination_icao}]>
+                <[stringt8c] [destination_icao]   [${Quote.tmc(this.destination_icao)}]>
                 <[tmvector2d][destination_lon_lat][${this.destination_lon_lat}]>
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>

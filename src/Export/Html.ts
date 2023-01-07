@@ -4,6 +4,7 @@ import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
+import { Quote } from "./Quote.js";
 import { SkyVector } from "./SkyVector.js";
 
 export class Html extends Outputtable {
@@ -45,12 +46,12 @@ export class Html extends Outputtable {
     <line x1="3" y1="10" x2="5" y2="10" transform="rotate(270, 10, 10)" />
     <line x1="3" y1="10" x2="5" y2="10" transform="rotate(315, 10, 10)" />
     <rect x="1" y="${19 - degX}" width="18" height="${degX}" style="fill: currentColor" />
-  </svg> ${sunState.sunState}`
+  </svg> ${Quote.html(sunState.sunState)}`
     //return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
   }
 
   outputDateTime(date: Date) {
-    return super.outputDateTime(date).replace(/(T|Z)/g, "<small>$1</small>");
+    return Quote.html(super.outputDateTime(date)).replace(/(T|Z)/g, "<small>$1</small>");
   }
 
   outputCover(cloud: MissionConditionsCloud): string {
@@ -111,7 +112,7 @@ export class Html extends Outputtable {
     let html = '';
 
     html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector">current flight plan on Sky Vector</a>.
-    You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${center.lat},${center.lon}&amp;zoom=${zoomLevel}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}" target="osm">OpenStreetMap</a>.</p>`;
+    You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(center.lat)},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(zoomLevel)}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(zoomLevel)}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
 
     html += `<div class="table table-weather"><table>
     <caption>Weather</caption>
@@ -119,8 +120,8 @@ export class Html extends Outputtable {
     html += this.outputLine(["Wind ", "Clouds", "Visibility", " Flight rules"], 'th');
     html += '</thead><tbody>';
     html += this.outputLine([
-      this.getWind(m.conditions) + '&nbsp;kts',
-      this.outputCover(m.conditions.cloud) + "&nbsp;" + m.conditions.cloud.cover_code + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
+      Quote.html(this.getWind(m.conditions)) + '&nbsp;kts',
+      this.outputCover(m.conditions.cloud) + "&nbsp;" + Quote.html(m.conditions.cloud.cover_code) + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
       m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
       m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
     ], 'ttd');
@@ -134,14 +135,14 @@ export class Html extends Outputtable {
     html += '</thead><tbody>';
     html += this.outputLine([
       "Departure",
-      `<a target="skyvector" href="https://skyvector.com/airport/${m.origin_icao}">${m.origin_icao}</a>`,
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(m.origin_icao)}</a>`,
       this.outputDateTime(m.conditions.time.dateTime),
       sunStateOrigin.localSolarTime,
       this.outputSunState(sunStateOrigin)
     ]);
     html += this.outputLine([
       "Destination",
-      `<a target="skyvector" href="https://skyvector.com/airport/${m.destination_icao}">${m.destination_icao}</a>`,
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.destination_icao)}">${Quote.html(m.destination_icao)}</a>`,
       this.outputDateTime(time),
       sunStateDestination.localSolarTime,
       this.outputSunState(sunStateDestination)

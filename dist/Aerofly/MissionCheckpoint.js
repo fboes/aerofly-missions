@@ -1,3 +1,4 @@
+import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 export class MissionCheckpoint {
     constructor() {
@@ -116,8 +117,8 @@ export class MissionCheckpoint {
     }
     toString(index) {
         return `                    <[tmmission_checkpoint][element][${index}]
-                        <[string8u][type][${this.type}]>
-                        <[string8u][name][${this.name}]>
+                        <[string8u][type][${Quote.tmc(this.type)}]>
+                        <[string8u][name][${Quote.tmc(this.name)}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.lon_lat.altitude_m}]>
                         <[float64][direction][${this.direction}]>

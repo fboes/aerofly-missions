@@ -10,6 +10,7 @@ import { XplaneFmsTest } from "./Tests/XplaneFmsTest.js";
 import { MainMcfTest } from "./Tests/MainMcfTest.js";
 import { GpxTest } from "./Tests/GpxTest.js";
 import { GeoJsonTest } from "./Tests/GeoJsonTest.js";
+import { QuoteTest } from "./Tests/QuoteTest.js";
 
 const tests = new Tests(process);
 tests.add(new LonLatTest(process));
@@ -23,4 +24,5 @@ tests.add(new MsfsPlnTest(process));
 tests.add(new XplaneFmsTest(process));
 tests.add(new GpxTest(process));
 tests.add(new GeoJsonTest(process));
+tests.add(new QuoteTest(process));
 tests.exit();
