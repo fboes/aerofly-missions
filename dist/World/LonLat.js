@@ -19,6 +19,22 @@ export class LonLat {
     get latRad() {
         return this.lat / 180 * Math.PI;
     }
+    convertMinute(lonOrLat) {
+        let l = {
+            degree: lonOrLat > 0 ? Math.floor(lonOrLat) : Math.ceil(lonOrLat),
+            minutes: (Math.abs(lonOrLat) % 1) * 60,
+            seconds: 0,
+        };
+        l.seconds = (l.minutes % 1) * 60;
+        l.minutes = Math.floor(l.minutes);
+        return l;
+    }
+    get lonMinute() {
+        return this.convertMinute(this.lon);
+    }
+    get latMinute() {
+        return this.convertMinute(this.lat);
+    }
     /**
      * Returns E or W
      */
@@ -120,7 +136,7 @@ LonLat.CONTINENT_EUROPE = 'EU';
 LonLat.CONTINENT_AFRICA = 'AF';
 LonLat.CONTINENT_ASIA = 'AS';
 LonLat.CONTINENT_AUSTRALIA = 'AUS';
-LonLat.CONTINENT_OTHER = 'OT';
+LonLat.CONTINENT_OTHER = 'OTH';
 export class LonLatArea {
     constructor(lonLat) {
         this.coordinates = [];

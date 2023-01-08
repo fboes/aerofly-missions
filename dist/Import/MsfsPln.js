@@ -1,3 +1,5 @@
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
@@ -41,5 +43,71 @@ export class MsfsPln extends GarminFpl {
             return 0;
         });
         return new LonLat(numbers[1], numbers[0], Number(parts[2] || 0) / Units.feetPerMeter);
+    }
+}
+export class MfsfPlnExport {
+    constructor(mission) {
+        this.mission = mission;
+    }
+    getLla(lon_lat) {
+        // N53° 14' 48.24",W4° 32' 7.71",+000025.00
+        // N53° 14' 48.24",W4° 32' 7.71",+000025.00
+        const lat = lon_lat.latMinute;
+        const lon = lon_lat.lonMinute;
+        return lon_lat.latHemisphere + Math.abs(lat.degree).toFixed() + "° " + lat.minutes.toFixed() + "' " + lat.seconds.toFixed(2) + '"'
+            + ','
+            + lon_lat.lonHemisphere + Math.abs(lon.degree).toFixed() + "° " + lon.minutes.toFixed() + "' " + lon.seconds.toFixed(2) + '"'
+            + ','
+            + (lon_lat.altitude_m >= 0 ? '+' : '-')
+            + Math.abs(lon_lat.altitude_ft).toFixed(2).padStart(9, '0');
+    }
+    toString() {
+        const m = this.mission;
+        let pln = `<?xml version="1.0" encoding="UTF-8"?>
+    <SimBase.Document Type="AceXML" version="1,0">
+        <Descr>AceXML Document</Descr>
+        <FlightPlan.FlightPlan>
+            <Title>${Quote.xml(m.title)}</Title>
+            <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
+            <RouteType>Direct</RouteType>
+            <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
+            <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
+            <DepartureLLA>${(this.getLla(m.origin_lon_lat))}</DepartureLLA>
+            <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
+            <DestinationLLA>${(this.getLla(m.destination_lon_lat))}</DestinationLLA>
+            <Descr>${Quote.xml(m.description)}</Descr>
+            <!--DeparturePosition></DeparturePosition-->
+            <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
+            <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
+            <AppVersion>
+                <AppVersionMajor>10</AppVersionMajor>
+                <AppVersionBuild>61472</AppVersionBuild>
+            </AppVersion>
+`;
+        m.checkpoints.forEach(cp => {
+            let type;
+            type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
+                ? 'Airport'
+                : 'User';
+            if (type === 'User' && cp.frequency) {
+                type = cp.frequency_unit === 'M' ? 'VOR' : 'NDB';
+            }
+            pln += `            <ATCWaypoint id="${Quote.xml(cp.name)}">
+                <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
+                <WorldPosition>${(this.getLla(cp.lon_lat))}</WorldPosition>
+`;
+            if (type !== 'User') {
+                pln += `                <ICAO>
+                    <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
+                </ICAO>
+`;
+            }
+            pln += `            </ATCWaypoint>
+`;
+        });
+        pln += `        </FlightPlan.FlightPlan>
+    </SimBase.Document>
+`;
+        return pln;
     }
 }

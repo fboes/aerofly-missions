@@ -70,7 +70,7 @@ export class MissionCheckpoint {
     return this.frequency / 1000;
   }
 
-  get frequency_unit(): string {
+  get frequency_unit(): 'M' | 'k' {
     return this.frequency > 10000000 ? "M" : "k";
   }
 

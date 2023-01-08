@@ -1,5 +1,13 @@
 import { Units } from "./Units.js";
 
+type LonLatContinent = 'NA' | 'SA' | 'EU' | 'AF' | 'AS' | 'AUS' | 'OTH';
+
+type LonLatMinute = {
+  degree: number,
+  minutes: number,
+  seconds: number,
+}
+
 export class LonLat {
   /**
    * In degrees, -180..180. Positive for East, negative for West
@@ -10,13 +18,13 @@ export class LonLat {
    */
   lat: number;
 
-  static CONTINENT_NORTH_AMERICA = 'NA';
-  static CONTINENT_SOUTH_AMERICA = 'SA';
-  static CONTINENT_EUROPE = 'EU';
-  static CONTINENT_AFRICA = 'AF';
-  static CONTINENT_ASIA = 'AS';
-  static CONTINENT_AUSTRALIA = 'AUS';
-  static CONTINENT_OTHER = 'OT';
+  static CONTINENT_NORTH_AMERICA: LonLatContinent = 'NA';
+  static CONTINENT_SOUTH_AMERICA: LonLatContinent = 'SA';
+  static CONTINENT_EUROPE: LonLatContinent = 'EU';
+  static CONTINENT_AFRICA: LonLatContinent = 'AF';
+  static CONTINENT_ASIA: LonLatContinent = 'AS';
+  static CONTINENT_AUSTRALIA: LonLatContinent = 'AUS';
+  static CONTINENT_OTHER: LonLatContinent = 'OTH';
 
   /**
    * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
@@ -40,17 +48,36 @@ export class LonLat {
     return this.lat / 180 * Math.PI;
   }
 
+  protected convertMinute(lonOrLat: number): LonLatMinute {
+    let l = {
+      degree: lonOrLat > 0 ? Math.floor(lonOrLat) : Math.ceil(lonOrLat),
+      minutes: (Math.abs(lonOrLat) % 1) * 60,
+      seconds: 0,
+    }
+    l.seconds = (l.minutes % 1) * 60;
+    l.minutes = Math.floor(l.minutes);
+    return l;
+  }
+
+  get lonMinute(): LonLatMinute {
+    return this.convertMinute(this.lon);
+  }
+
+  get latMinute(): LonLatMinute {
+    return this.convertMinute(this.lat);
+  }
+
   /**
    * Returns E or W
    */
-  get lonHemisphere(): string {
+  get lonHemisphere(): 'E' | 'W' {
     return this.lon > 0 ? 'E' : 'W';
   }
 
   /**
    * Returns N or S
    */
-  get latHemisphere(): string {
+  get latHemisphere(): 'N' | 'S' {
     return this.lat > 0 ? 'N' : 'S';
   }
 
@@ -63,7 +90,7 @@ export class LonLat {
     this.altitude_m = altitude_ft / Units.feetPerMeter;
   }
 
-  get continent(): string {
+  get continent(): LonLatContinent {
     if (this.lon < -24) {
       return this.lat > 15 ? LonLat.CONTINENT_NORTH_AMERICA : LonLat.CONTINENT_SOUTH_AMERICA;
     } else if (this.lon < 50) {

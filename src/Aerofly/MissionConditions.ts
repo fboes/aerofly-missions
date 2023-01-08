@@ -7,6 +7,8 @@ type WindCorrection = {
   heading_rad: number,
 }
 
+type MissionConitionsFlightRules = 'IFR' | 'LIFR' | 'VFR' | 'MVFR';
+
 export class MissionConditionsCloud {
   /**
   * Percentage, 0..1
@@ -151,10 +153,10 @@ export class MissionConditions {
 
   clouds: MissionConditionsCloud[] = [new MissionConditionsCloud()];
 
-  static CONDITION_VFR = 'VFR';
-  static CONDITION_MVFR = 'MVFR';
-  static CONDITION_IFR = 'IFR';
-  static CONDITION_LIFR = 'LIFR';
+  static CONDITION_VFR: MissionConitionsFlightRules = 'VFR';
+  static CONDITION_MVFR: MissionConitionsFlightRules = 'MVFR';
+  static CONDITION_IFR: MissionConitionsFlightRules = 'IFR';
+  static CONDITION_LIFR: MissionConitionsFlightRules = 'LIFR';
   static WIND_GUSTS_STANDARD = 'gusts';
   static WIND_GUSTS_STRONG = 'strong gusts';
   static WIND_GUSTS_VIOLENT = 'violent gusts';
@@ -258,7 +260,7 @@ export class MissionConditions {
    * @see https://www.thinkaviation.net/levels-of-vfr-ifr-explained/
    * @see https://en.wikipedia.org/wiki/Ceiling_(cloud)
    */
-  getFlightCategory(useIcao = false): string {
+  getFlightCategory(useIcao = false): MissionConitionsFlightRules {
     let cloud_base_feet = 9999;
     this.clouds.forEach(cloud => {
       if (cloud.cover > 0.5) {
