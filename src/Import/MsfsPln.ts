@@ -52,7 +52,7 @@ export class MsfsPln extends GarminFpl {
   }
 }
 
-export class MfsfPlnExport {
+export class MsfsPlnExport {
   constructor(protected mission: Mission) { }
 
   getLla(lon_lat: LonLat): string {

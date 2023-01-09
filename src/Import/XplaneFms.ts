@@ -1,3 +1,5 @@
+import { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
 
 export class XplaneFms extends GarminFpl {
@@ -23,5 +25,42 @@ export class XplaneFms extends GarminFpl {
         alt: Number(m[3])
       }
     })
+  }
+}
+
+
+export class XplaneFmsExport {
+  constructor(protected mission: Mission) { }
+
+  toString(): string {
+    const m = this.mission;
+    let pln = `I
+1100 Version
+CYCLE 1710
+ADEP ${m.origin_icao}
+ADES ${m.destination_icao}
+NUMENR ${m.checkpoints.length}
+`;
+    m.checkpoints.forEach((cp, index) => {
+      // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
+      let type: 1 | 2 | 3 | 11 | 28;
+      type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
+        ? 1
+        : 28;
+      if (type !== 1 && cp.frequency) {
+        type = cp.frequency_unit === 'M' ? 3 : 2;
+      }
+      // ADEP/ADES for departure or destination airport of the flightplan, DRCT for a direct or random route leg to the waypoint, or the name of an airway or ATS route to the waypoint.
+      let via: 'ADEP' | 'ADES' | 'DRCT';
+      via = type === 1 ? 'ADEP' : 'DRCT';
+      if (index === m.checkpoints.length -1 && type === 1) {
+        via = 'ADES';
+      }
+
+      pln += `${type} ${cp.name} ${via} ${cp.lon_lat.altitude_ft} ${cp.lon_lat.lat} ${cp.lon_lat.lon}
+`;
+    })
+
+    return pln;
   }
 }

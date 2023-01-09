@@ -1,5 +1,5 @@
 import { Test } from "../Cli/Test.js";
-import { MfsfPlnExport, MsfsPln } from "../Import/MsfsPln.js";
+import { MsfsPlnExport, MsfsPln } from "../Import/MsfsPln.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 export class MsfsPlnTest extends Test {
@@ -25,10 +25,11 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(mission.checkpoints.length, 16);
         }
         // Export Mission to XML
-        const exportPln = new MfsfPlnExport(mission);
+        const exportPln = new MsfsPlnExport(mission);
+        //console.log(exportPln.toString());
         // Reimport XML to PLN
         const secondPln = new MsfsPln(exportPln.toString());
-        this.group(MfsfPlnExport.name);
+        this.group(MsfsPlnExport.name);
         {
             this.assertEquals(secondPln.waypoins.length, pln.waypoins.length);
             secondPln.waypoins.forEach((wp, index) => {

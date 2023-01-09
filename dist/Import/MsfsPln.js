@@ -45,7 +45,7 @@ export class MsfsPln extends GarminFpl {
         return new LonLat(numbers[1], numbers[0], Number(parts[2] || 0) / Units.feetPerMeter);
     }
 }
-export class MfsfPlnExport {
+export class MsfsPlnExport {
     constructor(mission) {
         this.mission = mission;
     }
