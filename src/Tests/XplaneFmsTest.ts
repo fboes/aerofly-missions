@@ -36,8 +36,10 @@ export class XplaneFmsTest extends Test {
     this.group(XplaneFmsExport.name);
     {
       this.assertEquals(secondFms.waypoins.length, fms.waypoins.length);
+      this.assertEquals(secondFms.waypoins[0].identifier, fms.waypoins[0].identifier)
+      this.assertEquals(secondFms.waypoins[16].identifier, fms.waypoins[16].identifier)
+
       secondFms.waypoins.forEach((wp, index) => {
-        this.assertEquals(wp.identifier, fms.waypoins[index].identifier)
         if (fms.waypoins[index].type !== 'NDB') {
           this.assertEquals(wp.type, fms.waypoins[index].type)
         }

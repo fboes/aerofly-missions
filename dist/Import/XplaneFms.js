@@ -6,7 +6,7 @@ import { GarminFpl } from "./GarminFpl.js";
  */
 export class XplaneFms extends GarminFpl {
     read(configFileContent) {
-        const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) ([A-Z]+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/mg);
+        const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) (\S+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/mg);
         if (!waypointLines) {
             throw new Error("No nav lines found");
         }
