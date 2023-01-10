@@ -52,6 +52,9 @@ export class MsfsPln extends GarminFpl {
   }
 }
 
+/**
+ * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
+ */
 export class MsfsPlnExport {
   constructor(protected mission: Mission) { }
 

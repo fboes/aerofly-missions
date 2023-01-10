@@ -1,26 +1,32 @@
 ![](docs/favicon-64x64.png) Aerofly Missionsgerät
 ============================================
 
-The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `main.mcf` and other flight plan file formats into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.
-
-Other features:
-
-* Export Aerofly `main.mcf` flight to Aerofly FS 4 `tmc` Custom Missions file.
-* Export Aerofly `main.mcf` flight plan as [text briefing](docs/flightplan.md), including weather and aircraft settings.
-* Export Aerofly `main.mcf` flight plan as [GeoJSON](https://geojson.org/).
-* Export Aerofly `main.mcf` flight plan as Markdown file.
-* Open Aerofly `main.mcf` flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
-* [Convert Garmin `fpl` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-* [Convert Microsoft FS `pln` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-* [Convert X-Plane `fms` Flight Plan file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-* [Convert `gpx` GPS Route file to Aerofly FS 4 `tmc` Custom Missions file](docs/importing-flightplans.md).
-
-![Flight plan as text briefing](docs/flightplan.png)
+The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.
 
 There are two versions of this tool:
 
 1. **Web version**: Use the Missionsgerät right out of your browser by visiting [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/).
 2. **Local Node.js CLI tool**: If you want some automation for your workflow.
+
+![Flight plan as text briefing](docs/flightplan.png)
+
+Features
+--------
+
+* Modify weather settings with live METAR information.
+* Modify placement of flight plan checkpoints.
+* Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
+* Export [text briefings](docs/flightplan.md) and Markdown files, including weather and aircraft settings.
+
+| Format                                  | Import | Export |
+| --------------------------------------- | ------ | ------ |
+| Aerofly FS `main.mcf`                   | ✅ |    |
+| Aerofly FS 4 `tmc` custom missions file | ✅ | ✅ |
+| [Microsoft FS `pln` flight plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) | ✅ | ✅ |
+| [X-Plane `fms` flight plan file](https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/)                                       | ✅ | ✅ |
+| Garmin `fpl` flight plan file           | ✅ |    |
+| `gpx` GPS Route file                    | ✅ |    |
+| [GeoJSON](https://geojson.org/)         |    | ✅ |
 
 Local Node.js CLI tool
 ----------------------
@@ -40,7 +46,7 @@ You will need the following software installed on your PC:
 
 1. Run `npm install -g aerofly-missions` from your terminal to update `aerofly-missions` to the current version.
 
-Usage
+Usage wit Aerofly FS 4
 ------------
 
 This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
@@ -58,8 +64,7 @@ This manual is for Windows 10/11 installations. On other operating systems these
 
 Be aware that right now Aerofly FS 4 accepts custom missions exclusively from within `…\Aerofly FS 4 Flight Simulator\missions\custom_missions.tmc`. You will need to replace the file located there or append your missions to this file. See [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
-
-See the [custom missions documentation](docs/custom-missions.md) for more information.
+See the [custom missions documentation](docs/custom-missions.md) for more information. See also [more sources for flight plans on the Internet](docs/importing-flightplans.md).
 
 Status
 -------

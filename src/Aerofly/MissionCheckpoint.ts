@@ -2,7 +2,7 @@ import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
-export type MissionCheckpointType = "origin" | "departure_runway" | "waypoint" | "destination_runway" | "destination";
+export type MissionCheckpointType = "origin" | "departure_runway" | "departure" | "waypoint" | "arrival" | "approach" | "destination_runway" | "destination";
 
 export class MissionCheckpoint {
   type: MissionCheckpointType = "waypoint";

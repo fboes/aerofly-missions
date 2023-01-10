@@ -10,20 +10,20 @@
         <[list_tmsettings_separate_3d_view][separate_3d_view_list][]
         >
         <[tmsettings_aircraft][aircraft][]
-            <[string8u][name][p38]>
+            <[string8u][name][q400]>
             <[string8][paintscheme][]>
             <[list_string8][options][]>
             <[bool][profi][false]>
         >
         <[tmsettings_flight][flight_setting][]
-            <[vector3_float64][position][4219980.82581399 -149756.32601658 4765124.3713135]>
-            <[vector3_float64][velocity][64.015977025279 77.5517616973143 -55.9127034552853]>
-            <[matrix3_float64][orientation][0.67091682735537 0.534952261067426 -0.513514059350134 0.515721758452971 0.160975748206952 0.841497401271916 0.532824247411452 -0.829405140367517 -0.16788518249792]>
-            <[float64][gear][0]>
-            <[float64][throttle][0.789720443948354]>
+            <[vector3_float64][position][3812052.03650543 -190255.287158187 5092957.41307746]>
+            <[vector3_float64][velocity][0.00711733599405295 0.000488698455198765 -0.00538084601414677]>
+            <[matrix3_float64][orientation][-0.807344553758148 -0.064553448344255 0.586538680586305 0.0310849481155206 -0.997270591014763 -0.0669708466253764 0.589260975729526 -0.0358360238297986 0.807147620871397]>
+            <[float64][gear][1]>
+            <[float64][throttle][0.00458885124730519]>
             <[float64][flaps][0]>
             <[flight_configuration][configuration][Keep]>
-            <[bool][on_ground][false]>
+            <[bool][on_ground][true]>
         >
         <[float64][gui_transparency][0.5]>
         <[float64][gui_contrast][0]>
@@ -121,7 +121,7 @@
             >
             <[tmsettings_aircraft][element][8]
                 <[string8u][name][mb339]>
-                <[string8][paintscheme][]>
+                <[string8][paintscheme][uae]>
                 <[list_string8][options][]>
                 <[bool][profi][false]>
             >
@@ -131,27 +131,45 @@
                 <[list_string8][options][]>
                 <[bool][profi][false]>
             >
+            <[tmsettings_aircraft][element][10]
+                <[string8u][name][f15e]>
+                <[string8][paintscheme][]>
+                <[list_string8][options][]>
+                <[bool][profi][false]>
+            >
+            <[tmsettings_aircraft][element][11]
+                <[string8u][name][p38]>
+                <[string8][paintscheme][]>
+                <[list_string8][options][]>
+                <[bool][profi][false]>
+            >
+            <[tmsettings_aircraft][element][12]
+                <[string8u][name][concorde]>
+                <[string8][paintscheme][british_airways_1998]>
+                <[list_string8][options][]>
+                <[bool][profi][false]>
+            >
         >
         <[tm_time_utc][time_utc][]
-            <[int32][time_year][2022]>
-            <[int32][time_month][12]>
-            <[int32][time_day][1]>
-            <[float64][time_hours][11.0685288888683]>
+            <[int32][time_year][2023]>
+            <[int32][time_month][1]>
+            <[int32][time_day][10]>
+            <[float64][time_hours][8.833333]>
         >
-        <[float64][visibility][1]>
+        <[float64][visibility][0.600000]>
         <[tmsettings_wind][wind][]
-            <[float64][strength][0.869306]>
-            <[float64][direction_in_degree][170]>
-            <[float64][turbulence][0.18]>
-            <[float64][thermal_activity][0.2]>
+            <[float64][strength][0.435414]>
+            <[float64][direction_in_degree][130]>
+            <[float64][turbulence][0.120000]>
+            <[float64][thermal_activity][0.040000]>
         >
         <[tmsettings_clouds][clouds][]
-            <[float64][cumulus_density][0.61]>
-            <[float64][cumulus_height][0.3]>
-            <[float64][cumulus_mediocris_density][0.61]>
-            <[float64][cumulus_mediocris_height][0.48]>
-            <[float64][cirrus_height][0]>
-            <[float64][cirrus_density][0]>
+            <[float64][cumulus_density][0.630000]>
+            <[float64][cumulus_height][0.320000]>
+            <[float64][cumulus_mediocris_density][0.920000]>
+            <[float64][cumulus_mediocris_height][0.480000]>
+            <[float64][cirrus_height][0.000000]>
+            <[float64][cirrus_density][0.000000]>
         >
         <[int32][graphics_frame_rate][0]>
         <[int32][graphics_quality][2]>
@@ -212,116 +230,72 @@
         >
         <[tmnavigation_config][navigation][]
             <[tmnav_route][Route][]
-                <[float64][CruiseAltitude][0]>
+                <[float64][CruiseAltitude][304.8]>
                 <[pointer_list_tmnav_route_way][Ways][]
-                    <[tmnav_route_origin][EFMA][0]
-                        <[string8u][Identifier][EFMA]>
-                        <[vector3_float64][Position][2995197.56894535 1084032.87678433 5507257.72565142]>
-                        <[uint64][Uid][10242882881495574528]>
-                        <[float64][Elevation][5.1816]>
+                    <[tmnav_route_origin][EGGP][0]
+                        <[string8u][Identifier][EGGP]>
+                        <[vector3_float64][Position][3812243.42315421 -189766.191931408 5092800.86937493]>
+                        <[uint64][Uid][9077349940782376960]>
+                        <[float64][Elevation][24.6888]>
                     >
-                    <[tmnav_route_departure_runway][21][1]
-                        <[string8u][Identifier][21]>
-                        <[vector3_float64][Position][2994300.07375217 1084213.92753865 5507707.08020975]>
-                        <[uint64][Uid][10243321586683817984]>
-                        <[vector3_float64][Direction][0.883511877985302 -0.102054596871883 -0.457156013540457]>
-                        <[float64][Elevation][5.1816]>
-                        <[float64][RunwayLength][1900.1232]>
+                    <[tmnav_route_departure_runway][27][1]
+                        <[string8u][Identifier][27]>
+                        <[vector3_float64][Position][3812227.78085952 -188630.590144645 5092854.40518028]>
+                        <[uint64][Uid][9078221853507399680]>
+                        <[vector3_float64][Direction][0.0120713475601335 -0.998881144792764 -0.0457246229681613]>
+                        <[float64][Elevation][23.7744]>
+                        <[float64][RunwayLength][2285.0856]>
                     >
-                    <[tmnav_route_waypoint][W-3152][2]
-                        <[string8u][Identifier][W-3152]>
-                        <[vector3_float64][Position][3003125.02777159 1105688.029272 5498686.50022766]>
-                        <[uint64][Uid][10259088582450610176]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
+                    <[tmnav_route_departure][WAL2T][2]
+                        <[string8u][Identifier][WAL2T]>
+                        <[vector3_float64][Position][0 0 0]>
+                        <[uint64][Uid][9077349940782911488]>
+                        <[string8u][Airport][EGGP]>
+                        <[vector3_float64][Direction][0 0 0]>
+                        <[float64][Elevation][0]>
+                        <[string8u][Transition][]>
+                        <[uint64][TransitionUid][0]>
+                    >
+                    <[tmnav_route_waypoint][WL][3]
+                        <[string8u][Identifier][WL]>
+                        <[vector3_float64][Position][3739653.4206474 -213301.834323535 5145067.55446779]>
+                        <[uint64][Uid][9056097484644950016]>
+                        <[float64][NavaidFrequency][385000]>
+                        <[uint64][NavaidUid][9056097484644950016]>
                         <[vector2_float64][Altitude][-1001 100001]>
                         <[bool][FlyOver][false]>
                     >
-                    <[tmnav_route_waypoint][W-6211][3]
-                        <[string8u][Identifier][W-6211]>
-                        <[vector3_float64][Position][2993964.14133926 1112247.07682368 5502333.50000853]>
-                        <[uint64][Uid][10267655977447587840]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
+                    <[tmnav_route_arrival][EDN1A][4]
+                        <[string8u][Identifier][EDN1A]>
+                        <[vector3_float64][Position][0 0 0]>
+                        <[uint64][Uid][9050562552837855232]>
+                        <[string8u][Airport][EGPH]>
+                        <[vector3_float64][Direction][0 0 0]>
+                        <[float64][Elevation][0]>
                     >
-                    <[tmnav_route_waypoint][W-2239][4]
-                        <[string8u][Identifier][W-2239]>
-                        <[vector3_float64][Position][2984253.51447281 1116498.88367704 5506716.3357535]>
-                        <[uint64][Uid][10274444362712088576]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
+                    <[tmnav_route_approach][I24][5]
+                        <[string8u][Identifier][I24]>
+                        <[vector3_float64][Position][0 0 0]>
+                        <[uint64][Uid][9050562552837922816]>
+                        <[string8u][Airport][EGPH]>
+                        <[vector3_float64][Direction][0 0 0]>
+                        <[float64][Elevation][30.48]>
+                        <[string8u][Transition][]>
+                        <[uint64][TransitionUid][0]>
                     >
-                    <[tmnav_route_waypoint][W-6151][5]
-                        <[string8u][Identifier][W-6151]>
-                        <[vector3_float64][Position][2967819.75665562 1102513.02787438 5518325.10321681]>
-                        <[uint64][Uid][10267637287491796992]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
+                    <[tmnav_route_destination_runway][24][6]
+                        <[string8u][Identifier][24]>
+                        <[vector3_float64][Position][3572858.98382403 -209636.329805692 5261632.95828674]>
+                        <[uint64][Uid][9051308021748215808]>
+                        <[vector3_float64][Direction][0.37755439094006 -0.879579904503589 -0.289468259875479]>
+                        <[float64][Elevation][30.48]>
+                        <[float64][RunwayLength][2556.9672]>
                     >
-                    <[tmnav_route_waypoint][W-3308][6]
-                        <[string8u][Identifier][W-3308]>
-                        <[vector3_float64][Position][2981606.27083595 1098537.54758853 5511726.66590894]>
-                        <[uint64][Uid][10259758186445012992]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
-                    >
-                    <[tmnav_route_waypoint][W-0921][7]
-                        <[string8u][Identifier][W-0921]>
-                        <[vector3_float64][Position][2980744.20289451 1090345.74389308 5513805.15144189]>
-                        <[uint64][Uid][10252923622393708544]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
-                    >
-                    <[tmnav_route_waypoint][W-1916][8]
-                        <[string8u][Identifier][W-1916]>
-                        <[vector3_float64][Position][2971611.76246263 1069591.02376192 5522732.26424147]>
-                        <[uint64][Uid][10237720676096671744]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
-                    >
-                    <[tmnav_route_waypoint][W-3515][9]
-                        <[string8u][Identifier][W-3515]>
-                        <[vector3_float64][Position][2992947.67732287 1061804.06326363 5512771.55653688]>
-                        <[uint64][Uid][10224267050726064128]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
-                    >
-                    <[tmnav_route_waypoint][W-6315][10]
-                        <[string8u][Identifier][W-6315]>
-                        <[vector3_float64][Position][2990204.24083183 1069698.70566128 5512734.34376094]>
-                        <[uint64][Uid][10231993318930382848]>
-                        <[float64][NavaidFrequency][0]>
-                        <[uint64][NavaidUid][0]>
-                        <[vector2_float64][Altitude][-1001 100001]>
-                        <[bool][FlyOver][false]>
-                    >
-                    <[tmnav_route_destination_runway][21][11]
-                        <[string8u][Identifier][21]>
-                        <[vector3_float64][Position][2994300.07375217 1084213.92753865 5507707.08020975]>
-                        <[uint64][Uid][10243321586683817984]>
-                        <[vector3_float64][Direction][0.883511877985302 -0.102054596871883 -0.457156013540457]>
-                        <[float64][Elevation][5.1816]>
-                        <[float64][RunwayLength][1900.1232]>
-                    >
-                    <[tmnav_route_destination][EFMA][12]
-                        <[string8u][Identifier][EFMA]>
-                        <[vector3_float64][Position][2995197.56894535 1084032.87678433 5507257.72565142]>
-                        <[uint64][Uid][10242882881495574528]>
-                        <[float64][Elevation][5.1816]>
+                    <[tmnav_route_destination][EGPH][7]
+                        <[string8u][Identifier][EGPH]>
+                        <[vector3_float64][Position][3573257.44734158 -210569.564034625 5261327.15745226]>
+                        <[uint64][Uid][9050562552837842944]>
+                        <[float64][Elevation][41.4528]>
                     >
                 >
             >

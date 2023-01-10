@@ -1,7 +1,7 @@
-![](favicon-64x64.png) Additional documents
+![](favicon-64x64.png) `custom_missions.tmc` installation instructions
 ===========================================
 
-To install a custom missions file:
+To install a custom missions file in Aerofly FS 4:
 
 1. Open a file explorer in your Aerofly FS 4 game folder.
 2. Open up the `missions` folder.

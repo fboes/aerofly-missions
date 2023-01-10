@@ -2,6 +2,10 @@ import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
 
+/**
+ * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
+ * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
+ */
 export class XplaneFms extends GarminFpl {
   read(configFileContent: string): void {
     const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) ([A-Z]+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/mg);
@@ -28,7 +32,10 @@ export class XplaneFms extends GarminFpl {
   }
 }
 
-
+/**
+ * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
+ * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
+ */
 export class XplaneFmsExport {
   constructor(protected mission: Mission) { }
 
@@ -57,7 +64,16 @@ NUMENR ${m.checkpoints.length}
         via = 'ADES';
       }
 
-      pln += `${type} ${cp.name} ${via} ${cp.lon_lat.altitude_ft} ${cp.lon_lat.lat} ${cp.lon_lat.lon}
+      const name = (type !== 28) ? cp.name : (
+        //         `+12.345_+009.459`
+        (cp.lon_lat.lat >= 0 ? '+' : '-')
+        + Math.abs(cp.lon_lat.lat).toFixed(3).padStart(6, '0')
+        + '_'
+        + (cp.lon_lat.lon >= 0 ? '+' : '-')
+        + Math.abs(cp.lon_lat.lon).toFixed(3).padStart(7, '0')
+      )
+
+      pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(6)} ${cp.lon_lat.lon.toFixed(6)}
 `;
     })
 

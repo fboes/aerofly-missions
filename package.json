@@ -8,7 +8,7 @@
   "name": "aerofly-missions",
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
-  "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.",
+  "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.",
   "version": "2.7.2",
   "exports": "./dist/aerofly-missions.js",
   "bin": {
@@ -33,6 +33,8 @@
   },
   "keywords": [
     "aerofly-fs4",
+    "x-plane",
+    "msfs",
     "flight",
     "simulator",
     "cli",
@@ -41,5 +43,5 @@
   "bugs": {
     "url": "https://github.com/fboes/aerofly-missions/issues"
   },
-  "homepage": "https://github.com/fboes/aerofly-missions#readme"
+  "homepage": "https://fboes.github.io/aerofly-missions/"
 }

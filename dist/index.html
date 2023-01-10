@@ -11,7 +11,7 @@
   <meta property="og:title" name="title" content="Mission converter">
   <meta property="og:locale" content="en_GB">
   <meta property="og:description" name="description"
-    content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a `custom_missions.tmc` file, using your current flight plan and other settings to generate a shareable mission.">
+    content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.">
   <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät">
   <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/favicon-512x512.png">
   <meta name="twitter:site" content="@fboes">
@@ -33,13 +33,13 @@
     </header>
     <main>
       <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
-        and other flight plan file formats into a <code>custom_missions.tmc</code> file, using your current flight plan
-        and other settings to generate a shareable mission.</p>
+        (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file formats),
+        using your current flight plan and other settings to generate a shareable mission.</p>
 
       <section class="no-print">
         <h2>Step 1: Load flight plan file</h2>
 
-        <p>The Missionsgerät imports Aerofly <code>main.mcf</code>, Aerofly <code>tmc</code>, Garmin <code>fpl</code>,
+        <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin <code>fpl</code>,
           Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.</p>
 
         <div>
@@ -49,6 +49,8 @@
       </section>
       <section class="no-print">
         <h2>Step 2: Set up flight plan</h2>
+
+        <p>These settings are only relevant for Aerofly FS 4 flight plans.</p>
 
         <div>
           <label for="title">Mission title</label>
@@ -287,11 +289,15 @@
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
-        <button type="button" class="download primary" id="download-tmc">Download <code>custom_missions.tmc</code>
+        <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane <code>fms</code>
+          flight plan files.<br />It also generates a Markdown file containing a textual description of the flight including weather data,
+          as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
+        <button type="button" class="download primary" id="download-tmc">Download Aerofly FS <code>custom_missions.tmc</code>
           flight plan</button>
-        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
-          documentation</button>
-        <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code>
+        <button type="button" class="download" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
+        <button type="button" class="download" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code> documentation</button>
+        <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code></button>
       </section>
     </main>
     <footer>

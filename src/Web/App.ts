@@ -10,8 +10,8 @@ import { Markdown } from "../Export/Markdown.js";
 import { SkyVector } from "../Export/SkyVector.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { Gpx } from "../Import/Gpx.js";
-import { MsfsPln } from "../Import/MsfsPln.js";
-import { XplaneFms } from "../Import/XplaneFms.js";
+import { MsfsPln, MsfsPlnExport } from "../Import/MsfsPln.js";
+import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import mapboxgl, { Map } from "mapbox-gl";
@@ -58,10 +58,14 @@ export class App {
     cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
     date: <HTMLInputElement>document.getElementById("date"),
     description: <HTMLTextAreaElement>document.getElementById("description"),
+    downloadFms: <HTMLButtonElement>document.getElementById("download-fms"),
+    downloadFmsCode: <HTMLElement>document.querySelector("#download-fms code"),
     downloadJson: <HTMLButtonElement>document.getElementById("download-json"),
     downloadJsonCode: <HTMLElement>document.querySelector("#download-json code"),
     downloadMd: <HTMLButtonElement>document.getElementById("download-md"),
     downloadMdCode: <HTMLElement>document.querySelector("#download-md code"),
+    downloadPln: <HTMLButtonElement>document.getElementById("download-pln"),
+    downloadPlnCode: <HTMLElement>document.querySelector("#download-pln code"),
     downloadTmc: <HTMLButtonElement>document.getElementById("download-tmc"),
     downloadTmcCode: <HTMLElement>document.querySelector("#download-tmc code"),
     flightplan: <HTMLPreElement>document.getElementById("flightplan"),
@@ -255,6 +259,12 @@ export class App {
               "text/markdown"
             );
             break;
+          case "download-pln":
+            this.download(filename, new MsfsPlnExport(this.mission).toString());
+            break;
+          case "download-fms":
+            this.download(filename, new XplaneFmsExport(this.mission).toString());
+            break;
           case "download-tmc":
             this.download(filename, this.missionList.toString());
             break;
@@ -308,11 +318,17 @@ export class App {
     this.elements.downloadJsonCode.innerText = slug + ".geojson";
     this.elements.downloadMdCode.innerText = slug + ".md";
     this.elements.downloadTmcCode.innerText = slug + ".tmc";
+    this.elements.downloadPlnCode.innerText = slug + ".pln";
+    this.elements.downloadFmsCode.innerText = slug + ".fms";
     this.store();
   }
 
   addMapbox(mapboxMap: Map) {
     this.mapboxMap = mapboxMap;
+    if (this.mission.origin_lon_lat) {
+      this.mapboxMap.setZoom(5);
+      this.mapboxMap.setCenter([this.mission.origin_lon_lat.lon, this.mission.origin_lon_lat.lat]);
+    }
     this.mapboxMap.on("load", () => {
       if (!this.mapboxMap) {
         return;
