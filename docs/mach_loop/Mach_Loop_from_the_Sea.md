@@ -3,8 +3,6 @@ Mach Loop from the Sea
 
 Approach the Mach Loop from the sea, and experience the thrill of sudden low level flying. As you exit the valleys, climb back up to 10,000 ft to once again have a look at the sea.
 
-> This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`Mach_Loop_from_the_Sea.tmc`](./Mach_Loop_from_the_Sea.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
-
 Flight briefing
 ---------------
 
