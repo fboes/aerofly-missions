@@ -70,13 +70,14 @@ export class App {
     downloadTmcCode: <HTMLElement>document.querySelector("#download-tmc code"),
     flightplan: <HTMLPreElement>document.getElementById("flightplan"),
     main: <HTMLElement>document.querySelector("main"),
-    makeTime: <HTMLButtonElement>document.getElementById("make-time"),
-    makeWeather: <HTMLButtonElement>document.getElementById("make-weather"),
     makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
     makeMetarDest: <HTMLButtonElement>document.getElementById("make-metar-dest"),
+    makeTime: <HTMLButtonElement>document.getElementById("make-time"),
+    makeWeather: <HTMLButtonElement>document.getElementById("make-weather"),
     metar: <HTMLAnchorElement>document.getElementById("metar"),
     metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
     origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
+    reset: <HTMLInputElement>document.getElementById("reset"),
     thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
     time: <HTMLInputElement>document.getElementById("time"),
     title: <HTMLInputElement>document.getElementById("title"),
@@ -286,6 +287,20 @@ export class App {
       this.fetchMetar(this.mission.destination_icao);
       this.syncToForm();
       this.showFlightplan();
+    });
+    this.elements.reset.addEventListener("click", () => {
+      this.mission.title = '';
+      this.mission.description = '';
+      this.mission.checkpoints = [];
+      this.mission.cruise_altitude = 0;
+      this.mission.aircraft_name = 'C172';
+      this.mission.conditions.time.dateTime = new Date();
+      this.mission.conditions.time.dateTime.setUTCSeconds(0);
+      this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
+      this.mission.conditions.clouds = [];
+      this.syncToForm();
+      this.showFlightplan();
+      this.drawMap();
     });
 
     this.elements.makeTime.addEventListener("click", () => {
