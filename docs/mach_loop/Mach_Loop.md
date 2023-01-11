@@ -58,6 +58,6 @@ VOR `VYL` located at EGOV, 108.40 Mhz
 
 ----
 
-[Previous mission](./Low_Level_Highlander.md) | [Mission overview](./README.md) | Next mission
+[Previous mission](./Low_Level_Highlander.md) | [Mission overview](./README.md) | [Next mission](./Mach_Loop_from_the_Sea.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)
