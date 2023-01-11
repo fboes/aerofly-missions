@@ -1,6 +1,6 @@
 import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
-export class GeoJson extends GarminFpl {
+export class GeoJsonImport extends GarminFpl {
     read(configFileContent) {
         this.cruisingAlt = 0;
         const json = JSON.parse(configFileContent);
@@ -13,9 +13,13 @@ export class GeoJson extends GarminFpl {
         if (pointFeatures.length > 0) {
             this.waypoins = pointFeatures.map((f, index) => {
                 this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+                let type = (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT';
+                if (type === 'USER WAYPOINT' && f.properties.frequency) {
+                    type = (f.properties.frequency.match('MHz')) ? 'VOR' : 'NDB';
+                }
                 return {
                     identifier: f.properties.title || ('WP' + index.toFixed().padStart(2, '0')),
-                    type: (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT',
+                    type: type,
                     lon: f.geometry.coordinates[0],
                     lat: f.geometry.coordinates[1],
                     alt: f.properties.altitude * Units.feetPerMeter

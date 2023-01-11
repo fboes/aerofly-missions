@@ -20,6 +20,7 @@ export class GeoJson {
                     type: waypoint.type,
                     altitude: waypoint.Elevation,
                     direction: 0,
+                    frequency: '',
                     "marker-symbol": (waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
                 },
             };
@@ -37,6 +38,7 @@ export class GeoJson {
                 type: "plane",
                 altitude: -1,
                 direction: 0,
+                frequency: '',
                 "marker-symbol": "airport"
             },
         });
@@ -57,6 +59,7 @@ export class GeoJson {
                     type: c.type,
                     altitude: c.lon_lat.altitude_m,
                     direction: c.direction,
+                    frequency: c.frequency_string,
                     "marker-symbol": (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
                 },
             };
@@ -73,6 +76,7 @@ export class GeoJson {
                 type: "plane",
                 altitude: -1,
                 direction: mission.origin_dir,
+                frequency: '',
                 "marker-symbol": "airport"
             },
         });
@@ -88,6 +92,7 @@ export class GeoJson {
                 type: "plane",
                 altitude: -1,
                 direction: mission.destination_dir,
+                frequency: '',
                 "marker-symbol": "airport"
             },
         });
@@ -111,6 +116,7 @@ export class GeoJson {
                     type: "Taxi",
                     altitude: -1,
                     direction: 0,
+                    frequency: '',
                     "marker-symbol": "dot-10",
                 },
             },
@@ -130,6 +136,7 @@ export class GeoJson {
                     type: "Flightplan",
                     altitude: -1,
                     direction: 0,
+                    frequency: '',
                     "marker-symbol": "dot-10",
                 },
             },
@@ -148,6 +155,7 @@ export class GeoJson {
                     type: "Taxi",
                     altitude: -1,
                     direction: 0,
+                    frequency: '',
                     "marker-symbol": "dot-10",
                 },
             }

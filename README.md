@@ -19,14 +19,14 @@ Features
 * Export [text briefings](docs/flightplan.md) and Markdown files, including weather and aircraft settings.
 
 | Format                                  | Import | Export |
-| --------------------------------------- | ------ | ------ |
-| Aerofly FS `main.mcf`                   | ✅ |    |
-| Aerofly FS 4 `tmc` custom missions file | ✅ | ✅ |
+| --------------------------------------- |:------:|:------:|
+| Aerofly FS `main.mcf`                   | ✅   |    |
+| Aerofly FS 4 `tmc` custom missions file | ✅   | ✅ |
 | [Microsoft FS `pln` flight plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) | ✅ | ✅ |
 | [X-Plane `fms` flight plan file](https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/)                                       | ✅ | ✅ |
-| Garmin `fpl` flight plan file           | ✅ |    |
-| `gpx` GPS Route file                    | ✅ |    |
-| [GeoJSON](https://geojson.org/)         |    | ✅ |
+| Garmin `fpl` flight plan file           | ✅   |    |
+| `gpx` GPS Route file                    | ✅   |    |
+| [GeoJSON](https://geojson.org/)         | (✅) | ✅ |
 
 Local Node.js CLI tool
 ----------------------

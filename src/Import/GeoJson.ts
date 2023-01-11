@@ -1,8 +1,8 @@
 import { GeoJsonFeature } from "../Export/GeoJson.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
+import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
-export class GeoJson extends GarminFpl {
+export class GeoJsonImport extends GarminFpl {
   read(configFileContent: string): void {
     this.cruisingAlt = 0;
     const json = JSON.parse(configFileContent);
@@ -16,9 +16,13 @@ export class GeoJson extends GarminFpl {
     if (pointFeatures.length > 0) {
       this.waypoins = pointFeatures.map((f: GeoJsonFeature, index: number): GaminFplWaypoint => {
         this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+        let type: GarminFplWaypointType = (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT';
+        if (type === 'USER WAYPOINT' && f.properties.frequency) {
+          type = (f.properties.frequency.match('MHz')) ? 'VOR' : 'NDB';
+        }
         return {
           identifier: f.properties.title || ('WP' + index.toFixed().padStart(2, '0')),
-          type: (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT',
+          type: type,
           lon: f.geometry.coordinates[0],
           lat: f.geometry.coordinates[1],
           alt: f.properties.altitude * Units.feetPerMeter
@@ -45,7 +49,6 @@ export class GeoJson extends GarminFpl {
       }
     } else {
       throw new Error("Missing relevant GeoJSON features for flightplan");
-
     }
   }
 }

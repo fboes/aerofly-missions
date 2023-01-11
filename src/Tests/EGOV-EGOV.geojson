@@ -3,6 +3,7 @@
   "features": [
     {
       "type": "Feature",
+      "id": 0,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -11,13 +12,17 @@
         ]
       },
       "properties": {
-        "title": "Starting position",
+        "title": "EGOV",
         "type": "plane",
+        "altitude": -1,
+        "direction": 151.3175528541571,
+        "frequency": "",
         "marker-symbol": "airport"
       }
     },
     {
       "type": "Feature",
+      "id": 1,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -28,13 +33,15 @@
       "properties": {
         "title": "EGOV",
         "type": "origin",
+        "altitude": 7.6199997561600075,
         "direction": -1,
-        "distance": -1,
-        "altitude": 0
+        "frequency": "108.40 MHz",
+        "marker-symbol": "airport"
       }
     },
     {
       "type": "Feature",
+      "id": 2,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -45,13 +52,15 @@
       "properties": {
         "title": "1.BARM",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 151.3175528541571,
-        "distance": 36.165920543881214,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 3,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -62,13 +71,15 @@
       "properties": {
         "title": "2.DOLG",
         "type": "waypoint",
-        "direction": 71.78454058459653,
-        "distance": 6.674316922855348,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 71.78454058459965,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 4,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -79,13 +90,15 @@
       "properties": {
         "title": "3.MACH",
         "type": "waypoint",
-        "direction": 145.6684848258293,
-        "distance": 2.8569804151606544,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 145.66848482582714,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 5,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -96,13 +109,15 @@
       "properties": {
         "title": "4.MWYN",
         "type": "waypoint",
-        "direction": 219.742936097226,
-        "distance": 2.3558563083693485,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 219.74293609723193,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 6,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -113,13 +128,15 @@
       "properties": {
         "title": "5.CORS",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 140.67204140743866,
-        "distance": 2.408010937286208,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 7,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -130,13 +147,15 @@
       "properties": {
         "title": "6.MCHN",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 185.55897633712942,
-        "distance": 2.7788664526099454,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 8,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -147,13 +166,15 @@
       "properties": {
         "title": "7.CMIS",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 66.38803693270393,
-        "distance": 4.916041018748046,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 9,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -164,13 +185,15 @@
       "properties": {
         "title": "8.DNAS",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 18.265775774651047,
-        "distance": 4.384601812932559,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 10,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -181,13 +204,15 @@
       "properties": {
         "title": "9.EXIT",
         "type": "waypoint",
-        "direction": 295.31287945199165,
-        "distance": 4.446695347976082,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 295.3128794519939,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 11,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -198,13 +223,15 @@
       "properties": {
         "title": "10.POSN",
         "type": "waypoint",
-        "direction": 334.79181165500154,
-        "distance": 12.287391280547979,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 334.79181165500074,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 12,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -215,13 +242,15 @@
       "properties": {
         "title": "11.A5EN",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 6.043266347304382,
-        "distance": 11.051855550858637,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 13,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -232,13 +261,15 @@
       "properties": {
         "title": "12.OGWE",
         "type": "waypoint",
-        "direction": 284.33142594181976,
-        "distance": 4.112131710264527,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 284.33142594182493,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 14,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -249,13 +280,15 @@
       "properties": {
         "title": "13.MENI",
         "type": "waypoint",
-        "direction": 318.0485617120896,
-        "distance": 7.767915227857476,
-        "altitude": 761.9999756160008
+        "altitude": 761.9999756160008,
+        "direction": 318.0485617120887,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 15,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -266,13 +299,15 @@
       "properties": {
         "title": "14.FRST",
         "type": "waypoint",
+        "altitude": 761.9999756160008,
         "direction": 250.22123936002458,
-        "distance": 8.976065125411347,
-        "altitude": 761.9999756160008
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     },
     {
       "type": "Feature",
+      "id": 16,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -283,13 +318,15 @@
       "properties": {
         "title": "EGOV",
         "type": "destination",
+        "altitude": 7.6199997561600075,
         "direction": 313.1611865541867,
-        "distance": 6.795355020678808,
-        "altitude": 0
+        "frequency": "108.40 MHz",
+        "marker-symbol": "airport"
       }
     },
     {
       "type": "Feature",
+      "id": 17,
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -298,13 +335,17 @@
         ]
       },
       "properties": {
-        "title": "Destination position",
+        "title": "EGOV",
         "type": "plane",
+        "altitude": -1,
+        "direction": 313.1611865541867,
+        "frequency": "",
         "marker-symbol": "airport"
       }
     },
     {
       "type": "Feature",
+      "id": 18,
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -312,6 +353,27 @@
             -4.535475,
             53.24673333333333
           ],
+          [
+            -4.535475,
+            53.24673333333333
+          ]
+        ]
+      },
+      "properties": {
+        "title": "Taxi",
+        "type": "Taxi",
+        "altitude": -1,
+        "direction": 0,
+        "frequency": "",
+        "marker-symbol": "dot-10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 19,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             -4.535475,
             53.24673333333333
@@ -375,6 +437,27 @@
           [
             -4.535475,
             53.24673333333333
+          ]
+        ]
+      },
+      "properties": {
+        "title": "Flightplan",
+        "type": "Flightplan",
+        "altitude": -1,
+        "direction": 0,
+        "frequency": "",
+        "marker-symbol": "dot-10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 20,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -4.535475,
+            53.24673333333333
           ],
           [
             -4.535475,
@@ -383,7 +466,12 @@
         ]
       },
       "properties": {
-        "title": "Flightplan"
+        "title": "Taxi",
+        "type": "Taxi",
+        "altitude": -1,
+        "direction": 0,
+        "frequency": "",
+        "marker-symbol": "dot-10"
       }
     }
   ]

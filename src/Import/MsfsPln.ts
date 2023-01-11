@@ -3,7 +3,7 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
+import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
@@ -24,7 +24,7 @@ export class MsfsPln extends GarminFpl {
 
       return {
         identifier: this.getXmlNode(xml, 'ICAOIdent') || this.getXmlAttribute(xml, "id"),
-        type: type,
+        type: <GarminFplWaypointType>type,
         lat: coords.lat,
         lon: coords.lon,
         alt: coords.altitude_ft

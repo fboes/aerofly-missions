@@ -1,6 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { GaminFplWaypoint, GarminFpl } from "./GarminFpl.js";
+import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 /**
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
@@ -14,7 +14,7 @@ export class XplaneFms extends GarminFpl {
     }
 
     this.waypoins = Array.from(waypointLines).map((m): GaminFplWaypoint => {
-      let type = 'USER WAYPOINT'
+      let type: GarminFplWaypointType = 'USER WAYPOINT'
       switch (Number(m[1])) {
         case 1: type = "AIRPORT"; break;
         case 2: type = "NDB"; break;

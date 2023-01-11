@@ -4,7 +4,7 @@ import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson, GeoJsonFeature } from "../Export/GeoJson.js";
-import { GeoJson as GeoJsonImport } from "../Import/GeoJson.js";
+import { GeoJsonImport as GeoJsonImport } from "../Import/GeoJson.js";
 import { Html } from "../Export/Html.js";
 import { Markdown } from "../Export/Markdown.js";
 import { SkyVector } from "../Export/SkyVector.js";
