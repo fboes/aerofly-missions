@@ -556,11 +556,11 @@ export class App {
                 this.mission.conditions.wind_gusts = 0;
                 this.mission.conditions.wind_speed = 0;
             }
-            let visibility = metar.visibility.meters_float;
+            let visibility = metar.visibility.meters_float || 0;
             if (visibility === 9999) {
                 visibility = 20000;
             }
-            this.mission.conditions.visibility = visibility || 0;
+            this.mission.conditions.visibility = Math.round(visibility / 500) * 500;
             this.mission.conditions.clouds = metar.clouds.map((c) => {
                 const cloud = new MissionConditionsCloud();
                 cloud.cover_code = c.code;
