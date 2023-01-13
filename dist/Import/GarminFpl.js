@@ -1,6 +1,7 @@
+import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
     constructor(configFileContent) {
-        this.waypoins = [];
+        this.waypoints = [];
         /**
          * In feet MSL
          */
@@ -10,7 +11,7 @@ export class GarminFpl {
     read(configFileContent) {
         this.cruisingAlt = 0;
         const waypointTableXml = this.getXmlNode(configFileContent, 'waypoint-table');
-        this.waypoins = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml) => {
+        this.waypoints = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml) => {
             return {
                 identifier: this.getXmlNode(xml, 'identifier'),
                 type: this.getXmlNode(xml, 'type'),
@@ -22,7 +23,7 @@ export class GarminFpl {
     }
     getXmlNode(xml, tag) {
         const match = xml.match(new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms'));
-        return match ? match[1] : "";
+        return match ? Quote.unXml(match[1]) : "";
     }
     getXmlNodes(xml, tag) {
         const nodes = xml.match(new RegExp(`<${tag}.*?</${tag}>`, 'gms'));
@@ -31,6 +32,6 @@ export class GarminFpl {
     getXmlAttribute(xml, attribute) {
         const regex = new RegExp(` ${attribute}="(.*?)"`, 'ms');
         const match = xml.match(regex);
-        return match ? match[1] : "";
+        return match ? Quote.unXml(match[1]) : "";
     }
 }

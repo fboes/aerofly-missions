@@ -11,8 +11,10 @@ export class GeoJsonImport extends GarminFpl {
             return f.geometry.type && f.geometry.type === 'Point' && f.properties.type !== 'plane';
         });
         if (pointFeatures.length > 0) {
-            this.waypoins = pointFeatures.map((f, index) => {
-                this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+            this.waypoints = pointFeatures.map((f, index) => {
+                if (index !== 0 && index !== pointFeatures.length - 1) {
+                    this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+                }
                 let type = (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT';
                 if (type === 'USER WAYPOINT' && f.properties.frequency) {
                     type = (f.properties.frequency.match('MHz')) ? 'VOR' : 'NDB';
@@ -28,7 +30,7 @@ export class GeoJsonImport extends GarminFpl {
         }
         else if (lineFeatures[0]) {
             const coordinates = lineFeatures[0].geometry.coordinates;
-            this.waypoins = coordinates.map((coords, index) => {
+            this.waypoints = coordinates.map((coords, index) => {
                 return {
                     identifier: 'WP' + index.toFixed().padStart(2, '0'),
                     type: (index === 0 || index === coordinates.length - 1) ? 'AIRPORT' : 'USER WAYPOINT',
@@ -38,10 +40,10 @@ export class GeoJsonImport extends GarminFpl {
                 };
             });
             if (json.features[0].properties.origin) {
-                this.waypoins[0].identifier = json.features[0].properties.origin;
+                this.waypoints[0].identifier = json.features[0].properties.origin;
             }
             if (json.features[0].properties.destination) {
-                this.waypoins[coordinates.length - 1].identifier = json.features[0].properties.destination;
+                this.waypoints[coordinates.length - 1].identifier = json.features[0].properties.destination;
             }
         }
         else {

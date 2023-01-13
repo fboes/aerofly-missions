@@ -12,13 +12,13 @@ export class MsfsPlnTest extends Test {
     this.group(MsfsPln.name);
     {
 
-      this.assertEquals(pln.waypoins.length, 16)
-      this.assertEquals(pln.waypoins[0].identifier, 'EGOV')
-      this.assertEquals(pln.waypoins[0].type, 'AIRPORT')
-      this.assertEquals(pln.waypoins[1].type, 'USER WAYPOINT')
-      this.assertEquals(pln.waypoins[1].lat, 52.717475)
-      this.assertEquals(pln.waypoins[1].alt, 2500)
-      this.assertEquals(pln.waypoins[1].lon.toFixed(8), '-4.05834167')
+      this.assertEquals(pln.waypoints.length, 16)
+      this.assertEquals(pln.waypoints[0].identifier, 'EGOV')
+      this.assertEquals(pln.waypoints[0].type, 'AIRPORT')
+      this.assertEquals(pln.waypoints[1].type, 'USER WAYPOINT')
+      this.assertEquals(pln.waypoints[1].lat, 52.717475)
+      this.assertEquals(pln.waypoints[1].alt, 2500)
+      this.assertEquals(pln.waypoints[1].lon.toFixed(8), '-4.05834167')
       this.assertEquals(pln.cruisingAlt, 2500)
     }
 
@@ -36,12 +36,12 @@ export class MsfsPlnTest extends Test {
     const secondPln = new MsfsPln(exportPln.toString())
     this.group(MsfsPlnExport.name);
     {
-      this.assertEquals(secondPln.waypoins.length, pln.waypoins.length);
-      secondPln.waypoins.forEach((wp, index) => {
-        this.assertEquals(wp.identifier, pln.waypoins[index].identifier)
-        this.assertEquals(wp.type, pln.waypoins[index].type)
-        this.assertEquals(wp.lat, pln.waypoins[index].lat)
-        this.assertEquals(wp.lon, pln.waypoins[index].lon)
+      this.assertEquals(secondPln.waypoints.length, pln.waypoints.length);
+      secondPln.waypoints.forEach((wp, index) => {
+        this.assertEquals(wp.identifier, pln.waypoints[index].identifier)
+        this.assertEquals(wp.type, pln.waypoints[index].type)
+        this.assertEquals(wp.lat, pln.waypoints[index].lat)
+        this.assertEquals(wp.lon, pln.waypoints[index].lon)
       })
       this.assertEquals(secondPln.cruisingAlt, pln.cruisingAlt)
     }

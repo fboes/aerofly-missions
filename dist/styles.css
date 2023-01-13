@@ -7,6 +7,7 @@
   --color-darken-less: rgba(0, 0, 0, 0.01);
   --color-darken: rgba(0, 0, 0, 0.1);
   --color-darken-more: rgba(0, 0, 0, 0.2);
+  --color--warning: deeppink;
   --fontweight-bold: 600;
 }
 
@@ -14,6 +15,7 @@
   :root {
     --color-text: white;
     --color-background: #0c1019;
+    --color-highlight: #3681e4;
     --color-note: #999999;
     --color-darken-less: rgba(0, 0, 0, 0.5);
     --color-darken: rgba(255, 255, 255, 0.2);
@@ -62,6 +64,10 @@ summary {
 h2 {
   border-top: 1px solid var(--color-darken-more);
   padding-top: 0.2em;
+}
+
+section, details {
+  position: relative;
 }
 
 summary {
@@ -127,7 +133,7 @@ input.has-output+output {
 
 
 :invalid {
-  border-color: deeppink;
+  border-color: var(--color--warning);
 }
 
 textarea {
@@ -156,6 +162,7 @@ button {
   color: var(--color-text);
   margin-top: 0.5em;
   cursor: pointer;
+  line-height: 1;
 }
 
 button.primary {
@@ -172,6 +179,28 @@ button:disabled {
 
 button:is(:hover, :focus):not(:disabled) {
   box-shadow: var(--color-darken-more) 0px 0.5em 0.5em;
+}
+
+button.reset {
+  width: auto;
+  font-size: 0.8em;
+  background-color: var(--color--warning);
+  color: var(--color-highlight-contra);
+  border-radius: 1em;
+  min-width: 2em;
+  height: 2em;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  right: 0;
+}
+
+button.reset span {
+  display: none;
+}
+
+button.reset:hover span {
+  display: inline-block;
 }
 
 /* Table */
@@ -291,7 +320,6 @@ footer {
   main {
     display: grid;
     grid-template-columns: 30em 1fr;
-    grid-template-rows: auto;
     grid-template-areas:
         "p p"
         "upload map"

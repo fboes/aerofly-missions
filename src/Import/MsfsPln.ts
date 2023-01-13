@@ -13,7 +13,7 @@ export class MsfsPln extends GarminFpl {
     const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
 
     this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"))
-    this.waypoins = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml): GaminFplWaypoint => {
+    this.waypoints = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml): GaminFplWaypoint => {
       // N52° 45' 7.51",W3° 53' 2.16",+002500.00
       const worldPosition = this.getXmlNode(xml, "WorldPosition");
       const coords = this.convertCoordinate(worldPosition);
@@ -63,11 +63,11 @@ export class MsfsPlnExport {
     // N53° 14' 48.24",W4° 32' 7.71",+000025.00
     const lat = lon_lat.latMinute;
     const lon = lon_lat.lonMinute;
-    return lon_lat.latHemisphere + Math.abs(lat.degree).toFixed() + "° "+ lat.minutes.toFixed() + "' "+ lat.seconds.toFixed(2) + '"'
+    return lon_lat.latHemisphere + Math.abs(lat.degree).toFixed() + "° " + lat.minutes.toFixed() + "' " + lat.seconds.toFixed(2) + '"'
       + ','
-      + lon_lat.lonHemisphere + Math.abs(lon.degree).toFixed() + "° "+ lon.minutes.toFixed() + "' "+ lon.seconds.toFixed(2) + '"'
+      + lon_lat.lonHemisphere + Math.abs(lon.degree).toFixed() + "° " + lon.minutes.toFixed() + "' " + lon.seconds.toFixed(2) + '"'
       + ','
-      + (lon_lat.altitude_m >= 0 ? '+' : '-' )
+      + (lon_lat.altitude_m >= 0 ? '+' : '-')
       + Math.abs(lon_lat.altitude_ft).toFixed(2).padStart(9, '0')
   }
 

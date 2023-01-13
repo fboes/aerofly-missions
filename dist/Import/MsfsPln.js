@@ -10,7 +10,7 @@ export class MsfsPln extends GarminFpl {
     read(configFileContent) {
         const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
         this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
-        this.waypoins = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml) => {
+        this.waypoints = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml) => {
             // N52° 45' 7.51",W3° 53' 2.16",+002500.00
             const worldPosition = this.getXmlNode(xml, "WorldPosition");
             const coords = this.convertCoordinate(worldPosition);

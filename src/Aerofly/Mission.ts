@@ -388,13 +388,13 @@ export class Mission {
       this.cruise_altitude_ft = gpl.cruisingAlt;
     }
 
-    this.checkpoints = gpl.waypoins.map((w, i) => {
+    this.checkpoints = gpl.waypoints.map((w, i) => {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
       cp.lon_lat.altitude_ft = w.alt;
       cp.name = w.identifier;
-      if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoins.length - 1)) {
+      if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoints.length - 1)) {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
       }
 
@@ -433,12 +433,20 @@ export class Mission {
     }
 
     if (this.title === "" || this.title === "Custom missions") {
-      this.title = `From ${this.origin_icao} to ${this.destination_icao}`;
+      this.title = this.origin_icao !== this.destination_icao
+        ? `From ${this.origin_icao} to ${this.destination_icao}`
+        : `${this.origin_icao} local flight`
+        ;
     }
 
     if (this.description === "") {
-      const localTime = this.getLocalDaytime();
-      this.description = `A ${localTime} flight from ${this.origin_icao} to ${this.destination_icao} under ${flight_category} conditions.`;
+      let localTime = this.getLocalDaytime();
+      localTime = ((localTime.match(/^[aeiou]/)) ? 'An ' : 'A ') + localTime;
+      const flight = this.origin_icao !== this.destination_icao
+        ? `from ${this.origin_icao} to ${this.destination_icao}`
+        : `at ${this.origin_icao}`
+        ;
+      this.description = `${localTime} flight ${flight} under ${flight_category} conditions.`;
       this.description += ` Wind is ${this.conditions.wind_speed.toFixed()} kts from ${this.conditions.wind_direction.toFixed()}°.`;
 
       const navDescription = this.checkpoints

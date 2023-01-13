@@ -5,7 +5,12 @@ export class QuoteTest extends Test {
         super(process);
         this.group('Quote');
         {
-            this.assertEquals(Quote.html('<a href="#abc">ABC</a>'), '&lt;a href=&quot;#abc&quot;&gt;ABC&lt;/a&gt;');
+            const test = '<a href="#abc">ABC</a>';
+            const testAsXml = '&lt;a href=&quot;#abc&quot;&gt;ABC&lt;/a&gt;';
+            this.assertEquals(Quote.html(test), testAsXml);
+            this.assertEquals(Quote.unXml(testAsXml), test);
+            this.assertEquals(Quote.unXml('<![CDATA[' + test + ']]>'), test);
+            this.assertEquals(Quote.unXml('<![CDATA[' + testAsXml + ']]>'), testAsXml);
         }
     }
 }

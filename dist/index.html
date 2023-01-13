@@ -33,13 +33,15 @@
     </header>
     <main>
       <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
-        (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file formats),
+        (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file
+        formats),
         using your current flight plan and other settings to generate a shareable mission.</p>
 
       <section class="no-print">
         <h2>Step 1: Load flight plan file</h2>
 
-        <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin <code>fpl</code>,
+        <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin
+          <code>fpl</code>,
           Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.</p>
 
         <div>
@@ -61,6 +63,9 @@
           <label for="description">Mission description</label>
           <textarea id="description" required="required"></textarea>
         </div>
+
+        <button type="button" class="reset" id="reset-description">↺ <span>Reset mission title &amp;
+            description</span></button>
 
         <details open="open">
           <summary>Aircraft</summary>
@@ -152,6 +157,9 @@
               <span>ft</span>
             </div>
           </div>
+
+          <button type="button" class="reset" id="reset-aircraft">↺ <span>Reset aircraft &amp; cruise
+              settings</span></button>
         </details>
         <details>
           <summary>Date &amp; time</summary>
@@ -167,7 +175,7 @@
             </div>
           </div>
 
-          <button type="button" id="make-time">Set to current date &amp; time</button>
+          <button type="button" class="reset" id="reset-time">↺ <span>Set to current date &amp; time</span></button>
         </details>
         <details>
           <summary>Weather</summary>
@@ -258,6 +266,7 @@
             <button type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
             <button type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
           </div>
+          <button type="button" class="reset" id="reset-weather">↺ <span>Reset weather</span></button>
         </details>
         <details>
           <summary>Miscellaneous</summary>
@@ -275,7 +284,6 @@
               <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
             </div>
           </div>
-          <button type="button" id="reset">Reset flight plan</button>
         </details>
       </section>
       <section>
@@ -287,17 +295,24 @@
           <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
             map</button>
         </div>
+        <button type="button" class="reset" id="reset-flightplan">↺ <span>Reset flight plan</span></button>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
-        <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane <code>fms</code>
-          flight plan files.<br />It also generates a Markdown file containing a textual description of the flight including weather data,
+        <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane
+          <code>fms</code>
+          flight plan files.<br />It also generates a Markdown file containing a textual description of the flight
+          including weather data,
           as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
-        <button type="button" class="download primary" id="download-tmc">Download Aerofly FS <code>custom_missions.tmc</code>
+        <button type="button" class="download primary" id="download-tmc">Download Aerofly FS
+          <code>custom_missions.tmc</code>
           flight plan</button>
-        <button type="button" class="download" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
-        <button type="button" class="download" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
-        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code> documentation</button>
+        <button type="button" class="download" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code>
+          flight plan</button>
+        <button type="button" class="download" id="download-fms">Download X-Plane <code>custom_missions.fms</code>
+          flight plan</button>
+        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
+          documentation</button>
         <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code></button>
       </section>
     </main>

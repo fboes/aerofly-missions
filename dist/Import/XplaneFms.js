@@ -10,7 +10,8 @@ export class XplaneFms extends GarminFpl {
         if (!waypointLines) {
             throw new Error("No nav lines found");
         }
-        this.waypoins = Array.from(waypointLines).map((m) => {
+        const wLines = Array.from(waypointLines);
+        this.waypoints = wLines.map((m, index) => {
             let type = 'USER WAYPOINT';
             switch (Number(m[1])) {
                 case 1:
@@ -23,7 +24,9 @@ export class XplaneFms extends GarminFpl {
                     type = "VOR";
                     break;
             }
-            this.cruisingAlt = Math.max(this.cruisingAlt, Number(m[3]));
+            if (index !== 0 && index !== wLines.length - 1) {
+                this.cruisingAlt = Math.max(this.cruisingAlt, Number(m[3]));
+            }
             return {
                 identifier: m[2],
                 type: type,

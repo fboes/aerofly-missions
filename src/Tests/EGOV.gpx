@@ -4,6 +4,7 @@
     <name>EGOV-EGOV</name>
     <rtept lat="53.248167" lon="-4.535333">
       <name>EGOV</name>
+      <ele>7.6199997561600075</ele>
       <overfly>false</overfly>
     </rtept>
     <rtept lat="52.716667" lon="-4.066667">
@@ -52,6 +53,7 @@
     </rtept>
     <rtept lat="53.248167" lon="-4.535333">
       <name>EGOV</name>
+      <ele>7.6199997561600075</ele>
       <overfly>false</overfly>
     </rtept>
 

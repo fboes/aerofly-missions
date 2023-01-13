@@ -58,26 +58,14 @@ export class App {
     cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
     date: <HTMLInputElement>document.getElementById("date"),
     description: <HTMLTextAreaElement>document.getElementById("description"),
-    downloadFms: <HTMLButtonElement>document.getElementById("download-fms"),
-    downloadFmsCode: <HTMLElement>document.querySelector("#download-fms code"),
-    downloadJson: <HTMLButtonElement>document.getElementById("download-json"),
-    downloadJsonCode: <HTMLElement>document.querySelector("#download-json code"),
-    downloadMd: <HTMLButtonElement>document.getElementById("download-md"),
-    downloadMdCode: <HTMLElement>document.querySelector("#download-md code"),
-    downloadPln: <HTMLButtonElement>document.getElementById("download-pln"),
-    downloadPlnCode: <HTMLElement>document.querySelector("#download-pln code"),
-    downloadTmc: <HTMLButtonElement>document.getElementById("download-tmc"),
-    downloadTmcCode: <HTMLElement>document.querySelector("#download-tmc code"),
     flightplan: <HTMLPreElement>document.getElementById("flightplan"),
     main: <HTMLElement>document.querySelector("main"),
     makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
     makeMetarDest: <HTMLButtonElement>document.getElementById("make-metar-dest"),
-    makeTime: <HTMLButtonElement>document.getElementById("make-time"),
     makeWeather: <HTMLButtonElement>document.getElementById("make-weather"),
     metar: <HTMLAnchorElement>document.getElementById("metar"),
     metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
     origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
-    reset: <HTMLInputElement>document.getElementById("reset"),
     thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
     time: <HTMLInputElement>document.getElementById("time"),
     title: <HTMLInputElement>document.getElementById("title"),
@@ -273,42 +261,60 @@ export class App {
       });
     });
 
+    document.querySelectorAll("button.reset").forEach((i) => {
+      i.addEventListener("click", (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        switch (target.id) {
+          case 'reset-description':
+            this.mission.title = '';
+            this.mission.description = '';
+            this.mission.setAutoTitleDescription();
+            break;
+          case 'reset-aircraft':
+            this.mission.aircraft_name = 'c172';
+            this.mission.cruise_altitude = 0;
+            break;
+          case 'reset-time':
+            this.mission.conditions.time.dateTime = new Date();
+            this.mission.conditions.time.dateTime.setUTCSeconds(0);
+            this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
+            break;
+          case 'reset-weather':
+            this.mission.conditions.wind_direction = 0;
+            this.mission.conditions.wind_gusts = 0;
+            this.mission.conditions.wind_speed = 0;
+            this.mission.conditions.turbulence_strength = 0;
+            this.mission.conditions.thermal_strength = 0;
+            this.mission.conditions.visibility_percent = 1;
+            this.mission.conditions.clouds = [];
+            break;
+          case 'reset-flightplan':
+            this.mission.checkpoints = [];
+            break;
+        }
+
+        this.syncToForm();
+        this.showFlightplan();
+      });
+    });
+
+
     this.elements.makeWeather.addEventListener("click", () => {
       this.makeWeather();
       this.syncToForm();
       this.showFlightplan();
     });
     this.elements.makeMetarDept.addEventListener("click", () => {
-      this.fetchMetar(this.mission.origin_icao);
-      this.syncToForm();
-      this.showFlightplan();
+      this.fetchMetar(this.mission.origin_icao, () => {
+        this.syncToForm();
+        this.showFlightplan();
+      });
     });
     this.elements.makeMetarDest.addEventListener("click", () => {
-      this.fetchMetar(this.mission.destination_icao);
-      this.syncToForm();
-      this.showFlightplan();
-    });
-    this.elements.reset.addEventListener("click", () => {
-      this.mission.title = '';
-      this.mission.description = '';
-      this.mission.checkpoints = [];
-      this.mission.cruise_altitude = 0;
-      this.mission.aircraft_name = 'C172';
-      this.mission.conditions.time.dateTime = new Date();
-      this.mission.conditions.time.dateTime.setUTCSeconds(0);
-      this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
-      this.mission.conditions.clouds = [];
-      this.syncToForm();
-      this.showFlightplan();
-      this.drawMap();
-    });
-
-    this.elements.makeTime.addEventListener("click", () => {
-      this.mission.conditions.time.dateTime = new Date();
-      this.mission.conditions.time.dateTime.setUTCSeconds(0);
-      this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
-      this.syncToForm();
-      this.showFlightplan();
+      this.fetchMetar(this.mission.destination_icao, () => {
+        this.syncToForm();
+        this.showFlightplan();
+      });
     });
 
     this.showFlightplan();
@@ -330,11 +336,10 @@ export class App {
     const slug = this.mission.title
       ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
       : "custom_missions";
-    this.elements.downloadJsonCode.innerText = slug + ".geojson";
-    this.elements.downloadMdCode.innerText = slug + ".md";
-    this.elements.downloadTmcCode.innerText = slug + ".tmc";
-    this.elements.downloadPlnCode.innerText = slug + ".pln";
-    this.elements.downloadFmsCode.innerText = slug + ".fms";
+
+    document.querySelectorAll<HTMLElement>('button.download code').forEach((el) => {
+      el.innerText = slug + el.innerText.replace(/^.+\./, '.')
+    });
     this.store();
   }
 
@@ -576,7 +581,7 @@ export class App {
       this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
   }
 
-  fetchMetar(icao: string) {
+  fetchMetar(icao: string, callback = () => { }) {
     const url = "https://api.checkwx.com/metar/" + encodeURIComponent(icao) + "/decoded";
     fetch(url, {
       headers: {
@@ -622,8 +627,7 @@ export class App {
         // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
         this.mission.conditions.thermal_strength = ((metar.temperature.celsius || 14) - 5) / 25;
         this.mission.conditions.makeTurbulence();
-        this.syncToForm();
-        this.showFlightplan();
+        callback();
       });
   }
 

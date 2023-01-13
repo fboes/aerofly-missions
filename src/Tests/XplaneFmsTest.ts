@@ -10,14 +10,14 @@ export class XplaneFmsTest extends Test {
     const fms = new XplaneFms(fs.readFileSync('./src/Tests/EGCC-EDDF.fms', 'utf8'));
     this.group(XplaneFms.name);
     {
-      this.assertEquals(fms.waypoins.length, 17)
-      this.assertEquals(fms.waypoins[0].identifier, 'EGCC')
-      this.assertEquals(fms.waypoins[0].type, 'AIRPORT')
-      this.assertEquals(fms.waypoins[1].type, 'USER WAYPOINT')
-      this.assertEquals(fms.waypoins[1].lat, 53.206400 )
-      this.assertEquals(fms.waypoins[1].lon, -0.861111)
-      this.assertEquals(fms.waypoins[1].alt, 18400)
-      this.assertEquals(fms.waypoins[2].alt, 35000)
+      this.assertEquals(fms.waypoints.length, 17)
+      this.assertEquals(fms.waypoints[0].identifier, 'EGCC')
+      this.assertEquals(fms.waypoints[0].type, 'AIRPORT')
+      this.assertEquals(fms.waypoints[1].type, 'USER WAYPOINT')
+      this.assertEquals(fms.waypoints[1].lat, 53.206400)
+      this.assertEquals(fms.waypoints[1].lon, -0.861111)
+      this.assertEquals(fms.waypoints[1].alt, 18400)
+      this.assertEquals(fms.waypoints[2].alt, 35000)
       this.assertEquals(fms.cruisingAlt, 35000)
     }
 
@@ -35,16 +35,16 @@ export class XplaneFmsTest extends Test {
     const secondFms = new XplaneFms(exportFms.toString())
     this.group(XplaneFmsExport.name);
     {
-      this.assertEquals(secondFms.waypoins.length, fms.waypoins.length);
-      this.assertEquals(secondFms.waypoins[0].identifier, fms.waypoins[0].identifier)
-      this.assertEquals(secondFms.waypoins[16].identifier, fms.waypoins[16].identifier)
+      this.assertEquals(secondFms.waypoints.length, fms.waypoints.length);
+      this.assertEquals(secondFms.waypoints[0].identifier, fms.waypoints[0].identifier)
+      this.assertEquals(secondFms.waypoints[16].identifier, fms.waypoints[16].identifier)
 
-      secondFms.waypoins.forEach((wp, index) => {
-        if (fms.waypoins[index].type !== 'NDB') {
-          this.assertEquals(wp.type, fms.waypoins[index].type)
+      secondFms.waypoints.forEach((wp, index) => {
+        if (fms.waypoints[index].type !== 'NDB') {
+          this.assertEquals(wp.type, fms.waypoints[index].type)
         }
-        this.assertEquals(wp.lat, fms.waypoins[index].lat)
-        this.assertEquals(wp.lon, fms.waypoins[index].lon)
+        this.assertEquals(wp.lat, fms.waypoints[index].lat)
+        this.assertEquals(wp.lon, fms.waypoints[index].lon)
       })
       this.assertEquals(secondFms.cruisingAlt, fms.cruisingAlt)
     }

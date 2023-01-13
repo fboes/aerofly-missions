@@ -1,3 +1,5 @@
+import { Quote } from "../Export/Quote.js";
+
 export type GarminFplWaypointType = 'AIRPORT' | 'USER WAYPOINT' | 'NDB' | 'VOR';
 
 export type GaminFplWaypoint = {
@@ -9,7 +11,7 @@ export type GaminFplWaypoint = {
 };
 
 export class GarminFpl {
-  waypoins: GaminFplWaypoint[] = [];
+  waypoints: GaminFplWaypoint[] = [];
   /**
    * In feet MSL
    */
@@ -23,7 +25,7 @@ export class GarminFpl {
     this.cruisingAlt = 0;
     const waypointTableXml = this.getXmlNode(configFileContent, 'waypoint-table')
 
-    this.waypoins = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml): GaminFplWaypoint => {
+    this.waypoints = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml): GaminFplWaypoint => {
       return {
         identifier: this.getXmlNode(xml, 'identifier'),
         type: <GarminFplWaypointType>this.getXmlNode(xml, 'type'),
@@ -36,7 +38,7 @@ export class GarminFpl {
 
   protected getXmlNode(xml: string, tag: string): string {
     const match = xml.match(new RegExp(`<${tag}[^>]*>(.*?)</${tag}>`, 'ms'));
-    return match ? match[1] : "";
+    return match ? Quote.unXml(match[1]) : "";
   }
 
   protected getXmlNodes(xml: string, tag: string): string[] {
@@ -48,6 +50,6 @@ export class GarminFpl {
   protected getXmlAttribute(xml: string, attribute: string): string {
     const regex = new RegExp(` ${attribute}="(.*?)"`, 'ms');
     const match = xml.match(regex);
-    return match ? match[1] : "";
+    return match ? Quote.unXml(match[1]) : "";
   }
 }
