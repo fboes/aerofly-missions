@@ -47,6 +47,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=57.67479433048351,
 
 ----
 
-[Previous mission](./04_letters_to_america.md) | [Mission overview](./README.md) | [Next mission](./06_the_lake_where_gripens_play.md)
+[Previous mission](./04_letters_to_america.md) • [Mission overview](./README.md) • [Next mission](./06_the_lake_where_gripens_play.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

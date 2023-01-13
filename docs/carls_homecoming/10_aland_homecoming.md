@@ -51,6 +51,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=59.349212876682174
 
 ----
 
-[Previous mission](./09_finally_stockholm.md) | [Mission overview](./README.md) | [Next mission](./11_wave_good-bye.md)
+[Previous mission](./09_finally_stockholm.md) • [Mission overview](./README.md) • [Next mission](./11_wave_good-bye.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

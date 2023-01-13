@@ -55,6 +55,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.53760657450579,
 
 ----
 
-[Previous mission](./00_get_to_know_the_pitts_s-2.md) | [Mission overview](./README.md) | [Next mission](./02_bridge_to_koebenhavn.md)
+[Previous mission](./00_get_to_know_the_pitts_s-2.md) • [Mission overview](./README.md) • [Next mission](./02_bridge_to_koebenhavn.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

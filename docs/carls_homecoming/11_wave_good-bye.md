@@ -53,6 +53,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=60.123931066290545
 
 ----
 
-[Previous mission](./10_aland_homecoming.md) | [Mission overview](./README.md) | Next mission
+[Previous mission](./10_aland_homecoming.md) • [Mission overview](./README.md) • Next mission
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

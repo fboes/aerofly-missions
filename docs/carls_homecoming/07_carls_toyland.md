@@ -47,6 +47,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.520264578726795
 
 ----
 
-[Previous mission](./06_the_lake_where_gripens_play.md) | [Mission overview](./README.md) | [Next mission](./08_outskirts_of_stockholm.md)
+[Previous mission](./06_the_lake_where_gripens_play.md) • [Mission overview](./README.md) • [Next mission](./08_outskirts_of_stockholm.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

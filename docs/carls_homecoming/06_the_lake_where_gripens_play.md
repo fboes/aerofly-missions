@@ -47,6 +47,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=57.751506218186606
 
 ----
 
-[Previous mission](./05_the_swedish_hinterlands.md) | [Mission overview](./README.md) | [Next mission](./07_carls_toyland.md)
+[Previous mission](./05_the_swedish_hinterlands.md) • [Mission overview](./README.md) • [Next mission](./07_carls_toyland.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

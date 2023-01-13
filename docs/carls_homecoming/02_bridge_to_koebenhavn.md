@@ -56,6 +56,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=54.85408665805144,
 
 ----
 
-[Previous mission](./01_off_to_aeroe.md) | [Mission overview](./README.md) | [Next mission](./03_crossing_to_sweden.md)
+[Previous mission](./01_off_to_aeroe.md) • [Mission overview](./README.md) • [Next mission](./03_crossing_to_sweden.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

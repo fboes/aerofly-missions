@@ -48,6 +48,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.53763457444899,
 
 ----
 
-Previous mission | [Mission overview](./README.md) | [Next mission](./01_off_to_aeroe.md)
+Previous mission • [Mission overview](./README.md) • [Next mission](./01_off_to_aeroe.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

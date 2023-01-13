@@ -49,6 +49,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=56.28662121770193,
 
 ----
 
-[Previous mission](./03_crossing_to_sweden.md) | [Mission overview](./README.md) | [Next mission](./05_the_swedish_hinterlands.md)
+[Previous mission](./03_crossing_to_sweden.md) • [Mission overview](./README.md) • [Next mission](./05_the_swedish_hinterlands.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)
