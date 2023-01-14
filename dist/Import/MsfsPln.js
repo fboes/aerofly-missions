@@ -88,6 +88,8 @@ export class MsfsPlnExport {
                 <AppVersionBuild>61472</AppVersionBuild>
             </AppVersion>
 `;
+        // @see https://en.wikipedia.org/wiki/ICAO_airport_code#/media/File:ICAO_FirstLetter.svg
+        let icaoRegion = m.origin_icao.substring(0, 1);
         m.checkpoints.forEach(cp => {
             let type;
             type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
@@ -107,6 +109,7 @@ export class MsfsPlnExport {
             if (type !== 'User') {
                 pln += `                <ICAO>
                     <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
+                    <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
                 </ICAO>
 `;
             }
