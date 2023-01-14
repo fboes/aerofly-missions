@@ -43,5 +43,16 @@ export class XplaneFmsTest extends Test {
             });
             this.assertEquals(secondFms.cruisingAlt, fms.cruisingAlt);
         }
+        const fms2 = new XplaneFms(fs.readFileSync('./src/Tests/cases/egov-lnavmap.fms', 'utf8'));
+        this.group(XplaneFms.name + ': Little Nav Map');
+        {
+            this.assertEquals(fms2.waypoints.length, 16);
+            this.assertEquals(fms2.waypoints[0].identifier, 'EGOV');
+            this.assertEquals(fms2.waypoints[0].type, 'AIRPORT');
+            this.assertEquals(fms2.waypoints[1].type, 'USER WAYPOINT');
+            this.assertEquals(fms2.waypoints[1].alt, 2500);
+            this.assertEquals(fms2.waypoints[2].alt, 2500);
+            this.assertEquals(fms2.cruisingAlt, 2500);
+        }
     }
 }

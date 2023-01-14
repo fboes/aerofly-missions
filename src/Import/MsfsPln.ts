@@ -75,6 +75,7 @@ export class MsfsPlnExport {
     const m = this.mission;
     let pln = `<?xml version="1.0" encoding="UTF-8"?>
     <SimBase.Document Type="AceXML" version="1,0">
+        <!-- Exported by Aerofly Missionsgerät -->
         <Descr>AceXML Document</Descr>
         <FlightPlan.FlightPlan>
             <Title>${Quote.xml(m.title)}</Title>
@@ -102,8 +103,12 @@ export class MsfsPlnExport {
       if (type === 'User' && cp.frequency) {
         type = cp.frequency_unit === 'M' ? 'VOR' : 'NDB';
       }
+      let name = cp.name;
+      if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) && !name.match(/^RW/)) {
+        name = 'RW' + name;
+      }
 
-      pln += `            <ATCWaypoint id="${Quote.xml(cp.name)}">
+      pln += `            <ATCWaypoint id="${Quote.xml(name)}">
                 <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
                 <WorldPosition>${(this.getLla(cp.lon_lat))}</WorldPosition>
 `;

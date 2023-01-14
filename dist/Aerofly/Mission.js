@@ -476,7 +476,8 @@ export class Mission {
         return "day";
     }
     toString() {
-        let string = `            <[tmmission_definition][mission][]
+        let string = `            // Exported by Aerofly Missionsgerät
+            <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
                 <[string8][description][${Quote.tmc(this.description)}]>
                 <[string8]   [flight_setting]     [${Quote.tmc(this.flight_setting)}]>

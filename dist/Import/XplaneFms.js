@@ -69,13 +69,18 @@ NUMENR ${m.checkpoints.length}
             if (index === m.checkpoints.length - 1 && type === 1) {
                 via = 'ADES';
             }
-            const name = (type !== 28) ? cp.name : (
-            //         `+12.345_+009.459`
-            (cp.lon_lat.lat >= 0 ? '+' : '-')
-                + Math.abs(cp.lon_lat.lat).toFixed(3).padStart(6, '0')
-                + '_'
-                + (cp.lon_lat.lon >= 0 ? '+' : '-')
-                + Math.abs(cp.lon_lat.lon).toFixed(3).padStart(7, '0'));
+            /*let name = (type !== 28) ? cp.name : (
+              //         `+12.345_+009.459`
+              (cp.lon_lat.lat >= 0 ? '+' : '-')
+              + Math.abs(cp.lon_lat.lat).toFixed(3).padStart(6, '0')
+              + '_'
+              + (cp.lon_lat.lon >= 0 ? '+' : '-')
+              + Math.abs(cp.lon_lat.lon).toFixed(3).padStart(7, '0')
+            )*/
+            let name = cp.name;
+            if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) && !name.match(/^RW/)) {
+                name = 'RW' + name;
+            }
             pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(6)} ${cp.lon_lat.lon.toFixed(6)}
 `;
         });

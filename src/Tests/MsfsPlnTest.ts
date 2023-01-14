@@ -45,5 +45,17 @@ export class MsfsPlnTest extends Test {
       })
       this.assertEquals(secondPln.cruisingAlt, pln.cruisingAlt)
     }
+
+    const pln2 = new MsfsPln(fs.readFileSync('./src/Tests/cases/egov-lnavmap.pln', 'utf8'));
+    this.group(MsfsPln.name + ': Little Nav Map');
+    {
+      this.assertEquals(pln2.waypoints.length, 16)
+      this.assertEquals(pln2.waypoints[0].identifier, 'EGOV')
+      this.assertEquals(pln2.waypoints[0].type, 'AIRPORT')
+      this.assertEquals(pln2.waypoints[1].type, 'USER WAYPOINT')
+      this.assertEquals(pln2.waypoints[1].alt, 2500)
+      this.assertEquals(pln2.waypoints[2].alt, 2500)
+      this.assertEquals(pln2.cruisingAlt, 2500)
+    }
   }
 }
