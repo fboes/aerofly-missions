@@ -7,7 +7,7 @@ export class XplaneFmsTest extends Test {
   constructor(process: NodeJS.Process) {
     super(process);
 
-    const fms = new XplaneFms(fs.readFileSync('./src/Tests/EGCC-EDDF.fms', 'utf8'));
+    const fms = new XplaneFms(fs.readFileSync('./src/Tests/cases/EGCC-EDDF.fms', 'utf8'));
     this.group(XplaneFms.name);
     {
       this.assertEquals(fms.waypoints.length, 17)

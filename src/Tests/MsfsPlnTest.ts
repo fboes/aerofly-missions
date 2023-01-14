@@ -8,7 +8,7 @@ export class MsfsPlnTest extends Test {
     super(process);
 
     // Parse PLN
-    const pln = new MsfsPln(fs.readFileSync('./src/Tests/EGOV.pln', 'utf8'));
+    const pln = new MsfsPln(fs.readFileSync('./src/Tests/cases/EGOV.pln', 'utf8'));
     this.group(MsfsPln.name);
     {
 

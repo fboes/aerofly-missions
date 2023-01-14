@@ -8,7 +8,7 @@ export class GarminFplTest extends Test {
 
     this.group(GarminFpl.name);
     {
-      const gpl = new GarminFpl(fs.readFileSync('./src/Tests/KBLI.fpl', 'utf8'));
+      const gpl = new GarminFpl(fs.readFileSync('./src/Tests/cases/KBLI.fpl', 'utf8'));
 
       this.assertEquals(gpl.waypoints.length, 5)
       this.assertEquals(gpl.waypoints[0].identifier, 'KCLM')

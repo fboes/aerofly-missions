@@ -8,7 +8,7 @@ export class MainMcfTest extends Test {
 
     this.group(MainMcfFactory.name);
     {
-      const mainMcf = new MainMcfFactory().create(fs.readFileSync('./src/Tests/main.mcf', 'utf8'));
+      const mainMcf = new MainMcfFactory().create(fs.readFileSync('./src/Tests/cases/main.mcf', 'utf8'));
       this.assertEquals(mainMcf.aircraft.name, 'q400')
       this.assertEquals(mainMcf.navigation.Route.CruiseAltitude, 304.8)
       this.assertEquals(mainMcf.navigation.Route.Ways.length, 8)

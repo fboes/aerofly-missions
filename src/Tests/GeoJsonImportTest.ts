@@ -8,7 +8,7 @@ export class GeoJsonImportTest extends Test {
 
     this.group(GeoJsonImport.name);
     {
-      const gpl = new GeoJsonImport(fs.readFileSync('./src/Tests/reno-airrace.geojson', 'utf8'));
+      const gpl = new GeoJsonImport(fs.readFileSync('./src/Tests/cases/reno-airrace.geojson', 'utf8'));
 
       this.assertEquals(gpl.waypoints.length, 15)
       this.assertEquals(gpl.waypoints[0].identifier, 'KRTS')
@@ -22,7 +22,7 @@ export class GeoJsonImportTest extends Test {
 
     this.group(GeoJsonImport.name + ': More complex');
     {
-      const gpl = new GeoJsonImport(fs.readFileSync('./src/Tests/EGOV-EGOV.geojson', 'utf8'));
+      const gpl = new GeoJsonImport(fs.readFileSync('./src/Tests/cases/EGOV-EGOV.geojson', 'utf8'));
 
       this.assertEquals(gpl.waypoints.length, 16)
       this.assertEquals(gpl.waypoints[0].identifier, 'EGOV')

@@ -39,7 +39,7 @@ export class MissionTest extends Test {
 
     this.group(MissionFactory.name);
     {
-      const mission = new MissionFactory().create(fs.readFileSync('./src/Tests/kclm_kbli.tmc', 'utf8'), new Mission('', ''));
+      const mission = new MissionFactory().create(fs.readFileSync('./src/Tests/cases/kclm_kbli.tmc', 'utf8'), new Mission('', ''));
 
       this.assertEquals(mission.title, 'From KCLM to KBLI')
       this.assertEquals(mission.flight_setting, 'taxi')
