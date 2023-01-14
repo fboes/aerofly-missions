@@ -50,6 +50,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.24979742928385,
 
 ----
 
-[Previous mission](./Mach_Loop.md) • [Mission overview](./README.md) • Next mission
+[Previous mission](./Mach_Loop.md) • [Mission overview](./README.md) • [Next mission](./Sidewinder_Low_Level.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)

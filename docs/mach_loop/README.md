@@ -11,6 +11,7 @@ Your flights
 1. [Low Level Highlander](./Low_Level_Highlander.md)
 1. [Tales from the Mach Loop](./Mach_Loop.md)
 1. [Mach Loop from the Sea](./Mach_Loop_from_the_Sea.md)
+1. [Sidewinder Low Level](./Sidewinder_Low_Level.md)
 
 Legal stuff
 -----------
