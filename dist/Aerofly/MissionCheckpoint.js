@@ -129,19 +129,20 @@ export class MissionCheckpoint {
 `;
     }
     hydrate(cp) {
-        this.type = cp.type;
-        this.name = cp.name;
-        this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination;
-        this.lon_lat.lon = cp.lon_lat.lon;
-        this.lon_lat.lat = cp.lon_lat.lat;
-        this.lon_lat.altitude_m = cp.lon_lat.altitude_m;
-        this.direction = cp.direction;
-        this.distance = cp.distance;
-        this.slope = cp.slope;
-        this.length = cp.length;
-        this.frequency = cp.frequency;
-        this.ground_speed = cp.ground_speed;
-        this.heading = cp.heading;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        this.type = (_a = cp.type) !== null && _a !== void 0 ? _a : this.type;
+        this.name = (_b = cp.name) !== null && _b !== void 0 ? _b : this.name;
+        this.lon_lat.magnetic_declination = (_c = cp.lon_lat.magnetic_declination) !== null && _c !== void 0 ? _c : this.lon_lat.magnetic_declination;
+        this.lon_lat.lon = (_d = cp.lon_lat.lon) !== null && _d !== void 0 ? _d : this.lon_lat.lon;
+        this.lon_lat.lat = (_e = cp.lon_lat.lat) !== null && _e !== void 0 ? _e : this.lon_lat.lat;
+        this.lon_lat.altitude_m = (_f = cp.lon_lat.altitude_m) !== null && _f !== void 0 ? _f : this.lon_lat.altitude_m;
+        this.direction = (_g = cp.direction) !== null && _g !== void 0 ? _g : this.direction;
+        this.distance = (_h = cp.distance) !== null && _h !== void 0 ? _h : this.direction;
+        this.slope = (_j = cp.slope) !== null && _j !== void 0 ? _j : this.slope;
+        this.length = (_k = cp.length) !== null && _k !== void 0 ? _k : this.length;
+        this.frequency = (_l = cp.frequency) !== null && _l !== void 0 ? _l : this.frequency;
+        this.ground_speed = (_m = cp.ground_speed) !== null && _m !== void 0 ? _m : this.ground_speed;
+        this.heading = (_o = cp.heading) !== null && _o !== void 0 ? _o : this.heading;
     }
 }
 MissionCheckpoint.TYPE_ORIGIN = "origin";

@@ -307,16 +307,17 @@ export class MissionConditions {
 `;
     }
     hydrate(json) {
-        this.time.time_day = json.time.time_day || this.time.time_day;
-        this.time.time_hours = json.time.time_hours || this.time.time_hours;
-        this.time.time_month = json.time.time_month || this.time.time_month;
-        this.time.time_year = json.time.time_year || this.time.time_year;
-        this.wind_direction = json.wind_direction || this.wind_direction;
-        this.wind_speed = json.wind_speed || this.wind_speed;
-        this.wind_gusts = json.wind_gusts || this.wind_gusts;
-        this.turbulence_strength = json.turbulence_strength || this.turbulence_strength;
-        this.thermal_strength = json.thermal_strength || this.thermal_strength;
-        this.visibility = json.visibility || this.visibility;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+        this.time.time_day = (_a = json.time.time_day) !== null && _a !== void 0 ? _a : this.time.time_day;
+        this.time.time_hours = (_b = json.time.time_hours) !== null && _b !== void 0 ? _b : this.time.time_hours;
+        this.time.time_month = (_c = json.time.time_month) !== null && _c !== void 0 ? _c : this.time.time_month;
+        this.time.time_year = (_d = json.time.time_year) !== null && _d !== void 0 ? _d : this.time.time_year;
+        this.wind_direction = (_e = json.wind_direction) !== null && _e !== void 0 ? _e : this.wind_direction;
+        this.wind_speed = (_f = json.wind_speed) !== null && _f !== void 0 ? _f : this.wind_speed;
+        this.wind_gusts = (_g = json.wind_gusts) !== null && _g !== void 0 ? _g : this.wind_gusts;
+        this.turbulence_strength = (_h = json.turbulence_strength) !== null && _h !== void 0 ? _h : this.turbulence_strength;
+        this.thermal_strength = (_j = json.thermal_strength) !== null && _j !== void 0 ? _j : this.thermal_strength;
+        this.visibility = (_k = json.visibility) !== null && _k !== void 0 ? _k : this.visibility;
         this.clouds = json.clouds.map(c => {
             const cx = new MissionConditionsCloud(0, 0);
             cx.cover = c.cover;

@@ -357,14 +357,14 @@ export class Mission {
 
       const checkpointDestination = this.checkpoints.find(c => {
         return c.type === MissionCheckpoint.TYPE_DESTINATION
-      }) || this.checkpoints[this.checkpoints.length - 1];
+      }) ?? this.checkpoints[this.checkpoints.length - 1];
       this.destination_icao = structuredClone(checkpointDestination.name);
       this.destination_dir = structuredClone(checkpointDestination.direction);
       this.destination_lon_lat = checkpointDestination.lon_lat.clone();
 
       const checkpointDestinationRunway = this.checkpoints.find(c => {
         return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
-      }) || checkpointDestination;
+      }) ?? checkpointDestination;
       if (ils) {
         checkpointDestinationRunway.frequency_mhz = ils;
       }
@@ -408,7 +408,7 @@ export class Mission {
 
     const checkpointDestination = this.checkpoints.find(c => {
       return c.type === MissionCheckpoint.TYPE_DESTINATION
-    }) || this.checkpoints[this.checkpoints.length - 1];
+    }) ?? this.checkpoints[this.checkpoints.length - 1];
     this.destination_icao = checkpointDestination.name;
     this.destination_dir = checkpointDestination.direction;
     this.destination_lon_lat = checkpointDestination.lon_lat.clone();
@@ -572,27 +572,27 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
   }
 
   hydrate(json: Mission) {
-    this._title = json._title || this._title;
-    this._description = json._description || this._description;
-    this.flight_setting = json.flight_setting || this.flight_setting;
-    this._aircraft_name = json._aircraft_name || this._aircraft_name;
-    this._aircraft_icao = json._aircraft_icao || this._aircraft_icao;
-    this._magnetic_declination = json._magnetic_declination || this._magnetic_declination;
-    this.callsign = json.callsign || this.callsign;
-    this.origin_icao = json.origin_icao || this.origin_icao;
-    this.origin_lon_lat.magnetic_declination = json.origin_lon_lat.magnetic_declination || this.origin_lon_lat.magnetic_declination;
-    this.origin_lon_lat.lon = json.origin_lon_lat.lon || this.origin_lon_lat.lon;
-    this.origin_lon_lat.lat = json.origin_lon_lat.lat || this.origin_lon_lat.lat;
-    this.origin_lon_lat.altitude_m = json.origin_lon_lat.altitude_m || this.origin_lon_lat.altitude_m;
-    this.origin_dir = json.origin_dir || this.origin_dir;
-    this.destination_icao = json.destination_icao || this.destination_icao;
-    this.destination_lon_lat.magnetic_declination = json.destination_lon_lat.magnetic_declination || this.destination_lon_lat.magnetic_declination;
-    this.destination_lon_lat.lon = json.destination_lon_lat.lon || this.destination_lon_lat.lon;
-    this.destination_lon_lat.lat = json.destination_lon_lat.lat || this.destination_lon_lat.lat;
-    this.destination_lon_lat.altitude_m = json.destination_lon_lat.altitude_m || this.destination_lon_lat.altitude_m;
-    this.destination_dir = json.destination_dir || this.destination_dir;
-    this.cruise_speed = json.cruise_speed || this.cruise_speed;
-    this.cruise_altitude = json.cruise_altitude || this.cruise_altitude;
+    this._title = json._title ?? this._title;
+    this._description = json._description ?? this._description;
+    this.flight_setting = json.flight_setting ?? this.flight_setting;
+    this._aircraft_name = json._aircraft_name ?? this._aircraft_name;
+    this._aircraft_icao = json._aircraft_icao ?? this._aircraft_icao;
+    this._magnetic_declination = json._magnetic_declination ?? this._magnetic_declination;
+    this.callsign = json.callsign ?? this.callsign;
+    this.origin_icao = json.origin_icao ?? this.origin_icao;
+    this.origin_lon_lat.magnetic_declination = json.origin_lon_lat.magnetic_declination ?? this.origin_lon_lat.magnetic_declination;
+    this.origin_lon_lat.lon = json.origin_lon_lat.lon ?? this.origin_lon_lat.lon;
+    this.origin_lon_lat.lat = json.origin_lon_lat.lat ?? this.origin_lon_lat.lat;
+    this.origin_lon_lat.altitude_m = json.origin_lon_lat.altitude_m ?? this.origin_lon_lat.altitude_m;
+    this.origin_dir = json.origin_dir ?? this.origin_dir;
+    this.destination_icao = json.destination_icao ?? this.destination_icao;
+    this.destination_lon_lat.magnetic_declination = json.destination_lon_lat.magnetic_declination ?? this.destination_lon_lat.magnetic_declination;
+    this.destination_lon_lat.lon = json.destination_lon_lat.lon ?? this.destination_lon_lat.lon;
+    this.destination_lon_lat.lat = json.destination_lon_lat.lat ?? this.destination_lon_lat.lat;
+    this.destination_lon_lat.altitude_m = json.destination_lon_lat.altitude_m ?? this.destination_lon_lat.altitude_m;
+    this.destination_dir = json.destination_dir ?? this.destination_dir;
+    this.cruise_speed = json.cruise_speed ?? this.cruise_speed;
+    this.cruise_altitude = json.cruise_altitude ?? this.cruise_altitude;
 
     this.conditions.hydrate(json.conditions);
 

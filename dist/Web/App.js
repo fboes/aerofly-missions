@@ -549,33 +549,35 @@ export class App {
             return response.json();
         })
             .then((responseJson) => {
+            var _a, _b, _c, _d, _e;
             if (responseJson.data.length < 1) {
                 this.showError(`No data in METAR response`);
             }
             const metar = responseJson.data[0];
             if (metar.wind) {
-                this.mission.conditions.wind_direction = metar.wind.degrees || 0;
-                this.mission.conditions.wind_gusts = metar.wind.gust_kts || 0;
-                this.mission.conditions.wind_speed = metar.wind.speed_kts || 0;
+                this.mission.conditions.wind_direction = (_a = metar.wind.degrees) !== null && _a !== void 0 ? _a : 0;
+                this.mission.conditions.wind_gusts = (_b = metar.wind.gust_kts) !== null && _b !== void 0 ? _b : 0;
+                this.mission.conditions.wind_speed = (_c = metar.wind.speed_kts) !== null && _c !== void 0 ? _c : 0;
             }
             else {
                 this.mission.conditions.wind_direction = 0;
                 this.mission.conditions.wind_gusts = 0;
                 this.mission.conditions.wind_speed = 0;
             }
-            let visibility = metar.visibility.meters_float || 0;
+            let visibility = (_d = metar.visibility.meters_float) !== null && _d !== void 0 ? _d : 0;
             if (visibility === 9999) {
                 visibility = 20000;
             }
             this.mission.conditions.visibility = Math.round(visibility / 500) * 500;
             this.mission.conditions.clouds = metar.clouds.map((c) => {
+                var _a;
                 const cloud = new MissionConditionsCloud();
                 cloud.cover_code = c.code;
-                cloud.height_feet = c.feet || 0;
+                cloud.height_feet = (_a = c.feet) !== null && _a !== void 0 ? _a : 0;
                 return cloud;
             });
             // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
-            this.mission.conditions.thermal_strength = ((metar.temperature.celsius || 14) - 5) / 25;
+            this.mission.conditions.thermal_strength = (((_e = metar.temperature.celsius) !== null && _e !== void 0 ? _e : 14) - 5) / 25;
             this.mission.conditions.makeTurbulence();
             callback();
         });

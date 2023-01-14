@@ -153,18 +153,18 @@ export class MissionCheckpoint {
   }
 
   hydrate(cp: MissionCheckpoint) {
-    this.type = cp.type;
-    this.name = cp.name;
-    this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination;
-    this.lon_lat.lon = cp.lon_lat.lon;
-    this.lon_lat.lat = cp.lon_lat.lat;
-    this.lon_lat.altitude_m = cp.lon_lat.altitude_m;
-    this.direction = cp.direction;
-    this.distance = cp.distance;
-    this.slope = cp.slope;
-    this.length = cp.length;
-    this.frequency = cp.frequency;
-    this.ground_speed = cp.ground_speed;
-    this.heading = cp.heading;
+    this.type = cp.type ?? this.type;
+    this.name = cp.name ?? this.name ;
+    this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination ?? this.lon_lat.magnetic_declination;
+    this.lon_lat.lon = cp.lon_lat.lon ?? this.lon_lat.lon;
+    this.lon_lat.lat = cp.lon_lat.lat ?? this.lon_lat.lat;
+    this.lon_lat.altitude_m = cp.lon_lat.altitude_m ?? this.lon_lat.altitude_m;
+    this.direction = cp.direction ?? this.direction;
+    this.distance = cp.distance ?? this.direction;
+    this.slope = cp.slope ?? this.slope;
+    this.length = cp.length ?? this.length;
+    this.frequency = cp.frequency ?? this.frequency;
+    this.ground_speed = cp.ground_speed ?? this.ground_speed;
+    this.heading = cp.heading ?? this.heading;
   }
 }

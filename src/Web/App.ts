@@ -608,16 +608,16 @@ export class App {
         const metar = responseJson.data[0];
 
         if (metar.wind) {
-          this.mission.conditions.wind_direction = metar.wind.degrees || 0;
-          this.mission.conditions.wind_gusts = metar.wind.gust_kts || 0;
-          this.mission.conditions.wind_speed = metar.wind.speed_kts || 0;
+          this.mission.conditions.wind_direction = metar.wind.degrees ?? 0;
+          this.mission.conditions.wind_gusts = metar.wind.gust_kts ?? 0;
+          this.mission.conditions.wind_speed = metar.wind.speed_kts ?? 0;
         } else {
           this.mission.conditions.wind_direction = 0;
           this.mission.conditions.wind_gusts = 0;
           this.mission.conditions.wind_speed = 0;
         }
 
-        let visibility = metar.visibility.meters_float || 0;
+        let visibility = metar.visibility.meters_float ?? 0;
         if (visibility === 9999) {
           visibility = 20000;
         }
@@ -625,12 +625,12 @@ export class App {
         this.mission.conditions.clouds = metar.clouds.map((c) => {
           const cloud = new MissionConditionsCloud();
           cloud.cover_code = c.code;
-          cloud.height_feet = c.feet || 0;
+          cloud.height_feet = c.feet ?? 0;
           return cloud;
         });
 
         // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
-        this.mission.conditions.thermal_strength = ((metar.temperature.celsius || 14) - 5) / 25;
+        this.mission.conditions.thermal_strength = ((metar.temperature.celsius ?? 14) - 5) / 25;
         this.mission.conditions.makeTurbulence();
         callback();
       });
