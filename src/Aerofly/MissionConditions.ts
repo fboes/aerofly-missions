@@ -1,13 +1,13 @@
 import { Units } from "../World/Units.js";
 import { MainMcf } from "./MainMcf.js";
 
-type WindCorrection = {
+type MissionConditionsWindCorrection = {
   ground_speed: number,
   heading: number,
   heading_rad: number,
 }
 
-type MissionConitionsFlightRules = 'IFR' | 'LIFR' | 'VFR' | 'MVFR';
+type MissionConditionsFlightRules = 'IFR' | 'LIFR' | 'VFR' | 'MVFR';
 
 export class MissionConditionsCloud {
   /**
@@ -153,10 +153,10 @@ export class MissionConditions {
 
   clouds: MissionConditionsCloud[] = [new MissionConditionsCloud()];
 
-  static CONDITION_VFR: MissionConitionsFlightRules = 'VFR';
-  static CONDITION_MVFR: MissionConitionsFlightRules = 'MVFR';
-  static CONDITION_IFR: MissionConitionsFlightRules = 'IFR';
-  static CONDITION_LIFR: MissionConitionsFlightRules = 'LIFR';
+  static CONDITION_VFR: MissionConditionsFlightRules = 'VFR';
+  static CONDITION_MVFR: MissionConditionsFlightRules = 'MVFR';
+  static CONDITION_IFR: MissionConditionsFlightRules = 'IFR';
+  static CONDITION_LIFR: MissionConditionsFlightRules = 'LIFR';
   static WIND_GUSTS_STANDARD = 'gusts';
   static WIND_GUSTS_STRONG = 'strong gusts';
   static WIND_GUSTS_VIOLENT = 'violent gusts';
@@ -260,7 +260,7 @@ export class MissionConditions {
    * @see https://www.thinkaviation.net/levels-of-vfr-ifr-explained/
    * @see https://en.wikipedia.org/wiki/Ceiling_(cloud)
    */
-  getFlightCategory(useIcao = false): MissionConitionsFlightRules {
+  getFlightCategory(useIcao = false): MissionConditionsFlightRules {
     let cloud_base_feet = 9999;
     this.clouds.forEach(cloud => {
       if (cloud.cover > 0.5) {
@@ -296,7 +296,7 @@ export class MissionConditions {
    * @param tas_kts in knots
    * @returns ground speed in knots, true heading
    */
-  getWindCorrection(course_rad: number, tas_kts: number): WindCorrection {
+  getWindCorrection(course_rad: number, tas_kts: number): MissionConditionsWindCorrection {
     const deltaRad = this.wind_direction_rad - course_rad;
     const correctionRad = (deltaRad === 0 || deltaRad === Math.PI)
       ? 0

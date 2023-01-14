@@ -7,7 +7,7 @@ export type GaminFplWaypoint = {
   type: GarminFplWaypointType,
   lat: number,
   lon: number,
-  alt: number,
+  alt: number | undefined,
 };
 
 export class GarminFpl {
@@ -15,14 +15,14 @@ export class GarminFpl {
   /**
    * In feet MSL
    */
-  cruisingAlt: number = 0;
+  cruisingAlt: number | undefined = undefined;
 
   constructor(configFileContent: string) {
     this.read(configFileContent);
   }
 
   read(configFileContent: string): void {
-    this.cruisingAlt = 0;
+    this.cruisingAlt = undefined;
     const waypointTableXml = this.getXmlNode(configFileContent, 'waypoint-table')
 
     this.waypoints = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml): GaminFplWaypoint => {
@@ -31,7 +31,7 @@ export class GarminFpl {
         type: <GarminFplWaypointType>this.getXmlNode(xml, 'type'),
         lat: Number(this.getXmlNode(xml, 'lat')),
         lon: Number(this.getXmlNode(xml, 'lon')),
-        alt: 0
+        alt: undefined
       }
     })
   }

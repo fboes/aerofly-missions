@@ -34,6 +34,7 @@ export class App {
             description: document.getElementById("description"),
             flightplan: document.getElementById("flightplan"),
             main: document.querySelector("main"),
+            magneticDeclination: document.getElementById("magnetic_declination"),
             makeMetarDept: document.getElementById("make-metar-dept"),
             makeMetarDest: document.getElementById("make-metar-dest"),
             makeWeather: document.getElementById("make-weather"),
@@ -112,6 +113,9 @@ export class App {
                     break;
                 case "description":
                     this.mission.description = target.value;
+                    break;
+                case "magnetic_declination":
+                    this.mission.magnetic_declination = target.value ? target.valueAsNumber : undefined;
                     break;
                 case "metar-api-key":
                     this.metarApiKey = target.value;
@@ -249,6 +253,7 @@ export class App {
                         break;
                     case 'reset-flightplan':
                         this.mission.checkpoints = [];
+                        this.mission.magnetic_declination = undefined;
                         break;
                 }
                 this.syncToForm();
@@ -607,6 +612,12 @@ export class App {
         this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
         this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
         this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
+        if (this.mission.magnetic_declination !== undefined) {
+            this.elements.magneticDeclination.valueAsNumber = this.mission.magnetic_declination;
+        }
+        else {
+            this.elements.magneticDeclination.value = '';
+        }
         this.syncToOutput();
     }
     store() {

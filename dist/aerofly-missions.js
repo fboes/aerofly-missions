@@ -22,7 +22,7 @@ if (args.help) {
 const aeroflyConfig = new MainMcfFactory().create(fs.readFileSync(args.source, "utf8"));
 const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
-mission.fromMainMcf(aeroflyConfig, args.ils, args.magneticDeclination);
+mission.fromMainMcf(aeroflyConfig, args.ils);
 if (mission.warnings) {
     mission.warnings.forEach(w => {
         process.stderr.write("> " + w + "\n");
@@ -30,23 +30,24 @@ if (mission.warnings) {
 }
 if (args.garmin) {
     const fpl = new GarminFpl(fs.readFileSync(args.garmin, "utf8"));
-    mission.fromGarminFpl(fpl, args.magneticDeclination);
+    mission.fromGarminFpl(fpl);
 }
 if (args.msfs) {
     const fpl = new MsfsPln(fs.readFileSync(args.msfs, "utf8"));
-    mission.fromGarminFpl(fpl, args.magneticDeclination);
+    mission.fromGarminFpl(fpl);
 }
 if (args.xplane) {
     const fpl = new XplaneFms(fs.readFileSync(args.xplane, "utf8"));
-    mission.fromGarminFpl(fpl, args.magneticDeclination);
+    mission.fromGarminFpl(fpl);
 }
 if (args.gpx) {
     const fpl = new Gpx(fs.readFileSync(args.gpx, "utf8"));
-    mission.fromGarminFpl(fpl, args.magneticDeclination);
+    mission.fromGarminFpl(fpl);
 }
 if (args.tmc) {
     new MissionFactory().create(fs.readFileSync(args.tmc, "utf8"), mission);
 }
+mission.magnetic_declination = args.magneticDeclination;
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 if (args.geoJson) {

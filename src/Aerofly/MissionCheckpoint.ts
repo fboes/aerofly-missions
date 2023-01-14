@@ -155,6 +155,7 @@ export class MissionCheckpoint {
   hydrate(cp: MissionCheckpoint) {
     this.type = cp.type;
     this.name = cp.name;
+    this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination;
     this.lon_lat.lon = cp.lon_lat.lon;
     this.lon_lat.lat = cp.lon_lat.lat;
     this.lon_lat.altitude_m = cp.lon_lat.altitude_m;

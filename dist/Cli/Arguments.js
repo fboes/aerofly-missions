@@ -54,7 +54,7 @@ export class Arguments {
         this.tmc = "";
         this.direction = -1;
         this.ils = 0;
-        this.magneticDeclination = 0;
+        this.magneticDeclination = undefined;
         let pointer = "title";
         args.forEach((a) => {
             const match = a.match(/^[-]+([a-z-]+)$/);

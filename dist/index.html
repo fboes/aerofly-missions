@@ -42,7 +42,8 @@
 
         <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin
           <code>fpl</code>,
-          Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.</p>
+          Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.
+        </p>
 
         <div>
           <label for="upload">Import file</label>
@@ -270,19 +271,26 @@
         </details>
         <details>
           <summary>Miscellaneous</summary>
-          <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
-            the Missionsgerät can fetch the current weather for you.</p>
           <div class="col-2">
             <div>
-              <label for="origin_dir">Initial heading</label>
+              <label for="origin_dir">True initial heading</label>
               <input type="number" min="0" max="359" id="origin_dir">
               <span>°</span>
             </div>
 
             <div>
-              <label for="metar-api-key">CheckWX API key</label>
-              <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
+              <label for="origin_dir">General magnetic declination override</label>
+              <input type="number" min="-180" max="180" id="magnetic_declination"
+                title="Set this to '' to get automatic values">
+              <span>°</span>
             </div>
+          </div>
+
+          <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
+            the Missionsgerät can fetch the current weather for you.</p>
+          <div>
+            <label for="metar-api-key">CheckWX API key</label>
+            <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
           </div>
         </details>
       </section>
@@ -303,7 +311,8 @@
           <code>fms</code>
           flight plan files.<br />It also generates a Markdown file containing a textual description of the flight
           including weather data,
-          as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
+          as well as a <a href="https://geojson.org/">GeoJSON</a> file.
+        </p>
         <button type="button" class="download primary" id="download-tmc">Download Aerofly FS
           <code>custom_missions.tmc</code>
           flight plan</button>
@@ -321,6 +330,8 @@
           href="https://github.com/fboes/aerofly-missions">GitHub</a> &middot; Copyright & license: See <a
           href="../LICENSE.txt">LICENSE.txt</a></p>
 
+      <p class="no-print">Hit <kbd>CTRL + SHIFT + R</kbd> to check for updates.</p>
+
       <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the
         <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.
       </p>
@@ -333,7 +344,7 @@
     import { App } from "./Web/App.js";
     const app = new App();
 
-    if (localStorage.getItem('mapbox.consent')) {
+    if (localStorage.getItem('mapbox.consent') === '1') {
       const link = document.createElement('link')
       link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css'
       link.rel = 'stylesheet'

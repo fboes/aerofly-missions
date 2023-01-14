@@ -4,7 +4,7 @@ import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.
 
 export class GeoJsonImport extends GarminFpl {
   read(configFileContent: string): void {
-    this.cruisingAlt = 0;
+    this.cruisingAlt = undefined;
     const json = JSON.parse(configFileContent);
     const lineFeatures = json.features.filter((f: GeoJsonFeature) => {
       return f.geometry.type && f.geometry.type === 'LineString';
@@ -15,8 +15,8 @@ export class GeoJsonImport extends GarminFpl {
 
     if (pointFeatures.length > 0) {
       this.waypoints = pointFeatures.map((f: GeoJsonFeature, index: number): GaminFplWaypoint => {
-        if (index !== 0 && index !== pointFeatures.length - 1) {
-          this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+        if (f.properties.altitude !== undefined && index !== 0 && index !== pointFeatures.length - 1) {
+          this.cruisingAlt = (this.cruisingAlt !== undefined) ? Math.max(this.cruisingAlt, f.properties.altitude) : f.properties.altitude;
         }
         let type: GarminFplWaypointType = (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT';
         if (type === 'USER WAYPOINT' && f.properties.frequency) {
@@ -27,7 +27,7 @@ export class GeoJsonImport extends GarminFpl {
           type: type,
           lon: f.geometry.coordinates[0],
           lat: f.geometry.coordinates[1],
-          alt: f.properties.altitude * Units.feetPerMeter
+          alt: f.properties.altitude ? f.properties.altitude * Units.feetPerMeter : undefined
         }
       })
     } else if (lineFeatures[0]) {

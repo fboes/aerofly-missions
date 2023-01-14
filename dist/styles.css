@@ -66,7 +66,8 @@ h2 {
   padding-top: 0.2em;
 }
 
-section, details {
+section,
+details {
   position: relative;
 }
 
@@ -80,7 +81,7 @@ svg {
   width: auto;
 }
 
-code {
+code, kbd {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   background-color: var(--color-darken);
   display: inline-block;
@@ -92,6 +93,10 @@ code {
 abbr {
   text-decoration: none;
   border-bottom: 1px dotted;
+}
+
+small {
+  font-size: 0.5em;
 }
 
 #map {
@@ -187,6 +192,7 @@ button.reset {
   background-color: var(--color--warning);
   color: var(--color-highlight-contra);
   border-radius: 1em;
+  padding: 0.55em 0.45em 0.35em;
   min-width: 2em;
   height: 2em;
   position: absolute;
@@ -317,35 +323,41 @@ footer {
   .container {
     max-width: 100em;
   }
+
   main {
     display: grid;
     grid-template-columns: 30em 1fr;
     grid-template-areas:
-        "p p"
-        "upload map"
-        "settings map"
-        "buttons map";
+      "p p"
+      "upload map"
+      "settings map"
+      "buttons map";
     column-gap: 3em;
   }
 
-  main > p {
+  main>p {
     grid-area: p;
   }
-  main > section:nth-child(2) {
+
+  main>section:nth-child(2) {
     grid-area: upload;
   }
-  main > section:nth-child(3) {
+
+  main>section:nth-child(3) {
     grid-area: settings;
   }
-  main > section:nth-child(4) {
+
+  main>section:nth-child(4) {
     padding-left: 3em;
     border-left: 1px solid var(--color-darken-more);
     grid-area: map;
   }
-  main > section:nth-child(5) {
+
+  main>section:nth-child(5) {
     grid-area: buttons;
   }
-  main > section:nth-child(even) h2 {
+
+  main>section:nth-child(even) h2 {
     border-top: none;
   }
 }

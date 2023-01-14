@@ -54,6 +54,7 @@ export class Mission {
    * Not official: In meters
    */
   cruise_altitude: number = 0;
+  protected _magnetic_declination: number | undefined = undefined;
 
   static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
   static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";
@@ -281,16 +282,9 @@ export class Mission {
     return total_distance;
   }
 
-  calculateMagneticDeclination(l: LonLat, magnetic_declination: number): number {
-    // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
-    // Formula for parts of Europe and Aerofly FS 4
-    return (!magnetic_declination && l.lon > -10 && l.lon < 26 && l.lat > 45)
-      ? (7 / 22) * l.lon - 3.4
-      : magnetic_declination;
 
-  }
 
-  fromMainMcf(mainMcf: MainMcf, ils: number = 0, magnetic_declination: number = 0, withoutCheckpoints = false): Mission {
+  fromMainMcf(mainMcf: MainMcf, ils: number = 0, withoutCheckpoints = false): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
@@ -327,7 +321,6 @@ export class Mission {
       }).map((w) => {
         let cp = new MissionCheckpoint();
         cp.fromMainMcf(w);
-        cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
         return cp;
       });
 
@@ -336,7 +329,6 @@ export class Mission {
 
       this.origin_icao = this.checkpoints[0].name;
       this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-      this.origin_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.origin_lon_lat, magnetic_declination);
 
       const checkpointDepartureRunway = this.checkpoints.find(c => {
         return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
@@ -383,7 +375,7 @@ export class Mission {
     return this;
   }
 
-  fromGarminFpl(gpl: GarminFpl, magnetic_declination: number = 0): Mission {
+  fromGarminFpl(gpl: GarminFpl): Mission {
     if (gpl.cruisingAlt) {
       this.cruise_altitude_ft = gpl.cruisingAlt;
     }
@@ -392,13 +384,12 @@ export class Mission {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
-      cp.lon_lat.altitude_ft = w.alt;
+      cp.lon_lat.altitude_ft = w.alt ? w.alt : 0;
       cp.name = w.identifier;
       if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoints.length - 1)) {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
       }
 
-      cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magnetic_declination);
       if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
         cp.ground_speed = this.cruise_speed;
       }
@@ -503,6 +494,30 @@ export class Mission {
     });
   }
 
+  set magnetic_declination(magneticDeclination: number | undefined) {
+    this._magnetic_declination = magneticDeclination;
+    this.origin_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.origin_lon_lat, magneticDeclination);
+    this.destination_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.destination_lon_lat, magneticDeclination);
+    this.checkpoints.forEach(cp => {
+      cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magneticDeclination);
+    })
+  }
+
+  get magnetic_declination(): number | undefined {
+    return this._magnetic_declination;
+  }
+
+  protected calculateMagneticDeclination(l: LonLat, magnetic_declination: number | undefined): number {
+    if (magnetic_declination !== undefined) {
+      return magnetic_declination;
+    }
+    // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
+    // Formula for parts of Europe and Aerofly FS 4
+    return (l.lon > -10 && l.lon < 26 && l.lat > 45)
+      ? (7 / 22) * l.lon - 3.4
+      : 0;
+  }
+
   protected getLocalDaytime(): string {
     const localSolarTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
 
@@ -562,16 +577,19 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
     this.flight_setting = json.flight_setting || this.flight_setting;
     this._aircraft_name = json._aircraft_name || this._aircraft_name;
     this._aircraft_icao = json._aircraft_icao || this._aircraft_icao;
+    this._magnetic_declination = json._magnetic_declination || this._magnetic_declination;
     this.callsign = json.callsign || this.callsign;
     this.origin_icao = json.origin_icao || this.origin_icao;
     this.origin_lon_lat.magnetic_declination = json.origin_lon_lat.magnetic_declination || this.origin_lon_lat.magnetic_declination;
     this.origin_lon_lat.lon = json.origin_lon_lat.lon || this.origin_lon_lat.lon;
     this.origin_lon_lat.lat = json.origin_lon_lat.lat || this.origin_lon_lat.lat;
+    this.origin_lon_lat.altitude_m = json.origin_lon_lat.altitude_m || this.origin_lon_lat.altitude_m;
     this.origin_dir = json.origin_dir || this.origin_dir;
     this.destination_icao = json.destination_icao || this.destination_icao;
     this.destination_lon_lat.magnetic_declination = json.destination_lon_lat.magnetic_declination || this.destination_lon_lat.magnetic_declination;
     this.destination_lon_lat.lon = json.destination_lon_lat.lon || this.destination_lon_lat.lon;
     this.destination_lon_lat.lat = json.destination_lon_lat.lat || this.destination_lon_lat.lat;
+    this.destination_lon_lat.altitude_m = json.destination_lon_lat.altitude_m || this.destination_lon_lat.altitude_m;
     this.destination_dir = json.destination_dir || this.destination_dir;
     this.cruise_speed = json.cruise_speed || this.cruise_speed;
     this.cruise_altitude = json.cruise_altitude || this.cruise_altitude;

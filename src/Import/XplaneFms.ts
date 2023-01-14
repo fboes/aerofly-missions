@@ -22,7 +22,7 @@ export class XplaneFms extends GarminFpl {
         case 3: type = "VOR"; break;
       }
       if (index !== 0 && index !== wLines.length - 1) {
-        this.cruisingAlt = Math.max(this.cruisingAlt, Number(m[3]))
+        this.cruisingAlt = (this.cruisingAlt !== undefined) ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3])
       }
 
       return {

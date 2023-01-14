@@ -56,7 +56,7 @@ export class Arguments {
   useColors: number = BashColors.COLOR_BASH;
   skyVector: boolean = true;
   markdown: boolean = false;
-  magneticDeclination: number;
+  magneticDeclination: number | undefined;
 
   constructor(process: NodeJS.Process) {
     const args = process.argv.slice(2);
@@ -73,7 +73,7 @@ export class Arguments {
     this.tmc = "";
     this.direction = -1;
     this.ils = 0;
-    this.magneticDeclination = 0;
+    this.magneticDeclination = undefined;
 
     let pointer = "title";
     args.forEach((a) => {

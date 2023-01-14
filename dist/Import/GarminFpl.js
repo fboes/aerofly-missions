@@ -5,11 +5,11 @@ export class GarminFpl {
         /**
          * In feet MSL
          */
-        this.cruisingAlt = 0;
+        this.cruisingAlt = undefined;
         this.read(configFileContent);
     }
     read(configFileContent) {
-        this.cruisingAlt = 0;
+        this.cruisingAlt = undefined;
         const waypointTableXml = this.getXmlNode(configFileContent, 'waypoint-table');
         this.waypoints = this.getXmlNodes(waypointTableXml, 'waypoint').map((xml) => {
             return {
@@ -17,7 +17,7 @@ export class GarminFpl {
                 type: this.getXmlNode(xml, 'type'),
                 lat: Number(this.getXmlNode(xml, 'lat')),
                 lon: Number(this.getXmlNode(xml, 'lon')),
-                alt: 0
+                alt: undefined
             };
         });
     }

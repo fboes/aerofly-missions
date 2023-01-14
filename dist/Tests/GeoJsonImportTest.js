@@ -14,7 +14,7 @@ export class GeoJsonImportTest extends Test {
             this.assertEquals(gpl.waypoints[14].type, 'AIRPORT');
             this.assertEquals(gpl.waypoints[1].lat, 39.665246531929995);
             this.assertEquals(gpl.waypoints[4].lon, -119.8601888582547);
-            this.assertEquals(gpl.cruisingAlt, 0);
+            this.assertEquals(gpl.cruisingAlt, undefined);
         }
         this.group(GeoJsonImport.name + ': More complex');
         {

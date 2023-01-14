@@ -19,7 +19,7 @@ export class Test {
         }
     }
     assertEquals(a, b, message = "") {
-        return this.assert(a === b, message ? message : a.toString() + " matches " + b.toString());
+        return this.assert(a === b, message ? message : this.stringFromAny(a) + " matches " + this.stringFromAny(b));
     }
     group(title) {
         this.process.stdout.write(title + "\n");
@@ -27,6 +27,15 @@ export class Test {
     exit() {
         this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
         process.exit(this.errors > 0 ? 1 : 0);
+    }
+    stringFromAny(a) {
+        if (a === undefined) {
+            return 'undefined';
+        }
+        else if (a === null) {
+            return 'null';
+        }
+        return a.toString();
     }
 }
 export class Tests extends Test {

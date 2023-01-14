@@ -19,7 +19,7 @@ export class Test {
   }
 
   assertEquals(a: any, b: any, message: string = "") {
-    return this.assert(a === b, message ? message : a.toString() + " matches " + b.toString());
+    return this.assert(a === b, message ? message : this.stringFromAny(a) + " matches " + this.stringFromAny(b));
   }
 
   group(title: string) {
@@ -29,6 +29,15 @@ export class Test {
   exit() {
     this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
     process.exit(this.errors > 0 ? 1 : 0);
+  }
+
+  protected stringFromAny(a: any): string {
+    if (a === undefined) {
+      return 'undefined'
+    } else if (a === null) {
+      return 'null'
+    }
+    return a.toString();
   }
 }
 

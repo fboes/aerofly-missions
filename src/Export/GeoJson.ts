@@ -11,9 +11,9 @@ export type GeoJsonFeature = GeoJSON.Feature & {
   properties: {
     title: string,
     type: string,
-    altitude: number,
-    direction: number,
-    frequency: string,
+    altitude: number | undefined,
+    direction: number | undefined,
+    frequency: string | undefined,
     "marker-symbol": string,
   };
 };
@@ -38,8 +38,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
             title: waypoint.Identifier,
             type: waypoint.type,
             altitude: waypoint.Elevation,
-            direction: 0,
-            frequency: '',
+            direction: undefined,
+            frequency: undefined,
             "marker-symbol": (waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION) ? "airport" : "dot-10"
           },
         };
@@ -57,9 +57,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       properties: {
         title: "Departure",
         type: "plane",
-        altitude: -1,
-        direction: 0,
-        frequency: '',
+        altitude: undefined,
+        direction: undefined,
+        frequency: undefined,
         "marker-symbol": "airport"
       },
     });
@@ -100,9 +100,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       properties: {
         title: mission.origin_icao,
         type: "plane",
-        altitude: -1,
+        altitude: undefined,
         direction: mission.origin_dir,
-        frequency: '',
+        frequency: undefined,
         "marker-symbol": "airport"
       },
     });
@@ -117,9 +117,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       properties: {
         title: mission.destination_icao,
         type: "plane",
-        altitude: -1,
+        altitude: undefined,
         direction: mission.destination_dir,
-        frequency: '',
+        frequency: undefined,
         "marker-symbol": "airport"
       },
     });
@@ -144,9 +144,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: "Taxi",
           type: "Taxi",
-          altitude: -1,
-          direction: 0,
-          frequency: '',
+          altitude: undefined,
+          direction: undefined,
+          frequency: undefined,
           "marker-symbol": "dot-10",
         },
       },
@@ -164,9 +164,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: "Flightplan",
           type: "Flightplan",
-          altitude: -1,
-          direction: 0,
-          frequency: '',
+          altitude: undefined,
+          direction: undefined,
+          frequency: undefined,
           "marker-symbol": "dot-10",
         },
       },
@@ -183,9 +183,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         properties: {
           title: "Taxi",
           type: "Taxi",
-          altitude: -1,
-          direction: 0,
-          frequency: '',
+          altitude: undefined,
+          direction: undefined,
+          frequency: undefined,
           "marker-symbol": "dot-10",
         },
       }

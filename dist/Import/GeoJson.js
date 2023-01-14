@@ -2,7 +2,7 @@ import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
 export class GeoJsonImport extends GarminFpl {
     read(configFileContent) {
-        this.cruisingAlt = 0;
+        this.cruisingAlt = undefined;
         const json = JSON.parse(configFileContent);
         const lineFeatures = json.features.filter((f) => {
             return f.geometry.type && f.geometry.type === 'LineString';
@@ -12,8 +12,8 @@ export class GeoJsonImport extends GarminFpl {
         });
         if (pointFeatures.length > 0) {
             this.waypoints = pointFeatures.map((f, index) => {
-                if (index !== 0 && index !== pointFeatures.length - 1) {
-                    this.cruisingAlt = Math.max(this.cruisingAlt, f.properties.altitude || 0);
+                if (f.properties.altitude !== undefined && index !== 0 && index !== pointFeatures.length - 1) {
+                    this.cruisingAlt = (this.cruisingAlt !== undefined) ? Math.max(this.cruisingAlt, f.properties.altitude) : f.properties.altitude;
                 }
                 let type = (index === 0 || index === pointFeatures.length - 1) ? 'AIRPORT' : 'USER WAYPOINT';
                 if (type === 'USER WAYPOINT' && f.properties.frequency) {
@@ -24,7 +24,7 @@ export class GeoJsonImport extends GarminFpl {
                     type: type,
                     lon: f.geometry.coordinates[0],
                     lat: f.geometry.coordinates[1],
-                    alt: f.properties.altitude * Units.feetPerMeter
+                    alt: f.properties.altitude ? f.properties.altitude * Units.feetPerMeter : undefined
                 };
             });
         }
