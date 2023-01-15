@@ -188,7 +188,7 @@ export class App {
             }
             if (redraw) {
                 if (target.id !== "upload") {
-                    this.mission.calculateDirectionForCheckpoints();
+                    this.mission.calculateCheckpoints();
                 }
                 this.showFlightplan();
             }
@@ -402,7 +402,7 @@ export class App {
                 this.mapboxMap.off('mousemove', onMove);
                 currentFeature = null;
                 this.drawMap();
-                this.mission.calculateDirectionForCheckpoints();
+                this.mission.calculateCheckpoints();
                 this.showFlightplan();
             };
             // -----------------------------------------------------------------------

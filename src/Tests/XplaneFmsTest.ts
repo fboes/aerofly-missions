@@ -2,11 +2,17 @@ import { Test } from "../Cli/Test.js";
 import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class XplaneFmsTest extends Test {
   constructor(process: NodeJS.Process) {
     super(process);
+    this.testEGOV();
+    this.testLittleNavMap();
+    this.testGarminParse();
+  }
 
+  testEGOV() {
     const fms = new XplaneFms(fs.readFileSync('./src/Tests/cases/EGCC-EDDF.fms', 'utf8'));
     this.group(XplaneFms.name);
     {
@@ -48,17 +54,44 @@ export class XplaneFmsTest extends Test {
       })
       this.assertEquals(secondFms.cruisingAlt, fms.cruisingAlt)
     }
+  }
 
-    const fms2 = new XplaneFms(fs.readFileSync('./src/Tests/cases/egov-lnavmap.fms', 'utf8'));
+  testLittleNavMap() {
     this.group(XplaneFms.name + ': Little Nav Map');
     {
-      this.assertEquals(fms2.waypoints.length, 16)
-      this.assertEquals(fms2.waypoints[0].identifier, 'EGOV')
-      this.assertEquals(fms2.waypoints[0].type, 'AIRPORT')
-      this.assertEquals(fms2.waypoints[1].type, 'USER WAYPOINT')
-      this.assertEquals(fms2.waypoints[1].alt, 2500)
-      this.assertEquals(fms2.waypoints[2].alt, 2500)
-      this.assertEquals(fms2.cruisingAlt, 2500)
+      const fms = new XplaneFms(fs.readFileSync('./src/Tests/cases/egov-lnavmap.fms', 'utf8'));
+      this.assertEquals(fms.waypoints.length, 16)
+      this.assertEquals(fms.waypoints[0].identifier, 'EGOV')
+      this.assertEquals(fms.waypoints[0].type, 'AIRPORT')
+      this.assertEquals(fms.waypoints[1].type, 'USER WAYPOINT')
+      this.assertEquals(fms.waypoints[1].alt, 2500)
+      this.assertEquals(fms.waypoints[2].alt, 2500)
+      this.assertEquals(fms.cruisingAlt, 2500)
+    }
+  }
+
+  testGarminParse() {
+    const fms = new XplaneFms(fs.readFileSync('./src/Tests/cases/EFMA-lnavmap.fms', 'utf8'));
+    this.group(XplaneFms.name + ': Little Nav Map to Mission');
+    {
+      this.assertEquals(fms.waypoints.length, 11)
+      this.assertEquals(fms.waypoints[0].identifier, 'EFMA')
+      this.assertEquals(fms.waypoints[0].type, 'AIRPORT')
+      this.assertEquals(fms.waypoints[1].type, 'USER WAYPOINT')
+      this.assertEquals(fms.waypoints[4].type, 'VOR')
+      this.assertEquals(fms.waypoints[5].type, 'NDB')
+      this.assertEquals(fms.waypoints[1].alt, 17)
+      this.assertEquals(fms.cruisingAlt, 2500)
+    }
+
+    // Convert FMS to Mission
+    const mission = new Mission('', '').fromGarminFpl(fms);
+    this.group(XplaneFms.name + ': Mission conversion'); {
+      this.assertEquals(mission.checkpoints.length, 11)
+      this.assertEquals(mission.checkpoints[0].type, MissionCheckpoint.TYPE_ORIGIN)
+      this.assertEquals(mission.checkpoints[1].type, MissionCheckpoint.TYPE_DEPARTURE_RUNWAY)
+      this.assertEquals(mission.checkpoints[9].type, MissionCheckpoint.TYPE_DESTINATION_RUNWAY)
+      this.assertEquals(mission.checkpoints[10].type, MissionCheckpoint.TYPE_DESTINATION)
     }
   }
 }

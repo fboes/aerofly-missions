@@ -239,7 +239,7 @@ export class Mission {
             (this.aircraft_icao.charCodeAt(2) % 26) + 65
           ); // 4 numbers
     }
-    this.calculateDirectionForCheckpoints();
+    this.calculateCheckpoints();
   }
 
   get aircraft_name() {
@@ -325,7 +325,7 @@ export class Mission {
       });
 
       const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-      this.calculateDirectionForCheckpoints();
+      this.calculateCheckpoints();
 
       this.origin_icao = this.checkpoints[0].name;
       this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
@@ -389,18 +389,15 @@ export class Mission {
       if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoints.length - 1)) {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
       }
+      else if (w.type === 'USER WAYPOINT' && (i === 1 || i === gpl.waypoints.length - 2) && cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
+        cp.type = (i === 1) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+      }
 
-      if (cp.type !== MissionCheckpoint.TYPE_ORIGIN) {
-        cp.ground_speed = this.cruise_speed;
-      }
-      if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION) {
-        cp.ground_speed = 30;
-      }
       return cp;
     });
 
     const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
-    this.calculateDirectionForCheckpoints();
+    this.calculateCheckpoints();
 
     this.origin_icao = this.checkpoints[0].name;
     this.origin_dir = this.checkpoints[1].direction;
@@ -462,7 +459,7 @@ export class Mission {
     });
   }
 
-  calculateDirectionForCheckpoints() {
+  calculateCheckpoints() {
     let lastC: MissionCheckpoint | null = null;
 
     // Add directions
@@ -476,10 +473,6 @@ export class Mission {
       if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
         c.ground_speed = this.cruise_speed;
       }
-      /*if ((lastC && lastC.type !== MissionCheckpoint.TYPE_WAYPOINT) && c.type === MissionCheckpoint.TYPE_WAYPOINT) {
-        // TODO: Acceleration after takeoff, gaining 50 kts per NM
-        c.ground_speed = Math.min(c.ground_speed, 30 + (c.distance * 50) / 2);
-      }*/
       if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
         c.ground_speed = 30;
       } else {
@@ -667,7 +660,7 @@ export class MissionFactory extends FileParser {
         return cp;
       });
 
-    mission.calculateDirectionForCheckpoints();
+    mission.calculateCheckpoints();
 
     return mission;
   }

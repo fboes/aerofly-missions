@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>EFMA to EFMA</Title>
+        <FPType>VFR</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>2500</CruisingAlt>
+        <DepartureID>EFMA</DepartureID>
+        <DepartureLLA>N60° 7' 30.91",E19° 54' 24.37",+000017.00</DepartureLLA>
+        <DestinationID>EFMA</DestinationID>
+        <DestinationLLA>N60° 7' 19.00",E19° 53' 47.00",+000017.00</DestinationLLA>
+        <Descr>EFMA, EFMA</Descr>
+        <DeparturePosition>Gate 01</DeparturePosition>
+        <DepartureName>Mariehamn</DepartureName>
+        <DestinationName>Mariehamn</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="EFMA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N60° 7' 19.00",E19° 53' 47.00",+000017.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>EFMA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW21">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 7' 48.11",E19° 54' 17.44",+000017.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW213">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 5' 2.63",E19° 51' 55.28",+001185.87</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RATSO">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N60° 0' 35.01",E19° 37' 13.67",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>EF</ICAORegion>
+                <ICAOIdent>RATSO</ICAOIdent>
+                <ICAOAirport>EFMA</ICAOAirport>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="TEB">
+            <ATCWaypointType>VOR</ATCWaypointType>
+            <WorldPosition>N59° 31' 54.11",E18° 12' 12.00",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>ES</ICAORegion>
+                <ICAOIdent>TEB</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="ERK">
+            <ATCWaypointType>NDB</ATCWaypointType>
+            <WorldPosition>N59° 53' 46.40",E18° 20' 12.80",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>ES</ICAORegion>
+                <ICAOIdent>ERK</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="W-3515">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 13' 4.77",E19° 31' 35.80",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="W-6315">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 13' 14.76",E19° 41' 1.95",+002500.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW213">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 10' 33.55",E19° 56' 39.94",+001017.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW21">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N60° 7' 48.11",E19° 54' 17.44",+000017.00</WorldPosition>
+        </ATCWaypoint>
+        <ATCWaypoint id="EFMA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N60° 7' 19.00",E19° 53' 47.00",+000017.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>EFMA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
