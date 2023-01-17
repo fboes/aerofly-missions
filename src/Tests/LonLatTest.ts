@@ -50,5 +50,15 @@ export class LonLatTest extends Test {
       this.assertEquals(Math.round(lonLat.getBearingTo(lonLat2)), 152, 'Bearing matches');
       this.assertEquals(Math.round(lonLat.getDistanceTo(lonLat2)), 12, 'Distance matches');
     }
+
+    this.group(LonLat.name + ": getRelativeCoordinates");
+    {
+      const lonLat = new LonLat(-80.379414, 25.489981);
+      const lonLat2 = new LonLat(80.279153, -25.320653);
+      const lonLat3 = lonLat.getRelativeCoordinates(lonLat.getDistanceTo(lonLat2), lonLat.getBearingTo(lonLat2));
+
+      this.assertEquals(lonLat2.lat.toFixed(5), lonLat3.lat.toFixed(5))
+      this.assertEquals(lonLat2.lon.toFixed(5), lonLat3.lon.toFixed(5))
+    }
   }
 }

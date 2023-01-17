@@ -54,6 +54,10 @@ export class Mission {
    * Not official: In meters
    */
   cruise_altitude: number = 0;
+  /**
+   * How many minutes does it take to make a full circle
+   */
+  turn_time: number = 2;
   protected _magnetic_declination: number | undefined = undefined;
 
   static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
@@ -119,6 +123,7 @@ export class Mission {
     this.aircraft_icao = '';
     this.cruise_speed = 0;
     this.callsign = '';
+    this.turn_time = 2;
     switch (this._aircraft_name) {
       case "b58":
         this.aircraft_icao = "BE58";
@@ -129,6 +134,7 @@ export class Mission {
         this.aircraft_icao = "BU33";
         this.callsign = 'HBMIZ';
         this.cruise_speed = 110;
+        this.turn_time = 1;
         break;
       case "q400":
         this.aircraft_icao = "DH8D";
@@ -146,34 +152,41 @@ export class Mission {
         this.aircraft_icao = "F15";
         this.callsign = 'ASJ0494';
         this.cruise_speed = 570;
+        this.turn_time = 1;
         break;
       case "f18":
         this.aircraft_icao = "F18H";
         this.callsign = 'VVAC260';
         this.cruise_speed = 570;
+        this.turn_time = 1;
         break;
       case "f4u":
         this.aircraft_icao = "CORS";
         this.cruise_speed = 187;
+        this.turn_time = 1;
         break;
       case "p38":
         this.aircraft_icao = "P38";
         this.callsign = "N38BP";
         this.cruise_speed = 239;
+        this.turn_time = 1;
         break;
       case "bf109e":
         this.aircraft_icao = "ME09";
         this.cruise_speed = 320;
+        this.turn_time = 1;
         break;
       case "mb339":
         this.aircraft_icao = "M339";
         this.callsign = 'FPR456';
         this.cruise_speed = 350;
+        this.turn_time = 1;
         break;
       case "pitts":
         this.aircraft_icao = "PTS2";
         this.callsign = 'DEUJS';
         this.cruise_speed = 152;
+        this.turn_time = 1;
         break;
       case "a320":
         this.callsign = 'LH321';
@@ -211,6 +224,19 @@ export class Mission {
         this.aircraft_icao = "H60";
         this.callsign = 'EVAC26212';
         this.cruise_speed = 152;
+        break;
+      case "dr1":
+        this.cruise_speed = 97;
+        this.turn_time = 1;
+        break;
+      case 'camel':
+        this.cruise_speed = 98;
+        this.aircraft_icao = "CAML";
+        this.turn_time = 1;
+        break;
+      case 'r22':
+        this.cruise_speed = 96;
+        this.aircraft_icao = "CAML";
         break;
     }
 
@@ -587,6 +613,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
     this.destination_dir = json.destination_dir ?? this.destination_dir;
     this.cruise_speed = json.cruise_speed ?? this.cruise_speed;
     this.cruise_altitude = json.cruise_altitude ?? this.cruise_altitude;
+    this.turn_time = json.turn_time ?? this.turn_time;
 
     this.conditions.hydrate(json.conditions);
 

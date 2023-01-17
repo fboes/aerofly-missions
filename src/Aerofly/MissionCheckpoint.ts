@@ -88,10 +88,20 @@ export class MissionCheckpoint {
   }
 
   get direction_magnetic(): number {
+    if (this.direction == -1) {
+      return this.direction;
+    }
     return (this.direction - this.lon_lat.magnetic_declination + 360) % 360;
   }
 
+  get direction_rad() {
+    return ((this.direction % 360) / 180) * Math.PI;
+  }
+
   get heading_magnetic(): number {
+    if (this.heading == -1) {
+      return this.heading;
+    }
     return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
   }
 
@@ -100,10 +110,6 @@ export class MissionCheckpoint {
    */
   get time_enroute(): number {
     return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
-  }
-
-  get direction_rad() {
-    return ((this.direction % 360) / 180) * Math.PI;
   }
 
   /**
@@ -154,7 +160,7 @@ export class MissionCheckpoint {
 
   hydrate(cp: MissionCheckpoint) {
     this.type = cp.type ?? this.type;
-    this.name = cp.name ?? this.name ;
+    this.name = cp.name ?? this.name;
     this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination ?? this.lon_lat.magnetic_declination;
     this.lon_lat.lon = cp.lon_lat.lon ?? this.lon_lat.lon;
     this.lon_lat.lat = cp.lon_lat.lat ?? this.lon_lat.lat;

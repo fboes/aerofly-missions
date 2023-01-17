@@ -71,9 +71,18 @@ export class MissionCheckpoint {
             "Hz");
     }
     get direction_magnetic() {
+        if (this.direction == -1) {
+            return this.direction;
+        }
         return (this.direction - this.lon_lat.magnetic_declination + 360) % 360;
     }
+    get direction_rad() {
+        return ((this.direction % 360) / 180) * Math.PI;
+    }
     get heading_magnetic() {
+        if (this.heading == -1) {
+            return this.heading;
+        }
         return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
     }
     /**
@@ -81,9 +90,6 @@ export class MissionCheckpoint {
      */
     get time_enroute() {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
-    }
-    get direction_rad() {
-        return ((this.direction % 360) / 180) * Math.PI;
     }
     /**
      *

@@ -71,6 +71,7 @@ export class App {
     time: <HTMLInputElement>document.getElementById("time"),
     title: <HTMLInputElement>document.getElementById("title"),
     turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
+    turn_time: <HTMLInputElement>document.getElementById("turn_time"),
     upload: <HTMLInputElement>document.getElementById("upload"),
     visibility_sm: <HTMLOutputElement>document.getElementById("visibility_sm"),
     visibility: <HTMLInputElement>document.getElementById("visibility"),
@@ -102,6 +103,7 @@ export class App {
       switch (target.id) {
         case "aircraft_name":
           this.mission.aircraft_name = target.value;
+          this.drawMap();
           this.syncToForm();
           break;
         case "callsign":
@@ -136,7 +138,8 @@ export class App {
           this.mission.syncCruiseAltitude();
           break;
         case "cruise_speed":
-          this.mission[target.id] = target.valueAsNumber;
+          this.mission.cruise_speed = target.valueAsNumber;
+          this.drawMap();
           break;
         case "date":
           if (target.valueAsDate) {
@@ -173,6 +176,10 @@ export class App {
         case "turbulence_strength":
           this.mission.conditions.turbulence_strength = target.valueAsNumber / 100;
           break;
+        case "turn_time":
+          this.mission.turn_time = target.valueAsNumber;
+          this.drawMap();
+          break;
         case "upload":
           this.uploadFile();
           this.syncToForm();
@@ -183,12 +190,14 @@ export class App {
           break;
         case "wind_direction":
           this.mission.conditions.wind_direction = target.valueAsNumber;
+          this.drawMap();
           break;
         case "wind_gusts":
           this.mission.conditions.wind_gusts = target.valueAsNumber;
           break;
         case "wind_speed":
           this.mission.conditions.wind_speed = target.valueAsNumber;
+          this.drawMap();
           break;
         default:
           const prop = target.getAttribute("data-cp-prop");
@@ -667,6 +676,7 @@ export class App {
     this.elements.time.valueAsDate = this.mission.conditions.time.dateTime;
     this.elements.title.value = this.mission.title;
     this.elements.turbulence_strength.value = (this.mission.conditions.turbulence_strength * 100).toFixed();
+    this.elements.turn_time.valueAsNumber = this.mission.turn_time;
     this.elements.visibility.value = this.mission.conditions.visibility.toFixed();
     this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
     this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
@@ -676,6 +686,7 @@ export class App {
     } else {
       this.elements.magneticDeclination.value = '';
     }
+
     this.syncToOutput();
   }
 

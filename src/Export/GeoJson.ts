@@ -2,6 +2,7 @@ import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Position } from "geojson";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
   id: number,
@@ -64,7 +65,11 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       },
     });
 
-    this.drawLine();
+    this.drawLine(this.features.filter((feature) => {
+      return feature.properties.type !== 'plane'
+    }).map((feature) => {
+      return feature.geometry.coordinates;
+    }));
     return this;
   }
 
@@ -124,12 +129,11 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       },
     });
 
-
-    this.drawLine();
+    this.drawLine(this.getLineCoordinates(mission));
     return this;
   }
 
-  drawLine() {
+  drawLine(coordinates: Position[]) {
     const paths: GeoJsonFeature[] = [
       {
         type: "Feature",
@@ -155,11 +159,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         id: this.features.length + 1,
         geometry: {
           type: "LineString",
-          coordinates: this.features.filter((feature) => {
-            return feature.properties.type !== 'plane'
-          }).map((feature) => {
-            return feature.geometry.coordinates;
-          }),
+          coordinates: coordinates,
         },
         properties: {
           title: "Flightplan",
@@ -191,5 +191,52 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       }
     ]
     this.features.push(...paths);
+  }
+
+
+  protected getLineCoordinates(mission: Mission, segmentsPerCircle = 12): Position[] {
+    let lineCoordinates: Position[] = [];
+    mission.checkpoints.forEach((c, index) => {
+      const turnRadius = this.getTurnRadius(c.ground_speed, mission.turn_time);
+      const nextCheckpoint = mission.checkpoints[index + 1];
+
+      if (!nextCheckpoint || turnRadius < 0.01
+        || c.type !== MissionCheckpoint.TYPE_WAYPOINT
+        || nextCheckpoint.direction === undefined || c.direction === undefined
+        || nextCheckpoint.distance === undefined || c.distance === undefined) {
+        lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
+      } else {
+        let turnDegrees = c.direction - nextCheckpoint.direction;
+        while (turnDegrees > 180) { turnDegrees -= 360 }
+        while (turnDegrees < -180) { turnDegrees += 360 }
+
+        const turnAnticipationDistance = Math.tan(Math.abs(turnDegrees) / 180 * Math.PI / 2) * turnRadius;
+
+        const segments = Math.ceil(Math.abs(turnDegrees) / (360 / segmentsPerCircle));
+        const segmentDegrees = turnDegrees / segments;
+        const segmentLength = turnRadius * 2 * Math.PI / 360 * Math.abs(segmentDegrees);
+
+        let entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, c.direction - 180);
+        lineCoordinates.push([entry.lon, entry.lat]);
+        for (let i = 0; i < segments; i++) {
+          entry = entry.getRelativeCoordinates(segmentLength, c.direction - ((i + 0.5) * segmentDegrees))
+          lineCoordinates.push([entry.lon, entry.lat]);
+        }
+
+        //entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, nextCheckpoint.direction);
+        //lineCoordinates.push([entry.lon, entry.lat]);
+      }
+    })
+    return lineCoordinates;
+  }
+
+  /**
+   * @param speedKts    number Kts
+   * @param turnTimeMin number Minutes
+   * @returns number in Nautical Miles
+   */
+  protected getTurnRadius(speedKts: number, turnTimeMin: number = 2): number {
+    const distance = speedKts * (turnTimeMin / 60);
+    return distance / (2 * Math.PI);
   }
 }

@@ -81,7 +81,8 @@ svg {
   width: auto;
 }
 
-code, kbd {
+code,
+kbd {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   background-color: var(--color-darken);
   display: inline-block;

@@ -93,7 +93,23 @@ export class LonLat {
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const averageAltInNm = (lonLat.altitude_m + this.altitude_m) / (2 * Units.meterPerNauticalMile);
         // multiply with earth's mean radius in Nautical Miles
-        return (3441.037 + averageAltInNm) * c;
+        return (LonLat.EARTH_MEAN_RADIUS + averageAltInNm) * c;
+    }
+    /**
+     *
+     * @param d       number in nautical miles
+     * @param bearing number in degree
+     * @returns LonLat
+     */
+    getRelativeCoordinates(distance, bearing) {
+        const d = distance;
+        const brng = ((bearing + 360) % 360) / 180 * Math.PI;
+        const lat1 = this.latRad;
+        const lon1 = this.lonRad;
+        const R = LonLat.EARTH_MEAN_RADIUS;
+        const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) + Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
+        const lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+        return new LonLat(lon2 * 180 / Math.PI, lat2 * 180 / Math.PI, this.altitude_m);
     }
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
@@ -137,6 +153,8 @@ LonLat.CONTINENT_AFRICA = 'AF';
 LonLat.CONTINENT_ASIA = 'AS';
 LonLat.CONTINENT_AUSTRALIA = 'AUS';
 LonLat.CONTINENT_OTHER = 'OTH';
+// In Nautical Miles
+LonLat.EARTH_MEAN_RADIUS = 3441.037;
 export class LonLatArea {
     constructor(lonLat) {
         this.coordinates = [];

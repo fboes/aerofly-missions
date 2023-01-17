@@ -26,6 +26,9 @@ export class LonLat {
   static CONTINENT_AUSTRALIA: LonLatContinent = 'AUS';
   static CONTINENT_OTHER: LonLatContinent = 'OTH';
 
+  // In Nautical Miles
+  static EARTH_MEAN_RADIUS = 3441.037;
+
   /**
    * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
    * @see https://en.wikipedia.org/wiki/Magnetic_declination
@@ -138,7 +141,30 @@ export class LonLat {
     const averageAltInNm = (lonLat.altitude_m + this.altitude_m) / (2 * Units.meterPerNauticalMile);
 
     // multiply with earth's mean radius in Nautical Miles
-    return (3441.037 + averageAltInNm) * c;
+    return (LonLat.EARTH_MEAN_RADIUS + averageAltInNm) * c;
+  }
+
+  /**
+   *
+   * @param d       number in nautical miles
+   * @param bearing number in degree
+   * @returns LonLat
+   */
+  getRelativeCoordinates(distance: number, bearing: number): LonLat {
+    const d = distance;
+    const brng = ((bearing + 360) % 360) / 180 * Math.PI;
+    const lat1 = this.latRad;
+    const lon1 = this.lonRad;
+    const R = LonLat.EARTH_MEAN_RADIUS;
+
+    const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) + Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
+    const lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+
+    return new LonLat(
+      lon2 * 180 / Math.PI,
+      lat2 * 180 / Math.PI,
+      this.altitude_m
+    );
   }
 
   /**
