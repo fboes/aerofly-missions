@@ -46,6 +46,7 @@ export class App {
             title: document.getElementById("title"),
             turbulence_strength: document.getElementById("turbulence_strength"),
             turn_time: document.getElementById("turn_time"),
+            turn_radius: document.getElementById("turn_radius"),
             upload: document.getElementById("upload"),
             visibility_sm: document.getElementById("visibility_sm"),
             visibility: document.getElementById("visibility"),
@@ -105,6 +106,7 @@ export class App {
                     break;
                 case "cruise_speed":
                     this.mission.cruise_speed = target.valueAsNumber;
+                    this.syncToOutput();
                     this.drawMap();
                     break;
                 case "date":
@@ -144,6 +146,7 @@ export class App {
                     break;
                 case "turn_time":
                     this.mission.turn_time = target.valueAsNumber;
+                    this.syncToOutput();
                     this.drawMap();
                     break;
                 case "upload":
@@ -410,8 +413,8 @@ export class App {
                 }
                 this.mapboxMap.off('mousemove', onMove);
                 currentFeature = null;
-                this.drawMap();
                 this.mission.calculateCheckpoints();
+                this.drawMap();
                 this.showFlightplan();
             };
             // -----------------------------------------------------------------------
@@ -659,6 +662,7 @@ export class App {
             this.elements.makeMetarDept.disabled = false;
             this.elements.makeMetarDest.disabled = false;
         }
+        this.elements.turn_radius.value = (this.mission.cruise_speed * (this.mission.turn_time / 60) / (2 * Math.PI)).toFixed(1);
     }
     showError(message) {
         alert(message);
