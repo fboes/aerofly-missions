@@ -57,6 +57,6 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.91821934264146,
 
 ----
 
-[Previous mission](./Mach_Loop_from_the_Sea.md) • [Mission overview](./README.md) • Next mission
+[Previous mission](./Mach_Loop_from_the_Sea.md) • [Mission overview](./README.md) • [Next mission](./Star_Wars_Canyon.md)
 
 Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)
