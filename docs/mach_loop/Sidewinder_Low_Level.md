@@ -1,7 +1,7 @@
 Sidewinder Low Level
 ==================
 
-Practice low level flying like the United States Air Force does! Fly the famous Sidewinder course. Starting at [Edwards Air Force Base](https://www.edwards.af.mil/), you can also do the Jedi transition through Star Wars Valley.
+Practice low level flying like the United States Air Force does! Fly the famous Sidewinder course. Starting at [Edwards Air Force Base](https://www.edwards.af.mil/), you can also do the Jedi transition through Star Wars Canyon.
 
 As usual CGAVIATOR has a video tour of the [Famous Sidewinder Low Level route](https://www.youtube.com/watch?v=9vBqxE8UPO8).
 

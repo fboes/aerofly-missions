@@ -1,12 +1,14 @@
 Star Wars Canyon
 ==================
 
-Become a Jedi by flying the famous Star Wars Canyon! Starting at Edwards Air Force Base, you fly the famous Sidewinder training course, but taking the Jedi Transition trough Star Wars Valley
+Become a Jedi by flying the famous Star Wars Canyon! Starting at Edwards Air Force Base, you fly the famous Sidewinder training course, but taking the Jedi transition trough Star Wars Canyon.
+
+Check [YouTube on how to fly the Star Wars Canyon](https://www.youtube.com/watch?v=2_L357HY7MQ).
 
 Flight briefing
 ---------------
 
-Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.91365643700626,-117.89741116531368&chart=301&zoom=3&fpl=N0570A033%20KEDW%203539N11829W%203608N11827W%203625N11801W%203620N11743W%203623N11724W%203539N11722W%203537N11732W%203525N11740W%20KEDW). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=35.66559444444445,-117.92119999999998&zoom=7&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=7/35.66559444444445/-117.92119999999998).
+Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.908089,-117.885528&chart=301&zoom=3&fpl=N0570A000%20KEDW%203539N11829W%203608N11827W%203625N11801W%203619N11741W%203623N11736W%203621N11734W%203624N11724W%203539N11722W%203537N11732W%203525N11740W%20KEDW). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=35.662378,-117.92500000000001&zoom=7&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=7/35.662378/-117.92500000000001).
 
 ### Aircraft
 
@@ -32,18 +34,20 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.91365643700626,
 |     | Waypoint  | Frequency  | Altitude  | DTK  | HDG  | Distance |   ETE |
 |:---:|-----------|-----------:|----------:|-----:|-----:|---------:|------:|
 | 01. | KEDW      |            |  2,311 ft |      |      |          |       |
-| 02. | 22L       |            |  2,282 ft | 067° | 067° |   1.2 NM | 02:29 |
-| 03. | A         |            |  3,300 ft | 325° | 325° |  53.3 NM | 05:38 |
+| 02. | 22L       | 110.10 MHz |  2,282 ft | 067° | 067° |   1.2 NM | 02:29 |
+| 03. | A         |            | 10,000 ft | 325° | 325° |  53.3 NM | 05:38 |
 | 04. | B         |            |  3,300 ft | 003° | 002° |  28.9 NM | 03:03 |
-| 05. | C-JEDI    |            |  3,300 ft | 050° | 050° |  28.0 NM | 02:57 |
-| 06. | W-3551    |            |  3,300 ft | 110° | 110° |  15.0 NM | 01:35 |
-| 07. | J-EXIT    |            |  3,300 ft | 079° | 079° |  16.0 NM | 01:41 |
-| 08. | K         |            |  3,300 ft | 178° | 178° |  43.9 NM | 04:38 |
-| 09. | L         |            |  3,300 ft | 251° | 252° |   8.5 NM | 00:55 |
-| 10. | M         |            |  3,300 ft | 212° | 213° |  13.3 NM | 01:25 |
-| 11. | 22L       |            |  2,282 ft | 197° | 197° |  31.9 NM | 03:22 |
-| 12. | KEDW      |            |  2,311 ft | 247° | 247° |   1.2 NM | 02:29 |
-|     | **Total** |            |           |      |      | **240.3 NM** | **30:07** |
+| 04. | C-JEDI    |            |           | 051° | 051° |  27.0 NM | 02:50 |
+| 05. | EAGL      |            |           | 109° | 110° |  17.5 NM | 01:50 |
+| 06. | SWC1      |            |           | 042° | 042° |   5.5 NM | 00:35 |
+| 07. | SWC2      |            |           | 136° | 136° |   2.9 NM | 00:19 |
+| 08. | J-EXIT    |            |           | 068° | 068° |   7.9 NM | 00:50 |
+| 09. | K         |            |  3,300 ft | 178° | 178° |  43.9 NM | 04:38 |
+| 10. | L         |            |  3,300 ft | 251° | 252° |   8.5 NM | 00:55 |
+| 11. | M         |            |  3,300 ft | 212° | 213° |  13.3 NM | 01:25 |
+| 12. | 22L       | 110.10 MHz |  2,282 ft | 197° | 197° |  31.9 NM | 03:22 |
+| 13. | KEDW      |            |  2,311 ft | 247° | 247° |   1.2 NM | 02:29 |
+|     | **Total** |            |           |      |      | **243.4 NM** | **30:26** |
 
 ----
 
