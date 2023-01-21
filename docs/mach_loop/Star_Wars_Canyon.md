@@ -3,7 +3,7 @@ Star Wars Canyon
 
 Become a Jedi by flying the famous Star Wars Canyon! Starting at Edwards Air Force Base, you fly the famous Sidewinder training course, but taking the Jedi transition trough Star Wars Canyon.
 
-Check [YouTube on how to fly the Star Wars Canyon](https://www.youtube.com/watch?v=2_L357HY7MQ).
+Check [on how to fly the Star Wars Canyon on YouTube](https://www.youtube.com/watch?v=2_L357HY7MQ).
 
 Flight briefing
 ---------------

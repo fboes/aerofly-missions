@@ -209,9 +209,10 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         let turnDegrees = c.direction - nextCheckpoint.direction;
         while (turnDegrees > 180) { turnDegrees -= 360 }
         while (turnDegrees < -180) { turnDegrees += 360 }
-
         const turnAnticipationDistance = Math.tan(Math.abs(turnDegrees) / 180 * Math.PI / 2) * turnRadius;
 
+        //if (turnAnticipationDistance <= Math.min(c.distance, nextCheckpoint.distance) / 2) {
+        // Fly-by
         const segments = Math.ceil(Math.abs(turnDegrees) / (360 / segmentsPerCircle));
         const segmentDegrees = turnDegrees / segments;
         const segmentLength = turnRadius * 2 * Math.PI / 360 * Math.abs(segmentDegrees);
@@ -225,6 +226,40 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
         //entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, nextCheckpoint.direction);
         //lineCoordinates.push([entry.lon, entry.lat]);
+        /*} else {
+          // Fly-over
+          // @see https://en.wikipedia.org/wiki/Circular_segment
+          turnDegrees *= 2;
+          const h = turnRadius * (1 - Math.cos(Math.abs(turnDegrees) / 180 * Math.PI / 2));
+          const alpha = 2 * Math.acos(1 - ((h / 2) / turnRadius)) * 180 / Math.PI;
+          const counterRotationDegrees = (Math.abs(turnDegrees) - alpha) / 2;
+          const rotationDegrees = Math.abs(turnDegrees) - counterRotationDegrees;
+          const prefix = Math.sign(turnDegrees);
+
+          let entry = c.lon_lat.clone();
+          lineCoordinates.push([entry.lon, entry.lat]);
+
+          // rotate one direction
+          let segments = Math.ceil(Math.abs(rotationDegrees) / (360 / segmentsPerCircle));
+          let segmentDegrees = rotationDegrees / segments;
+          let segmentLength = turnRadius * 2 * Math.PI / 360 * Math.abs(segmentDegrees);
+
+          for (let i = 0; i < segments; i++) {
+            entry = entry.getRelativeCoordinates(segmentLength, c.direction - ((i + 0.5) * segmentDegrees * prefix))
+            lineCoordinates.push([entry.lon, entry.lat]);
+          }
+
+          // rotate other direction
+          segments = Math.ceil(Math.abs(counterRotationDegrees) / (360 / segmentsPerCircle));
+          segmentDegrees = counterRotationDegrees / segments;
+          segmentLength = turnRadius * 2 * Math.PI / 360 * Math.abs(segmentDegrees);
+
+          for (let i = 0; i < segments; i++) {
+            entry = entry.getRelativeCoordinates(segmentLength, c.direction - rotationDegrees + ((i + 0.5) * segmentDegrees * prefix))
+            lineCoordinates.push([entry.lon, entry.lat]);
+          }
+          //lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
+        }*/
       }
     })
     return lineCoordinates;

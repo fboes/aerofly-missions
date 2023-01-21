@@ -3,25 +3,27 @@ import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 
 export class Outputtable {
   /**
- * @param hours number
- * @returns string MINUTES:SECONDS
- */
-  convertHoursToMinutesString(hours: number): string {
+   * @param hours number
+   * @returns string MINUTES:SECONDS
+   */
+  static convertHoursToMinutesString(hours: number): string {
     const seconds = Math.ceil(hours * 60 * 60);
 
     return Math.floor(seconds / 60).toFixed().padStart(2, "0") + ':' + Math.ceil(seconds % 60).toFixed().padStart(2, "0");
   }
 
-  pad(number: number, maxLength: number = 3, fractionDigits: number = 0, fillString: string = " "): string {
+  static pad(number: number, maxLength: number = 3, fractionDigits: number = 0, fillString: string = " "): string {
     return number.toLocaleString('en', {
       minimumFractionDigits: fractionDigits,
       maximumFractionDigits: fractionDigits
     }).padStart(maxLength, fillString);
   }
 
-  padThree(number: number, maxLength: number = 3): string {
-    return this.pad(number, maxLength, 0, "0");
+  static padThree(number: number, maxLength: number = 3): string {
+    return Outputtable.pad(number, maxLength, 0, "0");
   }
+
+  // ---------------------------------------------------------------------------
 
   outputLine(fields: string[]): string {
     return fields.join('  ') + "\n";
@@ -47,6 +49,6 @@ export class Outputtable {
     if (gust_type) {
       wind_speed += 'G' + conditions.wind_gusts.toFixed();
     }
-    return this.padThree(conditions.wind_direction) + '° @ ' + wind_speed;
+    return Outputtable.padThree(conditions.wind_direction) + '° @ ' + wind_speed;
   }
 }

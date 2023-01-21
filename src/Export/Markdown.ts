@@ -47,7 +47,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
 |---------------|----------------|---------------:|------------------:|
-| ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${this.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString("en").padStart(14)} ft |
+| ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${Outputtable.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString("en").padStart(14)} ft |
 
 ### Weather
 
@@ -78,19 +78,19 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
     m.checkpoints.forEach((c, i) => {
       let frqString = "";
       if (c.frequency) {
-        frqString = c.frequency_unit === "M" ? this.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
+        frqString = c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
         frqString += " " + c.frequency_unit + "Hz";
       }
 
       markdown += this.outputLine([
-        this.pad(i + 1, 2, 0, "0") + ".",
+        Outputtable.pad(i + 1, 2, 0, "0") + ".",
         c.name.padEnd(9, " "),
         c.frequency ? frqString : " ".repeat(10),
-        c.lon_lat.altitude_m ? this.pad(c.lon_lat.altitude_ft, 6, 0) + " ft" : " ".repeat(9),
-        c.direction >= 0 ? this.padThree(c.direction_magnetic) + "°" : " ".repeat(4),
-        c.heading >= 0 ? this.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
-        c.distance >= 0 ? this.pad(c.distance, 5, 1) + " NM" : " ".repeat(8),
-        c.time_enroute > 0 ? this.convertHoursToMinutesString(c.time_enroute) : " ".repeat(5),
+        c.lon_lat.altitude_m ? Outputtable.pad(c.lon_lat.altitude_ft, 6, 0) + " ft" : " ".repeat(9),
+        c.direction >= 0 ? Outputtable.padThree(c.direction_magnetic) + "°" : " ".repeat(4),
+        c.heading >= 0 ? Outputtable.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
+        c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) + " NM" : " ".repeat(8),
+        c.time_enroute > 0 ? Outputtable.convertHoursToMinutesString(c.time_enroute) : " ".repeat(5),
       ]);
     });
     markdown += this.outputLine([
@@ -100,8 +100,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
       "         ",
       "    ",
       "    ",
-      "**" + this.pad(total_distance, 4, 1) + " NM**",
-      "**" + this.convertHoursToMinutesString(total_time_enroute) + "**",
+      "**" + Outputtable.pad(total_distance, 4, 1) + " NM**",
+      "**" + Outputtable.convertHoursToMinutesString(total_time_enroute) + "**",
     ]);
 
     markdown += `

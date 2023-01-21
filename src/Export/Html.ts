@@ -90,6 +90,26 @@ export class Html extends Outputtable {
     return svg;
   }
 
+  outputWeather() {
+    const m = this.mission;
+
+    let html = '';
+    html += `<div class="table table-weather"><table>
+    <caption>Weather</caption>
+    <thead>`;
+    html += this.outputLine(["Wind ", "Clouds", "Visibility", " Flight rules"], 'th');
+    html += '</thead><tbody>';
+    html += this.outputLine([
+      Quote.html(this.getWind(m.conditions)) + '&nbsp;kts',
+      this.outputCover(m.conditions.cloud) + "&nbsp;" + Quote.html(m.conditions.cloud.cover_code) + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
+      m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
+      m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
+    ], 'ttd');
+    html += '</tbody></table></div>';
+
+    return html;
+  }
+
   /**
    * @returns string without proper HTML quoting, so go hack yourself ;)
    */
@@ -114,18 +134,7 @@ export class Html extends Outputtable {
     html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(center.lat)},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(zoomLevel)}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(zoomLevel)}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
 
-    html += `<div class="table table-weather"><table>
-    <caption>Weather</caption>
-    <thead>`;
-    html += this.outputLine(["Wind ", "Clouds", "Visibility", " Flight rules"], 'th');
-    html += '</thead><tbody>';
-    html += this.outputLine([
-      Quote.html(this.getWind(m.conditions)) + '&nbsp;kts',
-      this.outputCover(m.conditions.cloud) + "&nbsp;" + Quote.html(m.conditions.cloud.cover_code) + " @ " + m.conditions.cloud.height_feet.toLocaleString("en") + "&nbsp;ft",
-      m.conditions.visibility.toLocaleString("en") + "&nbsp;m / " + Math.round(m.conditions.visibility_sm) + "&nbsp;SM",
-      m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)
-    ], 'ttd');
-    html += '</tbody></table></div>';
+    html += this.outputWeather();
 
 
     html += `<div class="table table-airports"><table>
@@ -160,7 +169,8 @@ export class Html extends Outputtable {
       "#",
       "Waypoint ",
       "<abbr title=\"Frequency\">FRQ</abbr>",
-      "Altitude ",
+      "Altitude",
+      "Speed",
       "<abbr title=\"Desired track magnetic\">DTK</abbr>",
       "<abbr title=\"Heading magnetic\">HDG</abbr> ",
       "Distance",
@@ -176,14 +186,15 @@ export class Html extends Outputtable {
         || i == 0
         || i == m.checkpoints.length - 1;
       html += this.outputLine([
-        this.pad(i + 1, 2, 0, "0") + ".",
+        Outputtable.pad(i + 1, 2, 0, "0") + ".",
         !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._-]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
         `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
         `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!specialPoint ? -1000 : 0}" step="${!specialPoint ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ''}" />&nbsp;ft`,
-        c.direction !== -1 ? this.padThree(c.direction_magnetic) + "°" : '',
-        c.heading !== -1 ? this.padThree(c.heading_magnetic) + "°" : '',
-        c.distance >= 0 ? this.pad(c.distance, 5, 1) + "&nbsp;NM" : "",
-        c.time_enroute > 0 ? this.convertHoursToMinutesString(c.time_enroute) : "",
+        (i !== 0) ? `<input data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ''}" />&nbsp;kts` : '',
+        c.direction !== -1 ? Outputtable.padThree(c.direction_magnetic) + "°" : '',
+        c.heading !== -1 ? '<span class="heading">' + Outputtable.padThree(c.heading_magnetic) + "</span>°" : '',
+        c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) + "&nbsp;NM" : "",
+        c.time_enroute > 0 ? '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(c.time_enroute) + '</span>' : "",
       ]);
     });
     html += '</tbody><tfoot>';
@@ -194,8 +205,9 @@ export class Html extends Outputtable {
       "",
       "",
       "",
-      this.pad(total_distance, 4, 1) + "&nbsp;NM",
-      this.convertHoursToMinutesString(total_time_enroute),
+      "",
+      Outputtable.pad(total_distance, 4, 1) + "&nbsp;NM",
+      '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(total_time_enroute) + '</span>',
     ]);
     html += '</tfoot></table></div>';
 

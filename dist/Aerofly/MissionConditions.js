@@ -2,8 +2,8 @@ import { Units } from "../World/Units.js";
 export class MissionConditionsCloud {
     constructor(cover_percent = 0, height_percent = 0) {
         /**
-        * Percentage, 0..1
-        */
+         * Percentage, 0..1
+         */
         this.cover = 0.0;
         /**
          * Meters AGL

@@ -117,7 +117,7 @@ export class Flightplan extends Outputtable {
         ]);
         output += this.outputFourColumn([
             'TAS',
-            this.padThree(m.cruise_speed) + 'KTS',
+            Outputtable.padThree(m.cruise_speed) + 'KTS',
             'ALT',
             m.cruise_altitude_ft.toLocaleString('en') + 'FT'
         ]);
@@ -128,25 +128,25 @@ export class Flightplan extends Outputtable {
             m.checkpoints.forEach((c, i) => {
                 let frqString = '';
                 if (c.frequency) {
-                    frqString = c.frequency_unit === 'M' ? this.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
+                    frqString = c.frequency_unit === 'M' ? Outputtable.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
                 }
                 ;
                 output += this.outputLine([
-                    this.clr.lightGray + this.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
+                    this.clr.lightGray + Outputtable.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
                     this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
                     (c.frequency) ? frqString : ' '.repeat(6),
-                    (c.lon_lat.altitude_m) ? this.pad(c.lon_lat.altitude_ft, 6, 0) : ' '.repeat(6),
-                    (c.direction >= 0) ? this.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
-                    (c.heading >= 0) ? this.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
-                    (c.distance >= 0) ? this.pad(c.distance, 5, 1) : ' '.repeat(5),
-                    (c.time_enroute > 0) ? this.convertHoursToMinutesString(c.time_enroute).padStart(6) : ' '.repeat(6),
+                    (c.lon_lat.altitude_m) ? Outputtable.pad(c.lon_lat.altitude_ft, 6, 0) : ' '.repeat(6),
+                    (c.direction >= 0) ? Outputtable.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
+                    (c.heading >= 0) ? Outputtable.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
+                    (c.distance >= 0) ? Outputtable.pad(c.distance, 5, 1) : ' '.repeat(5),
+                    (c.time_enroute > 0) ? Outputtable.convertHoursToMinutesString(c.time_enroute).padStart(6) : ' '.repeat(6),
                 ]);
             });
             output += this.outputDashes(lineLength);
             output += this.outputLine([
                 this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
-                this.pad(total_distance, 5, 1),
-                this.convertHoursToMinutesString(total_time_enroute).padStart(6)
+                Outputtable.pad(total_distance, 5, 1),
+                Outputtable.convertHoursToMinutesString(total_time_enroute).padStart(6)
             ]);
         }
         return output;

@@ -15,6 +15,7 @@ import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import mapboxgl, { Map } from "mapbox-gl";
+import { Outputtable } from "../Export/Outputtable.js";
 
 type ApiResult = {
   data: {
@@ -140,6 +141,7 @@ export class App {
           break;
         case "cruise_speed":
           this.mission.cruise_speed = target.valueAsNumber;
+          this.mission.syncCruiseSpeed();
           this.syncToOutput();
           this.drawMap();
           break;
@@ -223,6 +225,19 @@ export class App {
                 break;
               case "altitude_ft":
                 this.mission.checkpoints[index].lon_lat.altitude_ft = target.valueAsNumber;
+                break;
+              case "speed":
+                this.mission.checkpoints[index].speed = target.valueAsNumber;
+                this.mission.calculateCheckpoints();
+                const tr = target.closest('tr');
+                if (tr) {
+                  (tr.querySelector('.heading') as HTMLElement).innerText = Outputtable.padThree(this.mission.checkpoints[index].heading);
+                  (tr.querySelector('.time_enroute') as HTMLElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.checkpoints[index].time_enroute);
+                }
+                const table = target.closest('table');
+                if (table) {
+                  (table.querySelector('tfoot .time_enroute') as HTMLElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
+                }
                 break;
               case "frequency_mhz":
                 this.mission.checkpoints[index].frequency_mhz = target.valueAsNumber;
@@ -594,8 +609,7 @@ export class App {
     this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 16) * 1000;
     this.mission.conditions.wind_direction = (360 + lastHeading - 30 + Math.floor(Math.random() * 61)) % 360;
     this.mission.conditions.wind_speed = Math.floor(Math.random() * 20);
-    this.mission.conditions.wind_gusts =
-      this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
+    this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
   }
 
   fetchMetar(icao: string, callback = () => { }) {

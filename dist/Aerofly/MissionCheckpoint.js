@@ -29,6 +29,10 @@ export class MissionCheckpoint {
          */
         this.frequency = 0;
         /**
+         * Not official: In kts TAS
+         */
+        this.speed = -1;
+        /**
          * Not official: In knots
          */
         this.ground_speed = -1;
@@ -127,6 +131,7 @@ export class MissionCheckpoint {
                         <[string8u][name][${Quote.tmc(this.name)}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.lon_lat.altitude_m}]>
+                        //<[float64][speed][${this.speed}]>
                         <[float64][direction][${this.direction}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
@@ -135,7 +140,7 @@ export class MissionCheckpoint {
 `;
     }
     hydrate(cp) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
         this.type = (_a = cp.type) !== null && _a !== void 0 ? _a : this.type;
         this.name = (_b = cp.name) !== null && _b !== void 0 ? _b : this.name;
         this.lon_lat.magnetic_declination = (_c = cp.lon_lat.magnetic_declination) !== null && _c !== void 0 ? _c : this.lon_lat.magnetic_declination;
@@ -147,8 +152,9 @@ export class MissionCheckpoint {
         this.slope = (_j = cp.slope) !== null && _j !== void 0 ? _j : this.slope;
         this.length = (_k = cp.length) !== null && _k !== void 0 ? _k : this.length;
         this.frequency = (_l = cp.frequency) !== null && _l !== void 0 ? _l : this.frequency;
-        this.ground_speed = (_m = cp.ground_speed) !== null && _m !== void 0 ? _m : this.ground_speed;
-        this.heading = (_o = cp.heading) !== null && _o !== void 0 ? _o : this.heading;
+        this.speed = (_m = cp.speed) !== null && _m !== void 0 ? _m : this.speed;
+        this.ground_speed = (_o = cp.ground_speed) !== null && _o !== void 0 ? _o : this.ground_speed;
+        this.heading = (_p = cp.heading) !== null && _p !== void 0 ? _p : this.heading;
     }
 }
 MissionCheckpoint.TYPE_ORIGIN = "origin";

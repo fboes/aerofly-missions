@@ -32,6 +32,10 @@ export class MissionCheckpoint {
    */
   frequency: number = 0;
   /**
+   * Not official: In kts TAS
+   */
+  speed: number = -1;
+  /**
    * Not official: In knots
    */
   ground_speed: number = -1;
@@ -150,6 +154,7 @@ export class MissionCheckpoint {
                         <[string8u][name][${Quote.tmc(this.name)}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
                         <[float64][altitude][${this.lon_lat.altitude_m}]>
+                        //<[float64][speed][${this.speed}]>
                         <[float64][direction][${this.direction}]>
                         <[float64][slope][${this.slope}]>
                         <[float64][length][${this.length}]>
@@ -170,6 +175,7 @@ export class MissionCheckpoint {
     this.slope = cp.slope ?? this.slope;
     this.length = cp.length ?? this.length;
     this.frequency = cp.frequency ?? this.frequency;
+    this.speed = cp.speed ?? this.speed;
     this.ground_speed = cp.ground_speed ?? this.ground_speed;
     this.heading = cp.heading ?? this.heading;
   }

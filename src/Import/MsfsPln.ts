@@ -113,6 +113,7 @@ export class MsfsPlnExport {
       pln += `            <ATCWaypoint id="${Quote.xml(name)}">
                 <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
                 <WorldPosition>${(this.getLla(cp.lon_lat))}</WorldPosition>
+                <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
 `;
       if (type !== 'User') {
         pln += `                <ICAO>

@@ -11,8 +11,8 @@ type MissionConditionsFlightRules = 'IFR' | 'LIFR' | 'VFR' | 'MVFR';
 
 export class MissionConditionsCloud {
   /**
-  * Percentage, 0..1
-  */
+   * Percentage, 0..1
+   */
   cover: number = 0.0;
   /**
    * Meters AGL
@@ -361,7 +361,7 @@ export class MissionConditions {
     this.visibility = json.visibility ?? this.visibility;
 
     this.clouds = json.clouds.map(c => {
-      const cx = new MissionConditionsCloud(0,0)
+      const cx = new MissionConditionsCloud(0, 0)
       cx.cover = c.cover;
       cx.height = c.height;
       return cx;

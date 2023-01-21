@@ -42,8 +42,8 @@ export class Mission {
         this.conditions = new MissionConditions();
         this.checkpoints = [];
         /**
-       * Not official: In kts TAS
-       */
+         * Not official: In kts TAS
+         */
         this.cruise_speed = 122;
         /**
          * Not official: In meters
@@ -236,6 +236,7 @@ export class Mission {
                     ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
                     : String.fromCharCode((this.aircraft_icao.charCodeAt(1) % 26) + 65, (this.aircraft_icao.charCodeAt(0) % 26) + 65, (this.aircraft_icao.charCodeAt(3) % 26) + 65, (this.aircraft_icao.charCodeAt(2) % 26) + 65); // 4 numbers
         }
+        this.syncCruiseSpeed();
         this.calculateCheckpoints();
     }
     get aircraft_name() {
@@ -313,6 +314,7 @@ export class Mission {
                 return cp;
             });
             const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+            this.syncCruiseSpeed();
             this.calculateCheckpoints();
             this.origin_icao = this.checkpoints[0].name;
             this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
@@ -374,6 +376,7 @@ export class Mission {
             return cp;
         });
         const flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+        this.syncCruiseSpeed();
         this.calculateCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_dir = this.checkpoints[1].direction;
@@ -424,26 +427,32 @@ export class Mission {
             }
         });
     }
+    syncCruiseSpeed() {
+        let lastC = null;
+        this.checkpoints.forEach(c => {
+            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
+                c.speed = 30;
+            }
+            else if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
+                c.speed = this.cruise_speed;
+            }
+            c.ground_speed = c.speed;
+            lastC = c;
+        });
+    }
     calculateCheckpoints() {
         let lastC = null;
         // Add directions
         this.checkpoints.forEach(c => {
-            if (c.type == MissionCheckpoint.TYPE_WAYPOINT && c.lon_lat.altitude_m === 0) {
-                c.lon_lat.altitude_m = this.cruise_altitude;
-            }
             if (lastC !== null) {
                 c.setDirectionByCoordinates(lastC.lon_lat);
             }
-            if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
-                c.ground_speed = this.cruise_speed;
-            }
             if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
-                c.ground_speed = 30;
             }
             else {
                 // Modify cruising speed by wind
-                if (c.ground_speed && c.direction >= 0 && this.conditions.wind_speed) {
-                    const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.ground_speed);
+                if (c.speed && c.direction >= 0 && this.conditions.wind_speed) {
+                    const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.speed);
                     c.ground_speed = windCorrection.ground_speed;
                     c.heading = windCorrection.heading;
                 }
@@ -612,6 +621,7 @@ export class MissionFactory extends FileParser {
             cp.slope = this.getNumber(wp, 'slope');
             cp.length = this.getNumber(wp, 'length');
             cp.frequency = this.getNumber(wp, 'frequency');
+            cp.speed = this.getNumber(wp, 'speed', mission.cruise_speed);
             mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.lon_lat.altitude_m);
             return cp;
         });
