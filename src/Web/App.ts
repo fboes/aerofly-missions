@@ -59,6 +59,7 @@ export class App {
     cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
     date: <HTMLInputElement>document.getElementById("date"),
     description: <HTMLTextAreaElement>document.getElementById("description"),
+    expertMode: <HTMLTextAreaElement>document.getElementById("expert-mode"),
     flightplan: <HTMLPreElement>document.getElementById("flightplan"),
     main: <HTMLElement>document.querySelector("main"),
     magneticDeclination: <HTMLInputElement>document.getElementById("magnetic_declination"),
@@ -89,6 +90,7 @@ export class App {
   metarApiKey = "";
   protected mapboxMap: Map | null = null;
   protected geoJson: GeoJson;
+  static BEGINNER_CLASS = 'is-beginner-mode';
 
   constructor() {
     this.mission = new Mission("", "");
@@ -98,6 +100,7 @@ export class App {
     this.flightplan = new Html(this.mission);
     this.skyVector = new SkyVector(this.mission);
     this.geoJson = new GeoJson();
+
 
     this.elements.main.addEventListener("input", (e) => {
       const target = e.target as HTMLInputElement;
@@ -291,6 +294,11 @@ export class App {
         }
       });
     });
+
+    this.elements.expertMode.addEventListener('click', () => {
+      this.elements.main.classList.toggle(App.BEGINNER_CLASS);
+      localStorage.setItem(App.BEGINNER_CLASS, this.elements.main.classList.contains(App.BEGINNER_CLASS) ? '1' : '0');
+    })
 
     document.querySelectorAll("button.reset").forEach((i) => {
       i.addEventListener("click", (e) => {
@@ -713,6 +721,8 @@ export class App {
 
   restore() {
     this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
+    const beginnerClass = localStorage.getItem(App.BEGINNER_CLASS) || '1';
+    this.elements.main.classList.toggle(App.BEGINNER_CLASS, beginnerClass === '1');
 
     const appState = localStorage.getItem(this.constructor.name);
     if (appState) {

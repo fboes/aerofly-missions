@@ -260,6 +260,12 @@ th {
   text-align: right;
 }
 
+.is-beginner-mode .expert-mode,
+.is-beginner-mode .table-checkpoints :is(td, th):nth-child(3),
+.is-beginner-mode .table-checkpoints :is(td, th):nth-child(5) {
+  display: none;
+}
+
 /* Page */
 
 .container {

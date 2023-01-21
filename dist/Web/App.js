@@ -33,6 +33,7 @@ export class App {
             cruise_speed: document.getElementById("cruise_speed"),
             date: document.getElementById("date"),
             description: document.getElementById("description"),
+            expertMode: document.getElementById("expert-mode"),
             flightplan: document.getElementById("flightplan"),
             main: document.querySelector("main"),
             magneticDeclination: document.getElementById("magnetic_declination"),
@@ -250,6 +251,10 @@ export class App {
                         break;
                 }
             });
+        });
+        this.elements.expertMode.addEventListener('click', () => {
+            this.elements.main.classList.toggle(App.BEGINNER_CLASS);
+            localStorage.setItem(App.BEGINNER_CLASS, this.elements.main.classList.contains(App.BEGINNER_CLASS) ? '1' : '0');
         });
         document.querySelectorAll("button.reset").forEach((i) => {
             i.addEventListener("click", (e) => {
@@ -654,6 +659,8 @@ export class App {
     }
     restore() {
         this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
+        const beginnerClass = localStorage.getItem(App.BEGINNER_CLASS) || '1';
+        this.elements.main.classList.toggle(App.BEGINNER_CLASS, beginnerClass === '1');
         const appState = localStorage.getItem(this.constructor.name);
         if (appState) {
             this.hydrate(JSON.parse(appState));
@@ -696,3 +703,4 @@ export class App {
         }
     }
 }
+App.BEGINNER_CLASS = 'is-beginner-mode';

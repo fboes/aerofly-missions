@@ -31,7 +31,7 @@
         <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
       </h1>
     </header>
-    <main>
+    <main class="is-beginner-mode">
       <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
         (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file
         formats),
@@ -237,25 +237,25 @@
               <output id="cloud_cover_code"></output>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="cloud2_base_feet">Cloud 2 height</label>
               <input type="number" min="0" max="50000" step="100" id="cloud2_base_feet">
               <span>ft</span>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="cloud2_cover">Cloud 2 cover</label>
               <input class="has-output" type="range" min="0" max="100" id="cloud2_cover">
               <output id="cloud2_cover_code"></output>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="cloud3_base_feet">Cloud 3 height</label>
               <input type="number" min="0" max="50000" step="100" id="cloud3_base_feet">
               <span>ft</span>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="cloud3_cover">Cloud 3 cover</label>
               <input class="has-output" type="range" min="0" max="100" id="cloud3_cover">
               <output id="cloud3_cover_code"></output>
@@ -285,13 +285,13 @@
               <span>°</span>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="turn_time">Time for 360° turn</label>
               <input type="number" value="2" min="0.25" step="0.25" id="turn_time">
               <span>min</span>
             </div>
 
-            <div>
+            <div class="expert-mode">
               <label for="turn_radius">Turn radius</label>
               <output class="number" id="turn_radius"></output>
               <span>NM</span>
@@ -304,6 +304,8 @@
             <label for="metar-api-key">CheckWX API key</label>
             <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
           </div>
+
+          <button id="expert-mode">Toggle expert mode</button>
         </details>
       </section>
       <section>
@@ -320,11 +322,11 @@
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
         <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane
-          <code>fms</code>
-          flight plan files.<br />It also generates a Markdown file containing a textual description of the flight
-          including weather data,
-          as well as a <a href="https://geojson.org/">GeoJSON</a> file.
+          <code>fms</code> flight plan files.
         </p>
+        <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight
+          including weather data,
+          as well as a <a href="https://geojson.org/">GeoJSON</a> file. </p>
         <button type="button" class="download primary" id="download-tmc">Download Aerofly FS
           <code>custom_missions.tmc</code>
           flight plan</button>
@@ -332,9 +334,10 @@
           flight plan</button>
         <button type="button" class="download" id="download-fms">Download X-Plane <code>custom_missions.fms</code>
           flight plan</button>
-        <button type="button" class="download" id="download-md">Download <code>custom_missions.md</code>
+        <button type="button" class="download expert-mode" id="download-md">Download <code>custom_missions.md</code>
           documentation</button>
-        <button type="button" class="download" id="download-json">Download <code>custom_missions.geojson</code></button>
+        <button type="button" class="download expert-mode" id="download-json">Download
+          <code>custom_missions.geojson</code></button>
       </section>
     </main>
     <footer>
