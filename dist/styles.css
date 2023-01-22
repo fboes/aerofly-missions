@@ -197,6 +197,7 @@ button.icon {
   top: 1em;
   right: 1em;
   line-height: 1;
+  text-align: center;
 }
 
 button.icon span {
