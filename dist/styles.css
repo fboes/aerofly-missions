@@ -137,7 +137,6 @@ input.has-output+output {
   padding: none;
 }
 
-
 :invalid {
   border-color: var(--color--warning);
 }
@@ -186,27 +185,48 @@ button:is(:hover, :focus):not(:disabled) {
   box-shadow: var(--color-darken-more) 0px 0.5em 0.5em;
 }
 
-button.reset {
+button.icon {
   width: auto;
-  font-size: 0.8em;
-  background-color: var(--color--warning);
-  color: var(--color-highlight-contra);
-  border-radius: 1em;
+  font-size: 0.8rem;
+  border-radius: 1.1em;
   padding: 0.3em 0.45em 0.5em;
-  min-width: 2em;
-  height: 2em;
+  min-width: 2.2em;
+  height: 2.2em;
   position: absolute;
   text-align: center;
-  top: 0;
-  right: 0;
+  top: 1em;
+  right: 1em;
+  line-height: 1;
 }
 
-button.reset span {
+button.icon span {
   display: none;
 }
 
-button.reset:hover span {
+button.icon:hover span {
   display: inline-block;
+}
+
+button.reset {
+  top: 0;
+  right: 0;
+  background-color: var(--color--warning);
+  color: var(--color-highlight-contra);
+}
+
+/* Dialog */
+
+dialog {
+  border: 1px solid var(--color-darken);
+  padding: 1em;
+  margin: auto;
+  box-shadow: var(--color-darken-more) 0.5em 0.5em 0.5em;
+  border-radius: 0.25em;
+  max-width: 40em;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Table */
@@ -260,10 +280,15 @@ th {
   text-align: right;
 }
 
-.is-beginner-mode .expert-mode,
-.is-beginner-mode .table-checkpoints :is(td, th):nth-child(3),
-.is-beginner-mode .table-checkpoints :is(td, th):nth-child(5) {
+.is-simple-mode .expert-mode,
+.is-simple-mode .table-checkpoints :is(td, th):nth-child(3),
+.is-simple-mode .table-checkpoints :is(td, th):nth-child(5) {
   display: none;
+}
+
+.is-simple-mode button#expert-mode {
+  background-color: var(--color--warning);
+  color: var(--color-highlight-contra);
 }
 
 /* Page */
@@ -271,6 +296,7 @@ th {
 .container {
   margin: auto;
   max-width: 50em;
+  position: relative;
 }
 
 .container>* {

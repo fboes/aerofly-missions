@@ -69,6 +69,7 @@ export class App {
     metar: <HTMLAnchorElement>document.getElementById("metar"),
     metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
     origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
+    settingsModal: <HTMLDialogElement>document.getElementById("settings-modal"),
     thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
     time: <HTMLInputElement>document.getElementById("time"),
     title: <HTMLInputElement>document.getElementById("title"),
@@ -90,7 +91,7 @@ export class App {
   metarApiKey = "";
   protected mapboxMap: Map | null = null;
   protected geoJson: GeoJson;
-  static BEGINNER_CLASS = 'is-beginner-mode';
+  static CLASS_SIMPLE_MODE = 'is-simple-mode';
 
   constructor() {
     this.mission = new Mission("", "");
@@ -296,11 +297,11 @@ export class App {
     });
 
     this.elements.expertMode.addEventListener('click', () => {
-      this.elements.main.classList.toggle(App.BEGINNER_CLASS);
-      localStorage.setItem(App.BEGINNER_CLASS, this.elements.main.classList.contains(App.BEGINNER_CLASS) ? '1' : '0');
+      this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
+      localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
     })
 
-    document.querySelectorAll("button.reset").forEach((i) => {
+    document.querySelectorAll("button.icon").forEach((i) => {
       i.addEventListener("click", (e) => {
         const target = e.currentTarget as HTMLButtonElement;
         switch (target.id) {
@@ -330,6 +331,12 @@ export class App {
           case 'reset-flightplan':
             this.mission.checkpoints = [];
             this.mission.magnetic_declination = undefined;
+            break;
+          case 'settings':
+            this.elements.settingsModal.showModal();
+            break;
+          case 'settings-close':
+            this.elements.settingsModal.close();
             break;
         }
 
@@ -721,8 +728,8 @@ export class App {
 
   restore() {
     this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
-    const beginnerClass = localStorage.getItem(App.BEGINNER_CLASS) || '1';
-    this.elements.main.classList.toggle(App.BEGINNER_CLASS, beginnerClass === '1');
+    const classSimpleMode = localStorage.getItem(App.CLASS_SIMPLE_MODE) || '1';
+    this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, classSimpleMode === '1');
 
     const appState = localStorage.getItem(this.constructor.name);
     if (appState) {

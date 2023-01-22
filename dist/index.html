@@ -29,9 +29,10 @@
       <h1>
         <img src="./favicon-512x512.svg" alt="" height="64" width="64">
         <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
+        <button type="button" class="icon" id="settings">⚙️ <span>Settings</span></button>
       </h1>
     </header>
-    <main class="is-beginner-mode">
+    <main class="is-simple-mode">
       <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
         (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file
         formats),
@@ -65,7 +66,7 @@
           <textarea id="description" required="required"></textarea>
         </div>
 
-        <button type="button" class="reset" id="reset-description">↺ <span>Reset mission title &amp;
+        <button type="button" class="icon reset" id="reset-description">↺ <span>Reset mission title &amp;
             description</span></button>
 
         <details open="open">
@@ -159,7 +160,7 @@
             </div>
           </div>
 
-          <button type="button" class="reset" id="reset-aircraft">↺ <span>Reset aircraft &amp; cruise
+          <button type="button" class="icon reset" id="reset-aircraft">↺ <span>Reset aircraft &amp; cruise
               settings</span></button>
         </details>
         <details>
@@ -176,7 +177,8 @@
             </div>
           </div>
 
-          <button type="button" class="reset" id="reset-time">↺ <span>Set to current date &amp; time</span></button>
+          <button type="button" class="icon reset" id="reset-time">↺ <span>Set to current date &amp;
+              time</span></button>
         </details>
         <details>
           <summary>Weather</summary>
@@ -267,10 +269,10 @@
             <button type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
             <button type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
           </div>
-          <button type="button" class="reset" id="reset-weather">↺ <span>Reset weather</span></button>
+          <button type="button" class="icon reset" id="reset-weather">↺ <span>Reset weather</span></button>
         </details>
         <details>
-          <summary>Miscellaneous</summary>
+          <summary>Navigation</summary>
           <div class="col-2">
             <div>
               <label for="origin_dir">True initial heading</label>
@@ -297,15 +299,6 @@
               <span>NM</span>
             </div>
           </div>
-
-          <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
-            the Missionsgerät can fetch the current weather for you.</p>
-          <div>
-            <label for="metar-api-key">CheckWX API key</label>
-            <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
-          </div>
-
-          <button id="expert-mode">Toggle expert mode</button>
         </details>
       </section>
       <section>
@@ -317,7 +310,7 @@
           <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
             map</button>
         </div>
-        <button type="button" class="reset" id="reset-flightplan">↺ <span>Reset flight plan</span></button>
+        <button type="button" class="icon reset" id="reset-flightplan">↺ <span>Reset flight plan</span></button>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
@@ -339,6 +332,22 @@
         <button type="button" class="download expert-mode" id="download-json">Download
           <code>custom_missions.geojson</code></button>
       </section>
+
+      <dialog id="settings-modal">
+        <h4>Settings</h4>
+        <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
+          the Missionsgerät can fetch the current weather for you.</p>
+        <div>
+          <label for="metar-api-key">CheckWX API key</label>
+          <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
+        </div>
+
+        <p>In expert mode additional controls will show up in this application. There will be more weather options and speed settings. There will be also more export options.</p>
+
+        <button id="expert-mode" class="primary">Toggle expert mode</button>
+
+        <button class="icon" id="settings-close">🗙 <span>Close settings</span></button>
+      </dialog>
     </main>
     <footer>
       <p>Author: <a href="https://3960.org/">Frank Bo&euml;s</a> &middot; <a

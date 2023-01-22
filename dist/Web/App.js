@@ -43,6 +43,7 @@ export class App {
             metar: document.getElementById("metar"),
             metarApiKey: document.getElementById("metar-api-key"),
             origin_dir: document.getElementById("origin_dir"),
+            settingsModal: document.getElementById("settings-modal"),
             thermal_strength: document.getElementById("thermal_strength"),
             time: document.getElementById("time"),
             title: document.getElementById("title"),
@@ -253,10 +254,10 @@ export class App {
             });
         });
         this.elements.expertMode.addEventListener('click', () => {
-            this.elements.main.classList.toggle(App.BEGINNER_CLASS);
-            localStorage.setItem(App.BEGINNER_CLASS, this.elements.main.classList.contains(App.BEGINNER_CLASS) ? '1' : '0');
+            this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
+            localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
         });
-        document.querySelectorAll("button.reset").forEach((i) => {
+        document.querySelectorAll("button.icon").forEach((i) => {
             i.addEventListener("click", (e) => {
                 const target = e.currentTarget;
                 switch (target.id) {
@@ -286,6 +287,12 @@ export class App {
                     case 'reset-flightplan':
                         this.mission.checkpoints = [];
                         this.mission.magnetic_declination = undefined;
+                        break;
+                    case 'settings':
+                        this.elements.settingsModal.showModal();
+                        break;
+                    case 'settings-close':
+                        this.elements.settingsModal.close();
                         break;
                 }
                 this.syncToForm();
@@ -659,8 +666,8 @@ export class App {
     }
     restore() {
         this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
-        const beginnerClass = localStorage.getItem(App.BEGINNER_CLASS) || '1';
-        this.elements.main.classList.toggle(App.BEGINNER_CLASS, beginnerClass === '1');
+        const classSimpleMode = localStorage.getItem(App.CLASS_SIMPLE_MODE) || '1';
+        this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, classSimpleMode === '1');
         const appState = localStorage.getItem(this.constructor.name);
         if (appState) {
             this.hydrate(JSON.parse(appState));
@@ -703,4 +710,4 @@ export class App {
         }
     }
 }
-App.BEGINNER_CLASS = 'is-beginner-mode';
+App.CLASS_SIMPLE_MODE = 'is-simple-mode';
