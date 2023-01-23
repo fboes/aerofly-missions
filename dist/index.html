@@ -29,14 +29,19 @@
       <h1>
         <img src="./favicon-512x512.svg" alt="" height="64" width="64">
         <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
-        <button type="button" class="icon" id="settings">⚙️ <span>Settings</span></button>
+        <button type="button" class="icon" id="settings" title="Open settings"><svg width="16" height="16" version="1.1"
+            viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="m7 0-0.55273 2.209a6 6 0 0 0-1.4531 0.59961l-1.9746-1.1855-1.4141 1.4141 1.1895 1.9824a6 6 0 0 0-0.58594 1.4277l-2.209 0.55273v2l2.209 0.55273a6 6 0 0 0 0.57812 1.4141l-1.1816 1.9707 1.4141 1.4141 1.9551-1.1719a6 6 0 0 0 1.4727 0.61133l0.55273 2.209h2l0.55273-2.209a6 6 0 0 0 1.4434-0.59375l1.9238 1.1543 1.4141-1.4141-1.1504-1.918a6 6 0 0 0 0.60742-1.4668l2.209-0.55273v-2l-2.209-0.55273a6 6 0 0 0-0.61523-1.4785l1.1582-1.9316-1.4141-1.4141-1.9473 1.168a6 6 0 0 0-1.4199-0.58203l-0.55273-2.209zm1 5a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z"
+              fill-rule="evenodd" stroke-width="1.2" />
+          </svg>
+          <span>Settings</span></button>
       </h1>
     </header>
     <main class="is-simple-mode">
       <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
         (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file
-        formats),
-        using your current flight plan and other settings to generate a shareable mission.</p>
+        formats), using your current flight plan and other settings to generate a shareable mission.</p>
 
       <section class="no-print">
         <h2>Step 1: Load flight plan file</h2>
@@ -66,8 +71,8 @@
           <textarea id="description" required="required"></textarea>
         </div>
 
-        <button type="button" class="icon reset" id="reset-description">↺ <span>Reset mission title &amp;
-            description</span></button>
+        <button type="button" class="icon reset" id="reset-description" title="Reset mission title &amp;
+        description">↺ <span>Reset mission title &amp; description</span></button>
 
         <details open="open">
           <summary>Aircraft</summary>
@@ -160,8 +165,8 @@
             </div>
           </div>
 
-          <button type="button" class="icon reset" id="reset-aircraft">↺ <span>Reset aircraft &amp; cruise
-              settings</span></button>
+          <button type="button" class="icon reset" id="reset-aircraft" title="Reset aircraft &amp; cruise
+          settings">↺ <span>Reset aircraft &amp; cruise settings</span></button>
         </details>
         <details>
           <summary>Date &amp; time</summary>
@@ -177,8 +182,8 @@
             </div>
           </div>
 
-          <button type="button" class="icon reset" id="reset-time">↺ <span>Set to current date &amp;
-              time</span></button>
+          <button type="button" class="icon reset" id="reset-time" title="Set to current date &amp;
+          time">↺ <span>Set to current date &amp; time</span></button>
         </details>
         <details>
           <summary>Weather</summary>
@@ -269,7 +274,8 @@
             <button type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
             <button type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
           </div>
-          <button type="button" class="icon reset" id="reset-weather">↺ <span>Reset weather</span></button>
+          <button type="button" class="icon reset" id="reset-weather" title="Reset weather">↺ <span>Reset
+              weather</span></button>
         </details>
         <details>
           <summary>Navigation</summary>
@@ -310,7 +316,8 @@
           <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
             map</button>
         </div>
-        <button type="button" class="icon reset" id="reset-flightplan">↺ <span>Reset flight plan</span></button>
+        <button type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺ <span>Reset flight
+            plan</span></button>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
@@ -350,7 +357,7 @@
         <p>Press <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>R</kbd> to check for updates.</p>
         <p>Press <kbd>CTRL</kbd>+<kbd>+</kbd> and <kbd>CTRL</kbd>+<kbd>-</kbd> to change text size.</p>
 
-        <button class="icon" id="settings-close">🗙 <span>Close settings</span></button>
+        <button class="icon" id="settings-close" title="Close settings">✕ <span>Close settings</span></button>
       </dialog>
     </main>
     <footer>

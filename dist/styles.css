@@ -76,7 +76,7 @@ summary {
 }
 
 svg {
-  vertical-align: -0.1em;
+  vertical-align: -0.15em;
   height: 1em;
   width: auto;
 }
@@ -188,10 +188,10 @@ button:is(:hover, :focus):not(:disabled) {
 button.icon {
   width: auto;
   font-size: 0.8rem;
-  border-radius: 1.1em;
+  border-radius: 1em;
   padding: 0.3em 0.45em 0.5em;
-  min-width: 2.2em;
-  height: 2.2em;
+  min-width: 2em;
+  height: 2em;
   position: absolute;
   text-align: center;
   top: 1em;
