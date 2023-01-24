@@ -180,8 +180,6 @@ export class Html extends Outputtable {
 
     m.checkpoints.forEach((c, i) => {
       const specialPoint = c.type === MissionCheckpoint.TYPE_ORIGIN
-        || c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
-        || c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
         || c.type === MissionCheckpoint.TYPE_DESTINATION
         || i == 0
         || i == m.checkpoints.length - 1;

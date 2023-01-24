@@ -18,6 +18,7 @@ import { Outputtable } from "../Export/Outputtable.js";
 export class App {
     constructor() {
         this.elements = {
+            addRunway: document.getElementById("add-runway"),
             aircraft_name: document.getElementById("aircraft_name"),
             callsign: document.getElementById("callsign"),
             cloud_base_feet: document.getElementById("cloud_base_feet"),
@@ -182,12 +183,12 @@ export class App {
                             case "name":
                                 this.mission.checkpoints[index].name = target.value;
                                 if (index === 1) {
-                                    this.mission.checkpoints[index].type = target.value.match(/^\d\d[A-Z]?$/)
+                                    this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRC]?$/)
                                         ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
                                         : MissionCheckpoint.TYPE_WAYPOINT;
                                 }
                                 else if (index === this.mission.checkpoints.length - 2) {
-                                    this.mission.checkpoints[index].type = target.value.match(/^\d\d[A-Z]?$/)
+                                    this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRC]?$/)
                                         ? MissionCheckpoint.TYPE_DESTINATION_RUNWAY
                                         : MissionCheckpoint.TYPE_WAYPOINT;
                                 }
@@ -257,7 +258,25 @@ export class App {
             this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
             localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
         });
-        document.querySelectorAll("button.icon").forEach((i) => {
+        // Modals
+        document.querySelectorAll("button[data-modal]").forEach((i) => {
+            i.addEventListener("click", (e) => {
+                e.preventDefault();
+                const tgt = e.currentTarget.getAttribute('data-modal');
+                console.log(tgt);
+                if (tgt) {
+                    document.getElementById(tgt).showModal();
+                }
+            });
+        });
+        document.querySelectorAll("button.modal-close").forEach((i) => {
+            i.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.currentTarget.closest('dialog').close();
+            });
+        });
+        // Reset buttons
+        document.querySelectorAll("button.reset").forEach((i) => {
             i.addEventListener("click", (e) => {
                 const target = e.currentTarget;
                 switch (target.id) {
@@ -288,12 +307,6 @@ export class App {
                         this.mission.checkpoints = [];
                         this.mission.magnetic_declination = undefined;
                         break;
-                    case 'settings':
-                        this.elements.settingsModal.showModal();
-                        break;
-                    case 'settings-close':
-                        this.elements.settingsModal.close();
-                        break;
                 }
                 this.syncToForm();
                 this.showFlightplan();
@@ -316,6 +329,36 @@ export class App {
                 this.showFlightplan();
             });
         });
+        this.elements.addRunway.addEventListener("click", (e) => {
+            if (this.mission.checkpoints) {
+                if (this.mission.checkpoints[1] && this.mission.checkpoints[1].type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
+                    const direction = this.mission.checkpoints[1].direction;
+                    const cp = new MissionCheckpoint();
+                    cp.type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
+                    cp.lon_lat = this.mission.checkpoints[0].lon_lat.getRelativeCoordinates(0.5, direction);
+                    cp.name = Math.round(direction / 10).toFixed().padStart(2, '0');
+                    cp.speed = 30;
+                    cp.ground_speed = 30;
+                    this.mission.checkpoints.splice(1, 0, cp);
+                }
+                const runwayIndex = this.mission.checkpoints.length - 2;
+                if (this.mission.checkpoints[runwayIndex] && this.mission.checkpoints[runwayIndex].type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
+                    const direction = (this.mission.checkpoints[runwayIndex + 1].direction);
+                    const cp = new MissionCheckpoint();
+                    cp.type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
+                    cp.lon_lat = this.mission.checkpoints[runwayIndex + 1].lon_lat.getRelativeCoordinates(0.5, (direction + 180) % 360);
+                    cp.name = Math.round(direction / 10).toFixed().padStart(2, '0');
+                    cp.speed = this.mission.checkpoints[runwayIndex + 1].speed;
+                    cp.ground_speed = this.mission.checkpoints[runwayIndex + 1].ground_speed;
+                    this.mission.checkpoints.splice(runwayIndex + 1, 0, cp);
+                    this.mission.checkpoints[runwayIndex + 2].speed = 30;
+                    this.mission.checkpoints[runwayIndex + 2].ground_speed = 30;
+                }
+            }
+            this.mission.calculateCheckpoints();
+            this.showFlightplan();
+            this.drawMap();
+        });
         this.showFlightplan();
         this.syncToForm();
     }
@@ -331,6 +374,16 @@ export class App {
                 b.setAttribute("disabled", "disabled");
             }
         });
+        const runwayIndex = this.mission.checkpoints.length - 2;
+        const hasRunway = this.mission.checkpoints && ((this.mission.checkpoints[1] && this.mission.checkpoints[1].type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY)
+            || (this.mission.checkpoints[runwayIndex] && this.mission.checkpoints[runwayIndex].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY));
+        console.log(hasRunway);
+        if (hasRunway) {
+            this.elements.addRunway.setAttribute("disabled", "disabled");
+        }
+        else {
+            this.elements.addRunway.removeAttribute("disabled");
+        }
         const slug = this.mission.title
             ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
             : "custom_missions";

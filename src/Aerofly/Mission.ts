@@ -418,7 +418,8 @@ export class Mission {
         cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
       }
       else if (w.type === 'USER WAYPOINT' && (i === 1 || i === gpl.waypoints.length - 2) && cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
-        cp.type = (i === 1) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+        cp.type = (i === 1) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
+        cp.name = cp.name.replace(/^(RW)/, '');
       }
 
       return cp;

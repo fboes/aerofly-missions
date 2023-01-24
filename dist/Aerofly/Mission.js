@@ -372,6 +372,7 @@ export class Mission {
             }
             else if (w.type === 'USER WAYPOINT' && (i === 1 || i === gpl.waypoints.length - 2) && cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
                 cp.type = (i === 1) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
+                cp.name = cp.name.replace(/^(RW)/, '');
             }
             return cp;
         });
