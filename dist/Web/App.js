@@ -342,7 +342,7 @@ export class App {
                             let cpTo = this.mission.checkpoints[lastIndex];
                             let spliceIndex = lastIndex;
                             let distance = 3.5;
-                            if (cpTo.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
+                            if (this.mission.checkpoints[lastIndex - 1].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
                                 cpTo = this.mission.checkpoints[lastIndex - 1];
                                 spliceIndex -= 1;
                                 distance -= 0.5;
