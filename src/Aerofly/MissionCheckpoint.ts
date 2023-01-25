@@ -20,6 +20,7 @@ export class MissionCheckpoint {
   distance: number = -1;
   /**
    * Only set on waypoint, function unknown
+   * Problably percentage -1..1
    */
   slope: number = 0;
   /**
@@ -146,6 +147,7 @@ export class MissionCheckpoint {
     this.direction = lonLat.getBearingTo(this.lon_lat);
     this.heading = this.direction;
     this.distance = lonLat.getDistanceTo(this.lon_lat);
+    this.slope = 0;
   }
 
   toString(index: number): string {
