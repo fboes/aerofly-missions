@@ -271,8 +271,8 @@
 
           <div class="col-3">
             <button type="button" id="make-weather">Set random weather</button>
-            <button type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
-            <button type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
+            <button class="make-metar" type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
+            <button class="make-metar" type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
           </div>
           <button type="button" class="icon reset" id="reset-weather" title="Reset weather">↺ <span>Reset
               weather</span></button>
@@ -304,9 +304,10 @@
               <output class="number" id="turn_radius"></output>
               <span>NM</span>
             </div>
-          </div>
 
-          <button id="add-runway" class="expert-mode" disabled="disabled">Add runway waypoints</button>
+            <button class="add-waypoint" id="add-departure" class="expert-mode">Add departure waypoint</button>
+            <button class="add-waypoint" id="add-approach" class="expert-mode">Add approach waypoint</button>
+          </div>
         </details>
       </section>
       <section>

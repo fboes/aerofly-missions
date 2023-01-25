@@ -44,7 +44,6 @@ type AppStorable = {
 
 export class App {
   elements = {
-    addRunway: <HTMLButtonElement>document.getElementById("add-runway"),
     aircraft_name: <HTMLSelectElement>document.getElementById("aircraft_name"),
     callsign: <HTMLInputElement>document.getElementById("callsign"),
     cloud_base_feet: <HTMLInputElement>document.getElementById("cloud_base_feet"),
@@ -359,54 +358,76 @@ export class App {
       });
     });
 
+    document.querySelectorAll("button.add-waypoint").forEach((i) => {
+      i.addEventListener("click", (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        switch (target.id) {
+          case 'add-departure':
+            {
+              let cpFrom = this.mission.checkpoints[0];
+              let cpTo = this.mission.checkpoints[1];
+              let spliceIndex = 1;
+              let distance = 3.5;
+              if (cpTo.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
+                cpFrom = this.mission.checkpoints[1];
+                cpTo = this.mission.checkpoints[2];
+                spliceIndex += 1;
+                distance -= 0.5;
+              }
+
+              const cp = new MissionCheckpoint();
+              cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);
+              cp.lon_lat.altitude_ft += 1000;
+              cp.name = cpFrom.name + '+3';
+              cp.speed = cpTo.speed;
+              cp.ground_speed = cpTo.ground_speed;
+              this.mission.checkpoints.splice(spliceIndex, 0, cp);
+            }
+            break;
+          case 'add-approach':
+            {
+              const lastIndex = this.mission.checkpoints.length - 1;
+              let cpTo = this.mission.checkpoints[lastIndex];
+              let spliceIndex = lastIndex;
+              let distance = 3.5;
+              if (cpTo.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
+                cpTo = this.mission.checkpoints[lastIndex - 1];
+                spliceIndex -= 1;
+                distance -= 0.5;
+              }
+
+              const cp = new MissionCheckpoint();
+              cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
+              cp.lon_lat.altitude_ft += 1000;
+              cp.name = cpTo.name + '+3';
+              cp.speed = cpTo.speed;
+              cp.ground_speed = cpTo.ground_speed;
+              this.mission.checkpoints.splice(spliceIndex, 0, cp);
+            }
+            break;
+        }
+        this.mission.calculateCheckpoints();
+        this.showFlightplan();
+        this.drawMap();
+      });
+    });
 
     this.elements.makeWeather.addEventListener("click", () => {
       this.makeWeather();
       this.syncToForm();
       this.showFlightplan();
     });
-    this.elements.makeMetarDept.addEventListener("click", () => {
-      this.fetchMetar(this.mission.origin_icao, () => {
-        this.syncToForm();
-        this.showFlightplan();
-      });
-    });
-    this.elements.makeMetarDest.addEventListener("click", () => {
-      this.fetchMetar(this.mission.destination_icao, () => {
-        this.syncToForm();
-        this.showFlightplan();
-      });
-    });
-    this.elements.addRunway.addEventListener("click", (e) => {
-      if (this.mission.checkpoints) {
-        if (this.mission.checkpoints[1] && this.mission.checkpoints[1].type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
-          const direction = this.mission.checkpoints[1].direction;
-          const cp = new MissionCheckpoint();
-          cp.type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
-          cp.lon_lat = this.mission.checkpoints[0].lon_lat.getRelativeCoordinates(0.5, direction)
-          cp.name = Math.round(direction / 10).toFixed().padStart(2, '0');
-          cp.speed = 30;
-          cp.ground_speed = 30;
-          this.mission.checkpoints.splice(1, 0, cp);
-        }
-        const runwayIndex = this.mission.checkpoints.length - 2;
-        if (this.mission.checkpoints[runwayIndex] && this.mission.checkpoints[runwayIndex].type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
-          const direction = (this.mission.checkpoints[runwayIndex + 1].direction);
-          const cp = new MissionCheckpoint();
-          cp.type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
-          cp.lon_lat = this.mission.checkpoints[runwayIndex + 1].lon_lat.getRelativeCoordinates(0.5, (direction + 180) % 360);
-          cp.name = Math.round(direction / 10).toFixed().padStart(2, '0');
-          cp.speed = this.mission.checkpoints[runwayIndex + 1].speed;
-          cp.ground_speed = this.mission.checkpoints[runwayIndex + 1].ground_speed;
-          this.mission.checkpoints.splice(runwayIndex + 1, 0, cp);
 
-          this.mission.checkpoints[runwayIndex + 2].speed = 30;
-          this.mission.checkpoints[runwayIndex + 2].ground_speed = 30;
-        }
-      }
-      this.mission.calculateCheckpoints();
-      this.showFlightplan();
-      this.drawMap();
+    document.querySelectorAll("button.make-metar").forEach((i) => {
+      i.addEventListener("click", (e) => {
+        const icao = (e.currentTarget as HTMLButtonElement).id === 'make-metar-dept'
+          ? this.mission.origin_icao
+          : this.mission.destination_icao
+        this.fetchMetar(icao, () => {
+          this.syncToForm();
+          this.showFlightplan();
+        });
+      });
     });
 
     this.showFlightplan();
@@ -426,17 +447,6 @@ export class App {
       }
     });
 
-    const runwayIndex = this.mission.checkpoints.length - 2;
-    const hasRunway = this.mission.checkpoints && (
-      (this.mission.checkpoints[1] && this.mission.checkpoints[1].type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY)
-      || (this.mission.checkpoints[runwayIndex] && this.mission.checkpoints[runwayIndex].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)
-    );
-    console.log(hasRunway);
-    if (hasRunway) {
-      this.elements.addRunway.setAttribute("disabled", "disabled");
-    } else {
-      this.elements.addRunway.removeAttribute("disabled");
-    }
     const slug = this.mission.title
       ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
       : "custom_missions";
