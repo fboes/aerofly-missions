@@ -185,7 +185,7 @@ export class Html extends Outputtable {
         || i == m.checkpoints.length - 1;
       html += this.outputLine([
         Outputtable.pad(i + 1, 2, 0, "0") + ".",
-        !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._-]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
+        !specialPoint ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._+-]+" maxlength="6" autocapitalize="characters" required="required" />` : c.name,
         `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
         `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!specialPoint ? -1000 : 0}" step="${!specialPoint ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ''}" />&nbsp;ft`,
         (i !== 0) ? `<input data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ''}" />&nbsp;kts` : '',
