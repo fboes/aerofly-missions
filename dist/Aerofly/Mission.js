@@ -449,6 +449,8 @@ export class Mission {
                 c.setDirectionByCoordinates(lastC.lon_lat);
             }
             if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
+                c.ground_speed = c.speed;
+                c.heading = c.direction;
             }
             else {
                 // Modify cruising speed by wind
@@ -456,6 +458,10 @@ export class Mission {
                     const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.speed);
                     c.ground_speed = windCorrection.ground_speed;
                     c.heading = windCorrection.heading;
+                }
+                else {
+                    c.ground_speed = c.speed;
+                    c.heading = c.direction;
                 }
             }
             lastC = c;
