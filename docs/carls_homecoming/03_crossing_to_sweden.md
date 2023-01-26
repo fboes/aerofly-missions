@@ -8,7 +8,11 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
 Carl's letter
 -------------
 
-> 
+> Our kids were born in the Seventies. Varvaara had already moved to Stockholm, and later on took Einar and Britt to København, were they grew up. I was not happy about her decision, but I understood that she had to move to a bigger city to be an artist. I stayed with Saab, working as an engineer. Back than the famous Øresund Bridge did not exists, so I flew to see my wife and kids. Most often I would take my Pitts.
+>
+> Even though we lived apart, these still were happy times. The kids were always happy, as most often was Varvaara. We never considered moving back together.
+>
+> Well, our kids later on followed suit and moved away.
 
 Flight briefing
 ---------------

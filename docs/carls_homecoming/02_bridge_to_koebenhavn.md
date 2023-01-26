@@ -8,7 +8,7 @@ Carl's letter
 
 > Today we are going to the old airport of København. I know this route by heart, because when I moved to Hamburg I used to travel a lot, to see my wife Varvaara.
 >
-> She being an artist and me being an engineer, we always had a very… passionate relationship. When we moved to Linköping, after some years she became weary of the "back-country life" as she would call it. She moved backt o Stockholm where we met - and later on to København.
+> She being an artist and me being an engineer, we always had a very… passionate relationship. When we moved to Linköping, after some years she became weary of the "back-country life" as she would call it. She moved backt o Stockholm where we met - and later on to København. I stayed at my work in Linköping with Saab.
 >
 > Even though it is hard to understand, we were still very much in love with each other. We did not really split up - but we lived in separate worlds. Our letters and visits were numerous - as well as our fights and arguments.
 >

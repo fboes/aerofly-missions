@@ -6,7 +6,9 @@ For a last time you take Carl`s Pitts and Carl up to the skies, and fly around Ã
 Carl's letter
 -------------
 
+> For one last time take me around the sites of my youth. It is here I learned to talk and walk, read and write, kiss and fight.
 >
+> And than, finally, my ashes can rest at the bottom of the Baltic Sea. Everything has been taken care of, and I can go in peace.
 
 Flight briefing
 ---------------

@@ -6,7 +6,11 @@ A compass and your watch are your best friends on this part of your trip, as the
 Carl's letter
 -------------
 
+> Even though I was born in Finnland, Sweden was my real home. My family never understood why I left behind my father's fishing company. My brother took over the business, but he was angry about me leaving the family behind. But back than the sea was not my real love, but engineering. And after seeing the first planes above Åland, I knew I had to become an engineer for aircraft.
 >
+> Back than the only chance to do this was the university in Stockholm. And as Swedish ist the main language on the Finnish island of Åland, there was no problem in going to Stockholm.
+>
+> Well, but I still love the Scandinavian language. Lakes, forests - once or twice a year I had to leave all my technology and engineering behind, and live in the wilderness.
 
 Flight briefing
 ---------------

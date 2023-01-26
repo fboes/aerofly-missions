@@ -6,7 +6,11 @@ As you enter the vicinity of Stockholm, you catch a last glimpse of forests and 
 Carl's letter
 -------------
 
+> Stockholm! So many memories revolve around this beautiful city. Here I met Varvaara. In our student days we did lots of stupid and crazy stuff - well, thins that were considered stupid and crazy stuff back than.
 >
+> How did we meet? Actually it was on a ship to Finnland, but we lost sight of each other for weeks. Later on I saw her by accident boarding a train in Stockholm's central station. Out of some sort of craziness I jumped on the train even though it was already leaving the platform, to ask her for her address and a date. But before I could ask her, a conductor asked me for my ticket which I did not have. Varvaara became very agitated about the behaviour of the conductor, so we both were thrown from the train at some small Swedish town in the middle of nowhere. Sooooo - we had to stay the night at a small cottage, because there were no other trains that days. Or maybe we forgot to check if there were any trains?
+>
+> We were mad in love. even though we lived in rather separate worlds. Whenever I was invited to an artist party of Varvaara's friends, I was a completely different social space - as it was for Varvaara, when we went to some engineer's gatherings. Back than socialism was en vouge among artists, with Varvaara being very outspoken against anything connected to communism or socialism. You should have seen the arguments she was having among her friends - she sure delivered a fight.
 
 Flight briefing
 ---------------

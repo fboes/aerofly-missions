@@ -6,7 +6,11 @@ Keeping clear of the restricted airspace around Karlsborg and lake Vättern, you
 Carl's letter
 -------------
 
+> Saab was my first employer. I was really proud to have a job in this important company. We build weapon systems like the Gripen which allowed Sweden to stay neutral, even while the Cold War erupted around us. Even though the Soviet Union was a threat at our door steps, we were sure that our Viggen (as well as our submarines, ships and tanks) looked menacing enough not to taunt us.
 >
+> I never had any problems with Soviets, but Varaara hated their guts. Being born in Talinn in Estonia, she fled from Soviet occupation. She never talked about her family (I never get to know her parents), which may or may not be linked to resenting everything Soviet or Russian.
+>
+> After the fall of the Iron Curtain Varaara visited Talinn from time to time, but more like a tourist. Well, our family never was about being rooted at some point of the earth.
 
 Flight briefing
 ---------------

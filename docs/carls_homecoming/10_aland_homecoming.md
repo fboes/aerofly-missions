@@ -8,7 +8,15 @@ You land at the capital of [Åland](https://en.wikipedia.org/wiki/%C3%85land), [
 Carl's letter
 -------------
 
+> I visited Åland from time to time, but only very late in my life. I missed the funeral of my father, my brother not having told me about it. He never forgave me for not helping in father's fishing company and leaving Åland behind. In his eyes I was living a fanciful life while his life was full of hardship - which was not entirely wrong.
 >
+> I attended his funeral. His children and his wife where very nice, and Varvaara, my kids and I stayed for some weeks at their place in a cottage. When I retired I would go there often, but not taking the Pitts but taking a regular commercial flight.
+>
+> Åland was a nice place to grow up, even while World War II was raging all around us. The islands were not that much touched by this madness, and we lived in peace and with lots of nature around us.
+>
+> As a teenager I always wanted to leave because I found it boring, but getting older I noticed I enjoyed the peace on Åland.
+>
+> So be so kind, and see my brother's family. They are really nice people.
 
 Flight briefing
 ---------------

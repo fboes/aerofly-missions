@@ -6,7 +6,13 @@ Again you have to take a detour to avoid the busy airspace around Norrköping. F
 Carl's letter
 -------------
 
+> Oh, what a good life we lived in Jönköping. We had a nice house, I had a good job at Saab, lots of friends and interesting stuff to see.
 >
+> We got married in the Sixties at Stegeborg Castle. A rather strange wedding, because not a single person from our families showed up - but instead so many friends the wedding had to be held outside of the church. It was Midsommar, the longest day of the year, and we had enough light to keep us going the whole night through.
+>
+> The wedding was great, as well as our lives. But Varvaara needed to have a profession of her own, which in Jönköping did not work. So she moved back to Stockholm, and I got the Pitts to shorten the trip.
+>
+> We were not really sad about being apart - it left more time for the stuff we needed but could not share with our partner. The weekends belonged to us.
 
 Flight briefing
 ---------------

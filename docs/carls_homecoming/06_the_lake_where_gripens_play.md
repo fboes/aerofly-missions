@@ -6,7 +6,11 @@ Old friends of Carl have invited you to an interesting trip, clearing your for p
 Carl's letter
 -------------
 
+> After university I started at Saab, and was part of the engineering team which build the Saab Viggen. Oh, what a joyful little bird. I had lots of friends in the Swedish air force, and we often got together on formal and informal meetings. Even though I have never been in the military, I visited so many air bases most personal treated me as one of their kind.
 >
+> The Viggen jockeys met in Karlsborg, where Saab got feedback from the real-life experience of Viggen flying. As the Viggen was able to land on streets, there were lots of interesting stories.
+>
+> Even when I left Saab, I still was invited to see the Viggen pilots gatherings. Later on it was less about flying the Viggen (now replaced by the Gripen) but sitting around campfires and sharing a good laugh.
 
 Flight briefing
 ---------------
