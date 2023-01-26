@@ -19,7 +19,7 @@ export class Test {
         }
     }
     assertEquals(a, b, message = "") {
-        return this.assert(a === b, message ? message : this.stringFromAny(a) + " matches " + this.stringFromAny(b));
+        return this.assert(a === b, message ? message : this.stringFromUnknown(a) + " matches " + this.stringFromUnknown(b));
     }
     group(title) {
         this.process.stdout.write(title + "\n");
@@ -28,7 +28,7 @@ export class Test {
         this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
         process.exit(this.errors > 0 ? 1 : 0);
     }
-    stringFromAny(a) {
+    stringFromUnknown(a) {
         if (a === undefined) {
             return 'undefined';
         }

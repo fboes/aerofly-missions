@@ -64,6 +64,19 @@ export class LonLat {
             return this.lat > -10 ? LonLat.CONTINENT_ASIA : LonLat.CONTINENT_AUSTRALIA;
         }
     }
+    toNavString() {
+        // 360351N1151159W
+        const lat = this.latMinute;
+        const lon = this.lonMinute;
+        return Math.abs(lat.degree).toFixed().padStart(2, '0')
+            + lat.minutes.toFixed().padStart(2, '0')
+            + lat.seconds.toFixed().padStart(2, '0')
+            + this.latHemisphere
+            + Math.abs(lon.degree).toFixed().padStart(3, '0')
+            + lon.minutes.toFixed().padStart(2, '0')
+            + lon.seconds.toFixed().padStart(2, '0')
+            + this.lonHemisphere;
+    }
     toString() {
         return this.lon.toFixed(6) + " " + this.lat.toFixed(6);
     }

@@ -56,7 +56,7 @@ export class Arguments {
   useColors: number = BashColors.COLOR_BASH;
   skyVector: boolean = true;
   markdown: boolean = false;
-  magneticDeclination: number | undefined;
+  magneticDeclination?: number;
 
   constructor(process: NodeJS.Process) {
     const args = process.argv.slice(2);

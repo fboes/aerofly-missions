@@ -3,8 +3,8 @@ import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
-import { GeoJson, GeoJsonFeature } from "../Export/GeoJson.js";
-import { GeoJsonImport as GeoJsonImport } from "../Import/GeoJson.js";
+import { GeoJson } from "../Export/GeoJson.js";
+import { GeoJsonImport } from "../Import/GeoJson.js";
 import { Html } from "../Export/Html.js";
 import { Markdown } from "../Export/Markdown.js";
 import { SkyVector } from "../Export/SkyVector.js";
@@ -14,7 +14,7 @@ import { MsfsPln, MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
 import { LonLat, LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import mapboxgl, { Map } from "mapbox-gl";
+import mapboxgl, { Map, MapMouseEvent, MapTouchEvent } from "mapbox-gl";
 import { Outputtable } from "../Export/Outputtable.js";
 
 type ApiResult = {
@@ -86,7 +86,7 @@ export class App {
   skyVector: SkyVector;
   useIcao = true;
   metarApiKey = "";
-  protected mapboxMap: Map | null = null;
+  protected mapboxMap?: Map;
   protected geoJson: GeoJson;
   static CLASS_SIMPLE_MODE = 'is-simple-mode';
 
@@ -99,10 +99,11 @@ export class App {
     this.skyVector = new SkyVector(this.mission);
     this.geoJson = new GeoJson();
 
-    this.elements.main.addEventListener("input", this);
-    document.querySelectorAll("button[data-handler]").forEach((i) => {
+    document.body.addEventListener("input", this);
+    document.body.addEventListener("click", this);
+    /*document.querySelectorAll("button[data-handler]").forEach((i) => {
       i.addEventListener("click", this);
-    });
+    });*/
 
     this.showFlightplan();
     this.syncToForm();
@@ -111,25 +112,25 @@ export class App {
   handleEvent(e: Event) {
     switch (e.type) {
       case 'click':
-        const target = e.currentTarget as HTMLElement;
+        const target: HTMLButtonElement|null = (e.target as HTMLElement).closest('[data-handler]')
+        if (!target) { return }
         const handler = target.getAttribute('data-handler');
         switch (handler) {
-          case 'add-waypoint': this.handleEventClickAddWaypoint(e); break;
-          case 'download': this.handleEventClickDownload(e); break;
-          case 'fetch-metar': this.handleEventClickFetchMetar(e); break;
-          case 'modal-close': this.handleEventClickModalClose(e); break;
-          case 'modal-open': this.handleEventClickModalOpen(e); break;
-          case 'random-weather': this.handleEventClickRandomWeather(e); break;
-          case 'reset': this.handleEventClickReset(e); break;
-          case 'toggle-expert-mode': this.handleEventClickToggleExpertMode(e); break;
+          case 'add-waypoint': this.handleEventClickAddWaypoint(target); break;
+          case 'download': this.handleEventClickDownload(target); break;
+          case 'fetch-metar': this.handleEventClickFetchMetar(target); break;
+          case 'modal-close': this.handleEventClickModalClose(target); break;
+          case 'modal-open': this.handleEventClickModalOpen(target); break;
+          case 'random-weather': this.handleEventClickRandomWeather(target); break;
+          case 'reset': this.handleEventClickReset(target); break;
+          case 'toggle-expert-mode': this.handleEventClickToggleExpertMode(target); break;
         }
         break;
-      case 'input': this.handelEventInput(e); break;
+      case 'input': this.handelEventInput(e.target as HTMLInputElement); break;
     }
   }
 
-  handleEventClickAddWaypoint(e: Event) {
-    const target = e.currentTarget as HTMLButtonElement;
+  handleEventClickAddWaypoint(target: HTMLButtonElement) {
     const distancePreset = 3;
     const heightPreset = Math.round((distancePreset * 318) / 100) * 100; // 3° slope
     switch (target.id) {
@@ -182,8 +183,7 @@ export class App {
     this.drawMap();
   }
 
-  handleEventClickDownload(e: Event) {
-    const target = e.currentTarget as HTMLButtonElement;
+  handleEventClickDownload(target: HTMLButtonElement) {
     const filename = target.querySelector("code")?.innerText || "";
     if (!filename) {
       this.showError("Missing filename for saving");
@@ -216,8 +216,7 @@ export class App {
   }
 
 
-  handleEventClickFetchMetar(e: Event) {
-    const target = e.currentTarget as HTMLButtonElement;
+  handleEventClickFetchMetar(target: HTMLButtonElement) {
     const icao = target.id === 'make-metar-dept'
       ? this.mission.origin_icao
       : this.mission.destination_icao
@@ -227,27 +226,24 @@ export class App {
     });
   }
 
-  handleEventClickModalClose(e: Event) {
-    e.preventDefault();
-    ((e.currentTarget as HTMLButtonElement).closest('dialog') as HTMLDialogElement).close();
+  handleEventClickModalClose(target: HTMLButtonElement) {
+    (target.closest('dialog') as HTMLDialogElement).close();
   }
 
-  handleEventClickModalOpen(e: Event)  {
-    e.preventDefault();
-    const tgt = (e.currentTarget as HTMLButtonElement).getAttribute('data-modal');
+  handleEventClickModalOpen(target: HTMLButtonElement) {
+    const tgt = target.getAttribute('data-modal');
     if (tgt) {
       (document.getElementById(tgt) as HTMLDialogElement).showModal();
     }
   }
 
-  handleEventClickRandomWeather(e: Event) {
+  handleEventClickRandomWeather(target: HTMLButtonElement) {
     this.makeWeather();
     this.syncToForm();
     this.showFlightplan();
   }
 
-  handleEventClickReset(e: Event) {
-    const target = e.currentTarget as HTMLButtonElement;
+  handleEventClickReset(target: HTMLButtonElement) {
     switch (target.id) {
       case 'reset-description':
         this.mission.title = '';
@@ -282,13 +278,12 @@ export class App {
     this.showFlightplan();
   }
 
-  handleEventClickToggleExpertMode(e:Event) {
+  handleEventClickToggleExpertMode(target: HTMLButtonElement) {
     this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
     localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
   }
 
-  handelEventInput(e: Event) {
-    const target = e.target as HTMLInputElement;
+  handelEventInput(target: HTMLInputElement) {
     let redraw = true;
     switch (target.id) {
       case "aircraft_name":
@@ -419,12 +414,12 @@ export class App {
               this.mission.calculateCheckpoints();
               const tr = target.closest('tr');
               if (tr) {
-                (tr.querySelector('.heading') as HTMLElement).innerText = Outputtable.padThree(this.mission.checkpoints[index].heading);
-                (tr.querySelector('.time_enroute') as HTMLElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.checkpoints[index].time_enroute);
+                (tr.querySelector('.heading') as HTMLSpanElement).innerText = Outputtable.padThree(this.mission.checkpoints[index].heading);
+                (tr.querySelector('.time_enroute') as HTMLSpanElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.checkpoints[index].time_enroute);
               }
               const table = target.closest('table');
               if (table) {
-                (table.querySelector('tfoot .time_enroute') as HTMLElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
+                (table.querySelector('tfoot .time_enroute') as HTMLSpanElement).innerText = Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
               }
               break;
             case "frequency_mhz":
@@ -475,7 +470,7 @@ export class App {
       this.mapboxMap.setCenter([this.mission.origin_lon_lat.lon, this.mission.origin_lon_lat.lat]);
     }
     this.mapboxMap.on("load", () => {
-      if (!this.mapboxMap) {
+      if (this.mapboxMap === undefined) {
         return;
       }
       this.mapboxMap.addSource('mapbox-dem', {
@@ -530,11 +525,11 @@ export class App {
 
       // -----------------------------------------------------------------------
 
-      let currentFeature: null | mapboxgl.MapboxGeoJSONFeature = null;
+      let currentFeature: mapboxgl.MapboxGeoJSONFeature | null = null;
       const source = this.mapboxMap.getSource('waypoints');
 
-      const onDown = (e: any) => {
-        if (!this.mapboxMap) { return }
+      const onDown = (e: MapMouseEvent | MapTouchEvent) => {
+        if (this.mapboxMap === undefined) { return }
         e.preventDefault();
         const features = this.mapboxMap.queryRenderedFeatures(e.point, {
           layers: ['waypoints']
@@ -542,8 +537,8 @@ export class App {
         currentFeature = features[0];
       }
 
-      const onMove = (e: any) => {
-        if (!this.mapboxMap) { return }
+      const onMove = (e: MapMouseEvent | MapTouchEvent) => {
+        if (this.mapboxMap === undefined) { return }
         const coords = e.lngLat;
 
         if (!currentFeature || !source || source.type !== "geojson") {
@@ -565,7 +560,7 @@ export class App {
       };
 
       const onUp = () => {
-        if (!this.mapboxMap) { return }
+        if (this.mapboxMap === undefined) { return }
         this.mapboxMap.off('mousemove', onMove);
         currentFeature = null;
         this.mission.calculateCheckpoints();
@@ -577,17 +572,17 @@ export class App {
       // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
 
       this.mapboxMap.on('mouseenter', 'waypoints', () => {
-        if (!this.mapboxMap) { return }
+        if (this.mapboxMap === undefined) { return }
         this.mapboxMap.getCanvasContainer().style.cursor = 'move';
       });
 
       this.mapboxMap.on('mouseleave', 'waypoints', () => {
-        if (!this.mapboxMap) { return }
+        if (this.mapboxMap === undefined) { return }
         this.mapboxMap.getCanvasContainer().style.cursor = '';
       });
 
       this.mapboxMap.on('mousedown', 'waypoints', (e) => {
-        if (!this.mapboxMap) { return }
+        if (this.mapboxMap === undefined) { return }
         onDown(e);
         this.mapboxMap.getCanvasContainer().style.cursor = 'grab';
         this.mapboxMap.on('mousemove', onMove);
@@ -595,7 +590,7 @@ export class App {
       });
 
       this.mapboxMap.on('touchstart', 'waypoints', (e) => {
-        if (!this.mapboxMap || e.points.length !== 1) { return }
+        if (this.mapboxMap === undefined || e.points.length !== 1) { return }
         onDown(e);
         this.mapboxMap.on('touchmove', onMove);
         this.mapboxMap.once('touchend', onUp);
@@ -604,7 +599,7 @@ export class App {
   }
 
   drawMap(resetCenter = false) {
-    if (!this.mapboxMap || this.mission.checkpoints.length === 0) {
+    if (this.mapboxMap === undefined || this.mission.checkpoints.length === 0) {
       return;
     }
     if (resetCenter) {

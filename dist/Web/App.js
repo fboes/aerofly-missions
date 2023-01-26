@@ -4,7 +4,7 @@ import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
-import { GeoJsonImport as GeoJsonImport } from "../Import/GeoJson.js";
+import { GeoJsonImport } from "../Import/GeoJson.js";
 import { Html } from "../Export/Html.js";
 import { Markdown } from "../Export/Markdown.js";
 import { SkyVector } from "../Export/SkyVector.js";
@@ -56,7 +56,6 @@ export class App {
         };
         this.useIcao = true;
         this.metarApiKey = "";
-        this.mapboxMap = null;
         this.mission = new Mission("", "");
         this.missionList = new MissionsList("");
         this.missionList.missions.push(this.mission);
@@ -64,52 +63,55 @@ export class App {
         this.flightplan = new Html(this.mission);
         this.skyVector = new SkyVector(this.mission);
         this.geoJson = new GeoJson();
-        this.elements.main.addEventListener("input", this);
-        document.querySelectorAll("button[data-handler]").forEach((i) => {
-            i.addEventListener("click", this);
-        });
+        document.body.addEventListener("input", this);
+        document.body.addEventListener("click", this);
+        /*document.querySelectorAll("button[data-handler]").forEach((i) => {
+          i.addEventListener("click", this);
+        });*/
         this.showFlightplan();
         this.syncToForm();
     }
     handleEvent(e) {
         switch (e.type) {
             case 'click':
-                const target = e.currentTarget;
+                const target = e.target.closest('[data-handler]');
+                if (!target) {
+                    return;
+                }
                 const handler = target.getAttribute('data-handler');
                 switch (handler) {
                     case 'add-waypoint':
-                        this.handleEventClickAddWaypoint(e);
+                        this.handleEventClickAddWaypoint(target);
                         break;
                     case 'download':
-                        this.handleEventClickDownload(e);
+                        this.handleEventClickDownload(target);
                         break;
                     case 'fetch-metar':
-                        this.handleEventClickFetchMetar(e);
+                        this.handleEventClickFetchMetar(target);
                         break;
                     case 'modal-close':
-                        this.handleEventClickModalClose(e);
+                        this.handleEventClickModalClose(target);
                         break;
                     case 'modal-open':
-                        this.handleEventClickModalOpen(e);
+                        this.handleEventClickModalOpen(target);
                         break;
                     case 'random-weather':
-                        this.handleEventClickRandomWeather(e);
+                        this.handleEventClickRandomWeather(target);
                         break;
                     case 'reset':
-                        this.handleEventClickReset(e);
+                        this.handleEventClickReset(target);
                         break;
                     case 'toggle-expert-mode':
-                        this.handleEventClickToggleExpertMode(e);
+                        this.handleEventClickToggleExpertMode(target);
                         break;
                 }
                 break;
             case 'input':
-                this.handelEventInput(e);
+                this.handelEventInput(e.target);
                 break;
         }
     }
-    handleEventClickAddWaypoint(e) {
-        const target = e.currentTarget;
+    handleEventClickAddWaypoint(target) {
         const distancePreset = 3;
         const heightPreset = Math.round((distancePreset * 318) / 100) * 100; // 3° slope
         switch (target.id) {
@@ -159,9 +161,8 @@ export class App {
         this.showFlightplan();
         this.drawMap();
     }
-    handleEventClickDownload(e) {
+    handleEventClickDownload(target) {
         var _a;
-        const target = e.currentTarget;
         const filename = ((_a = target.querySelector("code")) === null || _a === void 0 ? void 0 : _a.innerText) || "";
         if (!filename) {
             this.showError("Missing filename for saving");
@@ -184,8 +185,7 @@ export class App {
                 break;
         }
     }
-    handleEventClickFetchMetar(e) {
-        const target = e.currentTarget;
+    handleEventClickFetchMetar(target) {
         const icao = target.id === 'make-metar-dept'
             ? this.mission.origin_icao
             : this.mission.destination_icao;
@@ -194,24 +194,21 @@ export class App {
             this.showFlightplan();
         });
     }
-    handleEventClickModalClose(e) {
-        e.preventDefault();
-        e.currentTarget.closest('dialog').close();
+    handleEventClickModalClose(target) {
+        target.closest('dialog').close();
     }
-    handleEventClickModalOpen(e) {
-        e.preventDefault();
-        const tgt = e.currentTarget.getAttribute('data-modal');
+    handleEventClickModalOpen(target) {
+        const tgt = target.getAttribute('data-modal');
         if (tgt) {
             document.getElementById(tgt).showModal();
         }
     }
-    handleEventClickRandomWeather(e) {
+    handleEventClickRandomWeather(target) {
         this.makeWeather();
         this.syncToForm();
         this.showFlightplan();
     }
-    handleEventClickReset(e) {
-        const target = e.currentTarget;
+    handleEventClickReset(target) {
         switch (target.id) {
             case 'reset-description':
                 this.mission.title = '';
@@ -244,12 +241,11 @@ export class App {
         this.syncToForm();
         this.showFlightplan();
     }
-    handleEventClickToggleExpertMode(e) {
+    handleEventClickToggleExpertMode(target) {
         this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
         localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
     }
-    handelEventInput(e) {
-        const target = e.target;
+    handelEventInput(target) {
         let redraw = true;
         switch (target.id) {
             case "aircraft_name":
@@ -434,7 +430,7 @@ export class App {
             this.mapboxMap.setCenter([this.mission.origin_lon_lat.lon, this.mission.origin_lon_lat.lat]);
         }
         this.mapboxMap.on("load", () => {
-            if (!this.mapboxMap) {
+            if (this.mapboxMap === undefined) {
                 return;
             }
             this.mapboxMap.addSource('mapbox-dem', {
@@ -489,7 +485,7 @@ export class App {
             let currentFeature = null;
             const source = this.mapboxMap.getSource('waypoints');
             const onDown = (e) => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 e.preventDefault();
@@ -499,7 +495,7 @@ export class App {
                 currentFeature = features[0];
             };
             const onMove = (e) => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 const coords = e.lngLat;
@@ -523,7 +519,7 @@ export class App {
                 source.setData(this.geoJson);
             };
             const onUp = () => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 this.mapboxMap.off('mousemove', onMove);
@@ -535,19 +531,19 @@ export class App {
             // -----------------------------------------------------------------------
             // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
             this.mapboxMap.on('mouseenter', 'waypoints', () => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 this.mapboxMap.getCanvasContainer().style.cursor = 'move';
             });
             this.mapboxMap.on('mouseleave', 'waypoints', () => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 this.mapboxMap.getCanvasContainer().style.cursor = '';
             });
             this.mapboxMap.on('mousedown', 'waypoints', (e) => {
-                if (!this.mapboxMap) {
+                if (this.mapboxMap === undefined) {
                     return;
                 }
                 onDown(e);
@@ -556,7 +552,7 @@ export class App {
                 this.mapboxMap.once('mouseup', onUp);
             });
             this.mapboxMap.on('touchstart', 'waypoints', (e) => {
-                if (!this.mapboxMap || e.points.length !== 1) {
+                if (this.mapboxMap === undefined || e.points.length !== 1) {
                     return;
                 }
                 onDown(e);
@@ -566,7 +562,7 @@ export class App {
         });
     }
     drawMap(resetCenter = false) {
-        if (!this.mapboxMap || this.mission.checkpoints.length === 0) {
+        if (this.mapboxMap === undefined || this.mission.checkpoints.length === 0) {
             return;
         }
         if (resetCenter) {

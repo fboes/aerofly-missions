@@ -53,7 +53,7 @@ missionList.missions.push(mission);
 if (args.geoJson) {
     const target = args.target.replace('.tmc', '') + '.json';
     try {
-        fs.writeFileSync(target, JSON.stringify(new GeoJson().fromMission(mission), null, 2));
+        fs.writeFileSync(target, JSON.stringify(new GeoJson().fromMission(mission), undefined, 2));
         process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");
     }
     catch (err) {

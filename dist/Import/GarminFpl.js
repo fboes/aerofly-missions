@@ -2,10 +2,6 @@ import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
     constructor(configFileContent) {
         this.waypoints = [];
-        /**
-         * In feet MSL
-         */
-        this.cruisingAlt = undefined;
         this.read(configFileContent);
     }
     read(configFileContent) {

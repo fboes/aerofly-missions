@@ -53,7 +53,6 @@ export class Mission {
          * How many minutes does it take to make a full circle
          */
         this.turn_time = 2;
-        this._magnetic_declination = undefined;
         this.warnings = [];
         this.title = title;
         this.description = description;

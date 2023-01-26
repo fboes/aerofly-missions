@@ -7,7 +7,7 @@ export type GaminFplWaypoint = {
   type: GarminFplWaypointType,
   lat: number,
   lon: number,
-  alt: number | undefined,
+  alt?: number,
 };
 
 export class GarminFpl {
@@ -15,7 +15,7 @@ export class GarminFpl {
   /**
    * In feet MSL
    */
-  cruisingAlt: number | undefined = undefined;
+  cruisingAlt?: number;
 
   constructor(configFileContent: string) {
     this.read(configFileContent);

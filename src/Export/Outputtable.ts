@@ -1,3 +1,4 @@
+import { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 
@@ -41,6 +42,14 @@ export class Outputtable {
       sunSymbol = '☾';
     }
     return sunSymbol + ' ' + sunState.sunState + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°';
+  }
+
+
+  outputCodes(m: Mission, join = ' '): string {
+    const lastIndex = m.checkpoints.length - 1;
+    return m.checkpoints.map((cp, index) => {
+      return (index === 0 || index === lastIndex) ? cp.name : cp.lon_lat.toNavString()
+    }).join(join);
   }
 
   getWind(conditions: MissionConditions): string {

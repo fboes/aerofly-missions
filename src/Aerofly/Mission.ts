@@ -58,7 +58,7 @@ export class Mission {
    * How many minutes does it take to make a full circle
    */
   turn_time: number = 2;
-  protected _magnetic_declination: number | undefined = undefined;
+  protected _magnetic_declination?: number;
 
   static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
   static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";

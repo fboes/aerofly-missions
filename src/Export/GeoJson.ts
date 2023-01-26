@@ -12,9 +12,9 @@ export type GeoJsonFeature = GeoJSON.Feature & {
   properties: {
     title: string,
     type: string,
-    altitude: number | undefined,
-    direction: number | undefined,
-    frequency: string | undefined,
+    altitude?: number,
+    direction?: number,
+    frequency?: string,
     "marker-symbol": string,
   };
 };
@@ -211,7 +211,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         while (turnDegrees < -180) { turnDegrees += 360 }
         const turnAnticipationDistance = Math.tan(Math.abs(turnDegrees) / 180 * Math.PI / 2) * turnRadius;
 
-        //if (turnAnticipationDistance <= Math.min(c.distance, nextCheckpoint.distance) / 2) {
+        if (turnAnticipationDistance <= Math.min(c.distance, nextCheckpoint.distance)) {
         // Fly-by
         const segments = Math.ceil(Math.abs(turnDegrees) / (360 / segmentsPerCircle));
         const segmentDegrees = turnDegrees / segments;
@@ -226,10 +226,10 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
         //entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, nextCheckpoint.direction);
         //lineCoordinates.push([entry.lon, entry.lat]);
-        /*} else {
+        } else {
           // Fly-over
           // @see https://en.wikipedia.org/wiki/Circular_segment
-          turnDegrees *= 2;
+          /*turnDegrees *= 2;
           const h = turnRadius * (1 - Math.cos(Math.abs(turnDegrees) / 180 * Math.PI / 2));
           const alpha = 2 * Math.acos(1 - ((h / 2) / turnRadius)) * 180 / Math.PI;
           const counterRotationDegrees = (Math.abs(turnDegrees) - alpha) / 2;
@@ -257,9 +257,9 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           for (let i = 0; i < segments; i++) {
             entry = entry.getRelativeCoordinates(segmentLength, c.direction - rotationDegrees + ((i + 0.5) * segmentDegrees * prefix))
             lineCoordinates.push([entry.lon, entry.lat]);
-          }
-          //lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
-        }*/
+          }*/
+          lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
+        }
       }
     })
     return lineCoordinates;

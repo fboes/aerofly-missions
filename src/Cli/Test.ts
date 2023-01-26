@@ -18,8 +18,8 @@ export class Test {
     }
   }
 
-  assertEquals(a: any, b: any, message: string = "") {
-    return this.assert(a === b, message ? message : this.stringFromAny(a) + " matches " + this.stringFromAny(b));
+  assertEquals(a: unknown, b: unknown, message: string = "") {
+    return this.assert(a === b, message ? message : this.stringFromUnknown(a) + " matches " + this.stringFromUnknown(b));
   }
 
   group(title: string) {
@@ -31,7 +31,7 @@ export class Test {
     process.exit(this.errors > 0 ? 1 : 0);
   }
 
-  protected stringFromAny(a: any): string {
+  protected stringFromUnknown(a: unknown): string {
     if (a === undefined) {
       return 'undefined'
     } else if (a === null) {

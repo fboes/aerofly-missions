@@ -115,7 +115,7 @@ export class Html extends Outputtable {
         const zoomLevel = lonLatArea.getZoomLevel();
         const center = lonLatArea.center;
         let html = '';
-        html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector">current flight plan on Sky Vector</a>.
+        html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector" title="${s.getCheckpoints(false).join(' ')}">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(center.lat)},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(zoomLevel)}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(zoomLevel)}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
         html += this.outputWeather();
         html += `<div class="table table-airports"><table>

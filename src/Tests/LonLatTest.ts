@@ -60,5 +60,22 @@ export class LonLatTest extends Test {
       this.assertEquals(lonLat2.lat.toFixed(5), lonLat3.lat.toFixed(5))
       this.assertEquals(lonLat2.lon.toFixed(5), lonLat3.lon.toFixed(5))
     }
+
+    this.group(LonLat.name + ": Degree, Minutes, Seconds");
+    {
+      const lonLat = new LonLat(-115.1159, 36.0351);
+      const lat = lonLat.latMinute;
+      const lon = lonLat.lonMinute;
+
+      this.assertEquals(lat.degree, 36)
+      this.assertEquals(lat.minutes, 2)
+      this.assertEquals(Math.round(lat.seconds), 6)
+      this.assertEquals(lonLat.latHemisphere, 'N')
+      this.assertEquals(lon.degree, -115)
+      this.assertEquals(lon.minutes, 6)
+      this.assertEquals(Math.round(lon.seconds), 57)
+      this.assertEquals(lonLat.lonHemisphere, 'W')
+      this.assertEquals(lonLat.toNavString(), '360206N1150657W')
+    }
   }
 }

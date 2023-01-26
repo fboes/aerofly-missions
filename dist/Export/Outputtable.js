@@ -34,6 +34,12 @@ export class Outputtable {
         }
         return sunSymbol + ' ' + sunState.sunState + ' @ ' + sunState.solarElevationAngleDeg.toFixed() + '°';
     }
+    outputCodes(m, join = ' ') {
+        const lastIndex = m.checkpoints.length - 1;
+        return m.checkpoints.map((cp, index) => {
+            return (index === 0 || index === lastIndex) ? cp.name : cp.lon_lat.toNavString();
+        }).join(join);
+    }
     getWind(conditions) {
         let wind_speed = conditions.wind_speed.toFixed();
         const gust_type = conditions.wind_gusts_type;
