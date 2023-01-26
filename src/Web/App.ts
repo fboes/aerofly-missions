@@ -361,13 +361,15 @@ export class App {
     document.querySelectorAll("button.add-waypoint").forEach((i) => {
       i.addEventListener("click", (e) => {
         const target = e.currentTarget as HTMLButtonElement;
+        const distancePreset = 3;
+        const heightPreset = Math.round((distancePreset * 318) / 100) * 100; // 3° slope
         switch (target.id) {
           case 'add-departure':
             {
               let cpFrom = this.mission.checkpoints[0];
               let cpTo = this.mission.checkpoints[1];
               let spliceIndex = 1;
-              let distance = 3.5;
+              let distance = distancePreset + 0.5;
               if (cpTo.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
                 cpFrom = this.mission.checkpoints[1];
                 cpTo = this.mission.checkpoints[2];
@@ -377,8 +379,8 @@ export class App {
 
               const cp = new MissionCheckpoint();
               cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);
-              cp.lon_lat.altitude_ft += 1000;
-              cp.name = cpFrom.name + '+3';
+              cp.lon_lat.altitude_ft += heightPreset;
+              cp.name = cpFrom.name + '+' + distancePreset.toFixed();
               cp.speed = cpTo.speed;
               cp.ground_speed = cpTo.ground_speed;
               this.mission.checkpoints.splice(spliceIndex, 0, cp);
@@ -389,7 +391,7 @@ export class App {
               const lastIndex = this.mission.checkpoints.length - 1;
               let cpTo = this.mission.checkpoints[lastIndex];
               let spliceIndex = lastIndex;
-              let distance = 3.5;
+              let distance = distancePreset + 0.5;
               if (this.mission.checkpoints[lastIndex - 1].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
                 cpTo = this.mission.checkpoints[lastIndex - 1];
                 spliceIndex -= 1;
@@ -398,8 +400,8 @@ export class App {
 
               const cp = new MissionCheckpoint();
               cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
-              cp.lon_lat.altitude_ft += 1000;
-              cp.name = cpTo.name + '+3';
+              cp.lon_lat.altitude_ft += heightPreset;
+              cp.name = cpTo.name + '+' + distancePreset.toFixed();
               cp.speed = cpTo.speed;
               cp.ground_speed = cpTo.ground_speed;
               this.mission.checkpoints.splice(spliceIndex, 0, cp);

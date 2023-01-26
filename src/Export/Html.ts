@@ -192,10 +192,10 @@ export class Html extends Outputtable {
         `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ''}" />&nbsp;MHz`,
         `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!isAirportOrRunway ? -1000 : 0}" step="${!isAirportOrRunway ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ''}" />&nbsp;ft`,
         (i !== 0) ? `<input data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ''}" />&nbsp;kts` : '',
-        c.direction !== -1 ? Outputtable.padThree(c.direction_magnetic) + "°" : '',
-        c.heading !== -1 ? '<span class="heading">' + Outputtable.padThree(c.heading_magnetic) + "</span>°" : '',
-        c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) + "&nbsp;NM" : "",
-        c.time_enroute > 0 ? '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(c.time_enroute) + '</span>' : "",
+        i !== 0 ? Outputtable.padThree(c.direction_magnetic) + "°" : '',
+        i !== 0 ? '<span class="heading">' + Outputtable.padThree(c.heading_magnetic) + "</span>°" : '',
+        i !== 0 ? `<span class="distance" title="${c.slope_deg.toFixed(1)}°">${Outputtable.pad(c.distance, 5, 1)}</span>&nbsp;NM` : "",
+        i !== 0 ? '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(c.time_enroute) + '</span>' : "",
       ]);
     });
     html += '</tbody><tfoot>';

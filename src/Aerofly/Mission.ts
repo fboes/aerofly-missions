@@ -513,12 +513,17 @@ export class Mission {
       }
 
       if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
+        c.ground_speed = c.speed;
+        c.heading = c.direction;
       } else {
         // Modify cruising speed by wind
         if (c.speed && c.direction >= 0 && this.conditions.wind_speed) {
           const windCorrection = this.conditions.getWindCorrection(c.direction_rad, c.speed);
           c.ground_speed = windCorrection.ground_speed;
           c.heading = windCorrection.heading;
+        } else {
+          c.ground_speed = c.speed;
+          c.heading = c.direction;
         }
       }
       lastC = c;

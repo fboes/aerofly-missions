@@ -1,5 +1,6 @@
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
+import { Units } from "../World/Units.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
 export type MissionCheckpointType = "origin" | "departure_runway" | "departure" | "waypoint" | "arrival" | "approach" | "destination_runway" | "destination";
@@ -15,12 +16,12 @@ export class MissionCheckpoint {
   direction: number = -1;
   /**
    *  Not official: Distance in nautical miles to fly from last point to this point.
-   *-1 on first
+   * -1 on first
    */
   distance: number = -1;
   /**
    * Only set on waypoint, function unknown
-   * Problably percentage -1..1
+   * Given in percentage, -1..1
    */
   slope: number = 0;
   /**
@@ -110,6 +111,14 @@ export class MissionCheckpoint {
     return (this.heading - this.lon_lat.magnetic_declination + 360) % 360;
   }
 
+  get distance_m(): number {
+    return this.distance * Units.meterPerNauticalMile;
+  }
+
+  get slope_deg(): number {
+    return Math.atan(this.slope) * 180 / Math.PI;
+  }
+
   /**
    * In hours
    */
@@ -141,13 +150,15 @@ export class MissionCheckpoint {
   /**
    * Add direction and distance to this checkpont.
    *
-   * @param lonLat LonLat of last checkpoint before this one
+   * @param lastLonLat LonLat of last checkpoint before this one
    */
-  setDirectionByCoordinates(lonLat: LonLat) {
-    this.direction = lonLat.getBearingTo(this.lon_lat);
+  setDirectionByCoordinates(lastLonLat: LonLat) {
+    this.direction = lastLonLat.getBearingTo(this.lon_lat);
     this.heading = this.direction;
-    this.distance = lonLat.getDistanceTo(this.lon_lat);
-    this.slope = 0;
+    this.distance = lastLonLat.getDistanceTo(this.lon_lat);
+
+    const altDifference = this.lon_lat.altitude_m - lastLonLat.altitude_m; // m
+    this.slope = altDifference / this.distance_m;
   }
 
   toString(index: number): string {
@@ -158,7 +169,7 @@ export class MissionCheckpoint {
                         <[float64][altitude][${this.lon_lat.altitude_m}]>
                         //<[float64][speed][${this.speed}]>
                         <[float64][direction][${this.direction}]>
-                        <[float64][slope][${this.slope}]>
+                        <[float64][slope][${this.slope}]> // ${this.slope_deg.toFixed(1)} deg
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>
                     >
