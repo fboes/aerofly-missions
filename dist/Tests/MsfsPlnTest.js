@@ -4,8 +4,10 @@ import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 export class MsfsPlnTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.testEGOV();
         this.testLittleNavMap();
         this.testGarminParse();
@@ -21,7 +23,7 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(pln.waypoints[1].type, 'USER WAYPOINT');
             this.assertEquals(pln.waypoints[1].lat, 52.717475);
             this.assertEquals(pln.waypoints[1].alt, 2500);
-            this.assertEquals(pln.waypoints[1].lon.toFixed(8), '-4.05834167');
+            this.assertEqualsRounded(pln.waypoints[1].lon, -4.05834167, 8);
             this.assertEquals(pln.cruisingAlt, 2500);
         }
         // Convert PLN to Mission

@@ -2,8 +2,10 @@ import { Test } from "../Cli/Test.js";
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import * as fs from "node:fs";
 export class MainMcfTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(MainMcfFactory.name);
         {
             const mainMcf = new MainMcfFactory().create(fs.readFileSync('./src/Tests/cases/main.mcf', 'utf8'));

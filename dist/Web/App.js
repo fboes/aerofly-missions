@@ -65,9 +65,6 @@ export class App {
         this.geoJson = new GeoJson();
         document.body.addEventListener("input", this);
         document.body.addEventListener("click", this);
-        /*document.querySelectorAll("button[data-handler]").forEach((i) => {
-          i.addEventListener("click", this);
-        });*/
         this.showFlightplan();
         this.syncToForm();
     }
@@ -107,7 +104,7 @@ export class App {
                 }
                 break;
             case 'input':
-                this.handelEventInput(e.target);
+                this.handleEventInput(e.target);
                 break;
         }
     }
@@ -245,7 +242,7 @@ export class App {
         this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
         localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
     }
-    handelEventInput(target) {
+    handleEventInput(target) {
         let redraw = true;
         switch (target.id) {
             case "aircraft_name":
@@ -407,18 +404,13 @@ export class App {
         if (this.elements.flightplan) {
             this.elements.flightplan.innerHTML = this.flightplan.toString();
         }
-        document.querySelectorAll("button.download").forEach((b) => {
-            if (this.mission.checkpoints.length > 0) {
-                b.removeAttribute("disabled");
-            }
-            else {
-                b.setAttribute("disabled", "disabled");
-            }
+        document.querySelectorAll('[data-handler="download"]').forEach((b) => {
+            b.disabled = (this.mission.checkpoints.length <= 0);
         });
         const slug = this.mission.title
             ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
             : "custom_missions";
-        document.querySelectorAll('button.download code').forEach((el) => {
+        document.querySelectorAll('[data-handler="download"] code').forEach((el) => {
             el.innerText = slug + el.innerText.replace(/^.+\./, '.');
         });
         this.store();
@@ -573,7 +565,7 @@ export class App {
             const center = lonLatArea.center;
             this.mapboxMap.flyTo({
                 center: [center.lon, center.lat],
-                zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
+                zoom: lonLatArea.getZoomLevel(16 / 9, 0.75, true)
             });
         }
         const source = this.mapboxMap.getSource("waypoints");

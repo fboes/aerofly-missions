@@ -2,8 +2,10 @@ import { Test } from "../Cli/Test.js";
 import { GeoJsonImport } from "../Import/GeoJson.js";
 import * as fs from "node:fs";
 export class GeoJsonImportTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(GeoJsonImport.name);
         {
             const gpl = new GeoJsonImport(fs.readFileSync('./src/Tests/cases/reno-airrace.geojson', 'utf8'));

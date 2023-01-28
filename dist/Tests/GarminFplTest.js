@@ -2,8 +2,10 @@ import { Test } from "../Cli/Test.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
 import * as fs from "node:fs";
 export class GarminFplTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(GarminFpl.name);
         {
             const gpl = new GarminFpl(fs.readFileSync('./src/Tests/cases/KBLI.fpl', 'utf8'));

@@ -3,8 +3,10 @@ import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { Test } from "../Cli/Test.js";
 import * as fs from "node:fs";
 export class MissionTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(Mission.name);
         {
             const mission = new Mission('a', 'b');

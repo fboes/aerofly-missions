@@ -5,8 +5,8 @@ import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class XplaneFmsTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
     this.testEGOV();
     this.testLittleNavMap();
     this.testGarminParse();

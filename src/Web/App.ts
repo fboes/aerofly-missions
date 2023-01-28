@@ -59,7 +59,7 @@ export class App {
     cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
     date: <HTMLInputElement>document.getElementById("date"),
     description: <HTMLTextAreaElement>document.getElementById("description"),
-    flightplan: <HTMLPreElement>document.getElementById("flightplan"),
+    flightplan: <HTMLDivElement>document.getElementById("flightplan"),
     main: <HTMLElement>document.querySelector("main"),
     magneticDeclination: <HTMLInputElement>document.getElementById("magnetic_declination"),
     makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
@@ -101,9 +101,6 @@ export class App {
 
     document.body.addEventListener("input", this);
     document.body.addEventListener("click", this);
-    /*document.querySelectorAll("button[data-handler]").forEach((i) => {
-      i.addEventListener("click", this);
-    });*/
 
     this.showFlightplan();
     this.syncToForm();
@@ -126,7 +123,7 @@ export class App {
           case 'toggle-expert-mode': this.handleEventClickToggleExpertMode(target); break;
         }
         break;
-      case 'input': this.handelEventInput(e.target as HTMLInputElement); break;
+      case 'input': this.handleEventInput(e.target as HTMLInputElement); break;
     }
   }
 
@@ -215,7 +212,6 @@ export class App {
     }
   }
 
-
   handleEventClickFetchMetar(target: HTMLButtonElement) {
     const icao = target.id === 'make-metar-dept'
       ? this.mission.origin_icao
@@ -283,7 +279,7 @@ export class App {
     localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
   }
 
-  handelEventInput(target: HTMLInputElement) {
+  handleEventInput(target: HTMLInputElement) {
     let redraw = true;
     switch (target.id) {
       case "aircraft_name":
@@ -445,19 +441,15 @@ export class App {
       this.elements.flightplan.innerHTML = this.flightplan.toString();
     }
 
-    document.querySelectorAll("button.download").forEach((b) => {
-      if (this.mission.checkpoints.length > 0) {
-        b.removeAttribute("disabled");
-      } else {
-        b.setAttribute("disabled", "disabled");
-      }
+    document.querySelectorAll('[data-handler="download"]').forEach((b) => {
+      (b as HTMLButtonElement).disabled = (this.mission.checkpoints.length <= 0);
     });
 
     const slug = this.mission.title
       ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
       : "custom_missions";
 
-    document.querySelectorAll<HTMLElement>('button.download code').forEach((el) => {
+    document.querySelectorAll<HTMLElement>('[data-handler="download"] code').forEach((el) => {
       el.innerText = slug + el.innerText.replace(/^.+\./, '.')
     });
     this.store();
@@ -610,7 +602,7 @@ export class App {
       const center = lonLatArea.center;
       this.mapboxMap.flyTo({
         center: [center.lon, center.lat],
-        zoom: lonLatArea.getZoomLevel(16 / 9, 4.1, true)
+        zoom: lonLatArea.getZoomLevel(16 / 9, 0.75, true)
       });
     }
 

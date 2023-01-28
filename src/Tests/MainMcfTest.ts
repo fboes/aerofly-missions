@@ -3,8 +3,8 @@ import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import * as fs from "node:fs";
 
 export class MainMcfTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group(MainMcfFactory.name);
     {

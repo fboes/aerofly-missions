@@ -5,8 +5,8 @@ import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class MsfsPlnTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
     this.testEGOV();
     this.testLittleNavMap();
     this.testGarminParse();
@@ -24,7 +24,7 @@ export class MsfsPlnTest extends Test {
       this.assertEquals(pln.waypoints[1].type, 'USER WAYPOINT')
       this.assertEquals(pln.waypoints[1].lat, 52.717475)
       this.assertEquals(pln.waypoints[1].alt, 2500)
-      this.assertEquals(pln.waypoints[1].lon.toFixed(8), '-4.05834167')
+      this.assertEqualsRounded(pln.waypoints[1].lon, -4.05834167, 8)
       this.assertEquals(pln.cruisingAlt, 2500)
     }
 

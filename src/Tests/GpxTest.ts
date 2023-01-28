@@ -3,8 +3,8 @@ import { Gpx } from "../Import/Gpx.js";
 import * as fs from "node:fs";
 
 export class GpxTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group(Gpx.name);
     {

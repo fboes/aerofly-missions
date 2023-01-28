@@ -3,8 +3,9 @@ export class Test {
      * Put test cases into constructor
      * @param process
      */
-    constructor(process) {
+    constructor(process, dieOnError = false) {
         this.process = process;
+        this.dieOnError = dieOnError;
         this.successes = 0;
         this.errors = 0;
     }
@@ -16,10 +17,17 @@ export class Test {
         else {
             this.errors++;
             this.process.stderr.write("  💥 " + message + "\n");
+            if (this.dieOnError) {
+                this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Not finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+                process.exit(this.errors > 0 ? 1 : 0);
+            }
         }
     }
     assertEquals(a, b, message = "") {
         return this.assert(a === b, message ? message : this.stringFromUnknown(a) + " matches " + this.stringFromUnknown(b));
+    }
+    assertEqualsRounded(a, b, precision, message = "") {
+        return this.assertEquals(Number(a.toFixed(precision)), Number(b.toFixed(precision)), message);
     }
     group(title) {
         this.process.stdout.write(title + "\n");
@@ -34,6 +42,12 @@ export class Test {
         }
         else if (a === null) {
             return 'null';
+        }
+        else if (typeof a === 'string') {
+            return `"${a}"`;
+        }
+        else if (typeof a === 'boolean') {
+            return a ? 'true' : 'false';
         }
         return a.toString();
     }

@@ -4,8 +4,8 @@ import { Test } from "../Cli/Test.js";
 import * as fs from "node:fs";
 
 export class MissionTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group(Mission.name);
     {

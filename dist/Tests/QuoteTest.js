@@ -1,8 +1,10 @@
 import { Test } from "../Cli/Test.js";
 import { Quote } from "../Export/Quote.js";
 export class QuoteTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group('Quote');
         {
             const test = '<a href="#abc">ABC</a>';

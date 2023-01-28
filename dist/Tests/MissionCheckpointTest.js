@@ -2,8 +2,10 @@ import { LonLat } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Test } from "../Cli/Test.js";
 export class MissionCheckpointTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(MissionCheckpoint.name);
         const missionCheckpoint = new MissionCheckpoint();
         this.assertEquals(missionCheckpoint.lon_lat.altitude_m, 0, "Altitude present");

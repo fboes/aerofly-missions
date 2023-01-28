@@ -3,8 +3,8 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Test } from "../Cli/Test.js";
 
 export class MissionCheckpointTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group(MissionCheckpoint.name);
 

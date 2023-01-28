@@ -2,8 +2,10 @@ import { Test } from "../Cli/Test.js";
 import { Gpx } from "../Import/Gpx.js";
 import * as fs from "node:fs";
 export class GpxTest extends Test {
-    constructor(process) {
-        super(process);
+    constructor(process, dieOnError = false) {
+        super(process, dieOnError);
+        this.process = process;
+        this.dieOnError = dieOnError;
         this.group(Gpx.name);
         {
             const gpl = new Gpx(fs.readFileSync('./src/Tests/cases/EGOV.gpx', 'utf8'));

@@ -180,6 +180,9 @@ export class LonLatArea {
         this.max.lon = Math.max(this.max.lon, lonLat.lon);
         this.max.lat = Math.max(this.max.lat, lonLat.lat);
     }
+    get maxDistance() {
+        return this.min.getDistanceTo(this.max);
+    }
     get center() {
         return new LonLat((this.min.lon + this.max.lon) / 2, (this.min.lat + this.max.lat) / 2);
     }
@@ -189,7 +192,11 @@ export class LonLatArea {
     get latRange() {
         return this.max.lat - this.min.lat;
     }
-    getZoomLevel(aspectRatio = 2 / 1, factor = 3, fraction = false) {
+    /**
+     * @param aspectRatio to fit lonRange & latRange into
+     * @returns a lon/latRange to fit into
+     */
+    getMaxRange(aspectRatio = 2 / 1) {
         let x = this.lonRange, y = this.latRange;
         const rangeAspectRatio = x / y; // 0.5
         if (aspectRatio > rangeAspectRatio) {
@@ -198,8 +205,10 @@ export class LonLatArea {
         else {
             y *= rangeAspectRatio / aspectRatio;
         }
-        const maxRange = Math.max(0.35, Math.max(x, y * 2)); // 0..360
-        const zoom = 4 + (Math.sqrt(360 / maxRange) - 1) / factor;
-        return fraction ? zoom : Math.floor(zoom);
+        return Math.max(x, y); // 0..360
+    }
+    getZoomLevel(aspectRatio = 2 / 1, factor = 1, fraction = false) {
+        let zoom = 3 + Math.pow(360 / this.getMaxRange(aspectRatio), 0.3) * factor;
+        return fraction ? zoom : Math.ceil(zoom);
     }
 }

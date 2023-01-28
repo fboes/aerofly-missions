@@ -2,8 +2,8 @@ import { Test } from "../Cli/Test.js";
 import { Quote } from "../Export/Quote.js";
 
 export class QuoteTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group('Quote');
     {

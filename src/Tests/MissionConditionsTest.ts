@@ -2,8 +2,8 @@ import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { Test } from "../Cli/Test.js";
 
 export class MissionConditionsTest extends Test {
-  constructor(process: NodeJS.Process) {
-    super(process);
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
+    super(process, dieOnError);
 
     this.group(MissionConditions.name);
     {
@@ -46,8 +46,8 @@ export class MissionConditionsTest extends Test {
       const tas_kts = 100;
       const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
 
-      this.assertEquals(Math.round(windCorrection.ground_speed), 113);
-      this.assertEquals(Math.round(windCorrection.heading), 330);
+      this.assertEqualsRounded(windCorrection.ground_speed, 113.22, 2);
+      this.assertEqualsRounded(windCorrection.heading, 330.15, 2);
     }
 
     this.group(MissionConditions.name + ': Wind drift 2');
@@ -59,8 +59,8 @@ export class MissionConditionsTest extends Test {
       const tas_kts = 150;
       const windCorrection = missionConditions.getWindCorrection(course / 180 * Math.PI, tas_kts);
 
-      this.assertEquals(Math.round(windCorrection.ground_speed), 150);
-      this.assertEquals(Math.round(windCorrection.heading), 3);
+      this.assertEqualsRounded(windCorrection.ground_speed, 150.41, 2);
+      this.assertEqualsRounded(windCorrection.heading, 2.63, 2);
     }
 
     this.group(MissionConditions.name + ': Wind drift 3');
