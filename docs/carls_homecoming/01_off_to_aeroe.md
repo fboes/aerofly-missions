@@ -10,7 +10,7 @@ Carl's letter
 
 > Back than moving from Sweden to Germany was a big leap for me - but my life always was about changes. I moved so many times that my life pretty much boiled down to a suitcase and my small Pitts S-2 to carry it.
 >
-> Well, your flight today will my urn and me riding as a passenger along. I want you to take my ashes back to Åland, and along the way take me back to the important milestones in my life.
+> Well, your flight today will have my urn and me riding as a passenger along. I want you to take my ashes back to Åland, and along the way take me back to the important milestones in my life.
 >
 > We are leaving Hamburg, where I was working for Airbus. I moved here in the Eighties, and never regretted living in this beautiful town. And, well, I was part of the construction of the famous A320 - a giant milestone in my life.
 >
