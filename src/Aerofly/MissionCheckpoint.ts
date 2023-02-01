@@ -4,6 +4,7 @@ import { Units } from "../World/Units.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
 export type MissionCheckpointType = "origin" | "departure_runway" | "departure" | "waypoint" | "arrival" | "approach" | "destination_runway" | "destination";
+export type MissionCheckpointTypeExtended = MissionCheckpointType | "vor" | "ndb" | "intersection";
 
 export class MissionCheckpoint {
   type: MissionCheckpointType = "waypoint";
@@ -51,6 +52,9 @@ export class MissionCheckpoint {
   static TYPE_WAYPOINT: MissionCheckpointType = "waypoint";
   static TYPE_DESTINATION_RUNWAY: MissionCheckpointType = "destination_runway";
   static TYPE_DESTINATION: MissionCheckpointType = "destination";
+  static TYPE_VOR: MissionCheckpointTypeExtended = "vor";
+  static TYPE_NDB: MissionCheckpointTypeExtended = "ndb";
+  static TYPE_INTERSECTION: MissionCheckpointTypeExtended = "intersection";
 
   /**
    * Aerofly represents frequencies in Hz.
@@ -91,6 +95,27 @@ export class MissionCheckpoint {
       frequency_unit +
       "Hz"
     );
+  }
+
+  get type_extended(): MissionCheckpointTypeExtended {
+    if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
+      if (this.frequency) {
+        return this.frequency_unit === 'M' ? MissionCheckpoint.TYPE_VOR : MissionCheckpoint.TYPE_NDB;
+      }
+      if (this.name.match(/[A-Z]{5}/)) {
+        return MissionCheckpoint.TYPE_INTERSECTION;
+      }
+    }
+
+    return this.type;
+  }
+
+  /**
+   * @returns boolean if the type and name are exportable to other applications because it is known there, e.g. VORs, NDBs
+   */
+  isExportable(): boolean {
+    const type = this.type_extended;
+    return (type === MissionCheckpoint.TYPE_ORIGIN || type === MissionCheckpoint.TYPE_DESTINATION || type === MissionCheckpoint.TYPE_NDB || type === MissionCheckpoint.TYPE_VOR || type === MissionCheckpoint.TYPE_INTERSECTION);
   }
 
   get direction_magnetic(): number {

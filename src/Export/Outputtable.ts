@@ -1,4 +1,5 @@
 import { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 
@@ -47,8 +48,11 @@ export class Outputtable {
 
   outputCodes(m: Mission, join = ' '): string {
     const lastIndex = m.checkpoints.length - 1;
-    return m.checkpoints.map((cp, index) => {
-      return (index === 0 || index === lastIndex) ? cp.name : cp.lon_lat.toNavString()
+    return m.checkpoints.map((cp) => {
+      const type = cp.type_extended;
+      return (cp.isExportable())
+        ? cp.name
+        : cp.lon_lat.toNavString()
     }).join(join);
   }
 

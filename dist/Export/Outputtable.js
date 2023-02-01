@@ -36,8 +36,11 @@ export class Outputtable {
     }
     outputCodes(m, join = ' ') {
         const lastIndex = m.checkpoints.length - 1;
-        return m.checkpoints.map((cp, index) => {
-            return (index === 0 || index === lastIndex) ? cp.name : cp.lon_lat.toNavString();
+        return m.checkpoints.map((cp) => {
+            const type = cp.type_extended;
+            return (cp.isExportable())
+                ? cp.name
+                : cp.lon_lat.toNavString();
         }).join(join);
     }
     getWind(conditions) {

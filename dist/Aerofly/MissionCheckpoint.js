@@ -76,6 +76,24 @@ export class MissionCheckpoint {
             frequency_unit +
             "Hz");
     }
+    get type_extended() {
+        if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
+            if (this.frequency) {
+                return this.frequency_unit === 'M' ? MissionCheckpoint.TYPE_VOR : MissionCheckpoint.TYPE_NDB;
+            }
+            if (this.name.match(/[A-Z]{5}/)) {
+                return MissionCheckpoint.TYPE_INTERSECTION;
+            }
+        }
+        return this.type;
+    }
+    /**
+     * @returns boolean if the type and name are exportable to other applications because it is known there, e.g. VORs, NDBs
+     */
+    isExportable() {
+        const type = this.type_extended;
+        return (type === MissionCheckpoint.TYPE_ORIGIN || type === MissionCheckpoint.TYPE_DESTINATION || type === MissionCheckpoint.TYPE_NDB || type === MissionCheckpoint.TYPE_VOR || type === MissionCheckpoint.TYPE_INTERSECTION);
+    }
     get direction_magnetic() {
         if (this.direction == -1) {
             return this.direction;
@@ -172,3 +190,6 @@ MissionCheckpoint.TYPE_DEPARTURE_RUNWAY = "departure_runway";
 MissionCheckpoint.TYPE_WAYPOINT = "waypoint";
 MissionCheckpoint.TYPE_DESTINATION_RUNWAY = "destination_runway";
 MissionCheckpoint.TYPE_DESTINATION = "destination";
+MissionCheckpoint.TYPE_VOR = "vor";
+MissionCheckpoint.TYPE_NDB = "ndb";
+MissionCheckpoint.TYPE_INTERSECTION = "intersection";

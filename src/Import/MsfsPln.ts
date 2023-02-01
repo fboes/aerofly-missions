@@ -109,8 +109,12 @@ export class MsfsPlnExport {
       type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
         ? 'Airport'
         : 'User';
-      if (type === 'User' && cp.frequency) {
-        type = cp.frequency_unit === 'M' ? 'VOR' : 'NDB';
+      if (type === 'User') {
+        switch (cp.type_extended) {
+          case MissionCheckpoint.TYPE_VOR: type = 'VOR'; break;
+          case MissionCheckpoint.TYPE_NDB: type = 'NDB'; break;
+          case MissionCheckpoint.TYPE_INTERSECTION: type = 'Intersection'; break;
+        }
       }
       let name = cp.name;
       if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) && !name.match(/^RW/)) {

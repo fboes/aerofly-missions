@@ -10,7 +10,7 @@ export class SkyVector {
                 (c.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && c.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY));
         })
             .map((c) => {
-            return (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION)
+            return (c.isExportable())
                 ? c.name
                 : c.lon_lat.toNavString();
         });

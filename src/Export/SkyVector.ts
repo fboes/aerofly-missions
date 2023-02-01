@@ -13,7 +13,7 @@ export class SkyVector {
         );
       })
       .map((c) => {
-        return (c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION)
+        return (c.isExportable())
           ? c.name
           : c.lon_lat.toNavString();
       });
