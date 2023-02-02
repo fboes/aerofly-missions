@@ -1,23 +1,22 @@
 import { LonLat } from "./LonLat.js";
 
 export type LonLateDateSunState = {
-  solarElevationAngleDeg: number,
-  localSolarTime: string,
-  localTime: string,
-  sunState: string
-}
+  solarElevationAngleDeg: number;
+  localSolarTime: string;
+  localTime: string;
+  sunState: string;
+};
 
 export class LonLatDate {
-  static SUN_STATE_DAY = 'Day';
-  static SUN_STATE_NIGHT = 'Night';
-  static SUN_STATE_DUSK = 'Dusk';
-  static SUN_STATE_DAWN = 'Dawn';
+  static SUN_STATE_DAY = "Day";
+  static SUN_STATE_NIGHT = "Night";
+  static SUN_STATE_DUSK = "Dusk";
+  static SUN_STATE_DAWN = "Dawn";
 
-  constructor(public lonLat: LonLat, public date: Date) {
-  }
+  constructor(public lonLat: LonLat, public date: Date) {}
 
   get solarTimeZoneOffset(): number {
-    return Math.round(this.lonLat.lon / 180 * 12)
+    return Math.round((this.lonLat.lon / 180) * 12);
   }
 
   /**
@@ -25,16 +24,20 @@ export class LonLatDate {
    */
   get dayOfYear(): number {
     return (
-      Date.UTC(this.date.getFullYear(), this.date.getMonth(), this.date.getDate())
-      - Date.UTC(this.date.getFullYear(), 0, 0)
-    ) / 24 / 60 / 60 / 1000;
+      (Date.UTC(this.date.getFullYear(), this.date.getMonth(), this.date.getDate()) -
+        Date.UTC(this.date.getFullYear(), 0, 0)) /
+      24 /
+      60 /
+      60 /
+      1000
+    );
   }
 
   /**
    * In hours
    */
   get localTime(): number {
-    return (this.date.getUTCHours() + this.solarTimeZoneOffset + 24) % 24 + this.date.getUTCMinutes() / 60;
+    return ((this.date.getUTCHours() + this.solarTimeZoneOffset + 24) % 24) + this.date.getUTCMinutes() / 60;
   }
 
   /**
@@ -48,7 +51,7 @@ export class LonLatDate {
    * In minutes
    */
   get equationOfTime(): number {
-    const b = (2 * Math.PI / 365) * (this.dayOfYear - 81);
+    const b = ((2 * Math.PI) / 365) * (this.dayOfYear - 81);
     return 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
   }
 
@@ -63,24 +66,22 @@ export class LonLatDate {
    * In hours
    */
   get localSolarTime(): number {
-    return (this.localTime + (this.timeCorrectionFactor / 60) + 24) % 24;
+    return (this.localTime + this.timeCorrectionFactor / 60 + 24) % 24;
   }
 
   /**
    * In radians
    */
   get hourAngle(): number {
-    return 2 / 24 * Math.PI * (this.localSolarTime - 12);
+    return (2 / 24) * Math.PI * (this.localSolarTime - 12);
   }
 
   /**
    * In radians
    */
   get sunDeclination(): number {
-    const delta = 23.45 * Math.sin(
-      (2 * Math.PI / 365) * (this.dayOfYear - 81)
-    );
-    return delta / 180 * Math.PI;
+    const delta = 23.45 * Math.sin(((2 * Math.PI) / 365) * (this.dayOfYear - 81));
+    return (delta / 180) * Math.PI;
   }
 
   /**
@@ -91,33 +92,40 @@ export class LonLatDate {
     const delta = this.sunDeclination;
     const phi = this.lonLat.latRad;
 
-    return Math.asin(
-      Math.sin(delta) * Math.sin(phi)
-      + Math.cos(delta) * Math.cos(phi) * Math.cos(this.hourAngle)
-    );
+    return Math.asin(Math.sin(delta) * Math.sin(phi) + Math.cos(delta) * Math.cos(phi) * Math.cos(this.hourAngle));
   }
 
   /**
    * Returns at least `sunState` for civil twilight
    */
   get sunState(): LonLateDateSunState {
-    const solarElevationAngleDeg = this.solarElevationAngle / Math.PI * 180;
+    const solarElevationAngleDeg = (this.solarElevationAngle / Math.PI) * 180;
     const localSolarTime = this.localSolarTime;
     const localTime = this.localTime;
-    let sunState = '';
+    let sunState = "";
     if (solarElevationAngleDeg >= 0) {
       sunState = LonLatDate.SUN_STATE_DAY;
     } else if (solarElevationAngleDeg <= -6) {
       sunState = LonLatDate.SUN_STATE_NIGHT;
     } else {
-      sunState = (this.localSolarTime < 12) ? LonLatDate.SUN_STATE_DUSK : LonLatDate.SUN_STATE_DAWN;
+      sunState = this.localSolarTime < 12 ? LonLatDate.SUN_STATE_DUSK : LonLatDate.SUN_STATE_DAWN;
     }
 
     return {
       solarElevationAngleDeg,
-      localSolarTime: Math.floor(localSolarTime).toFixed().padStart(2, '0') + ':' + Math.floor(localSolarTime % 1 * 60).toFixed().padStart(2, '0'),
-      localTime: Math.floor(localTime).toFixed().padStart(2, '0') + ':' + Math.floor(localTime % 1 * 60).toFixed().padStart(2, '0'),
-      sunState
-    }
+      localSolarTime:
+        Math.floor(localSolarTime).toFixed().padStart(2, "0") +
+        ":" +
+        Math.floor((localSolarTime % 1) * 60)
+          .toFixed()
+          .padStart(2, "0"),
+      localTime:
+        Math.floor(localTime).toFixed().padStart(2, "0") +
+        ":" +
+        Math.floor((localTime % 1) * 60)
+          .toFixed()
+          .padStart(2, "0"),
+      sunState,
+    };
   }
 }

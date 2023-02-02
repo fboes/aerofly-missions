@@ -16,17 +16,17 @@ export class MissionCheckpointTest extends Test {
     this.assertEquals(missionCheckpoint.slope, 0, "Slope present");
 
     missionCheckpoint.frequency_mhz = 108.2;
-    this.assertEquals(missionCheckpoint.frequency_unit, 'M');
+    this.assertEquals(missionCheckpoint.frequency_unit, "M");
     this.assertEquals(missionCheckpoint.frequency_mhz, 108.2);
     this.assertEquals(missionCheckpoint.frequency, 108200000);
 
     missionCheckpoint.frequency_khz = 260;
-    this.assertEquals(missionCheckpoint.frequency_unit, 'k');
+    this.assertEquals(missionCheckpoint.frequency_unit, "k");
     this.assertEquals(missionCheckpoint.frequency_khz, 260);
     this.assertEquals(missionCheckpoint.frequency, 260000);
 
     missionCheckpoint.frequency_khz = 1260;
-    this.assertEquals(missionCheckpoint.frequency_unit, 'k');
+    this.assertEquals(missionCheckpoint.frequency_unit, "k");
     this.assertEquals(missionCheckpoint.frequency_khz, 1260);
     this.assertEquals(missionCheckpoint.frequency, 1260000);
   }

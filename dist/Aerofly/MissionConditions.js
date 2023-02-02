@@ -13,26 +13,26 @@ export class MissionConditionsCloud {
         this.cover = cover_percent;
     }
     set height_percent(percent) {
-        this.height = percent * 10000 / Units.feetPerMeter; // Max cloud height
+        this.height = (percent * 10000) / Units.feetPerMeter; // Max cloud height
     }
     get height_percent() {
-        return this.height * Units.feetPerMeter / 10000; // Max cloud height
+        return (this.height * Units.feetPerMeter) / 10000; // Max cloud height
     }
     set cover_code(cover_code) {
         switch (cover_code) {
-            case 'CLR':
+            case "CLR":
                 this.cover = 0;
                 break;
-            case 'FEW':
+            case "FEW":
                 this.cover = 1 / 8;
                 break;
-            case 'SCT':
+            case "SCT":
                 this.cover = 2 / 8;
                 break;
-            case 'BKN':
+            case "BKN":
                 this.cover = 4 / 8;
                 break;
-            case 'OVC':
+            case "OVC":
                 this.cover = 1;
                 break;
             default:
@@ -46,39 +46,39 @@ export class MissionConditionsCloud {
     get cover_code() {
         const octas = Math.round(this.cover * 8);
         if (octas < 1) {
-            return 'CLR';
+            return "CLR";
         }
         else if (octas <= 2) {
-            return 'FEW';
+            return "FEW";
         }
         else if (octas <= 4) {
-            return 'SCT';
+            return "SCT";
         }
         else if (octas <= 7) {
-            return 'BKN';
+            return "BKN";
         }
-        return 'OVC';
+        return "OVC";
     }
     /**
      * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
      */
     get cover_symbol() {
         if (this.cover === 0) {
-            return '○';
+            return "○";
         }
         else if (this.cover <= 0.125) {
-            return '⦶';
+            return "⦶";
         }
         else if (this.cover <= 0.375) {
-            return '◔';
+            return "◔";
         }
         else if (this.cover <= 0.625) {
-            return '◑';
+            return "◑";
         }
         else if (this.cover <= 0.875) {
-            return '◕';
+            return "◕";
         }
-        return '●';
+        return "●";
     }
     set height_feet(height_feet) {
         this.height = height_feet / Units.feetPerMeter;
@@ -116,7 +116,7 @@ export class MissionConditionsTime {
     }
     set time_hours(time_hours) {
         this.dateTime.setUTCHours(Math.ceil(time_hours));
-        this.dateTime.setUTCMinutes((time_hours % 1)) * 60;
+        this.dateTime.setUTCMinutes(time_hours % 1) * 60;
     }
 }
 export class MissionConditions {
@@ -175,16 +175,16 @@ export class MissionConditions {
         return Math.min(1, this.visibility / 15000); // Max visibility
     }
     get visibility_sm() {
-        return (this.visibility === 15000) ? 10 : this.visibility / Units.meterPerStatuteMile;
+        return this.visibility === 15000 ? 10 : this.visibility / Units.meterPerStatuteMile;
     }
     set wind_speed_percent(percent) {
         this.wind_speed = 8 * (percent + Math.pow(percent, 2));
     }
     get wind_speed_percent() {
-        return Math.sqrt((this.wind_speed / 8) + 0.25) - 0.5;
+        return Math.sqrt(this.wind_speed / 8 + 0.25) - 0.5;
     }
     get wind_direction_rad() {
-        return (this.wind_direction % 360) / 180 * Math.PI;
+        return ((this.wind_direction % 360) / 180) * Math.PI;
     }
     get wind_gusts_type() {
         const delta = this.wind_gusts - this.wind_speed;
@@ -197,7 +197,7 @@ export class MissionConditions {
         else if (delta > 10) {
             return MissionConditions.WIND_GUSTS_STANDARD;
         }
-        return '';
+        return "";
     }
     fromMainMcf(mainMcf) {
         this.time.time_year = mainMcf.time_utc.time_year;
@@ -206,7 +206,7 @@ export class MissionConditions {
         this.time.time_hours = mainMcf.time_utc.time_hours;
         this.wind_direction = mainMcf.wind.direction_in_degree;
         this.wind_speed_percent = mainMcf.wind.strength;
-        this.wind_gusts = this.wind_speed + (mainMcf.wind.turbulence * 25);
+        this.wind_gusts = this.wind_speed + mainMcf.wind.turbulence * 25;
         this.turbulence_strength = mainMcf.wind.turbulence;
         this.thermal_strength = mainMcf.wind.thermal_activity;
         this.visibility_percent = mainMcf.visibility;
@@ -226,7 +226,7 @@ export class MissionConditions {
      */
     getFlightCategory(useIcao = false) {
         let cloud_base_feet = 9999;
-        this.clouds.forEach(cloud => {
+        this.clouds.forEach((cloud) => {
             if (cloud.cover > 0.5) {
                 cloud_base_feet = Math.min(cloud_base_feet, cloud.height_feet);
             }
@@ -260,9 +260,7 @@ export class MissionConditions {
      */
     getWindCorrection(course_rad, tas_kts) {
         const deltaRad = this.wind_direction_rad - course_rad;
-        const correctionRad = (deltaRad === 0 || deltaRad === Math.PI)
-            ? 0
-            : Math.asin(this.wind_speed * Math.sin(deltaRad) / tas_kts);
+        const correctionRad = deltaRad === 0 || deltaRad === Math.PI ? 0 : Math.asin((this.wind_speed * Math.sin(deltaRad)) / tas_kts);
         const heading_rad = correctionRad + course_rad;
         let ground_speed = tas_kts - Math.cos(deltaRad) * this.wind_speed;
         if (deltaRad === 0) {
@@ -272,12 +270,12 @@ export class MissionConditions {
             ground_speed = tas_kts + this.wind_speed;
         }
         else {
-            ground_speed = Math.sin(deltaRad - correctionRad) * tas_kts / Math.sin(deltaRad);
+            ground_speed = (Math.sin(deltaRad - correctionRad) * tas_kts) / Math.sin(deltaRad);
         }
         return {
             ground_speed,
             heading_rad,
-            heading: (heading_rad * 180 / Math.PI) % 360
+            heading: ((heading_rad * 180) / Math.PI) % 360,
         };
     }
     makeTurbulence() {
@@ -318,7 +316,7 @@ export class MissionConditions {
         this.turbulence_strength = (_h = json.turbulence_strength) !== null && _h !== void 0 ? _h : this.turbulence_strength;
         this.thermal_strength = (_j = json.thermal_strength) !== null && _j !== void 0 ? _j : this.thermal_strength;
         this.visibility = (_k = json.visibility) !== null && _k !== void 0 ? _k : this.visibility;
-        this.clouds = json.clouds.map(c => {
+        this.clouds = json.clouds.map((c) => {
             const cx = new MissionConditionsCloud(0, 0);
             cx.cover = c.cover;
             cx.height = c.height;
@@ -326,10 +324,10 @@ export class MissionConditions {
         });
     }
 }
-MissionConditions.CONDITION_VFR = 'VFR';
-MissionConditions.CONDITION_MVFR = 'MVFR';
-MissionConditions.CONDITION_IFR = 'IFR';
-MissionConditions.CONDITION_LIFR = 'LIFR';
-MissionConditions.WIND_GUSTS_STANDARD = 'gusts';
-MissionConditions.WIND_GUSTS_STRONG = 'strong gusts';
-MissionConditions.WIND_GUSTS_VIOLENT = 'violent gusts';
+MissionConditions.CONDITION_VFR = "VFR";
+MissionConditions.CONDITION_MVFR = "MVFR";
+MissionConditions.CONDITION_IFR = "IFR";
+MissionConditions.CONDITION_LIFR = "LIFR";
+MissionConditions.WIND_GUSTS_STANDARD = "gusts";
+MissionConditions.WIND_GUSTS_STRONG = "strong gusts";
+MissionConditions.WIND_GUSTS_VIOLENT = "violent gusts";

@@ -8,16 +8,16 @@ export class GpxTest extends Test {
 
     this.group(Gpx.name);
     {
-      const gpl = new Gpx(fs.readFileSync('./src/Tests/cases/EGOV.gpx', 'utf8'));
+      const gpl = new Gpx(fs.readFileSync("./src/Tests/cases/EGOV.gpx", "utf8"));
 
-      this.assertEquals(gpl.waypoints.length, 13)
-      this.assertEquals(gpl.waypoints[0].identifier, 'EGOV')
-      this.assertEquals(gpl.waypoints[0].type, 'AIRPORT')
-      this.assertEquals(gpl.waypoints[1].type, 'USER WAYPOINT')
-      this.assertEquals(gpl.waypoints[12].type, 'AIRPORT')
-      this.assertEquals(gpl.waypoints[1].lat, 52.716667)
-      this.assertEquals(gpl.waypoints[4].lon, -3.883333)
-      this.assertEquals(gpl.cruisingAlt, undefined)
+      this.assertEquals(gpl.waypoints.length, 13);
+      this.assertEquals(gpl.waypoints[0].identifier, "EGOV");
+      this.assertEquals(gpl.waypoints[0].type, "AIRPORT");
+      this.assertEquals(gpl.waypoints[1].type, "USER WAYPOINT");
+      this.assertEquals(gpl.waypoints[12].type, "AIRPORT");
+      this.assertEquals(gpl.waypoints[1].lat, 52.716667);
+      this.assertEquals(gpl.waypoints[4].lon, -3.883333);
+      this.assertEquals(gpl.cruisingAlt, undefined);
     }
   }
 }

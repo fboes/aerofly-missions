@@ -19,7 +19,7 @@ export class Markdown extends Outputtable {
     return "| " + fields.join(" | ") + " |\n";
   }
 
-  toString(filename = 'custom_missions.tmc'): string {
+  toString(filename = "custom_missions.tmc"): string {
     const m = this.mission;
     const s = new SkyVector(m);
 
@@ -29,7 +29,7 @@ export class Markdown extends Outputtable {
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-    const zoomLevel = this.lonLatArea.getZoomLevel()
+    const zoomLevel = this.lonLatArea.getZoomLevel();
     const center = this.lonLatArea.center;
     let markdown = `${m.title}
 ==================
@@ -41,33 +41,47 @@ ${m.description}
 Flight briefing
 ---------------
 
-Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=${center.lat},${center.lon}&zoom=${zoomLevel}&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}).
+Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=${
+      center.lat
+    },${
+      center.lon
+    }&zoom=${zoomLevel}&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=${zoomLevel}/${
+      center.lat
+    }/${center.lon}).
 
 ### Aircraft
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
 |---------------|----------------|---------------:|------------------:|
-| ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${Outputtable.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString("en").padStart(14)} ft |
+| ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${Outputtable.padThree(
+      m.cruise_speed
+    )} kts | ${m.cruise_altitude_ft.toLocaleString("en").padStart(14)} ft |
 
 ### Weather
 
 | Wind         | Clouds          | Visibility       | Flight rules |
 |--------------|-----------------|------------------|--------------|
-| ${this.getWind(m.conditions)} kts | ${m.conditions.cloud.cover_symbol +
+| ${this.getWind(m.conditions)} kts | ${
+      m.conditions.cloud.cover_symbol +
       " " +
       m.conditions.cloud.cover_code +
       " @ " +
       m.conditions.cloud.height_feet.toLocaleString("en") +
       " ft"
-      } | ${m.conditions.visibility.toLocaleString("en") + " m / " + Math.round(m.conditions.visibility_sm)
-      } SM | ${m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)} |
+    } | ${
+      m.conditions.visibility.toLocaleString("en") + " m / " + Math.round(m.conditions.visibility_sm)
+    } SM | ${m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)} |
 
 ### Airports
 
 |             | Location                                   | Date & time    | Local solar time | Sun |
 |-------------|--------------------------------------------|----------------|------------------|-----|
-| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
-| Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
+| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(
+      m.conditions.time.dateTime
+    )} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
+| Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(
+      time
+    )} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints
 
@@ -78,7 +92,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
     m.checkpoints.forEach((c, i) => {
       let frqString = "";
       if (c.frequency) {
-        frqString = c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
+        frqString =
+          c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
         frqString += " " + c.frequency_unit + "Hz";
       }
 

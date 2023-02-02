@@ -2,7 +2,7 @@ import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class SkyVector {
-  constructor(protected mission: Mission) { }
+  constructor(protected mission: Mission) {}
 
   getCheckpoints(filterRunway = true): string[] {
     return this.mission.checkpoints
@@ -13,9 +13,7 @@ export class SkyVector {
         );
       })
       .map((c) => {
-        return (c.isExportable())
-          ? c.name
-          : c.lon_lat.toNavString();
+        return c.isExportable() ? c.name : c.lon_lat.toNavString();
       });
   }
 
@@ -32,7 +30,9 @@ export class SkyVector {
     const cruise = this.mission.cruise_speed.toFixed().padStart(4, "0");
     const alt = (this.mission.cruise_altitude_ft / 100).toFixed().padStart(3, "0");
 
-    parameters.push("fpl=" + encodeURIComponent("N" + cruise + "A" + alt + " " + this.getCheckpoints(filterRunway).join(" ")));
+    parameters.push(
+      "fpl=" + encodeURIComponent("N" + cruise + "A" + alt + " " + this.getCheckpoints(filterRunway).join(" "))
+    );
 
     return "https://skyvector.com/?" + parameters.join("&");
   }

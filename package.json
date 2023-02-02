@@ -3,6 +3,7 @@
     "@types/geojson": "^7946.0.10",
     "@types/mapbox-gl": "^2.7.10",
     "@types/node": "^18.8.3",
+    "prettier": "2.8.3",
     "typescript": "^4.9.4"
   },
   "name": "aerofly-missions",
@@ -24,7 +25,9 @@
   "scripts": {
     "start": "./dist/aerofly-missions.js",
     "test": "node ./dist/test.js",
-    "serve": "npx http-server ./dist -o -c-1"
+    "prettier": "npx prettier --write dist/index.html dist/styles.css src",
+    "serve": "npx http-server ./dist -o -c-1",
+    "build": "tsc --build"
   },
   "main": "index.js",
   "repository": {

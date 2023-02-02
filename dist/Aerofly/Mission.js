@@ -9,11 +9,11 @@ export class Mission {
         /**
          * This string should not be longer than MAX_LENGTH_TITLE characters to fit on the screen.
          */
-        this._title = '';
+        this._title = "";
         /**
          * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
          */
-        this._description = '';
+        this._description = "";
         this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
         /**
          * Internal Aerofly name of aircraft type.
@@ -72,7 +72,7 @@ export class Mission {
         description = description.trim();
         const lines = description.split(/\n/);
         let lineCount = lines.length;
-        lines.forEach(l => {
+        lines.forEach((l) => {
             lineCount += Math.floor(l.length / Mission.MAX_LENGTH_DESCRIPTION);
         });
         if (lineCount > Mission.MAX_LINES_DESCRIPTION) {
@@ -94,19 +94,19 @@ export class Mission {
      */
     set aircraft_name(aircraft_name) {
         this._aircraft_name = aircraft_name.toLowerCase();
-        this.aircraft_icao = '';
+        this.aircraft_icao = "";
         this.cruise_speed = 0;
-        this.callsign = '';
+        this.callsign = "";
         this.turn_time = 2;
         switch (this._aircraft_name) {
             case "b58":
                 this.aircraft_icao = "BE58";
-                this.callsign = 'N58EU';
+                this.callsign = "N58EU";
                 this.cruise_speed = 180;
                 break;
             case "jungmeister":
                 this.aircraft_icao = "BU33";
-                this.callsign = 'HBMIZ';
+                this.callsign = "HBMIZ";
                 this.cruise_speed = 110;
                 this.turn_time = 1;
                 break;
@@ -119,18 +119,18 @@ export class Mission {
                 break;
             case "c90gtx":
                 this.aircraft_icao = "BE9L";
-                this.callsign = 'DIBYP';
+                this.callsign = "DIBYP";
                 this.cruise_speed = 226;
                 break;
             case "f15e":
                 this.aircraft_icao = "F15";
-                this.callsign = 'ASJ0494';
+                this.callsign = "ASJ0494";
                 this.cruise_speed = 570;
                 this.turn_time = 1;
                 break;
             case "f18":
                 this.aircraft_icao = "F18H";
-                this.callsign = 'VVAC260';
+                this.callsign = "VVAC260";
                 this.cruise_speed = 570;
                 this.turn_time = 1;
                 break;
@@ -152,18 +152,18 @@ export class Mission {
                 break;
             case "mb339":
                 this.aircraft_icao = "M339";
-                this.callsign = 'FPR456';
+                this.callsign = "FPR456";
                 this.cruise_speed = 350;
                 this.turn_time = 1;
                 break;
             case "pitts":
                 this.aircraft_icao = "PTS2";
-                this.callsign = 'DEUJS';
+                this.callsign = "DEUJS";
                 this.cruise_speed = 152;
                 this.turn_time = 1;
                 break;
             case "a320":
-                this.callsign = 'LH321';
+                this.callsign = "LH321";
                 break;
             case "b737":
                 this.aircraft_icao = "B735";
@@ -182,33 +182,33 @@ export class Mission {
                 break;
             case "concorde":
                 this.aircraft_icao = "CONC";
-                this.callsign = 'FBVFB';
+                this.callsign = "FBVFB";
                 this.cruise_speed = 1165;
                 break;
             case "ec135":
                 this.aircraft_icao = "EC35";
-                this.callsign = 'CHX64';
+                this.callsign = "CHX64";
                 this.cruise_speed = 137;
                 break;
-            case 'c172':
-                this.callsign = 'N51911';
+            case "c172":
+                this.callsign = "N51911";
                 this.cruise_speed = 122;
                 break;
             case "uh60":
                 this.aircraft_icao = "H60";
-                this.callsign = 'EVAC26212';
+                this.callsign = "EVAC26212";
                 this.cruise_speed = 152;
                 break;
             case "dr1":
                 this.cruise_speed = 97;
                 this.turn_time = 1;
                 break;
-            case 'camel':
+            case "camel":
                 this.cruise_speed = 98;
                 this.aircraft_icao = "CAML";
                 this.turn_time = 1;
                 break;
-            case 'r22':
+            case "r22":
                 this.cruise_speed = 96;
                 this.aircraft_icao = "CAML";
                 break;
@@ -298,7 +298,7 @@ export class Mission {
                     break;
             }
             this.conditions.fromMainMcf(mainMcf);
-            this.checkpoints = mainMcf.navigation.Route.Ways.filter(w => {
+            this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
                 return [
                     MissionCheckpoint.TYPE_ORIGIN,
                     MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
@@ -317,7 +317,7 @@ export class Mission {
             this.calculateCheckpoints();
             this.origin_icao = this.checkpoints[0].name;
             this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-            const checkpointDepartureRunway = this.checkpoints.find(c => {
+            const checkpointDepartureRunway = this.checkpoints.find((c) => {
                 return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
             });
             const distanceOriginAircraft = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
@@ -339,13 +339,13 @@ export class Mission {
                         360;
                 this.warnings.push(`Aircraft orientation inferred from mainMcf.flight_setting.orientation: ${this.origin_dir.toFixed()}°`);
             }
-            const checkpointDestination = (_a = this.checkpoints.find(c => {
+            const checkpointDestination = (_a = this.checkpoints.find((c) => {
                 return c.type === MissionCheckpoint.TYPE_DESTINATION;
             })) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
             this.destination_icao = structuredClone(checkpointDestination.name);
             this.destination_dir = structuredClone(checkpointDestination.direction);
             this.destination_lon_lat = checkpointDestination.lon_lat.clone();
-            const checkpointDestinationRunway = (_b = this.checkpoints.find(c => {
+            const checkpointDestinationRunway = (_b = this.checkpoints.find((c) => {
                 return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
             })) !== null && _b !== void 0 ? _b : checkpointDestination;
             if (ils) {
@@ -366,12 +366,14 @@ export class Mission {
             cp.lon_lat.lon = w.lon;
             cp.lon_lat.altitude_ft = w.alt ? w.alt : 0;
             cp.name = w.identifier;
-            if (w.type === 'AIRPORT' && (i === 0 || i === gpl.waypoints.length - 1)) {
-                cp.type = (i === 0) ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
+            if (w.type === "AIRPORT" && (i === 0 || i === gpl.waypoints.length - 1)) {
+                cp.type = i === 0 ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
             }
-            else if (w.type === 'USER WAYPOINT' && (i === 1 || i === gpl.waypoints.length - 2) && cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
-                cp.type = (i === 1) ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
-                cp.name = cp.name.replace(/^(RW)/, '');
+            else if (w.type === "USER WAYPOINT" &&
+                (i === 1 || i === gpl.waypoints.length - 2) &&
+                cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
+                cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
+                cp.name = cp.name.replace(/^(RW)/, "");
             }
             return cp;
         });
@@ -381,7 +383,7 @@ export class Mission {
         this.origin_icao = this.checkpoints[0].name;
         this.origin_dir = this.checkpoints[1].direction;
         this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
-        const checkpointDestination = (_a = this.checkpoints.find(c => {
+        const checkpointDestination = (_a = this.checkpoints.find((c) => {
             return c.type === MissionCheckpoint.TYPE_DESTINATION;
         })) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = checkpointDestination.name;
@@ -390,18 +392,19 @@ export class Mission {
         this.setAutoTitleDescription(flight_category);
         return this;
     }
-    setAutoTitleDescription(flight_category = '') {
-        if (flight_category === '') {
+    setAutoTitleDescription(flight_category = "") {
+        if (flight_category === "") {
             flight_category = this.conditions.getFlightCategory(this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
         }
         if (this.title === "" || this.title === "Custom missions") {
-            this.title = this.origin_icao !== this.destination_icao
-                ? `From ${this.origin_icao} to ${this.destination_icao}`
-                : `${this.origin_icao} local flight`;
+            this.title =
+                this.origin_icao !== this.destination_icao
+                    ? `From ${this.origin_icao} to ${this.destination_icao}`
+                    : `${this.origin_icao} local flight`;
         }
         if (this.description === "") {
             let localTime = this.getLocalDaytime();
-            localTime = ((localTime.match(/^[aeiou]/)) ? 'An ' : 'A ') + localTime;
+            localTime = (localTime.match(/^[aeiou]/) ? "An " : "A ") + localTime;
             const flight = this.origin_icao !== this.destination_icao
                 ? `from ${this.origin_icao} to ${this.destination_icao}`
                 : `at ${this.origin_icao}`;
@@ -421,7 +424,7 @@ export class Mission {
         }
     }
     syncCruiseAltitude() {
-        this.checkpoints.forEach(c => {
+        this.checkpoints.forEach((c) => {
             if (c.type == MissionCheckpoint.TYPE_WAYPOINT) {
                 c.lon_lat.altitude_m = this.cruise_altitude;
             }
@@ -429,8 +432,9 @@ export class Mission {
     }
     syncCruiseSpeed() {
         let lastC = null;
-        this.checkpoints.forEach(c => {
-            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
+        this.checkpoints.forEach((c) => {
+            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+                (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
                 c.speed = 30;
             }
             else if (c.type !== MissionCheckpoint.TYPE_ORIGIN) {
@@ -443,11 +447,12 @@ export class Mission {
     calculateCheckpoints() {
         let lastC = null;
         // Add directions
-        this.checkpoints.forEach(c => {
+        this.checkpoints.forEach((c) => {
             if (lastC !== null) {
                 c.setDirectionByCoordinates(lastC.lon_lat);
             }
-            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
+            if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+                (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
                 c.ground_speed = c.speed;
                 c.heading = c.direction;
             }
@@ -470,7 +475,7 @@ export class Mission {
         this._magnetic_declination = magneticDeclination;
         this.origin_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.origin_lon_lat, magneticDeclination);
         this.destination_lon_lat.magnetic_declination = this.calculateMagneticDeclination(this.destination_lon_lat, magneticDeclination);
-        this.checkpoints.forEach(cp => {
+        this.checkpoints.forEach((cp) => {
             cp.lon_lat.magnetic_declination = this.calculateMagneticDeclination(cp.lon_lat, magneticDeclination);
         });
     }
@@ -483,9 +488,7 @@ export class Mission {
         }
         // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
         // Formula for parts of Europe and Aerofly FS 4
-        return (l.lon > -10 && l.lon < 26 && l.lat > 45)
-            ? (7 / 22) * l.lon - 3.4
-            : 0;
+        return l.lon > -10 && l.lon < 26 && l.lat > 45 ? (7 / 22) * l.lon - 3.4 : 0;
     }
     getLocalDaytime() {
         const localSolarTime = (this.conditions.time.time_hours + (this.origin_lon_lat.lon / 180) * 12 + 24) % 24;
@@ -547,13 +550,15 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
         this._magnetic_declination = (_f = json._magnetic_declination) !== null && _f !== void 0 ? _f : this._magnetic_declination;
         this.callsign = (_g = json.callsign) !== null && _g !== void 0 ? _g : this.callsign;
         this.origin_icao = (_h = json.origin_icao) !== null && _h !== void 0 ? _h : this.origin_icao;
-        this.origin_lon_lat.magnetic_declination = (_j = json.origin_lon_lat.magnetic_declination) !== null && _j !== void 0 ? _j : this.origin_lon_lat.magnetic_declination;
+        this.origin_lon_lat.magnetic_declination =
+            (_j = json.origin_lon_lat.magnetic_declination) !== null && _j !== void 0 ? _j : this.origin_lon_lat.magnetic_declination;
         this.origin_lon_lat.lon = (_k = json.origin_lon_lat.lon) !== null && _k !== void 0 ? _k : this.origin_lon_lat.lon;
         this.origin_lon_lat.lat = (_l = json.origin_lon_lat.lat) !== null && _l !== void 0 ? _l : this.origin_lon_lat.lat;
         this.origin_lon_lat.altitude_m = (_m = json.origin_lon_lat.altitude_m) !== null && _m !== void 0 ? _m : this.origin_lon_lat.altitude_m;
         this.origin_dir = (_o = json.origin_dir) !== null && _o !== void 0 ? _o : this.origin_dir;
         this.destination_icao = (_p = json.destination_icao) !== null && _p !== void 0 ? _p : this.destination_icao;
-        this.destination_lon_lat.magnetic_declination = (_q = json.destination_lon_lat.magnetic_declination) !== null && _q !== void 0 ? _q : this.destination_lon_lat.magnetic_declination;
+        this.destination_lon_lat.magnetic_declination =
+            (_q = json.destination_lon_lat.magnetic_declination) !== null && _q !== void 0 ? _q : this.destination_lon_lat.magnetic_declination;
         this.destination_lon_lat.lon = (_r = json.destination_lon_lat.lon) !== null && _r !== void 0 ? _r : this.destination_lon_lat.lon;
         this.destination_lon_lat.lat = (_s = json.destination_lon_lat.lat) !== null && _s !== void 0 ? _s : this.destination_lon_lat.lat;
         this.destination_lon_lat.altitude_m = (_t = json.destination_lon_lat.altitude_m) !== null && _t !== void 0 ? _t : this.destination_lon_lat.altitude_m;
@@ -562,7 +567,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
         this.cruise_altitude = (_w = json.cruise_altitude) !== null && _w !== void 0 ? _w : this.cruise_altitude;
         this.turn_time = (_x = json.turn_time) !== null && _x !== void 0 ? _x : this.turn_time;
         this.conditions.hydrate(json.conditions);
-        this.checkpoints = json.checkpoints.map(c => {
+        this.checkpoints = json.checkpoints.map((c) => {
             const cx = new MissionCheckpoint();
             cx.hydrate(c);
             return cx;
@@ -598,36 +603,36 @@ export class MissionFactory extends FileParser {
         mission.destination_lon_lat.lon = destination_lon_lat[0];
         mission.destination_lon_lat.lat = destination_lon_lat[1];
         mission.destination_dir = this.getNumber(tmmission_definition, "destination_dir");
-        mission.cruise_altitude = this.getNumber(tmmission_conditions, 'cruise_altitude', mission.cruise_altitude);
-        mission.cruise_speed = this.getNumber(tmmission_conditions, 'cruise_speed', mission.cruise_speed);
-        mission.conditions.time.time_year = this.getNumber(tmmission_conditions, 'time_year');
-        mission.conditions.time.time_month = this.getNumber(tmmission_conditions, 'time_month');
-        mission.conditions.time.time_day = this.getNumber(tmmission_conditions, 'time_day');
-        mission.conditions.time.time_hours = this.getNumber(tmmission_conditions, 'time_hours');
-        mission.conditions.wind_direction = this.getNumber(tmmission_conditions, 'wind_direction');
-        mission.conditions.wind_speed = this.getNumber(tmmission_conditions, 'wind_speed');
-        mission.conditions.wind_gusts = this.getNumber(tmmission_conditions, 'wind_gusts');
-        mission.conditions.turbulence_strength = this.getNumber(tmmission_conditions, 'turbulence_strength');
-        mission.conditions.thermal_strength = this.getNumber(tmmission_conditions, 'thermal_strength');
-        mission.conditions.visibility = this.getNumber(tmmission_conditions, 'visibility');
-        mission.conditions.cloud.cover = this.getNumber(tmmission_conditions, 'cloud_cover');
-        mission.conditions.cloud.height = this.getNumber(tmmission_conditions, 'cloud_base');
+        mission.cruise_altitude = this.getNumber(tmmission_conditions, "cruise_altitude", mission.cruise_altitude);
+        mission.cruise_speed = this.getNumber(tmmission_conditions, "cruise_speed", mission.cruise_speed);
+        mission.conditions.time.time_year = this.getNumber(tmmission_conditions, "time_year");
+        mission.conditions.time.time_month = this.getNumber(tmmission_conditions, "time_month");
+        mission.conditions.time.time_day = this.getNumber(tmmission_conditions, "time_day");
+        mission.conditions.time.time_hours = this.getNumber(tmmission_conditions, "time_hours");
+        mission.conditions.wind_direction = this.getNumber(tmmission_conditions, "wind_direction");
+        mission.conditions.wind_speed = this.getNumber(tmmission_conditions, "wind_speed");
+        mission.conditions.wind_gusts = this.getNumber(tmmission_conditions, "wind_gusts");
+        mission.conditions.turbulence_strength = this.getNumber(tmmission_conditions, "turbulence_strength");
+        mission.conditions.thermal_strength = this.getNumber(tmmission_conditions, "thermal_strength");
+        mission.conditions.visibility = this.getNumber(tmmission_conditions, "visibility");
+        mission.conditions.cloud.cover = this.getNumber(tmmission_conditions, "cloud_cover");
+        mission.conditions.cloud.height = this.getNumber(tmmission_conditions, "cloud_base");
         mission.checkpoints = list_tmmission_checkpoint
             .split("<[tmmission_checkpoint")
             .slice(1)
             .map((wp) => {
             const cp = new MissionCheckpoint();
-            cp.type = this.getValue(wp, 'type');
-            cp.name = this.getValue(wp, 'name');
+            cp.type = this.getValue(wp, "type");
+            cp.name = this.getValue(wp, "name");
             const lon_lat = this.getNumberArray(wp, "lon_lat");
             cp.lon_lat.lon = lon_lat[0];
             cp.lon_lat.lat = lon_lat[1];
-            cp.lon_lat.altitude_m = this.getNumber(wp, 'altitude');
-            cp.direction = this.getNumber(wp, 'direction');
-            cp.slope = this.getNumber(wp, 'slope');
-            cp.length = this.getNumber(wp, 'length');
-            cp.frequency = this.getNumber(wp, 'frequency');
-            cp.speed = this.getNumber(wp, 'speed', mission.cruise_speed);
+            cp.lon_lat.altitude_m = this.getNumber(wp, "altitude");
+            cp.direction = this.getNumber(wp, "direction");
+            cp.slope = this.getNumber(wp, "slope");
+            cp.length = this.getNumber(wp, "length");
+            cp.frequency = this.getNumber(wp, "frequency");
+            cp.speed = this.getNumber(wp, "speed", mission.cruise_speed);
             mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.lon_lat.altitude_m);
             return cp;
         });

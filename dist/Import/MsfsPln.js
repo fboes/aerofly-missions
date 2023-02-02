@@ -19,11 +19,11 @@ export class MsfsPln extends GarminFpl {
                 type += " WAYPOINT";
             }
             return {
-                identifier: this.getXmlNode(xml, 'ICAOIdent') || this.getXmlAttribute(xml, "id"),
+                identifier: this.getXmlNode(xml, "ICAOIdent") || this.getXmlAttribute(xml, "id"),
                 type: type,
                 lat: coords.lat,
                 lon: coords.lon,
-                alt: coords.altitude_ft
+                alt: coords.altitude_ft,
             };
         });
     }
@@ -38,7 +38,7 @@ export class MsfsPln extends GarminFpl {
                 let b = Number(m[2]); // degree
                 b += Number(m[3]) / 60; // minutes
                 b += Number(m[4]) / 3600; // seconds
-                return (m[1] === 'S' || m[1] === 'W') ? -b : b;
+                return m[1] === "S" || m[1] === "W" ? -b : b;
             }
             return 0;
         });
@@ -57,22 +57,36 @@ export class MsfsPlnExport {
         // N53° 14' 48.24",W4° 32' 7.71",+000025.00
         const lat = lon_lat.latMinute;
         const lon = lon_lat.lonMinute;
-        return lon_lat.latHemisphere + Math.abs(lat.degree).toFixed() + "° " + lat.minutes.toFixed() + "' " + lat.seconds.toFixed(2) + '"'
-            + ','
-            + lon_lat.lonHemisphere + Math.abs(lon.degree).toFixed() + "° " + lon.minutes.toFixed() + "' " + lon.seconds.toFixed(2) + '"'
-            + ','
-            + (lon_lat.altitude_m >= 0 ? '+' : '-')
-            + Math.abs(lon_lat.altitude_ft).toFixed(2).padStart(9, '0');
+        return (lon_lat.latHemisphere +
+            Math.abs(lat.degree).toFixed() +
+            "° " +
+            lat.minutes.toFixed() +
+            "' " +
+            lat.seconds.toFixed(2) +
+            '"' +
+            "," +
+            lon_lat.lonHemisphere +
+            Math.abs(lon.degree).toFixed() +
+            "° " +
+            lon.minutes.toFixed() +
+            "' " +
+            lon.seconds.toFixed(2) +
+            '"' +
+            "," +
+            (lon_lat.altitude_m >= 0 ? "+" : "-") +
+            Math.abs(lon_lat.altitude_ft).toFixed(2).padStart(9, "0"));
     }
     toString() {
         const m = this.mission;
         // @see https://en.wikipedia.org/wiki/ICAO_airport_code#/media/File:ICAO_FirstLetter.svg
         const icaoRegion = m.origin_icao.substring(0, 1);
         const departureRunway = m.checkpoints[1] && m.checkpoints[1].type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
-            ? m.checkpoints[1].name : '';
+            ? m.checkpoints[1].name
+            : "";
         const runwayIndex = m.checkpoints.length - 2;
         const destinationRunway = m.checkpoints[runwayIndex] && m.checkpoints[runwayIndex].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
-            ? m.checkpoints[runwayIndex].name : '';
+            ? m.checkpoints[runwayIndex].name
+            : "";
         let pln = `<?xml version="1.0" encoding="UTF-8"?>
     <SimBase.Document Type="AceXML" version="1,0">
         <!-- Exported by Aerofly Missionsgerät -->
@@ -85,41 +99,44 @@ export class MsfsPlnExport {
             <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
             <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
             <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
-            <DepartureLLA>${(this.getLla(m.origin_lon_lat))}</DepartureLLA>
+            <DepartureLLA>${this.getLla(m.origin_lon_lat)}</DepartureLLA>
             <!--DeparturePosition></DeparturePosition-->
             <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
             <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
-            <DestinationLLA>${(this.getLla(m.destination_lon_lat))}</DestinationLLA>
+            <DestinationLLA>${this.getLla(m.destination_lon_lat)}</DestinationLLA>
             <AppVersion>
                 <AppVersionMajor>10</AppVersionMajor>
                 <AppVersionBuild>61472</AppVersionBuild>
             </AppVersion>
 `;
-        m.checkpoints.forEach(cp => {
+        m.checkpoints.forEach((cp) => {
             let type;
-            type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
-                ? 'Airport'
-                : 'User';
-            if (type === 'User') {
+            type =
+                cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION
+                    ? "Airport"
+                    : "User";
+            if (type === "User") {
                 switch (cp.type_extended) {
                     case MissionCheckpoint.TYPE_VOR:
-                        type = 'VOR';
+                        type = "VOR";
                         break;
                     case MissionCheckpoint.TYPE_NDB:
-                        type = 'NDB';
+                        type = "NDB";
                         break;
                     case MissionCheckpoint.TYPE_FIX:
-                        type = 'Intersection';
+                        type = "Intersection";
                         break;
                 }
             }
             let name = cp.name;
-            if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) && !name.match(/^RW/)) {
-                name = 'RW' + name;
+            if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+                cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
+                !name.match(/^RW/)) {
+                name = "RW" + name;
             }
             pln += `            <ATCWaypoint id="${Quote.xml(name)}">
                 <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
-                <WorldPosition>${(this.getLla(cp.lon_lat))}</WorldPosition>
+                <WorldPosition>${this.getLla(cp.lon_lat)}</WorldPosition>
                 <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
 `;
             if (cp.type === MissionCheckpoint.TYPE_ORIGIN && departureRunway) {
@@ -128,7 +145,7 @@ export class MsfsPlnExport {
             else if (cp.type === MissionCheckpoint.TYPE_DESTINATION && destinationRunway) {
                 pln += this.runwayXml(destinationRunway);
             }
-            if (type !== 'User') {
+            if (type !== "User") {
                 pln += `                <ICAO>
                     <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
                     <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
@@ -146,22 +163,22 @@ export class MsfsPlnExport {
     runwayXml(runway) {
         const runwayParts = runway.match(/(\d+)(\D+)?/);
         if (runwayParts) {
-            let RunwayDesignatorFP = 'NONE';
+            let RunwayDesignatorFP = "NONE";
             switch (runwayParts[2]) {
-                case 'L':
-                    RunwayDesignatorFP = 'LEFT';
+                case "L":
+                    RunwayDesignatorFP = "LEFT";
                     break;
-                case 'R':
-                    RunwayDesignatorFP = 'RIGHT';
+                case "R":
+                    RunwayDesignatorFP = "RIGHT";
                     break;
-                case 'C':
-                    RunwayDesignatorFP = 'CENTER';
+                case "C":
+                    RunwayDesignatorFP = "CENTER";
                     break;
             }
             return `                <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
                 <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
 `;
         }
-        return '';
+        return "";
     }
 }

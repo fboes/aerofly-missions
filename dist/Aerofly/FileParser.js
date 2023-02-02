@@ -15,9 +15,9 @@ export class FileParser {
         return match ? match[1] : defaultValue;
     }
     setValue(subject, key, value) {
-        return (value === undefined)
+        return value === undefined
             ? subject
-            : subject.replace(new RegExp('(\\]\\[' + key + '\\]\\[)[^\\]]*(\\])'), '$1' + value + '$2');
+            : subject.replace(new RegExp("(\\]\\[" + key + "\\]\\[)[^\\]]*(\\])"), "$1" + value + "$2");
     }
     getGroup(subject, group, indent = 2) {
         const indentString = "    ".repeat(indent);
@@ -26,7 +26,6 @@ export class FileParser {
     }
     setGroup(subject, group, indent, callback) {
         const indentString = "    ".repeat(indent);
-        return subject.replace(new RegExp('(\\n' + indentString + '<\\[' + group + '\\]\\S*)([\\s\\S]+?)(\\n' + indentString + '>)'), callback);
+        return subject.replace(new RegExp("(\\n" + indentString + "<\\[" + group + "\\]\\S*)([\\s\\S]+?)(\\n" + indentString + ">)"), callback);
     }
-    ;
 }

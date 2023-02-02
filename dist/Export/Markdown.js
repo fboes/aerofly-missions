@@ -14,7 +14,7 @@ export class Markdown extends Outputtable {
     outputLine(fields) {
         return "| " + fields.join(" | ") + " |\n";
     }
-    toString(filename = 'custom_missions.tmc') {
+    toString(filename = "custom_missions.tmc") {
         const m = this.mission;
         const s = new SkyVector(m);
         const total_distance = m.distance;
@@ -69,7 +69,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
         m.checkpoints.forEach((c, i) => {
             let frqString = "";
             if (c.frequency) {
-                frqString = c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
+                frqString =
+                    c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
                 frqString += " " + c.frequency_unit + "Hz";
             }
             markdown += this.outputLine([

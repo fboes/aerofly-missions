@@ -1,433 +1,393 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Aerofly Missionsgerät</title>
+    <meta name="application-name" content="Aerofly Missionsgerät" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://journal.3960.org/index.html" />
+    <meta property="og:title" name="title" content="Mission converter" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:description" name="description" content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings." />
+    <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät" />
+    <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/favicon-512x512.png" />
+    <meta name="twitter:site" content="@fboes" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" sizes="180x180" href="favicon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png" />
+    <meta name="theme-color" content="#1f6ed6" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Aerofly Missionsgerät</title>
-  <meta name="application-name" content="Aerofly Missionsgerät">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://journal.3960.org/index.html">
-  <meta property="og:title" name="title" content="Mission converter">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:description" name="description"
-    content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.">
-  <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät">
-  <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/favicon-512x512.png">
-  <meta name="twitter:site" content="@fboes">
-  <meta name="twitter:card" content="summary">
-  <link rel="icon" sizes="180x180" href="favicon-180x180.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
-  <meta name="theme-color" content="#1f6ed6">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="stylesheet" href="./styles.css">
-</head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <img src="./favicon-512x512.svg" alt="" height="64" width="64" />
+          <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
+          <button data-handler="modal-open" type="button" data-modal="settings-modal" class="icon" title="Open settings">
+            <svg width="16" height="16" version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="m7 0-0.55273 2.209a6 6 0 0 0-1.4531 0.59961l-1.9746-1.1855-1.4141 1.4141 1.1895 1.9824a6 6 0 0 0-0.58594 1.4277l-2.209 0.55273v2l2.209 0.55273a6 6 0 0 0 0.57812 1.4141l-1.1816 1.9707 1.4141 1.4141 1.9551-1.1719a6 6 0 0 0 1.4727 0.61133l0.55273 2.209h2l0.55273-2.209a6 6 0 0 0 1.4434-0.59375l1.9238 1.1543 1.4141-1.4141-1.1504-1.918a6 6 0 0 0 0.60742-1.4668l2.209-0.55273v-2l-2.209-0.55273a6 6 0 0 0-0.61523-1.4785l1.1582-1.9316-1.4141-1.4141-1.9473 1.168a6 6 0 0 0-1.4199-0.58203l-0.55273-2.209zm1 5a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z" fill-rule="evenodd" stroke-width="1.2" />
+            </svg>
+            <span>Settings</span>
+          </button>
+        </h1>
+      </header>
+      <main class="is-simple-mode">
+        <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code> (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file formats), using your current flight plan and other settings to generate a shareable mission.</p>
 
-<body>
-  <div class="container">
-    <header>
-      <h1>
-        <img src="./favicon-512x512.svg" alt="" height="64" width="64">
-        <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
-        <button data-handler="modal-open" type="button" data-modal="settings-modal" class="icon"
-          title="Open settings"><svg width="16" height="16" version="1.1" viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="m7 0-0.55273 2.209a6 6 0 0 0-1.4531 0.59961l-1.9746-1.1855-1.4141 1.4141 1.1895 1.9824a6 6 0 0 0-0.58594 1.4277l-2.209 0.55273v2l2.209 0.55273a6 6 0 0 0 0.57812 1.4141l-1.1816 1.9707 1.4141 1.4141 1.9551-1.1719a6 6 0 0 0 1.4727 0.61133l0.55273 2.209h2l0.55273-2.209a6 6 0 0 0 1.4434-0.59375l1.9238 1.1543 1.4141-1.4141-1.1504-1.918a6 6 0 0 0 0.60742-1.4668l2.209-0.55273v-2l-2.209-0.55273a6 6 0 0 0-0.61523-1.4785l1.1582-1.9316-1.4141-1.4141-1.9473 1.168a6 6 0 0 0-1.4199-0.58203l-0.55273-2.209zm1 5a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z"
-              fill-rule="evenodd" stroke-width="1.2" />
-          </svg>
-          <span>Settings</span></button>
-      </h1>
-    </header>
-    <main class="is-simple-mode">
-      <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code>
-        (and other flight plan file formats) into a <code>custom_missions.tmc</code> file (and other flight plan file
-        formats), using your current flight plan and other settings to generate a shareable mission.</p>
+        <section class="no-print">
+          <h2>Step 1: Load flight plan file</h2>
 
-      <section class="no-print">
-        <h2>Step 1: Load flight plan file</h2>
+          <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.</p>
 
-        <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin
-          <code>fpl</code>,
-          Microsoft FS <code>pln</code>, X-Plane <code>fms</code> or <code>gpx</code> flight plan files.
-        </p>
+          <div>
+            <label for="upload">Import file</label>
+            <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms,.gpx,.geojson" />
+          </div>
+        </section>
+        <section class="no-print">
+          <h2>Step 2: Set up flight plan</h2>
 
-        <div>
-          <label for="upload">Import file</label>
-          <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms,.gpx,.geojson">
-        </div>
-      </section>
-      <section class="no-print">
-        <h2>Step 2: Set up flight plan</h2>
+          <p>These settings are only relevant for Aerofly FS 4 flight plans.</p>
 
-        <p>These settings are only relevant for Aerofly FS 4 flight plans.</p>
+          <div>
+            <label for="title">Mission title</label>
+            <input type="text" id="title" maxlength="32" required="required" />
+          </div>
 
-        <div>
-          <label for="title">Mission title</label>
-          <input type="text" id="title" maxlength="32" required="required">
-        </div>
+          <div>
+            <label for="description">Mission description</label>
+            <textarea id="description" required="required"></textarea>
+          </div>
 
-        <div>
-          <label for="description">Mission description</label>
-          <textarea id="description" required="required"></textarea>
-        </div>
+          <button data-handler="reset" type="button" class="icon reset" id="reset-description" title="Reset mission title &amp; description">↺ <span>Reset mission title &amp; description</span></button>
 
-        <button data-handler="reset" type="button" class="icon reset" id="reset-description" title="Reset mission title &amp;
-        description">↺ <span>Reset mission title &amp; description</span></button>
-
-        <details open="open">
-          <summary>Aircraft</summary>
-          <div class="col-4">
-            <div>
-              <label for="aircraft_name">Aircraft</label>
-              <select id="aircraft_name" required="required">
-                <optgroup label="Airliners">
-                  <option value="a320">Airbus A320-200</option>
-                  <option value="a380">Airbus A380</option>
-                  <option value="b737">Boeing 737-500</option>
-                  <option value="b747">Boeing 747-400</option>
-                  <option value="b777">Boeing 777-300ER</option>
-                  <option value="b787">Boeing 787-10 Dreamliner</option>
-                  <option value="q400">Bombardier Dash 8Q-400</option>
-                  <option value="concorde">Concorde</option>
-                  <option value="lj45">Learjet 45</option>
-                </optgroup>
-                <optgroup label="Helicopters">
-                  <option value="ec135">Eurocopter EC135</option>
-                  <option value="r22">Robinson R22</option>
-                  <option value="uh60">Sikorsky UH-60 Black Hawk</option>
-                </optgroup>
-                <optgroup label="General Aviation">
-                  <option value="b58">Beechcraft Baron 58</option>
-                  <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
-                  <option value="c172" selected="selected">Cessna 172</option>
-                  <option value="c90gtx">King Air C90 Gtx</option>
-                  <option value="pitts">Pitts S-2B</option>
-                </optgroup>
-                <optgroup label="Historical Aircraft">
-                  <option value="dr1">Fokker DR.1 </option>
-                  <option value="ju52">Junkers Ju-52/3m</option>
-                  <option value="p38">Lockheed P-38</option>
-                  <option value="bf109e">Messerschmitt Bf 109</option>
-                  <option value="camel">Sopwith F.1 Camel</option>
-                  <option value="f4u">Vought F4U Corsair</option>
-                </optgroup>
-                <optgroup label="Military Jets">
-                  <option value="mb339">Aermacchi MB-339</option>
-                  <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
-                  <option value="f18">McDonnell Douglas F/A-18C Hornet </option>
-                </optgroup>
-                <optgroup label="Gliders">
-                  <option value="swift">Marganski Swift S1</option>
-                  <option value="asg29">Schleicher ASG 29</option>
-                </optgroup>
-                <!--
+          <details open="open">
+            <summary>Aircraft</summary>
+            <div class="col-4">
+              <div>
+                <label for="aircraft_name">Aircraft</label>
+                <select id="aircraft_name" required="required">
+                  <optgroup label="Airliners">
+                    <option value="a320">Airbus A320-200</option>
+                    <option value="a380">Airbus A380</option>
+                    <option value="b737">Boeing 737-500</option>
+                    <option value="b747">Boeing 747-400</option>
+                    <option value="b777">Boeing 777-300ER</option>
+                    <option value="b787">Boeing 787-10 Dreamliner</option>
+                    <option value="q400">Bombardier Dash 8Q-400</option>
+                    <option value="concorde">Concorde</option>
+                    <option value="lj45">Learjet 45</option>
+                  </optgroup>
+                  <optgroup label="Helicopters">
+                    <option value="ec135">Eurocopter EC135</option>
+                    <option value="r22">Robinson R22</option>
+                    <option value="uh60">Sikorsky UH-60 Black Hawk</option>
+                  </optgroup>
+                  <optgroup label="General Aviation">
+                    <option value="b58">Beechcraft Baron 58</option>
+                    <option value="jungmeister">Bücker Bü 133 Jungmeister</option>
+                    <option value="c172" selected="selected">Cessna 172</option>
+                    <option value="c90gtx">King Air C90 Gtx</option>
+                    <option value="pitts">Pitts S-2B</option>
+                  </optgroup>
+                  <optgroup label="Historical Aircraft">
+                    <option value="dr1">Fokker DR.1</option>
+                    <option value="ju52">Junkers Ju-52/3m</option>
+                    <option value="p38">Lockheed P-38</option>
+                    <option value="bf109e">Messerschmitt Bf 109</option>
+                    <option value="camel">Sopwith F.1 Camel</option>
+                    <option value="f4u">Vought F4U Corsair</option>
+                  </optgroup>
+                  <optgroup label="Military Jets">
+                    <option value="mb339">Aermacchi MB-339</option>
+                    <option value="f15e">McDonnell Douglas F-15E Strike Eagle</option>
+                    <option value="f18">McDonnell Douglas F/A-18C Hornet</option>
+                  </optgroup>
+                  <optgroup label="Gliders">
+                    <option value="swift">Marganski Swift S1</option>
+                    <option value="asg29">Schleicher ASG 29</option>
+                  </optgroup>
+                  <!--
                 <option value="">Bombardier CRJ-900ER</option> // CRJ9
                 <option value="">Extra 330LX</option> // E300
               -->
-              </select>
+                </select>
+              </div>
+
+              <div>
+                <label for="callsign">Call sign</label>
+                <input type="text" id="callsign" list="callsign-dl" maxlength="8" pattern="[A-Z0-9]+" autocapitalize="characters" required="required" />
+                <datalist id="callsign-dl">
+                  <option value="AAL">American Airlines</option>
+                  <option value="ACA">Air Canada</option>
+                  <option value="AFR">Air France</option>
+                  <option value="AUA">Austrian Airlines</option>
+                  <option value="BAW">British Airways</option>
+                  <option value="CCA">Air China</option>
+                  <option value="CES">China Eastern Airlines</option>
+                  <option value="CSN">China Southern Airlines</option>
+                  <option value="DAL">Delta Air Lines</option>
+                  <option value="KLM">KLM Royal Dutch Airlines</option>
+                  <option value="DLH">Lufthansa</option>
+                  <option value="RYR">Ryanair</option>
+                  <option value="SIA">Singapore Airlines</option>
+                  <option value="SWA">Southwest Airlines</option>
+                  <option value="THY">Turkish Airlines</option>
+                  <option value="UAE">Emirates Airlines</option>
+                  <option value="UAL">United Airlines</option>
+                </datalist>
+              </div>
+
+              <div>
+                <label for="cruise_speed">Cruise speed</label>
+                <input type="number" min="0" max="2000" id="cruise_speed" value="0" />
+                <span>kts</span>
+              </div>
+
+              <div>
+                <label for="cruise_altitude_ft">Cruise altitude</label>
+                <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0" />
+                <span>ft</span>
+              </div>
             </div>
 
-            <div>
-              <label for="callsign">Call sign</label>
-              <input type="text" id="callsign" list="callsign-dl" maxlength="8" pattern="[A-Z0-9]+"
-                autocapitalize="characters" required="required">
-              <datalist id="callsign-dl">
-                <option value="AAL">American Airlines</option>
-                <option value="ACA">Air Canada</option>
-                <option value="AFR">Air France</option>
-                <option value="AUA">Austrian Airlines</option>
-                <option value="BAW">British Airways</option>
-                <option value="CCA">Air China</option>
-                <option value="CES">China Eastern Airlines</option>
-                <option value="CSN">China Southern Airlines</option>
-                <option value="DAL">Delta Air Lines</option>
-                <option value="KLM">KLM Royal Dutch Airlines</option>
-                <option value="DLH">Lufthansa</option>
-                <option value="RYR">Ryanair</option>
-                <option value="SIA">Singapore Airlines</option>
-                <option value="SWA">Southwest Airlines</option>
-                <option value="THY">Turkish Airlines</option>
-                <option value="UAE">Emirates Airlines</option>
-                <option value="UAL">United Airlines</option>
-              </datalist>
+            <button data-handler="reset" type="button" class="icon reset" id="reset-aircraft" title="Reset aircraft &amp; cruise settings">↺ <span>Reset aircraft &amp; cruise settings</span></button>
+          </details>
+          <details>
+            <summary>Date &amp; time</summary>
+            <div class="col-2">
+              <div>
+                <label for="date">Departure date (UTC)</label>
+                <input type="date" id="date" required="required" />
+              </div>
+
+              <div>
+                <label for="time">Departure time (UTC)</label>
+                <input type="time" id="time" required="required" />
+              </div>
             </div>
 
-            <div>
-              <label for="cruise_speed">Cruise speed</label>
-              <input type="number" min="0" max="2000" id="cruise_speed" value="0">
-              <span>kts</span>
+            <button data-handler="reset" type="button" class="icon reset" id="reset-time" title="Set to current date &amp; time">↺ <span>Set to current date &amp; time</span></button>
+          </details>
+          <details>
+            <summary>Weather</summary>
+            <p>You might want to <a href="https://metar-taf.com/" id="metar" target="metar">check the weather</a>.</p>
+
+            <div class="col-3">
+              <div>
+                <label for="wind_direction">Wind direction</label>
+                <input type="number" min="0" max="359" id="wind_direction" />
+                <span>°</span>
+              </div>
+
+              <div>
+                <label for="wind_speed">Wind speed</label>
+                <input type="number" min="0" max="99" id="wind_speed" />
+                <span>kts</span>
+              </div>
+
+              <div>
+                <label for="wind_gusts">Wind gusts</label>
+                <input type="number" min="0" max="99" id="wind_gusts" />
+                <span>kts</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <div>
+                <label for="turbulence_strength">Turbulence strength</label>
+                <input type="range" min="0" max="100" id="turbulence_strength" />
+              </div>
+
+              <div>
+                <label for="thermal_strength">Thermal strength</label>
+                <input type="range" min="0" max="100" id="thermal_strength" />
+              </div>
+            </div>
+            <div class="col-4">
+              <div>
+                <label for="visibility">Visibility</label>
+                <input type="number" min="0" max="20000" step="500" id="visibility" />
+                <span>m</span>
+              </div>
+
+              <div>
+                <label for="visibility_sm">Visibility</label>
+                <output class="number" id="visibility_sm"></output>
+                <span>SM</span>
+              </div>
+
+              <div>
+                <label for="cloud_base_feet">Cloud 1 height</label>
+                <input type="number" min="0" max="50000" step="100" id="cloud_base_feet" />
+                <span>ft</span>
+              </div>
+
+              <div>
+                <label for="cloud_cover">Cloud 1 cover</label>
+                <input class="has-output" type="range" min="0" max="100" id="cloud_cover" />
+                <output id="cloud_cover_code"></output>
+              </div>
+
+              <div class="expert-mode">
+                <label for="cloud2_base_feet">Cloud 2 height</label>
+                <input type="number" min="0" max="50000" step="100" id="cloud2_base_feet" />
+                <span>ft</span>
+              </div>
+
+              <div class="expert-mode">
+                <label for="cloud2_cover">Cloud 2 cover</label>
+                <input class="has-output" type="range" min="0" max="100" id="cloud2_cover" />
+                <output id="cloud2_cover_code"></output>
+              </div>
+
+              <div class="expert-mode">
+                <label for="cloud3_base_feet">Cloud 3 height</label>
+                <input type="number" min="0" max="50000" step="100" id="cloud3_base_feet" />
+                <span>ft</span>
+              </div>
+
+              <div class="expert-mode">
+                <label for="cloud3_cover">Cloud 3 cover</label>
+                <input class="has-output" type="range" min="0" max="100" id="cloud3_cover" />
+                <output id="cloud3_cover_code"></output>
+              </div>
             </div>
 
-            <div>
-              <label for="cruise_altitude_ft">Cruise altitude</label>
-              <input type="number" min="0" max="60000" step="100" id="cruise_altitude_ft" value="0">
-              <span>ft</span>
+            <div class="col-3">
+              <button data-handler="random-weather" type="button" id="make-weather">Set random weather</button>
+              <button data-handler="fetch-metar" type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
+              <button data-handler="fetch-metar" type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
             </div>
+            <button data-handler="reset" type="button" class="icon reset" id="reset-weather" title="Reset weather">↺ <span>Reset weather</span></button>
+          </details>
+          <details>
+            <summary>Navigation</summary>
+            <div class="col-2">
+              <div>
+                <label for="origin_dir">True initial heading</label>
+                <input type="number" min="0" max="359" id="origin_dir" />
+                <span>°</span>
+              </div>
+
+              <div>
+                <label for="origin_dir">General magnetic declination override</label>
+                <input type="number" min="-180" max="180" id="magnetic_declination" title="Set this to '' to get automatic values" />
+                <span>°</span>
+              </div>
+
+              <div class="expert-mode">
+                <label for="turn_time">Time for 360° turn</label>
+                <input type="number" value="2" min="0.25" step="0.25" id="turn_time" />
+                <span>min</span>
+              </div>
+
+              <div class="expert-mode">
+                <label for="turn_radius">Turn radius</label>
+                <output class="number" id="turn_radius"></output>
+                <span>NM</span>
+              </div>
+
+              <button data-handler="add-waypoint" id="add-departure" class="expert-mode">Add departure waypoint</button>
+              <button data-handler="add-waypoint" id="add-approach" class="expert-mode">Add approach waypoint</button>
+            </div>
+          </details>
+        </section>
+        <section>
+          <h2 class="no-print">Step 3: Check flight plan</h2>
+          <div id="flightplan"></div>
+          <div id="map">
+            <p>By activating the Mapbox map you consent to the integration probably sending personal data across the internet. Please reload the page after activating Mapbox.</p>
+            <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox map</button>
+          </div>
+          <button data-handler="modal-open" type="button" data-modal="help-flightplan-modal" class="icon help" title="Open flight plan help">? <span>Open flight plan help</span></button>
+          <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺ <span>Reset flight plan</span></button>
+        </section>
+        <section class="no-print">
+          <h2>Step 4: Save converted files</h2>
+          <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane <code>fms</code> flight plan files.</p>
+          <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight including weather data, as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
+          <button data-handler="download" type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
+          <button data-handler="download" type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
+          <button data-handler="download" type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+          <button data-handler="download" type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
+          <button data-handler="download" type="button" class="expert-mode" id="download-json">Download <code>custom_missions.geojson</code></button>
+        </section>
+
+        <dialog id="settings-modal">
+          <h4>Settings</h4>
+          <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>, the Missionsgerät can fetch the current weather for you.</p>
+          <div>
+            <label for="metar-api-key">CheckWX API key</label>
+            <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+" />
           </div>
 
-          <button data-handler="reset" type="button" class="icon reset" id="reset-aircraft" title="Reset aircraft &amp; cruise
-          settings">↺ <span>Reset aircraft &amp; cruise settings</span></button>
-        </details>
-        <details>
-          <summary>Date &amp; time</summary>
-          <div class="col-2">
-            <div>
-              <label for="date">Departure date (UTC)</label>
-              <input type="date" id="date" required="required">
-            </div>
+          <p>In expert mode additional controls will show up in this application. There will be more weather options and speed settings, as well as more export file formats.</p>
 
-            <div>
-              <label for="time">Departure time (UTC)</label>
-              <input type="time" id="time" required="required">
-            </div>
-          </div>
+          <button data-handler="toggle-expert-mode" id="expert-mode" class="primary">Toggle expert mode</button>
 
-          <button data-handler="reset" type="button" class="icon reset" id="reset-time" title="Set to current date &amp;
-          time">↺ <span>Set to current date &amp; time</span></button>
-        </details>
-        <details>
-          <summary>Weather</summary>
-          <p>You might want to <a href="https://metar-taf.com/" id="metar" target="metar">check the weather</a>.</p>
+          <p>Press <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>R</kbd> to check for updates.</p>
+          <p>Press <kbd>CTRL</kbd>+<kbd>+</kbd> and <kbd>CTRL</kbd>+<kbd>-</kbd> to change text size.</p>
 
-          <div class="col-3">
-            <div>
-              <label for="wind_direction">Wind direction</label>
-              <input type="number" min="0" max="359" id="wind_direction">
-              <span>°</span>
-            </div>
+          <button data-handler="modal-close" class="icon" id="settings-close" title="Close settings">✕ <span>Close settings</span></button>
+        </dialog>
+        <dialog id="help-flightplan-modal">
+          <h4>Fligh plan help</h4>
+          <ul>
+            <li>Naming a waypoint with two digits and an optional <code>R</code>, <code>L</code> or <code>C</code> converts it into a runway.</li>
+            <li>Naming a waypoint with five letters will convert it into a named fix.</li>
+            <li>Adding a frequency to a waypoint will convert it into a VOR / NDB.</li>
+            <li>Adding a frequency to a runway will convert it into an ILS.</li>
+          </ul>
+          <p>Too sharp curves will result in the waypoint being converted from fly-by to fly-over. If you see strange lines appear on your flight plan, your waypoints may be too close or the speed is too high.</p>
+          <button data-handler="modal-close" class="icon" id="help-flightplan-close" title="Close flight plan help">✕ <span>Close flight plan help</span></button>
+        </dialog>
+      </main>
+      <footer>
+        <p>Author: <a href="https://3960.org/">Frank Bo&euml;s</a> &middot; <a href="https://github.com/fboes/aerofly-missions">GitHub</a> &middot; Copyright & license: See <a href="../LICENSE.txt">LICENSE.txt</a></p>
 
-            <div>
-              <label for="wind_speed">Wind speed</label>
-              <input type="number" min="0" max="99" id="wind_speed">
-              <span>kts</span>
-            </div>
+        <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.</p>
 
-            <div>
-              <label for="wind_gusts">Wind gusts</label>
-              <input type="number" min="0" max="99" id="wind_gusts">
-              <span>kts</span>
-            </div>
-          </div>
-          <div class="col-2">
-            <div>
-              <label for="turbulence_strength">Turbulence strength</label>
-              <input type="range" min="0" max="100" id="turbulence_strength">
-            </div>
+        <p class="no-print">This software complies with the General Data Protection Regulation (GDPR). See also the <a href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
+      </footer>
+    </div>
+    <script type="module">
+      import { App } from "./Web/App.js";
+      const app = new App();
 
-            <div>
-              <label for="thermal_strength">Thermal strength</label>
-              <input type="range" min="0" max="100" id="thermal_strength">
-            </div>
-          </div>
-          <div class="col-4">
-            <div>
-              <label for="visibility">Visibility</label>
-              <input type="number" min="0" max="20000" step="500" id="visibility">
-              <span>m</span>
-            </div>
+      if (localStorage.getItem("mapbox.consent") === "1") {
+        const link = document.createElement("link");
+        link.href = "https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css";
+        link.rel = "stylesheet";
+        const script = document.createElement("script");
+        script.src = "https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js";
+        script.addEventListener("load", () => {
+          document.getElementById("map").innerHTML = "";
+          const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/outdoors-v12",
+            accessToken: "pk.eyJ1IjoiZmJvZXMiLCJhIjoiY2xjZWsyZmo2MDh3cjNybWljM2cxNDA4cSJ9.jsRuxcBPqXXsDjDOnUAZFw",
+          });
 
-            <div>
-              <label for="visibility_sm">Visibility</label>
-              <output class="number" id="visibility_sm"></output>
-              <span>SM</span>
-            </div>
-
-            <div>
-              <label for="cloud_base_feet">Cloud 1 height</label>
-              <input type="number" min="0" max="50000" step="100" id="cloud_base_feet">
-              <span>ft</span>
-            </div>
-
-            <div>
-              <label for="cloud_cover">Cloud 1 cover</label>
-              <input class="has-output" type="range" min="0" max="100" id="cloud_cover">
-              <output id="cloud_cover_code"></output>
-            </div>
-
-            <div class="expert-mode">
-              <label for="cloud2_base_feet">Cloud 2 height</label>
-              <input type="number" min="0" max="50000" step="100" id="cloud2_base_feet">
-              <span>ft</span>
-            </div>
-
-            <div class="expert-mode">
-              <label for="cloud2_cover">Cloud 2 cover</label>
-              <input class="has-output" type="range" min="0" max="100" id="cloud2_cover">
-              <output id="cloud2_cover_code"></output>
-            </div>
-
-            <div class="expert-mode">
-              <label for="cloud3_base_feet">Cloud 3 height</label>
-              <input type="number" min="0" max="50000" step="100" id="cloud3_base_feet">
-              <span>ft</span>
-            </div>
-
-            <div class="expert-mode">
-              <label for="cloud3_cover">Cloud 3 cover</label>
-              <input class="has-output" type="range" min="0" max="100" id="cloud3_cover">
-              <output id="cloud3_cover_code"></output>
-            </div>
-          </div>
-
-          <div class="col-3">
-            <button data-handler="random-weather" type="button" id="make-weather">Set random weather</button>
-            <button data-handler="fetch-metar" type="button" id="make-metar-dept" disabled="disabled">
-              Fetch weather for DEPT</button>
-            <button data-handler="fetch-metar" type="button" id="make-metar-dest" disabled="disabled">
-              Fetch weather for DEST</button>
-          </div>
-          <button data-handler="reset" type="button" class="icon reset" id="reset-weather" title="Reset weather">↺
-            <span>Reset weather</span></button>
-        </details>
-        <details>
-          <summary>Navigation</summary>
-          <div class="col-2">
-            <div>
-              <label for="origin_dir">True initial heading</label>
-              <input type="number" min="0" max="359" id="origin_dir">
-              <span>°</span>
-            </div>
-
-            <div>
-              <label for="origin_dir">General magnetic declination override</label>
-              <input type="number" min="-180" max="180" id="magnetic_declination"
-                title="Set this to '' to get automatic values">
-              <span>°</span>
-            </div>
-
-            <div class="expert-mode">
-              <label for="turn_time">Time for 360° turn</label>
-              <input type="number" value="2" min="0.25" step="0.25" id="turn_time">
-              <span>min</span>
-            </div>
-
-            <div class="expert-mode">
-              <label for="turn_radius">Turn radius</label>
-              <output class="number" id="turn_radius"></output>
-              <span>NM</span>
-            </div>
-
-            <button data-handler="add-waypoint" id="add-departure" class="expert-mode">Add departure waypoint</button>
-            <button data-handler="add-waypoint" id="add-approach" class="expert-mode">Add approach waypoint</button>
-          </div>
-        </details>
-      </section>
-      <section>
-        <h2 class="no-print">Step 3: Check flight plan</h2>
-        <span>Open flight plan help</span></button>
-        <div id="flightplan"></div>
-        <div id="map">
-          <p>By activating the Mapbox map you consent to the integration probably sending personal data across the
-            internet. Please reload the page after activating Mapbox.</p>
-          <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
-            map</button>
-        </div>
-        <button data-handler="modal-open" type="button" data-modal="help-flightplan-modal" class="icon help"
-          title="Open flight plan help">? <span>Open flight plan help</span></button>
-        <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺
-          <span>Reset flight plan</span></button>
-      </section>
-      <section class="no-print">
-        <h2>Step 4: Save converted files</h2>
-        <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane
-          <code>fms</code> flight plan files.
-        </p>
-        <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight
-          including weather data,
-          as well as a <a href="https://geojson.org/">GeoJSON</a> file. </p>
-        <button data-handler="download" type="button" class="primary" id="download-tmc">
-          Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
-        <button data-handler="download" type="button" id="download-pln">
-          Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
-        <button data-handler="download" type="button" id="download-fms">
-          Download X-Plane <code>custom_missions.fms</code> flight plan</button>
-        <button data-handler="download" type="button" class="expert-mode" id="download-md">
-          Download <code>custom_missions.md</code> documentation</button>
-        <button data-handler="download" type="button" class="expert-mode" id="download-json">
-          Download <code>custom_missions.geojson</code></button>
-      </section>
-
-      <dialog id="settings-modal">
-        <h4>Settings</h4>
-        <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>,
-          the Missionsgerät can fetch the current weather for you.</p>
-        <div>
-          <label for="metar-api-key">CheckWX API key</label>
-          <input type="text" id="metar-api-key" maxlength="32" minlength="16" pattern="[A-Za-z0-9]+">
-        </div>
-
-        <p>In expert mode additional controls will show up in this application. There will be more weather options and
-          speed settings, as well as more export file formats.</p>
-
-        <button data-handler="toggle-expert-mode" id="expert-mode" class="primary">Toggle expert mode</button>
-
-        <p>Press <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>R</kbd> to check for updates.</p>
-        <p>Press <kbd>CTRL</kbd>+<kbd>+</kbd> and <kbd>CTRL</kbd>+<kbd>-</kbd> to change text size.</p>
-
-        <button data-handler="modal-close" class="icon" id="settings-close" title="Close settings">✕ <span>Close
-            settings</span></button>
-      </dialog>
-      <dialog id="help-flightplan-modal">
-        <h4>Fligh plan help</h4>
-        <ul>
-          <li>Naming a waypoint with two digits and an optional <code>R</code>, <code>L</code> or <code>C</code>
-            converts it into a runway.</li>
-          <li>Naming a waypoint with five letters will convert it into a named fix.</li>
-          <li>Adding a frequency to a waypoint will convert it into a VOR / NDB.</li>
-          <li>Adding a frequency to a runway will convert it into an ILS.</li>
-        </ul>
-        <p>Too sharp curves will result in the waypoint being converted from fly-by to fly-over. If you see strange
-          lines appear on your flight plan, your waypoints may be too close or the speed is too high.</p>
-        <button data-handler="modal-close" class="icon" id="help-flightplan-close" title="Close flight plan help">✕
-          <span>Close flight plan help</span></button>
-      </dialog>
-    </main>
-    <footer>
-      <p>Author: <a href="https://3960.org/">Frank Bo&euml;s</a> &middot; <a
-          href="https://github.com/fboes/aerofly-missions">GitHub</a> &middot; Copyright & license: See <a
-          href="../LICENSE.txt">LICENSE.txt</a></p>
-
-      <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the
-        <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.
-      </p>
-
-      <p class="no-print">This software complies with the General Data Protection Regulation (GDPR). See also the <a
-          href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
-    </footer>
-  </div>
-  <script type="module">
-    import { App } from "./Web/App.js";
-    const app = new App();
-
-    if (localStorage.getItem('mapbox.consent') === '1') {
-      const link = document.createElement('link')
-      link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css'
-      link.rel = 'stylesheet'
-      const script = document.createElement('script')
-      script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'
-      script.addEventListener('load', () => {
-        document.getElementById('map').innerHTML = '';
-        const map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/outdoors-v12',
-          accessToken: 'pk.eyJ1IjoiZmJvZXMiLCJhIjoiY2xjZWsyZmo2MDh3cjNybWljM2cxNDA4cSJ9.jsRuxcBPqXXsDjDOnUAZFw',
+          map.addControl(
+            new mapboxgl.NavigationControl({
+              visualizePitch: true,
+            }),
+            "top-left"
+          );
+          map.addControl(new mapboxgl.FullscreenControl());
+          app.addMapbox(map);
         });
-
-        map.addControl(new mapboxgl.NavigationControl({
-          visualizePitch: true
-        }), 'top-left');
-        map.addControl(new mapboxgl.FullscreenControl());
-        app.addMapbox(map);
-      })
-      document.head.append(script, link)
-    }
-  </script>
-  <script>
-    if (window.isSecureContext && 'serviceWorker' in navigator && !navigator.serviceWorker.controller) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-  </script>
-</body>
-
+        document.head.append(script, link);
+      }
+    </script>
+    <script>
+      if (window.isSecureContext && "serviceWorker" in navigator && !navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("./sw.js");
+      }
+    </script>
+  </body>
 </html>

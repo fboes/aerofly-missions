@@ -11,9 +11,7 @@ export class Flightplan extends Outputtable {
     outputFourColumn(fields) {
         return this.outputLine(fields.map((l, i) => {
             const colorsLength = this.clr.getColorsLength(l);
-            return i % 2
-                ? l.padEnd(17 + colorsLength, ' ')
-                : this.clr.lightGray + l.padEnd(4) + this.clr.reset;
+            return i % 2 ? l.padEnd(17 + colorsLength, " ") : this.clr.lightGray + l.padEnd(4) + this.clr.reset;
         }));
     }
     /**
@@ -39,9 +37,9 @@ export class Flightplan extends Outputtable {
         return color + flight_category + this.clr.reset;
     }
     getWind(conditions) {
-        return super.getWind(conditions).replace(/(G)/, this.clr.lightGray + "$1" + this.clr.reset) + 'KTS';
+        return super.getWind(conditions).replace(/(G)/, this.clr.lightGray + "$1" + this.clr.reset) + "KTS";
     }
-    outputDashes(length, char = '-') {
+    outputDashes(length, char = "-") {
         return this.clr.lightGray + char.repeat(length) + this.clr.reset + "\n";
     }
     outputSunState(sunState) {
@@ -52,7 +50,7 @@ export class Flightplan extends Outputtable {
         else if (sunState.sunState === LonLatDate.SUN_STATE_NIGHT) {
             sunColor = this.clr.lightRed;
         }
-        return sunColor + (super.outputSunState(sunState).toUpperCase()) + this.clr.reset;
+        return sunColor + super.outputSunState(sunState).toUpperCase() + this.clr.reset;
     }
     outputDateTime(date) {
         return super.outputDateTime(date).replace(/(T)/, this.clr.lightGray + "$1" + this.clr.reset);
@@ -66,87 +64,102 @@ export class Flightplan extends Outputtable {
         const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
         time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
         const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-        let output = '';
+        let output = "";
         // Origin
         output += this.outputFourColumn([
-            'ORIG',
+            "ORIG",
             m.origin_icao,
-            'DEP',
+            "DEP",
             this.outputDateTime(m.conditions.time.dateTime),
         ]);
         output += this.outputFourColumn([
-            'DSUN',
+            "DSUN",
             this.outputSunState(sunStateOrigin),
-            'DLST',
-            sunStateOrigin.localSolarTime
+            "DLST",
+            sunStateOrigin.localSolarTime,
         ]);
         output += this.outputDashes(lineLength);
         // Desitination
         output += this.outputFourColumn([
-            'DEST',
+            "DEST",
             m.destination_icao,
-            'ARR',
+            "ARR",
             this.outputDateTime(time),
         ]);
         output += this.outputFourColumn([
-            'ASUN',
+            "ASUN",
             this.outputSunState(sunStateDestination),
-            'ALST',
-            sunStateDestination.localSolarTime
+            "ALST",
+            sunStateDestination.localSolarTime,
         ]);
         // Weather table
         output += this.outputDashes(lineLength);
         output += this.outputFourColumn([
-            'WIND',
+            "WIND",
             this.getWind(m.conditions),
-            'CLD',
-            m.conditions.cloud.cover_symbol + ' ' + m.conditions.cloud.cover_code + ' @ ' + m.conditions.cloud.height_feet.toLocaleString('en') + 'FT'
+            "CLD",
+            m.conditions.cloud.cover_symbol +
+                " " +
+                m.conditions.cloud.cover_code +
+                " @ " +
+                m.conditions.cloud.height_feet.toLocaleString("en") +
+                "FT",
         ]);
         output += this.outputFourColumn([
-            'VIS',
-            m.conditions.visibility.toLocaleString('en') + 'M / ' + Math.round(m.conditions.visibility_sm) + 'SM',
-            'FR',
-            this.getConditionColored(m.conditions, m.origin_lon_lat)
+            "VIS",
+            m.conditions.visibility.toLocaleString("en") + "M / " + Math.round(m.conditions.visibility_sm) + "SM",
+            "FR",
+            this.getConditionColored(m.conditions, m.origin_lon_lat),
         ]);
         output += this.outputDashes(lineLength);
         output += this.outputFourColumn([
-            'ARCT',
+            "ARCT",
             m.aircraft_icao,
-            'TAIL',
-            m.callsign
+            "TAIL",
+            m.callsign,
         ]);
         output += this.outputFourColumn([
-            'TAS',
-            Outputtable.padThree(m.cruise_speed) + 'KTS',
-            'ALT',
-            m.cruise_altitude_ft.toLocaleString('en') + 'FT'
+            "TAS",
+            Outputtable.padThree(m.cruise_speed) + "KTS",
+            "ALT",
+            m.cruise_altitude_ft.toLocaleString("en") + "FT",
         ]);
         if (m.checkpoints.length) {
-            output += this.outputDashes(lineLength, '=');
+            output += this.outputDashes(lineLength, "=");
             // Waypoint table
-            output += this.clr.lightGray + this.outputLine(['>   ', 'WPT   ', 'FREQ  ', '   ALT', 'DTK ', 'HDG ', '  DIS', '   ETE']) + this.clr.reset;
+            output +=
+                this.clr.lightGray +
+                    this.outputLine([">   ", "WPT   ", "FREQ  ", "   ALT", "DTK ", "HDG ", "  DIS", "   ETE"]) +
+                    this.clr.reset;
             m.checkpoints.forEach((c, i) => {
-                let frqString = '';
+                let frqString = "";
                 if (c.frequency) {
-                    frqString = c.frequency_unit === 'M' ? Outputtable.pad(c.frequency_mhz, 6, 2) : ('✺ ' + c.frequency_khz.toFixed()).padStart(6);
+                    frqString =
+                        c.frequency_unit === "M"
+                            ? Outputtable.pad(c.frequency_mhz, 6, 2)
+                            : ("✺ " + c.frequency_khz.toFixed()).padStart(6);
                 }
-                ;
                 output += this.outputLine([
                     this.clr.lightGray + Outputtable.pad(i + 1, 2, 0, "0") + ". " + this.clr.reset,
                     this.clr.lightCyan + c.name.padEnd(6, " ") + this.clr.reset,
-                    (c.frequency) ? frqString : ' '.repeat(6),
-                    (c.lon_lat.altitude_m) ? Outputtable.pad(c.lon_lat.altitude_ft, 6, 0) : ' '.repeat(6),
-                    (c.direction >= 0) ? Outputtable.padThree(c.direction_magnetic) + "°" : ' '.repeat(4),
-                    (c.heading >= 0) ? Outputtable.padThree(c.heading_magnetic) + "°" : ' '.repeat(4),
-                    (c.distance >= 0) ? Outputtable.pad(c.distance, 5, 1) : ' '.repeat(5),
-                    (c.time_enroute > 0) ? Outputtable.convertHoursToMinutesString(c.time_enroute).padStart(6) : ' '.repeat(6),
+                    c.frequency ? frqString : " ".repeat(6),
+                    c.lon_lat.altitude_m ? Outputtable.pad(c.lon_lat.altitude_ft, 6, 0) : " ".repeat(6),
+                    c.direction >= 0 ? Outputtable.padThree(c.direction_magnetic) + "°" : " ".repeat(4),
+                    c.heading >= 0 ? Outputtable.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
+                    c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) : " ".repeat(5),
+                    c.time_enroute > 0 ? Outputtable.convertHoursToMinutesString(c.time_enroute).padStart(6) : " ".repeat(6),
                 ]);
             });
             output += this.outputDashes(lineLength);
             output += this.outputLine([
-                this.clr.lightGray + '>   ' + this.clr.reset, 'TOT   ', '      ', '      ', '    ', '    ',
+                this.clr.lightGray + ">   " + this.clr.reset,
+                "TOT   ",
+                "      ",
+                "      ",
+                "    ",
+                "    ",
                 Outputtable.pad(total_distance, 5, 1),
-                Outputtable.convertHoursToMinutesString(total_time_enroute).padStart(6)
+                Outputtable.convertHoursToMinutesString(total_time_enroute).padStart(6),
             ]);
         }
         return output;

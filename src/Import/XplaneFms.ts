@@ -8,21 +8,29 @@ import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.
  */
 export class XplaneFms extends GarminFpl {
   read(configFileContent: string): void {
-    const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) (\S+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/mg);
+    const waypointLines = configFileContent.matchAll(
+      /(?:^|\n)(\d+) (\S+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/gm
+    );
     if (!waypointLines) {
       throw new Error("No nav lines found");
     }
 
     const wLines = Array.from(waypointLines);
     this.waypoints = wLines.map((m, index): GaminFplWaypoint => {
-      let type: GarminFplWaypointType = 'USER WAYPOINT'
+      let type: GarminFplWaypointType = "USER WAYPOINT";
       switch (Number(m[1])) {
-        case 1: type = "AIRPORT"; break;
-        case 2: type = "NDB"; break;
-        case 3: type = "VOR"; break;
+        case 1:
+          type = "AIRPORT";
+          break;
+        case 2:
+          type = "NDB";
+          break;
+        case 3:
+          type = "VOR";
+          break;
       }
       if (index !== 0 && index !== wLines.length - 1) {
-        this.cruisingAlt = (this.cruisingAlt !== undefined) ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3])
+        this.cruisingAlt = this.cruisingAlt !== undefined ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3]);
       }
 
       return {
@@ -30,9 +38,9 @@ export class XplaneFms extends GarminFpl {
         type: type,
         lat: Number(m[4]),
         lon: Number(m[5]),
-        alt: Number(m[3])
-      }
-    })
+        alt: Number(m[3]),
+      };
+    });
   }
 }
 
@@ -41,7 +49,7 @@ export class XplaneFms extends GarminFpl {
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
  */
 export class XplaneFmsExport {
-  constructor(protected mission: Mission) { }
+  constructor(protected mission: Mission) {}
 
   toString(): string {
     const m = this.mission;
@@ -55,21 +63,25 @@ NUMENR ${m.checkpoints.length}
     m.checkpoints.forEach((cp, index) => {
       // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
       let type: 1 | 2 | 3 | 11 | 28;
-      type = (cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION)
-        ? 1
-        : 28;
+      type = cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION ? 1 : 28;
       if (type === 28) {
         switch (cp.type_extended) {
-          case MissionCheckpoint.TYPE_VOR: type = 3; break;
-          case MissionCheckpoint.TYPE_NDB: type = 2; break;
-          case MissionCheckpoint.TYPE_FIX: type = 11; break;
+          case MissionCheckpoint.TYPE_VOR:
+            type = 3;
+            break;
+          case MissionCheckpoint.TYPE_NDB:
+            type = 2;
+            break;
+          case MissionCheckpoint.TYPE_FIX:
+            type = 11;
+            break;
         }
       }
       // ADEP/ADES for departure or destination airport of the flightplan, DRCT for a direct or random route leg to the waypoint, or the name of an airway or ATS route to the waypoint.
-      let via: 'ADEP' | 'ADES' | 'DRCT';
-      via = type === 1 ? 'ADEP' : 'DRCT';
+      let via: "ADEP" | "ADES" | "DRCT";
+      via = type === 1 ? "ADEP" : "DRCT";
       if (index === m.checkpoints.length - 1 && type === 1) {
-        via = 'ADES';
+        via = "ADES";
       }
 
       /*let name = (type !== 28) ? cp.name : (
@@ -81,13 +93,19 @@ NUMENR ${m.checkpoints.length}
         + Math.abs(cp.lon_lat.lon).toFixed(3).padStart(7, '0')
       )*/
       let name = cp.name;
-      if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY || cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) && !name.match(/^RW/)) {
-        name = 'RW' + name;
+      if (
+        (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+          cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
+        !name.match(/^RW/)
+      ) {
+        name = "RW" + name;
       }
 
-      pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(6)} ${cp.lon_lat.lon.toFixed(6)}
+      pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(
+        6
+      )} ${cp.lon_lat.lon.toFixed(6)}
 `;
-    })
+    });
 
     return pln;
   }

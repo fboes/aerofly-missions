@@ -6,7 +6,7 @@ export class Test {
    * Put test cases into constructor
    * @param process
    */
-  constructor(protected process: NodeJS.Process, protected dieOnError = false) { }
+  constructor(protected process: NodeJS.Process, protected dieOnError = false) {}
 
   assert(assertion: boolean, message: string) {
     if (assertion) {
@@ -16,17 +16,25 @@ export class Test {
       this.errors++;
       this.process.stderr.write("  💥 " + message + "\n");
       if (this.dieOnError) {
-        this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Not finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+        this.process.stdout.write(
+          "\n" +
+            (this.errors > 0 ? "💥" : "✅") +
+            ` Not finished, ${this.successes} successes, ${this.errors} errors ` +
+            "\n"
+        );
         process.exit(this.errors > 0 ? 1 : 0);
       }
     }
   }
 
   assertEquals(a: unknown, b: unknown, message: string = "") {
-    return this.assert(a === b, message ? message : this.stringFromUnknown(a) + " matches " + this.stringFromUnknown(b));
+    return this.assert(
+      a === b,
+      message ? message : this.stringFromUnknown(a) + " matches " + this.stringFromUnknown(b)
+    );
   }
 
-  assertEqualsRounded(a: number, b:number, precision: number, message: string = "") {
+  assertEqualsRounded(a: number, b: number, precision: number, message: string = "") {
     return this.assertEquals(Number(a.toFixed(precision)), Number(b.toFixed(precision)), message);
   }
 
@@ -35,19 +43,21 @@ export class Test {
   }
 
   exit() {
-    this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+    this.process.stdout.write(
+      "\n" + (this.errors > 0 ? "💥" : "✅") + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n"
+    );
     process.exit(this.errors > 0 ? 1 : 0);
   }
 
   protected stringFromUnknown(a: unknown): string {
     if (a === undefined) {
-      return 'undefined'
+      return "undefined";
     } else if (a === null) {
-      return 'null'
-    } else if (typeof a === 'string') {
-      return `"${a}"`
-    } else if (typeof a === 'boolean') {
-      return a ? 'true' : 'false'
+      return "null";
+    } else if (typeof a === "string") {
+      return `"${a}"`;
+    } else if (typeof a === "boolean") {
+      return a ? "true" : "false";
     }
     return a.toString();
   }

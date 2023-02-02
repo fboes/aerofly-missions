@@ -3,39 +3,38 @@ import { BashColors } from "./BashColors.js";
 export const asciify = (string: string) => {
   return string
     .replace(/[äåæáàâãöøœóòôõüúùûëéèêïíìîÿýñß]/g, function (s) {
-      return s.replace(/[äæ]/, 'ae')
-        .replace(/[åáàâã]/, 'a')
-        .replace(/[öøœ]/, 'oe')
-        .replace(/[óòôõ]/, 'o')
-        .replace(/[ü]/, 'ue')
-        .replace(/[úùû]/, 'u')
-        .replace(/[ëéèê]/, 'e')
-        .replace(/[ïíìî]/, 'i')
-        .replace(/[ÿý]/, 'y')
-        .replace(/[ñ]/, 'n')
-        .replace(/[ß]/, 'ss')
-        ;
+      return s
+        .replace(/[äæ]/, "ae")
+        .replace(/[åáàâã]/, "a")
+        .replace(/[öøœ]/, "oe")
+        .replace(/[óòôõ]/, "o")
+        .replace(/[ü]/, "ue")
+        .replace(/[úùû]/, "u")
+        .replace(/[ëéèê]/, "e")
+        .replace(/[ïíìî]/, "i")
+        .replace(/[ÿý]/, "y")
+        .replace(/[ñ]/, "n")
+        .replace(/[ß]/, "ss");
     })
     .replace(/[ÄÅÆÁÀÂÃÖØŒÓÒÔÕÜÚÙÛËÉÈÊÏÍÌÎŸÝÑ]/g, function (s) {
-      return s.replace(/[ÄÆ]/, 'AE')
-        .replace(/[ÅÁÀÂÃ]/, 'A')
-        .replace(/[ÖØŒ]/, 'OE')
-        .replace(/[ÓÒÔÕ]/, 'O')
-        .replace(/[Ü]/, 'UE')
-        .replace(/[ÚÙÛ]/, 'U')
-        .replace(/[ËÉÈÊ]/, 'E')
-        .replace(/[ÏÍÌÎ]/, 'I')
-        .replace(/[ŸÝ]/, 'Y')
-        .replace(/[Ñ]/, 'N')
-        ;
+      return s
+        .replace(/[ÄÆ]/, "AE")
+        .replace(/[ÅÁÀÂÃ]/, "A")
+        .replace(/[ÖØŒ]/, "OE")
+        .replace(/[ÓÒÔÕ]/, "O")
+        .replace(/[Ü]/, "UE")
+        .replace(/[ÚÙÛ]/, "U")
+        .replace(/[ËÉÈÊ]/, "E")
+        .replace(/[ÏÍÌÎ]/, "I")
+        .replace(/[ŸÝ]/, "Y")
+        .replace(/[Ñ]/, "N");
     })
-    .replace(/[!?.,'":;]/g, '')
-    .replace(/\s/g, '_')
-    .replace(/[^a-zA-Z0-9-_]/g, '-')
-    .replace(/(-)-+/g, '$1')
-    .replace(/(_)_+/g, '$1')
-    ;
-}
+    .replace(/[!?.,'":;]/g, "")
+    .replace(/\s/g, "_")
+    .replace(/[^a-zA-Z0-9-_]/g, "-")
+    .replace(/(-)-+/g, "$1")
+    .replace(/(_)_+/g, "$1");
+};
 
 export class Arguments {
   source: string;
@@ -81,26 +80,26 @@ export class Arguments {
       if (match) {
         pointer = match[1].toLowerCase();
         switch (pointer) {
-          case 'help':
+          case "help":
             this.help = true;
             break;
-          case 'm':
-          case 'mission-only':
+          case "m":
+          case "mission-only":
             this.missionOnly = true;
             break;
-          case 'geo-json':
+          case "geo-json":
             this.geoJson = true;
             break;
-          case 'flightplan':
+          case "flightplan":
             this.flightplan = true;
             break;
-          case 'skyvector':
+          case "skyvector":
             this.skyVector = true;
             break;
-          case 'no-color':
+          case "no-color":
             this.useColors = BashColors.COLOR_NONE;
             break;
-          case 'markdown':
+          case "markdown":
             this.markdown = true;
             break;
         }
@@ -115,21 +114,21 @@ export class Arguments {
             this.target = a;
             break;
           case "import":
-            const fileEnding = a.replace(/^.*(\.[^.]+)$/, '$1');
+            const fileEnding = a.replace(/^.*(\.[^.]+)$/, "$1");
             switch (fileEnding) {
-              case '.pln':
+              case ".pln":
                 this.msfs = a;
                 break;
-              case '.fpl':
+              case ".fpl":
                 this.garmin = a;
                 break;
-              case '.fms':
+              case ".fms":
                 this.xplane = a;
                 break;
-              case '.tmc':
+              case ".tmc":
                 this.tmc = a;
                 break;
-              case '.gpx':
+              case ".gpx":
                 this.gpx = a;
                 break;
               default:

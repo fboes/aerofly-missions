@@ -14,10 +14,10 @@ export class LonLat {
         this.lat = lat;
     }
     get lonRad() {
-        return this.lon / 180 * Math.PI;
+        return (this.lon / 180) * Math.PI;
     }
     get latRad() {
-        return this.lat / 180 * Math.PI;
+        return (this.lat / 180) * Math.PI;
     }
     convertMinute(lonOrLat) {
         let l = {
@@ -39,13 +39,13 @@ export class LonLat {
      * Returns E or W
      */
     get lonHemisphere() {
-        return this.lon > 0 ? 'E' : 'W';
+        return this.lon > 0 ? "E" : "W";
     }
     /**
      * Returns N or S
      */
     get latHemisphere() {
-        return this.lat > 0 ? 'N' : 'S';
+        return this.lat > 0 ? "N" : "S";
     }
     get altitude_ft() {
         return this.altitude_m * Units.feetPerMeter;
@@ -68,14 +68,14 @@ export class LonLat {
         // 360351N1151159W
         const lat = this.latMinute;
         const lon = this.lonMinute;
-        return Math.abs(lat.degree).toFixed().padStart(2, '0')
-            + lat.minutes.toFixed().padStart(2, '0')
-            + lat.seconds.toFixed().padStart(2, '0')
-            + this.latHemisphere
-            + Math.abs(lon.degree).toFixed().padStart(3, '0')
-            + lon.minutes.toFixed().padStart(2, '0')
-            + lon.seconds.toFixed().padStart(2, '0')
-            + this.lonHemisphere;
+        return (Math.abs(lat.degree).toFixed().padStart(2, "0") +
+            lat.minutes.toFixed().padStart(2, "0") +
+            lat.seconds.toFixed().padStart(2, "0") +
+            this.latHemisphere +
+            Math.abs(lon.degree).toFixed().padStart(3, "0") +
+            lon.minutes.toFixed().padStart(2, "0") +
+            lon.seconds.toFixed().padStart(2, "0") +
+            this.lonHemisphere);
     }
     toString() {
         return this.lon.toFixed(6) + " " + this.lat.toFixed(6);
@@ -91,7 +91,7 @@ export class LonLat {
         const dLon = lon2 - lon1;
         const y = Math.sin(dLon) * Math.cos(lat2);
         const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-        return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+        return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
     }
     /**
      *
@@ -116,13 +116,14 @@ export class LonLat {
      */
     getRelativeCoordinates(distance, bearing) {
         const d = distance;
-        const brng = ((bearing + 360) % 360) / 180 * Math.PI;
+        const brng = (((bearing + 360) % 360) / 180) * Math.PI;
         const lat1 = this.latRad;
         const lon1 = this.lonRad;
         const R = LonLat.EARTH_MEAN_RADIUS;
         const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) + Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
-        const lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
-        return new LonLat(lon2 * 180 / Math.PI, lat2 * 180 / Math.PI, this.altitude_m);
+        const lon2 = lon1 +
+            Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+        return new LonLat((lon2 * 180) / Math.PI, (lat2 * 180) / Math.PI, this.altitude_m);
     }
     /**
      * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
@@ -159,13 +160,13 @@ export class LonLat {
         return l;
     }
 }
-LonLat.CONTINENT_NORTH_AMERICA = 'NA';
-LonLat.CONTINENT_SOUTH_AMERICA = 'SA';
-LonLat.CONTINENT_EUROPE = 'EU';
-LonLat.CONTINENT_AFRICA = 'AF';
-LonLat.CONTINENT_ASIA = 'AS';
-LonLat.CONTINENT_AUSTRALIA = 'AUS';
-LonLat.CONTINENT_OTHER = 'OTH';
+LonLat.CONTINENT_NORTH_AMERICA = "NA";
+LonLat.CONTINENT_SOUTH_AMERICA = "SA";
+LonLat.CONTINENT_EUROPE = "EU";
+LonLat.CONTINENT_AFRICA = "AF";
+LonLat.CONTINENT_ASIA = "AS";
+LonLat.CONTINENT_AUSTRALIA = "AUS";
+LonLat.CONTINENT_OTHER = "OTH";
 // In Nautical Miles
 LonLat.EARTH_MEAN_RADIUS = 3441.037;
 export class LonLatArea {

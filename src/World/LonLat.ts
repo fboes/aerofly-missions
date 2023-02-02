@@ -1,12 +1,12 @@
 import { Units } from "./Units.js";
 
-type LonLatContinent = 'NA' | 'SA' | 'EU' | 'AF' | 'AS' | 'AUS' | 'OTH';
+type LonLatContinent = "NA" | "SA" | "EU" | "AF" | "AS" | "AUS" | "OTH";
 
 type LonLatMinute = {
-  degree: number,
-  minutes: number,
-  seconds: number,
-}
+  degree: number;
+  minutes: number;
+  seconds: number;
+};
 
 export class LonLat {
   /**
@@ -18,13 +18,13 @@ export class LonLat {
    */
   lat: number;
 
-  static CONTINENT_NORTH_AMERICA: LonLatContinent = 'NA';
-  static CONTINENT_SOUTH_AMERICA: LonLatContinent = 'SA';
-  static CONTINENT_EUROPE: LonLatContinent = 'EU';
-  static CONTINENT_AFRICA: LonLatContinent = 'AF';
-  static CONTINENT_ASIA: LonLatContinent = 'AS';
-  static CONTINENT_AUSTRALIA: LonLatContinent = 'AUS';
-  static CONTINENT_OTHER: LonLatContinent = 'OTH';
+  static CONTINENT_NORTH_AMERICA: LonLatContinent = "NA";
+  static CONTINENT_SOUTH_AMERICA: LonLatContinent = "SA";
+  static CONTINENT_EUROPE: LonLatContinent = "EU";
+  static CONTINENT_AFRICA: LonLatContinent = "AF";
+  static CONTINENT_ASIA: LonLatContinent = "AS";
+  static CONTINENT_AUSTRALIA: LonLatContinent = "AUS";
+  static CONTINENT_OTHER: LonLatContinent = "OTH";
 
   // In Nautical Miles
   static EARTH_MEAN_RADIUS = 3441.037;
@@ -44,11 +44,11 @@ export class LonLat {
   }
 
   get lonRad(): number {
-    return this.lon / 180 * Math.PI;
+    return (this.lon / 180) * Math.PI;
   }
 
   get latRad(): number {
-    return this.lat / 180 * Math.PI;
+    return (this.lat / 180) * Math.PI;
   }
 
   protected convertMinute(lonOrLat: number): LonLatMinute {
@@ -56,7 +56,7 @@ export class LonLat {
       degree: lonOrLat > 0 ? Math.floor(lonOrLat) : Math.ceil(lonOrLat),
       minutes: (Math.abs(lonOrLat) % 1) * 60,
       seconds: 0,
-    }
+    };
     l.seconds = (l.minutes % 1) * 60;
     l.minutes = Math.floor(l.minutes);
     return l;
@@ -73,17 +73,16 @@ export class LonLat {
   /**
    * Returns E or W
    */
-  get lonHemisphere(): 'E' | 'W' {
-    return this.lon > 0 ? 'E' : 'W';
+  get lonHemisphere(): "E" | "W" {
+    return this.lon > 0 ? "E" : "W";
   }
 
   /**
    * Returns N or S
    */
-  get latHemisphere(): 'N' | 'S' {
-    return this.lat > 0 ? 'N' : 'S';
+  get latHemisphere(): "N" | "S" {
+    return this.lat > 0 ? "N" : "S";
   }
-
 
   get altitude_ft(): number {
     return this.altitude_m * Units.feetPerMeter;
@@ -108,14 +107,16 @@ export class LonLat {
     const lat = this.latMinute;
     const lon = this.lonMinute;
 
-    return Math.abs(lat.degree).toFixed().padStart(2, '0')
-      + lat.minutes.toFixed().padStart(2, '0')
-      + lat.seconds.toFixed().padStart(2, '0')
-      + this.latHemisphere
-      + Math.abs(lon.degree).toFixed().padStart(3, '0')
-      + lon.minutes.toFixed().padStart(2, '0')
-      + lon.seconds.toFixed().padStart(2, '0')
-      + this.lonHemisphere
+    return (
+      Math.abs(lat.degree).toFixed().padStart(2, "0") +
+      lat.minutes.toFixed().padStart(2, "0") +
+      lat.seconds.toFixed().padStart(2, "0") +
+      this.latHemisphere +
+      Math.abs(lon.degree).toFixed().padStart(3, "0") +
+      lon.minutes.toFixed().padStart(2, "0") +
+      lon.seconds.toFixed().padStart(2, "0") +
+      this.lonHemisphere
+    );
   }
 
   toString(): string {
@@ -136,7 +137,7 @@ export class LonLat {
     const y = Math.sin(dLon) * Math.cos(lat2);
     const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
 
-    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   }
 
   /**
@@ -167,19 +168,17 @@ export class LonLat {
    */
   getRelativeCoordinates(distance: number, bearing: number): LonLat {
     const d = distance;
-    const brng = ((bearing + 360) % 360) / 180 * Math.PI;
+    const brng = (((bearing + 360) % 360) / 180) * Math.PI;
     const lat1 = this.latRad;
     const lon1 = this.lonRad;
     const R = LonLat.EARTH_MEAN_RADIUS;
 
     const lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) + Math.cos(lat1) * Math.sin(d / R) * Math.cos(brng));
-    const lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
+    const lon2 =
+      lon1 +
+      Math.atan2(Math.sin(brng) * Math.sin(d / R) * Math.cos(lat1), Math.cos(d / R) - Math.sin(lat1) * Math.sin(lat2));
 
-    return new LonLat(
-      lon2 * 180 / Math.PI,
-      lat2 * 180 / Math.PI,
-      this.altitude_m
-    );
+    return new LonLat((lon2 * 180) / Math.PI, (lat2 * 180) / Math.PI, this.altitude_m);
   }
 
   /**
@@ -212,11 +211,7 @@ export class LonLat {
   }
 
   clone(): LonLat {
-    const l = new LonLat(
-      this.lon,
-      this.lat,
-      this.altitude_m
-    );
+    const l = new LonLat(this.lon, this.lat, this.altitude_m);
     l.magnetic_declination = this.magnetic_declination;
     return l;
   }
@@ -233,21 +228,18 @@ export class LonLatArea {
   }
 
   push(lonLat: LonLat) {
-    this.min.lon = Math.min(this.min.lon, lonLat.lon)
-    this.min.lat = Math.min(this.min.lat, lonLat.lat)
-    this.max.lon = Math.max(this.max.lon, lonLat.lon)
-    this.max.lat = Math.max(this.max.lat, lonLat.lat)
+    this.min.lon = Math.min(this.min.lon, lonLat.lon);
+    this.min.lat = Math.min(this.min.lat, lonLat.lat);
+    this.max.lon = Math.max(this.max.lon, lonLat.lon);
+    this.max.lat = Math.max(this.max.lat, lonLat.lat);
   }
 
   get maxDistance(): number {
-    return this.min.getDistanceTo(this.max)
+    return this.min.getDistanceTo(this.max);
   }
 
   get center(): LonLat {
-    return new LonLat(
-      (this.min.lon + this.max.lon) / 2,
-      (this.min.lat + this.max.lat) / 2
-    );
+    return new LonLat((this.min.lon + this.max.lon) / 2, (this.min.lat + this.max.lat) / 2);
   }
 
   get lonRange(): number {
@@ -263,7 +255,8 @@ export class LonLatArea {
    * @returns a lon/latRange to fit into
    */
   getMaxRange(aspectRatio = 2 / 1): number {
-    let x = this.lonRange, y = this.latRange;
+    let x = this.lonRange,
+      y = this.latRange;
     const rangeAspectRatio = x / y; // 0.5
     if (aspectRatio > rangeAspectRatio) {
       x *= aspectRatio / rangeAspectRatio;

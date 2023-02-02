@@ -18,7 +18,10 @@ export class Test {
             this.errors++;
             this.process.stderr.write("  💥 " + message + "\n");
             if (this.dieOnError) {
-                this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Not finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+                this.process.stdout.write("\n" +
+                    (this.errors > 0 ? "💥" : "✅") +
+                    ` Not finished, ${this.successes} successes, ${this.errors} errors ` +
+                    "\n");
                 process.exit(this.errors > 0 ? 1 : 0);
             }
         }
@@ -33,21 +36,21 @@ export class Test {
         this.process.stdout.write(title + "\n");
     }
     exit() {
-        this.process.stdout.write("\n" + (this.errors > 0 ? '💥' : '✅') + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
+        this.process.stdout.write("\n" + (this.errors > 0 ? "💥" : "✅") + ` Finished, ${this.successes} successes, ${this.errors} errors ` + "\n");
         process.exit(this.errors > 0 ? 1 : 0);
     }
     stringFromUnknown(a) {
         if (a === undefined) {
-            return 'undefined';
+            return "undefined";
         }
         else if (a === null) {
-            return 'null';
+            return "null";
         }
-        else if (typeof a === 'string') {
+        else if (typeof a === "string") {
             return `"${a}"`;
         }
-        else if (typeof a === 'boolean') {
-            return a ? 'true' : 'false';
+        else if (typeof a === "boolean") {
+            return a ? "true" : "false";
         }
         return a.toString();
     }

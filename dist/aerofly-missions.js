@@ -24,7 +24,7 @@ const mission = new Mission(args.title, args.description);
 mission.origin_dir = args.direction;
 mission.fromMainMcf(aeroflyConfig, args.ils);
 if (mission.warnings) {
-    mission.warnings.forEach(w => {
+    mission.warnings.forEach((w) => {
         process.stderr.write("> " + w + "\n");
     });
 }
@@ -51,7 +51,7 @@ mission.magnetic_declination = args.magneticDeclination;
 const missionList = new MissionsList(args.title);
 missionList.missions.push(mission);
 if (args.geoJson) {
-    const target = args.target.replace('.tmc', '') + '.json';
+    const target = args.target.replace(".tmc", "") + ".json";
     try {
         fs.writeFileSync(target, JSON.stringify(new GeoJson().fromMission(mission), undefined, 2));
         process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");
@@ -67,7 +67,7 @@ if (args.skyVector) {
     process.stdout.write("\n" + new SkyVector(mission).toString() + "\n");
 }
 if (args.markdown) {
-    const target = args.target.replace('.tmc', '') + '.md';
+    const target = args.target.replace(".tmc", "") + ".md";
     try {
         fs.writeFileSync(target, new Markdown(mission).toString());
         process.stdout.write(c.green + target + " written successfully" + c.reset + "\n");

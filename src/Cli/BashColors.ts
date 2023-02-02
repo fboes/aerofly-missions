@@ -65,14 +65,13 @@ export class BashColors {
       return length;
     }
 
-    const matches = this.colorType === BashColors.COLOR_BASH
-    ? string.match(/\x1b.+?m/g)
-    : string.match(/<\/?span[^>]*>/g);
+    const matches =
+      this.colorType === BashColors.COLOR_BASH ? string.match(/\x1b.+?m/g) : string.match(/<\/?span[^>]*>/g);
     if (matches) {
-      matches.forEach(l => {
+      matches.forEach((l) => {
         length += l.length;
-      })
+      });
     }
-    return length
+    return length;
   }
 }

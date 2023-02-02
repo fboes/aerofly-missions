@@ -4,7 +4,7 @@ export class FileParser {
   }
 
   setNumber(subject: string, key: string, value: number) {
-    return this.setValue(subject, key, String(value))
+    return this.setValue(subject, key, String(value));
   }
 
   getNumberArray(subject: string, key: string): number[] {
@@ -19,10 +19,9 @@ export class FileParser {
   }
 
   setValue(subject: string, key: string, value: string) {
-    return (value === undefined)
+    return value === undefined
       ? subject
-      : subject.replace(new RegExp('(\\]\\[' + key + '\\]\\[)[^\\]]*(\\])'), '$1' + value + '$2')
-      ;
+      : subject.replace(new RegExp("(\\]\\[" + key + "\\]\\[)[^\\]]*(\\])"), "$1" + value + "$2");
   }
 
   getGroup(subject: string, group: string, indent: number = 2): string {
@@ -35,6 +34,9 @@ export class FileParser {
 
   setGroup(subject: string, group: string, indent: number, callback: (all: string) => string) {
     const indentString = "    ".repeat(indent);
-    return subject.replace(new RegExp('(\\n' + indentString + '<\\[' + group + '\\]\\S*)([\\s\\S]+?)(\\n' + indentString + '>)'), callback);
-  };
+    return subject.replace(
+      new RegExp("(\\n" + indentString + "<\\[" + group + "\\]\\S*)([\\s\\S]+?)(\\n" + indentString + ">)"),
+      callback
+    );
+  }
 }

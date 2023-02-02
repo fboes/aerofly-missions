@@ -115,7 +115,7 @@ export class MainMcfFactory extends FileParser {
     };
     m.navigation = {
       Route: {
-        CruiseAltitude: this.getNumber(tmnav_route, 'CruiseAltitude'),
+        CruiseAltitude: this.getNumber(tmnav_route, "CruiseAltitude"),
         Ways: waypoints,
       },
     };

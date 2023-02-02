@@ -31,15 +31,15 @@ export class LonLatTest extends Test {
         {
             const lonLat = new LonLat(45, 35);
             const lonLat2 = new LonLat(135, 35);
-            this.assertEqualsRounded(lonLat.getBearingTo(lonLat2), 60, 0, 'Bearing matches');
-            this.assertEqualsRounded(lonLat.getDistanceTo(lonLat2), 4252, 0, 'Distance matches');
+            this.assertEqualsRounded(lonLat.getBearingTo(lonLat2), 60, 0, "Bearing matches");
+            this.assertEqualsRounded(lonLat.getDistanceTo(lonLat2), 4252, 0, "Distance matches");
         }
         this.group(LonLat.name + ": HST to 07FA");
         {
             const lonLat = new LonLat(-80.379414, 25.489981);
             const lonLat2 = new LonLat(-80.279153, 25.320653);
-            this.assertEqualsRounded(lonLat.getBearingTo(lonLat2), 152, 0, 'Bearing matches');
-            this.assertEqualsRounded(lonLat.getDistanceTo(lonLat2), 12, 0, 'Distance matches');
+            this.assertEqualsRounded(lonLat.getBearingTo(lonLat2), 152, 0, "Bearing matches");
+            this.assertEqualsRounded(lonLat.getDistanceTo(lonLat2), 12, 0, "Distance matches");
         }
         this.group(LonLat.name + ": getRelativeCoordinates");
         {
@@ -57,12 +57,12 @@ export class LonLatTest extends Test {
             this.assertEquals(lat.degree, 36);
             this.assertEquals(lat.minutes, 2);
             this.assertEqualsRounded(lat.seconds, 6.36, 2);
-            this.assertEquals(lonLat.latHemisphere, 'N');
+            this.assertEquals(lonLat.latHemisphere, "N");
             this.assertEquals(lon.degree, -115);
             this.assertEquals(lon.minutes, 6);
             this.assertEqualsRounded(lon.seconds, 57.24, 2);
-            this.assertEquals(lonLat.lonHemisphere, 'W');
-            this.assertEquals(lonLat.toNavString(), '360206N1150657W');
+            this.assertEquals(lonLat.lonHemisphere, "W");
+            this.assertEquals(lonLat.toNavString(), "360206N1150657W");
         }
     }
 }
@@ -71,7 +71,7 @@ export class LonLatAreaTest extends Test {
         super(process, dieOnError);
         this.process = process;
         this.dieOnError = dieOnError;
-        this.group(LonLatArea.name + ': The World');
+        this.group(LonLatArea.name + ": The World");
         {
             const lla = new LonLatArea(new LonLat(0, 0));
             lla.push(new LonLat(-180, -90));
@@ -87,7 +87,7 @@ export class LonLatAreaTest extends Test {
             this.assertEqualsRounded(lla.getMaxRange(2 / 1), 360, 2);
             this.assertEquals(lla.getZoomLevel(), 4);
         }
-        this.group(LonLatArea.name + ': EGOV');
+        this.group(LonLatArea.name + ": EGOV");
         {
             const lla = new LonLatArea(new LonLat(-4.53, 53.25));
             lla.push(new LonLat(-3.68, 52.7));
@@ -110,12 +110,12 @@ export class LonLatAreaTest extends Test {
             this.assertEqualsRounded(lla.getMaxRange(2 / 1), 1.44, 2);
             this.assertEquals(lla.getZoomLevel(), 9); // 9
         }
-        this.group(LonLatArea.name + ': Reno');
+        this.group(LonLatArea.name + ": Reno");
         {
             const lla = new LonLatArea(new LonLat(-119.86, 39.66));
             lla.push(new LonLat(-119.86, 39.68));
             lla.push(new LonLat(-119.88, 39.71));
-            lla.push(new LonLat(-119.90, 39.67));
+            lla.push(new LonLat(-119.9, 39.67));
             const center = lla.center;
             this.assertEquals(center.lon, -119.88);
             this.assertEquals(center.lat, 39.685);
@@ -126,7 +126,7 @@ export class LonLatAreaTest extends Test {
             this.assertEqualsRounded(lla.getMaxRange(2 / 1), 0.1, 2);
             this.assertEquals(lla.getZoomLevel(), 15); // 14
         }
-        this.group(LonLatArea.name + ': Santa Barbara');
+        this.group(LonLatArea.name + ": Santa Barbara");
         {
             const lla = new LonLatArea(new LonLat(-119.84, 34.42));
             lla.push(new LonLat(-119.77, 34.51));
@@ -141,7 +141,7 @@ export class LonLatAreaTest extends Test {
             this.assertEqualsRounded(lla.getMaxRange(2 / 1), 0.32, 2);
             this.assertEquals(lla.getZoomLevel(), 12); // 12-11
         }
-        this.group(LonLatArea.name + ': Manchester');
+        this.group(LonLatArea.name + ": Manchester");
         {
             const lla = new LonLatArea(new LonLat(-2.28, 53.35));
             lla.push(new LonLat(8.54, 50.03));

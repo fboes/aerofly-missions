@@ -70,40 +70,40 @@ export class App {
     }
     handleEvent(e) {
         switch (e.type) {
-            case 'click':
-                const target = e.target.closest('[data-handler]');
+            case "click":
+                const target = e.target.closest("[data-handler]");
                 if (!target) {
                     return;
                 }
-                const handler = target.getAttribute('data-handler');
+                const handler = target.getAttribute("data-handler");
                 switch (handler) {
-                    case 'add-waypoint':
+                    case "add-waypoint":
                         this.handleEventClickAddWaypoint(target);
                         break;
-                    case 'download':
+                    case "download":
                         this.handleEventClickDownload(target);
                         break;
-                    case 'fetch-metar':
+                    case "fetch-metar":
                         this.handleEventClickFetchMetar(target);
                         break;
-                    case 'modal-close':
+                    case "modal-close":
                         this.handleEventClickModalClose(target);
                         break;
-                    case 'modal-open':
+                    case "modal-open":
                         this.handleEventClickModalOpen(target);
                         break;
-                    case 'random-weather':
+                    case "random-weather":
                         this.handleEventClickRandomWeather(target);
                         break;
-                    case 'reset':
+                    case "reset":
                         this.handleEventClickReset(target);
                         break;
-                    case 'toggle-expert-mode':
+                    case "toggle-expert-mode":
                         this.handleEventClickToggleExpertMode(target);
                         break;
                 }
                 break;
-            case 'input':
+            case "input":
                 this.handleEventInput(e.target);
                 break;
         }
@@ -112,7 +112,7 @@ export class App {
         const distancePreset = 3;
         const heightPreset = Math.round((distancePreset * 318) / 100) * 100; // 3° slope
         switch (target.id) {
-            case 'add-departure':
+            case "add-departure":
                 {
                     let cpFrom = this.mission.checkpoints[0];
                     let cpTo = this.mission.checkpoints[1];
@@ -127,13 +127,13 @@ export class App {
                     const cp = new MissionCheckpoint();
                     cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);
                     cp.lon_lat.altitude_ft += heightPreset;
-                    cp.name = cpFrom.name + '+' + distancePreset.toFixed();
+                    cp.name = cpFrom.name + "+" + distancePreset.toFixed();
                     cp.speed = cpTo.speed;
                     cp.ground_speed = cpTo.ground_speed;
                     this.mission.checkpoints.splice(spliceIndex, 0, cp);
                 }
                 break;
-            case 'add-approach':
+            case "add-approach":
                 {
                     const lastIndex = this.mission.checkpoints.length - 1;
                     let cpTo = this.mission.checkpoints[lastIndex];
@@ -147,7 +147,7 @@ export class App {
                     const cp = new MissionCheckpoint();
                     cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
                     cp.lon_lat.altitude_ft += heightPreset;
-                    cp.name = cpTo.name + '+' + distancePreset.toFixed();
+                    cp.name = cpTo.name + "+" + distancePreset.toFixed();
                     cp.speed = cpTo.speed;
                     cp.ground_speed = cpTo.ground_speed;
                     this.mission.checkpoints.splice(spliceIndex, 0, cp);
@@ -183,19 +183,17 @@ export class App {
         }
     }
     handleEventClickFetchMetar(target) {
-        const icao = target.id === 'make-metar-dept'
-            ? this.mission.origin_icao
-            : this.mission.destination_icao;
+        const icao = target.id === "make-metar-dept" ? this.mission.origin_icao : this.mission.destination_icao;
         this.fetchMetar(icao, () => {
             this.syncToForm();
             this.showFlightplan();
         });
     }
     handleEventClickModalClose(target) {
-        target.closest('dialog').close();
+        target.closest("dialog").close();
     }
     handleEventClickModalOpen(target) {
-        const tgt = target.getAttribute('data-modal');
+        const tgt = target.getAttribute("data-modal");
         if (tgt) {
             document.getElementById(tgt).showModal();
         }
@@ -207,21 +205,21 @@ export class App {
     }
     handleEventClickReset(target) {
         switch (target.id) {
-            case 'reset-description':
-                this.mission.title = '';
-                this.mission.description = '';
+            case "reset-description":
+                this.mission.title = "";
+                this.mission.description = "";
                 this.mission.setAutoTitleDescription();
                 break;
-            case 'reset-aircraft':
-                this.mission.aircraft_name = 'c172';
+            case "reset-aircraft":
+                this.mission.aircraft_name = "c172";
                 this.mission.cruise_altitude = 0;
                 break;
-            case 'reset-time':
+            case "reset-time":
                 this.mission.conditions.time.dateTime = new Date();
                 this.mission.conditions.time.dateTime.setUTCSeconds(0);
                 this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
                 break;
-            case 'reset-weather':
+            case "reset-weather":
                 this.mission.conditions.wind_direction = 0;
                 this.mission.conditions.wind_gusts = 0;
                 this.mission.conditions.wind_speed = 0;
@@ -230,7 +228,7 @@ export class App {
                 this.mission.conditions.visibility_percent = 1;
                 this.mission.conditions.clouds = [];
                 break;
-            case 'reset-flightplan':
+            case "reset-flightplan":
                 this.mission.checkpoints = [];
                 this.mission.magnetic_declination = undefined;
                 break;
@@ -240,7 +238,7 @@ export class App {
     }
     handleEventClickToggleExpertMode(target) {
         this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
-        localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? '1' : '0');
+        localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? "1" : "0");
     }
     handleEventInput(target) {
         let redraw = true;
@@ -372,14 +370,16 @@ export class App {
                         case "speed":
                             this.mission.checkpoints[index].speed = target.valueAsNumber;
                             this.mission.calculateCheckpoints();
-                            const tr = target.closest('tr');
+                            const tr = target.closest("tr");
                             if (tr) {
-                                tr.querySelector('.heading').innerText = Outputtable.padThree(this.mission.checkpoints[index].heading);
-                                tr.querySelector('.time_enroute').innerText = Outputtable.convertHoursToMinutesString(this.mission.checkpoints[index].time_enroute);
+                                tr.querySelector(".heading").innerText = Outputtable.padThree(this.mission.checkpoints[index].heading);
+                                tr.querySelector(".time_enroute").innerText =
+                                    Outputtable.convertHoursToMinutesString(this.mission.checkpoints[index].time_enroute);
                             }
-                            const table = target.closest('table');
+                            const table = target.closest("table");
                             if (table) {
-                                table.querySelector('tfoot .time_enroute').innerText = Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
+                                table.querySelector("tfoot .time_enroute").innerText =
+                                    Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
                             }
                             break;
                         case "frequency_mhz":
@@ -405,13 +405,13 @@ export class App {
             this.elements.flightplan.innerHTML = this.flightplan.toString();
         }
         document.querySelectorAll('[data-handler="download"]').forEach((b) => {
-            b.disabled = (this.mission.checkpoints.length <= 0);
+            b.disabled = this.mission.checkpoints.length <= 0;
         });
         const slug = this.mission.title
             ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
             : "custom_missions";
         document.querySelectorAll('[data-handler="download"] code').forEach((el) => {
-            el.innerText = slug + el.innerText.replace(/^.+\./, '.');
+            el.innerText = slug + el.innerText.replace(/^.+\./, ".");
         });
         this.store();
     }
@@ -425,13 +425,13 @@ export class App {
             if (this.mapboxMap === undefined) {
                 return;
             }
-            this.mapboxMap.addSource('mapbox-dem', {
-                'type': 'raster-dem',
-                'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-                'tileSize': 512,
-                'maxzoom': 14
+            this.mapboxMap.addSource("mapbox-dem", {
+                type: "raster-dem",
+                url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+                tileSize: 512,
+                maxzoom: 14,
             });
-            this.mapboxMap.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+            this.mapboxMap.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
             this.geoJson.fromMission(this.mission);
             this.mapboxMap.addSource("waypoints", {
                 type: "geojson",
@@ -448,41 +448,37 @@ export class App {
                 paint: {
                     "line-color": "#FF1493",
                     "line-width": 2,
-                    "line-dasharray": [
-                        "match", ["get", "type"],
-                        "Taxi", ["literal", [1, 2]],
-                        ["literal", [10, 0]]
-                    ]
+                    "line-dasharray": ["match", ["get", "type"], "Taxi", ["literal", [1, 2]], ["literal", [10, 0]]],
                 },
                 //filter: ['==', '$type', 'Polygon']
             });
             this.mapboxMap.addLayer({
-                'id': 'waypoints',
-                'type': 'symbol',
-                'source': 'waypoints',
-                'layout': {
-                    'icon-image': ['get', 'marker-symbol'],
-                    'text-field': ['get', 'title'],
-                    'text-offset': [0, 0.5],
-                    'text-anchor': 'top',
-                    'text-size': 12
+                id: "waypoints",
+                type: "symbol",
+                source: "waypoints",
+                layout: {
+                    "icon-image": ["get", "marker-symbol"],
+                    "text-field": ["get", "title"],
+                    "text-offset": [0, 0.5],
+                    "text-anchor": "top",
+                    "text-size": 12,
                 },
                 paint: {
-                    "icon-color": "#FF1493"
+                    "icon-color": "#FF1493",
                 },
                 //filter: ['==', '$type', 'Point']
             });
             this.drawMap(true);
             // -----------------------------------------------------------------------
             let currentFeature = null;
-            const source = this.mapboxMap.getSource('waypoints');
+            const source = this.mapboxMap.getSource("waypoints");
             const onDown = (e) => {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
                 e.preventDefault();
                 const features = this.mapboxMap.queryRenderedFeatures(e.point, {
-                    layers: ['waypoints']
+                    layers: ["waypoints"],
                 });
                 currentFeature = features[0];
             };
@@ -514,7 +510,7 @@ export class App {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
-                this.mapboxMap.off('mousemove', onMove);
+                this.mapboxMap.off("mousemove", onMove);
                 currentFeature = null;
                 this.mission.calculateCheckpoints();
                 this.drawMap();
@@ -522,34 +518,34 @@ export class App {
             };
             // -----------------------------------------------------------------------
             // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
-            this.mapboxMap.on('mouseenter', 'waypoints', () => {
+            this.mapboxMap.on("mouseenter", "waypoints", () => {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
-                this.mapboxMap.getCanvasContainer().style.cursor = 'move';
+                this.mapboxMap.getCanvasContainer().style.cursor = "move";
             });
-            this.mapboxMap.on('mouseleave', 'waypoints', () => {
+            this.mapboxMap.on("mouseleave", "waypoints", () => {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
-                this.mapboxMap.getCanvasContainer().style.cursor = '';
+                this.mapboxMap.getCanvasContainer().style.cursor = "";
             });
-            this.mapboxMap.on('mousedown', 'waypoints', (e) => {
+            this.mapboxMap.on("mousedown", "waypoints", (e) => {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
                 onDown(e);
-                this.mapboxMap.getCanvasContainer().style.cursor = 'grab';
-                this.mapboxMap.on('mousemove', onMove);
-                this.mapboxMap.once('mouseup', onUp);
+                this.mapboxMap.getCanvasContainer().style.cursor = "grab";
+                this.mapboxMap.on("mousemove", onMove);
+                this.mapboxMap.once("mouseup", onUp);
             });
-            this.mapboxMap.on('touchstart', 'waypoints', (e) => {
+            this.mapboxMap.on("touchstart", "waypoints", (e) => {
                 if (this.mapboxMap === undefined || e.points.length !== 1) {
                     return;
                 }
                 onDown(e);
-                this.mapboxMap.on('touchmove', onMove);
-                this.mapboxMap.once('touchend', onUp);
+                this.mapboxMap.on("touchmove", onMove);
+                this.mapboxMap.once("touchend", onUp);
             });
         });
     }
@@ -565,7 +561,7 @@ export class App {
             const center = lonLatArea.center;
             this.mapboxMap.flyTo({
                 center: [center.lon, center.lat],
-                zoom: lonLatArea.getZoomLevel(16 / 9, 0.75, true)
+                zoom: lonLatArea.getZoomLevel(16 / 9, 0.75, true),
             });
         }
         const source = this.mapboxMap.getSource("waypoints");
@@ -646,7 +642,8 @@ export class App {
         this.mission.conditions.visibility = 5000 + Math.floor(Math.random() * 16) * 1000;
         this.mission.conditions.wind_direction = (360 + lastHeading - 30 + Math.floor(Math.random() * 61)) % 360;
         this.mission.conditions.wind_speed = Math.floor(Math.random() * 20);
-        this.mission.conditions.wind_gusts = this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
+        this.mission.conditions.wind_gusts =
+            this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
     }
     fetchMetar(icao, callback = () => { }) {
         const url = "https://api.checkwx.com/metar/" + encodeURIComponent(icao) + "/decoded";
@@ -733,7 +730,7 @@ export class App {
             this.elements.magneticDeclination.valueAsNumber = this.mission.magnetic_declination;
         }
         else {
-            this.elements.magneticDeclination.value = '';
+            this.elements.magneticDeclination.value = "";
         }
         this.syncToOutput();
     }
@@ -742,8 +739,8 @@ export class App {
     }
     restore() {
         this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
-        const classSimpleMode = localStorage.getItem(App.CLASS_SIMPLE_MODE) || '1';
-        this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, classSimpleMode === '1');
+        const classSimpleMode = localStorage.getItem(App.CLASS_SIMPLE_MODE) || "1";
+        this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, classSimpleMode === "1");
         const appState = localStorage.getItem(this.constructor.name);
         if (appState) {
             this.hydrate(JSON.parse(appState));
@@ -766,7 +763,8 @@ export class App {
             this.elements.makeMetarDept.disabled = false;
             this.elements.makeMetarDest.disabled = false;
         }
-        this.elements.turn_radius.value = (this.mission.cruise_speed * (this.mission.turn_time / 60) / (2 * Math.PI)).toFixed(1);
+        this.elements.turn_radius.value = ((this.mission.cruise_speed * (this.mission.turn_time / 60)) /
+            (2 * Math.PI)).toFixed(1);
     }
     showError(message) {
         alert(message);
@@ -786,4 +784,4 @@ export class App {
         }
     }
 }
-App.CLASS_SIMPLE_MODE = 'is-simple-mode';
+App.CLASS_SIMPLE_MODE = "is-simple-mode";

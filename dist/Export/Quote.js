@@ -2,16 +2,16 @@ export const Quote = {
     xml(text) {
         return text.replace(/[<>"&']/g, (m) => {
             switch (m) {
-                case '<':
-                    return '&lt;';
-                case '>':
-                    return '&gt;';
-                case '&':
-                    return '&amp;';
+                case "<":
+                    return "&lt;";
+                case ">":
+                    return "&gt;";
+                case "&":
+                    return "&amp;";
                 case '"':
-                    return '&quot;';
+                    return "&quot;";
                 case "'":
-                    return '&apos;';
+                    return "&apos;";
                 default:
                     return m;
             }
@@ -23,15 +23,15 @@ export const Quote = {
             ? cdataMatch[1]
             : text.replace(/&([a-z]+);/g, (m, inner) => {
                 switch (inner) {
-                    case 'lt':
-                        return '<';
-                    case 'gt':
-                        return '>';
-                    case 'amp':
-                        return '&';
-                    case 'quot':
+                    case "lt":
+                        return "<";
+                    case "gt":
+                        return ">";
+                    case "amp":
+                        return "&";
+                    case "quot":
                         return '"';
-                    case 'apos':
+                    case "apos":
                         return "'";
                     default:
                         return m;
@@ -42,6 +42,6 @@ export const Quote = {
         return Quote.xml(text);
     },
     tmc(text) {
-        return text.replace(/\]/g, '');
-    }
+        return text.replace(/\]/g, "");
+    },
 };
