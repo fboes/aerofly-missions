@@ -68,7 +68,7 @@ NUMENR ${m.checkpoints.length}
                     case MissionCheckpoint.TYPE_NDB:
                         type = 2;
                         break;
-                    case MissionCheckpoint.TYPE_INTERSECTION:
+                    case MissionCheckpoint.TYPE_FIX:
                         type = 11;
                         break;
                 }

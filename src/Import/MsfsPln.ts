@@ -113,7 +113,7 @@ export class MsfsPlnExport {
         switch (cp.type_extended) {
           case MissionCheckpoint.TYPE_VOR: type = 'VOR'; break;
           case MissionCheckpoint.TYPE_NDB: type = 'NDB'; break;
-          case MissionCheckpoint.TYPE_INTERSECTION: type = 'Intersection'; break;
+          case MissionCheckpoint.TYPE_FIX: type = 'Intersection'; break;
         }
       }
       let name = cp.name;

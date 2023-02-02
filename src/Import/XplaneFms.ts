@@ -62,7 +62,7 @@ NUMENR ${m.checkpoints.length}
         switch (cp.type_extended) {
           case MissionCheckpoint.TYPE_VOR: type = 3; break;
           case MissionCheckpoint.TYPE_NDB: type = 2; break;
-          case MissionCheckpoint.TYPE_INTERSECTION: type = 11; break;
+          case MissionCheckpoint.TYPE_FIX: type = 11; break;
         }
       }
       // ADEP/ADES for departure or destination airport of the flightplan, DRCT for a direct or random route leg to the waypoint, or the name of an airway or ATS route to the waypoint.

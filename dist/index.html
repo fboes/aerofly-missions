@@ -29,8 +29,9 @@
       <h1>
         <img src="./favicon-512x512.svg" alt="" height="64" width="64">
         <a href="https://fboes.github.io/aerofly-missions/dist/">Aerofly Missionsgerät</a>
-        <button data-handler="modal-open" type="button" data-modal="settings-modal" class="icon" title="Open settings"><svg width="16" height="16"
-            version="1.1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <button data-handler="modal-open" type="button" data-modal="settings-modal" class="icon"
+          title="Open settings"><svg width="16" height="16" version="1.1" viewBox="0 0 16 16"
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="m7 0-0.55273 2.209a6 6 0 0 0-1.4531 0.59961l-1.9746-1.1855-1.4141 1.4141 1.1895 1.9824a6 6 0 0 0-0.58594 1.4277l-2.209 0.55273v2l2.209 0.55273a6 6 0 0 0 0.57812 1.4141l-1.1816 1.9707 1.4141 1.4141 1.9551-1.1719a6 6 0 0 0 1.4727 0.61133l0.55273 2.209h2l0.55273-2.209a6 6 0 0 0 1.4434-0.59375l1.9238 1.1543 1.4141-1.4141-1.1504-1.918a6 6 0 0 0 0.60742-1.4668l2.209-0.55273v-2l-2.209-0.55273a6 6 0 0 0-0.61523-1.4785l1.1582-1.9316-1.4141-1.4141-1.9473 1.168a6 6 0 0 0-1.4199-0.58203l-0.55273-2.209zm1 5a3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3z"
               fill-rule="evenodd" stroke-width="1.2" />
@@ -271,11 +272,13 @@
 
           <div class="col-3">
             <button data-handler="random-weather" type="button" id="make-weather">Set random weather</button>
-            <button data-handler="fetch-metar" type="button" id="make-metar-dept" disabled="disabled">Fetch weather for DEPT</button>
-            <button data-handler="fetch-metar" type="button" id="make-metar-dest" disabled="disabled">Fetch weather for DEST</button>
+            <button data-handler="fetch-metar" type="button" id="make-metar-dept" disabled="disabled">
+              Fetch weather for DEPT</button>
+            <button data-handler="fetch-metar" type="button" id="make-metar-dest" disabled="disabled">
+              Fetch weather for DEST</button>
           </div>
-          <button data-handler="reset" type="button" class="icon reset" id="reset-weather" title="Reset weather">↺ <span>Reset
-              weather</span></button>
+          <button data-handler="reset" type="button" class="icon reset" id="reset-weather" title="Reset weather">↺
+            <span>Reset weather</span></button>
         </details>
         <details>
           <summary>Navigation</summary>
@@ -312,6 +315,7 @@
       </section>
       <section>
         <h2 class="no-print">Step 3: Check flight plan</h2>
+        <span>Open flight plan help</span></button>
         <div id="flightplan"></div>
         <div id="map">
           <p>By activating the Mapbox map you consent to the integration probably sending personal data across the
@@ -319,8 +323,10 @@
           <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox
             map</button>
         </div>
-        <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺ <span>Reset flight
-            plan</span></button>
+        <button data-handler="modal-open" type="button" data-modal="help-flightplan-modal" class="icon help"
+          title="Open flight plan help">? <span>Open flight plan help</span></button>
+        <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺
+          <span>Reset flight plan</span></button>
       </section>
       <section class="no-print">
         <h2>Step 4: Save converted files</h2>
@@ -330,17 +336,16 @@
         <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight
           including weather data,
           as well as a <a href="https://geojson.org/">GeoJSON</a> file. </p>
-        <button data-handler="download" type="button" class="primary" id="download-tmc">Download Aerofly FS
-          <code>custom_missions.tmc</code>
-          flight plan</button>
-        <button data-handler="download" type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code>
-          flight plan</button>
-        <button data-handler="download" type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code>
-          flight plan</button>
-        <button data-handler="download" type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code>
-          documentation</button>
-        <button data-handler="download" type="button" class="expert-mode" id="download-json">Download
-          <code>custom_missions.geojson</code></button>
+        <button data-handler="download" type="button" class="primary" id="download-tmc">
+          Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
+        <button data-handler="download" type="button" id="download-pln">
+          Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
+        <button data-handler="download" type="button" id="download-fms">
+          Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+        <button data-handler="download" type="button" class="expert-mode" id="download-md">
+          Download <code>custom_missions.md</code> documentation</button>
+        <button data-handler="download" type="button" class="expert-mode" id="download-json">
+          Download <code>custom_missions.geojson</code></button>
       </section>
 
       <dialog id="settings-modal">
@@ -362,6 +367,20 @@
 
         <button data-handler="modal-close" class="icon" id="settings-close" title="Close settings">✕ <span>Close
             settings</span></button>
+      </dialog>
+      <dialog id="help-flightplan-modal">
+        <h4>Fligh plan help</h4>
+        <ul>
+          <li>Naming a waypoint with two digits and an optional <code>R</code>, <code>L</code> or <code>C</code>
+            converts it into a runway.</li>
+          <li>Naming a waypoint with five letters will convert it into a named fix.</li>
+          <li>Adding a frequency to a waypoint will convert it into a VOR / NDB.</li>
+          <li>Adding a frequency to a runway will convert it into an ILS.</li>
+        </ul>
+        <p>Too sharp curves will result in the waypoint being converted from fly-by to fly-over. If you see strange
+          lines appear on your flight plan, your waypoints may be too close or the speed is too high.</p>
+        <button data-handler="modal-close" class="icon" id="help-flightplan-close" title="Close flight plan help">✕
+          <span>Close flight plan help</span></button>
       </dialog>
     </main>
     <footer>

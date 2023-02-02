@@ -81,8 +81,8 @@ export class MissionCheckpoint {
             if (this.frequency) {
                 return this.frequency_unit === 'M' ? MissionCheckpoint.TYPE_VOR : MissionCheckpoint.TYPE_NDB;
             }
-            if (this.name.match(/[A-Z]{5}/)) {
-                return MissionCheckpoint.TYPE_INTERSECTION;
+            if (this.name.match(/^[A-Z]{4,5}$/)) {
+                return this.name.length === 4 ? MissionCheckpoint.TYPE_AIRPORT : MissionCheckpoint.TYPE_FIX;
             }
         }
         return this.type;
@@ -92,7 +92,14 @@ export class MissionCheckpoint {
      */
     isExportable() {
         const type = this.type_extended;
-        return (type === MissionCheckpoint.TYPE_ORIGIN || type === MissionCheckpoint.TYPE_DESTINATION || type === MissionCheckpoint.TYPE_NDB || type === MissionCheckpoint.TYPE_VOR || type === MissionCheckpoint.TYPE_INTERSECTION);
+        return ([
+            MissionCheckpoint.TYPE_ORIGIN,
+            MissionCheckpoint.TYPE_DESTINATION,
+            MissionCheckpoint.TYPE_NDB,
+            MissionCheckpoint.TYPE_VOR,
+            MissionCheckpoint.TYPE_FIX,
+            MissionCheckpoint.TYPE_AIRPORT
+        ].includes(type));
     }
     get direction_magnetic() {
         if (this.direction == -1) {
@@ -192,4 +199,5 @@ MissionCheckpoint.TYPE_DESTINATION_RUNWAY = "destination_runway";
 MissionCheckpoint.TYPE_DESTINATION = "destination";
 MissionCheckpoint.TYPE_VOR = "vor";
 MissionCheckpoint.TYPE_NDB = "ndb";
-MissionCheckpoint.TYPE_INTERSECTION = "intersection";
+MissionCheckpoint.TYPE_FIX = "fix";
+MissionCheckpoint.TYPE_AIRPORT = "airport";

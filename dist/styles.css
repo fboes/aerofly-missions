@@ -37,7 +37,7 @@ body {
   background-color: var(--color-background);
 }
 
-*+ :is(label, form, p, h1, h2, h3, h4, details, pre, .table, #flightplan, #map) {
+*+ :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .table, #flightplan, #map) {
   margin-top: 1em;
 }
 
@@ -64,6 +64,10 @@ summary {
 h2 {
   border-top: 1px solid var(--color-darken-more);
   padding-top: 0.2em;
+}
+
+ul {
+  margin-left: 1em;
 }
 
 section,
@@ -206,6 +210,11 @@ button.icon span {
 
 button.icon:hover span {
   display: inline-block;
+}
+
+button.help {
+  top: 0;
+  right: 2.5em;
 }
 
 button.reset {

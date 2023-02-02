@@ -108,7 +108,7 @@ export class MsfsPlnExport {
                     case MissionCheckpoint.TYPE_NDB:
                         type = 'NDB';
                         break;
-                    case MissionCheckpoint.TYPE_INTERSECTION:
+                    case MissionCheckpoint.TYPE_FIX:
                         type = 'Intersection';
                         break;
                 }

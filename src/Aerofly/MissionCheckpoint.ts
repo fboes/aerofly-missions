@@ -4,7 +4,7 @@ import { Units } from "../World/Units.js";
 import { MainMcfWaypointInterface } from "./MainMcf.js";
 
 export type MissionCheckpointType = "origin" | "departure_runway" | "departure" | "waypoint" | "arrival" | "approach" | "destination_runway" | "destination";
-export type MissionCheckpointTypeExtended = MissionCheckpointType | "vor" | "ndb" | "intersection";
+export type MissionCheckpointTypeExtended = MissionCheckpointType | "vor" | "ndb" | "fix" | "airport";
 
 export class MissionCheckpoint {
   type: MissionCheckpointType = "waypoint";
@@ -54,7 +54,8 @@ export class MissionCheckpoint {
   static TYPE_DESTINATION: MissionCheckpointType = "destination";
   static TYPE_VOR: MissionCheckpointTypeExtended = "vor";
   static TYPE_NDB: MissionCheckpointTypeExtended = "ndb";
-  static TYPE_INTERSECTION: MissionCheckpointTypeExtended = "intersection";
+  static TYPE_FIX: MissionCheckpointTypeExtended = "fix";
+  static TYPE_AIRPORT: MissionCheckpointTypeExtended = "airport";
 
   /**
    * Aerofly represents frequencies in Hz.
@@ -102,8 +103,8 @@ export class MissionCheckpoint {
       if (this.frequency) {
         return this.frequency_unit === 'M' ? MissionCheckpoint.TYPE_VOR : MissionCheckpoint.TYPE_NDB;
       }
-      if (this.name.match(/[A-Z]{5}/)) {
-        return MissionCheckpoint.TYPE_INTERSECTION;
+      if (this.name.match(/^[A-Z]{4,5}$/)) {
+        return this.name.length === 4 ? MissionCheckpoint.TYPE_AIRPORT : MissionCheckpoint.TYPE_FIX;
       }
     }
 
@@ -115,7 +116,14 @@ export class MissionCheckpoint {
    */
   isExportable(): boolean {
     const type = this.type_extended;
-    return (type === MissionCheckpoint.TYPE_ORIGIN || type === MissionCheckpoint.TYPE_DESTINATION || type === MissionCheckpoint.TYPE_NDB || type === MissionCheckpoint.TYPE_VOR || type === MissionCheckpoint.TYPE_INTERSECTION);
+    return ([
+      MissionCheckpoint.TYPE_ORIGIN,
+      MissionCheckpoint.TYPE_DESTINATION,
+      MissionCheckpoint.TYPE_NDB,
+      MissionCheckpoint.TYPE_VOR, 
+      MissionCheckpoint.TYPE_FIX ,
+      MissionCheckpoint.TYPE_AIRPORT
+    ].includes(type) );
   }
 
   get direction_magnetic(): number {
