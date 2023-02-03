@@ -25,7 +25,8 @@
   "scripts": {
     "start": "./dist/aerofly-missions.js",
     "test": "node ./dist/test.js",
-    "prettier": "npx prettier --write dist/index.html dist/styles.css src",
+    "prettier": "npx prettier --write .",
+    "prettier-check": "npx prettier --check .",
     "serve": "npx http-server ./dist -o -c-1",
     "build": "tsc --build"
   },
