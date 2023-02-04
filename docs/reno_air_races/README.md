@@ -1,5 +1,4 @@
-Reno Air Races
-========================
+# Reno Air Races
 
 Welcome to the [Reno Air Races](https://airrace.org/). Make yourself familiar with [Air Races Course and Rules](https://airrace.org/the-course-pits/), because once you are in the air there will be no time to consult a map. (And because your navigational map may not show a course set so tight and precise as the Reno Air Races Courses.)
 
@@ -11,14 +10,12 @@ The flight plan itself will not show up properly in Aerofly FS4, as the waypoint
 
 You may also want to take a look at [Krzysk's Reno Course](https://github.com/krzysk1/reno_course) and [ApfelFliegers's installation instructions](https://www.aerofly.com/community/forum/index.php?thread/19105-user-created-custom-missions/&postID=121141#post121141).
 
-Your flights
-------------
+## Your flights
 
 1. Reno Air Races: Jet Course
 2. Reno Air Races: BiPlane Course
 
-Legal stuff
------------
+## Legal stuff
 
 Author: [Frank Boës](https://3960.org)
 

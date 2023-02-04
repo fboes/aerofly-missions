@@ -1,5 +1,4 @@
-![](favicon-64x64.png) Additional documents
-===========================================
+# ![](favicon-64x64.png) Additional documents
 
 1. [Building a custom missions file](./custom-missions.md)
 1. [Flight plan output](./flightplan.md)
@@ -19,6 +18,6 @@ These mission files are included:
 1. [The Reno Air Races](./reno_air_races/README.md)
    See the famous air racing courses of Reno and practice on your own.
 
-----
+---
 
 Back to [main page](../README.md)

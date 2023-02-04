@@ -1,12 +1,10 @@
-Tales from the Mach Loop
-========================
+# Tales from the Mach Loop
 
 Inspired by [CGAVIATOR](https://www.cgaviator.co.uk/) and [his YouTube Channel about flying fast jets in Great Britain](https://www.youtube.com/cgaviator) these custom missions will have you flying the MB-339 and F-15 through Wales, Scotland and California.
 
 > This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`mach_loop.tmc`](./mach_loop.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
-Your flights
---------
+## Your flights
 
 United Kingdom
 
@@ -19,8 +17,7 @@ United States of America
 1. [Sidewinder Low Level](./Sidewinder_Low_Level.md)
 1. [Star Wars Canyon](./Star_Wars_Canyon.md)
 
-Legal stuff
------------
+## Legal stuff
 
 Author: [Frank Boës](https://3960.org)
 

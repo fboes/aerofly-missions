@@ -1,5 +1,4 @@
-Carl's Homecoming
-=================
+# Carl's Homecoming
 
 Carl has passed away at age 92. After living a life full of adventures, moving between many cities in Northern Europe, he has finally come to a rest.
 
@@ -9,8 +8,7 @@ So take a seat in Carl's Pitts S-2, and starting in Hamburg travel up to Denmark
 
 > This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [`custom_missions.tmc`](./custom_missions.tmc) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
-The tour
---------
+## The tour
 
 Each leg is about 130 kilometres (70 nautical miles). Which is just as well, because the Pitts was never built for cross-country flights, with its tiny fuel tank limited to about 120 nautical miles of full throttle flight.
 
@@ -29,13 +27,11 @@ Your flights:
 1. [Åland Homecoming](./10_aland_homecoming.md)
 1. [Wave good-bye](./11_wave_good-bye.md)
 
-Inspirations
-------------
+## Inspirations
 
-* [Ferry Pilot Recounts Too-Long Cross Country Flight In A Pitts - Plane & Pilot Magazine](https://www.planeandpilotmag.com/article/pilot-recounts-too-long-cross-country-flight-in-a-pitts/)
+- [Ferry Pilot Recounts Too-Long Cross Country Flight In A Pitts - Plane & Pilot Magazine](https://www.planeandpilotmag.com/article/pilot-recounts-too-long-cross-country-flight-in-a-pitts/)
 
-Legal stuff
------------
+## Legal stuff
 
 Author: [Frank Boës](https://3960.org)
 

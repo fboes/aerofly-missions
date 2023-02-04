@@ -25,28 +25,26 @@ export class Markdown extends Outputtable {
         const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
         const zoomLevel = this.lonLatArea.getZoomLevel();
         const center = this.lonLatArea.center;
-        let markdown = `${m.title}
-==================
+        let markdown = `# ${m.title}
 
 ${m.description}
 
 > This is a custom missions file for [Aerofly FS 4](https://www.aerofly.com/). Download [\`${filename}\`](./${filename}) and see [installation instructions](https://fboes.github.io/aerofly-missions/docs/generic-installation.html) on how to get started.
 
-Flight briefing
----------------
+## Flight briefing
 
 Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take a look at [Google Maps](https://www.google.com/maps/@?api=1&map_action=map&center=${center.lat},${center.lon}&zoom=${zoomLevel}&basemap=terrain) / [OpenStreetMap](https://www.openstreetmap.org/#map=${zoomLevel}/${center.lat}/${center.lon}).
 
 ### Aircraft
 
 | Aircraft type | Identification | Cruising Speed | Cruising Altitude |
-|---------------|----------------|---------------:|------------------:|
+| ------------- | -------------- | -------------: | ----------------: |
 | ${m.aircraft_icao.padEnd(13)} | ${m.callsign.padEnd(14)} |        ${Outputtable.padThree(m.cruise_speed)} kts | ${m.cruise_altitude_ft.toLocaleString("en").padStart(14)} ft |
 
 ### Weather
 
-| Wind         | Clouds          | Visibility       | Flight rules |
-|--------------|-----------------|------------------|--------------|
+| Wind         | Clouds           | Visibility       | Flight rules |
+| ------------ | ---------------- | ---------------- | ------------ |
 | ${this.getWind(m.conditions)} kts | ${m.conditions.cloud.cover_symbol +
             " " +
             m.conditions.cloud.cover_code +
@@ -57,15 +55,15 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 ### Airports
 
 |             | Location                                   | Date & time    | Local solar time | Sun |
-|-------------|--------------------------------------------|----------------|------------------|-----|
+| ----------- | ------------------------------------------ | -------------- | ---------------- | --- |
 | Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
 | Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints
 
 `;
-        markdown += this.outputLine(["   ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"]);
-        markdown += "|:---:|-----------|-----------:|----------:|-----:|-----:|---------:|------:|" + "\n";
+        markdown += this.outputLine(["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"]);
+        markdown += "| :-: | --------- | ---------: | --------: | ---: | ---: | -------: | ----: |" + "\n";
         m.checkpoints.forEach((c, i) => {
             let frqString = "";
             if (c.frequency) {
@@ -95,7 +93,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
             "**" + Outputtable.convertHoursToMinutesString(total_time_enroute) + "**",
         ]);
         markdown += `
-----
+---
 
 [Previous mission](#) • [Mission overview](#) • [Next mission](#)
 

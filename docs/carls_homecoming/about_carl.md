@@ -1,14 +1,12 @@
-About Carl
-==========
+# About Carl
 
 Born on the Åland Islands in the 1930's, young Carl had always a passion for adventure… and engineering. Working for Saab and Airbus, he lived in Stockholm, Linköping and Hamburg.
 
-The long story
---------------
+## The long story
 
 Born on the Åland Islands in the 30's, young Carl had always a passion for adventure… and engineering. Almost untouched by events form World War II, Carl went to sea working with his twin brother Magnus in his father's fishing company, before getting his first job as a ship build on a Åland wharf.
 
-But even more fascinating than ships were aircraft to him. This in turn caused him to study engineering in Stockholm in the 50's. Leaving Åland and his father's business behind caused a break with his parents and brother. Up until Carl's death the families never got back in contact. 
+But even more fascinating than ships were aircraft to him. This in turn caused him to study engineering in Stockholm in the 50's. Leaving Åland and his father's business behind caused a break with his parents and brother. Up until Carl's death the families never got back in contact.
 
 In Stockholm he met Varvaara, an artist whose family had fled from Soviet-occupied Estonia. They became married in the 60's and moved to Linköping because of Carl's job with Saab. Their relation was passionate but complicated - Varvaara moved back to Stockholm to fullfill her artist destiny.
 
