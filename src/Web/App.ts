@@ -664,7 +664,8 @@ export class App {
               const mlp = new MissionListParser(<string>e.target.result);
               const missionNames = mlp.getMissionNames();
               if (missionNames.length > 1) {
-                console.warn("Multiple missions found", missionNames);
+                this.chooseMission(mlp);
+                return;
               }
               new MissionFactory().create(<string>e.target.result, this.mission);
               break;
@@ -701,6 +702,32 @@ export class App {
 
       reader.readAsText(file);
     }
+  }
+
+  chooseMission(mlp: MissionListParser) {
+    const missionNames = mlp.getMissionNames();
+
+    const modal = (document.getElementById('select-mission-modal') as HTMLDialogElement);
+    const select = (modal.querySelector('select') as HTMLSelectElement);
+    select.innerHTML = '';
+    missionNames.forEach((m, i) => {
+      const opt = document.createElement('option');
+      opt.value = String(i);
+      opt.innerText = m;
+      select.appendChild(opt);
+    });
+    modal.showModal();
+
+    (modal.querySelector('button') as HTMLButtonElement).addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
+      this.useIcao = this.mission.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA;
+      this.syncToForm();
+      this.showFlightplan();
+      this.drawMap(true);
+      modal.close();
+    });
   }
 
   makeWeather() {
