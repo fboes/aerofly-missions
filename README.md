@@ -1,5 +1,4 @@
-![](docs/favicon-64x64.png) Aerofly Missionsgerät
-============================================
+# ![](docs/favicon-64x64.png) Aerofly Missionsgerät
 
 The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.
 
@@ -10,32 +9,30 @@ There are two versions of this tool:
 
 ![Flight plan as text briefing](docs/flightplan.png)
 
-Features
---------
+## Features
 
-* Modify weather settings with live METAR information.
-* Modify placement of flight plan checkpoints.
-* Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
-* Export [text briefings](docs/flightplan.md) and Markdown files, including weather and aircraft settings.
+- Modify weather settings with live METAR information.
+- Modify placement of flight plan checkpoints.
+- Open flight plan in [SkyVector](https://skyvector.com/), including aircraft settings.
+- Export [text briefings](docs/flightplan.md) and Markdown files, including weather and aircraft settings.
 
-| Format                                  | Import | Export |
-| --------------------------------------- |:------:|:------:|
-| Aerofly FS `main.mcf`                   | ✅   |    |
-| Aerofly FS 4 `tmc` custom missions file | ✅   | ✅ |
-| [Microsoft FS `pln` flight plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) | ✅ | ✅ |
-| [X-Plane `fms` flight plan file](https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/)                                       | ✅ | ✅ |
-| Garmin `fpl` flight plan file           | ✅   |    |
-| `gpx` GPS Route file                    | ✅   |    |
-| [GeoJSON](https://geojson.org/)         | (✅) | ✅ |
+| Format                                                                                                                                              | Import | Export |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :----: |
+| Aerofly FS `main.mcf`                                                                                                                               |   ✅   |        |
+| Aerofly FS 4 `tmc` custom missions file                                                                                                             |   ✅   |   ✅   |
+| [Microsoft FS `pln` flight plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) |   ✅   |   ✅   |
+| [X-Plane `fms` flight plan file](https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/)                                       |   ✅   |   ✅   |
+| Garmin `fpl` flight plan file                                                                                                                       |   ✅   |        |
+| `gpx` GPS Route file                                                                                                                                |   ✅   |        |
+| [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
 
-Local Node.js CLI tool
-----------------------
+## Local Node.js CLI tool
 
 You will need the following software installed on your PC:
 
-* [Aerofly FS 4](https://www.aerofly.com/)
-* [Node.js](https://nodejs.org/en/) (Version 16+)
-* Optional: [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) or use your pre-installed terminal
+- [Aerofly FS 4](https://www.aerofly.com/)
+- [Node.js](https://nodejs.org/en/) (Version 16+)
+- Optional: [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) or use your pre-installed terminal
 
 ### Installation
 
@@ -46,8 +43,7 @@ You will need the following software installed on your PC:
 
 1. Run `npm install -g aerofly-missions` from your terminal to update `aerofly-missions` to the current version.
 
-Usage wit Aerofly FS 4
-------------
+## Usage wit Aerofly FS 4
 
 This manual is for Windows 10/11 installations. On other operating systems these steps are similar, but the file system locations will be different.
 
@@ -66,15 +62,13 @@ Be aware that right now Aerofly FS 4 accepts custom missions exclusively from wi
 
 See the [custom missions documentation](docs/custom-missions.md) for more information. See also [more sources for flight plans on the Internet](docs/importing-flightplans.md).
 
-Status
--------
+## Status
 
 [![npm version](https://badge.fury.io/js/aerofly-missions.svg)](https://badge.fury.io/js/aerofly-missions)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/fboes/aerofly-missions.svg?sort=semver)
 ![GitHub](https://img.shields.io/github/license/fboes/aerofly-missions.svg)
 
-Legal stuff
------------
+## Legal stuff
 
 Author: [Frank Boës](https://3960.org)
 

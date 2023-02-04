@@ -87,6 +87,200 @@
                 >
             >
 // -----------------------------------------------------------------------------
+            // Exported by Aerofly Missionsgerät
+            <[tmmission_definition][mission][]
+                <[string8][title][Mount Teide awaits]>
+                <[string8][description][Make your way up to the top of the Mount Teide on the Canary island of Tenerife. Starting at the desert side of the island at sea level, you will climb up to meet the 12,000ft high mountain before climbing back down on the arid side. You will land at the famous Tenerife Norte airport.]>
+                <[string8]   [flight_setting]     [taxi]>
+                <[string8u]  [aircraft_name]      [p38]>
+                <[stringt8c] [aircraft_icao]      [P38]>
+                <[stringt8c] [callsign]           [N38BP]>
+                <[stringt8c] [origin_icao]        [GCTS]>
+                <[tmvector2d][origin_lon_lat]     [-16.584884 28.044054]>
+                <[float64]   [origin_dir]         [20.978809516402066]>
+                <[stringt8c] [destination_icao]   [GCXO]>
+                <[tmvector2d][destination_lon_lat][-16.341667 28.482778]>
+                <[float64]   [destination_dir]    [290.97433206934926]>
+                //<[float64]   [cruise_altitude]    [2133.599931724802]>
+                //<[float64]   [cruise_speed]       [239]>
+                <[tmmission_conditions][conditions][]
+                    <[tm_time_utc][time][]
+                        <[int32][time_year][2023]>
+                        <[int32][time_month][2]>
+                        <[int32][time_day][2]>
+                        <[float64][time_hours][8]>
+                    >
+                    <[float64][wind_direction][330]>
+                    <[float64][wind_speed][1.9200000000000002]> // kts
+                    <[float64][wind_gusts][4.42]> // kts
+                    <[float64][turbulence_strength][0.1]>
+                    <[float64][thermal_strength][0]>
+                    <[float64][visibility][15000]> // meters
+                    <[float64][cloud_cover][0.125]>
+                    <[float64][cloud_base][761.9999756160008]> // meters AGL
+                    //<[float64][cloud2_cover][0.15]>
+                    //<[float64][cloud2_base][1828.799941478402]> // meters AGL
+                    //<[float64][cloud3_cover][0]>
+                    //<[float64][cloud3_base][0]> // meters AGL
+                >
+                <[list_tmmission_checkpoint][checkpoints][]
+                    <[tmmission_checkpoint][element][0]
+                        <[string8u][type][origin]>
+                        <[string8u][name][GCTS]>
+                        <[vector2_float64][lon_lat][-16.572486 28.044475]>
+                        <[float64][altitude][63.7032]>
+                        //<[float64][speed][-1]>
+                        <[float64][direction][-1]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][1]
+                        <[string8u][type][departure_runway]>
+                        <[string8u][name][08]>
+                        <[vector2_float64][lon_lat][-16.587639 28.039206]>
+                        <[float64][altitude][57.3024]>
+                        //<[float64][speed][30]>
+                        <[float64][direction][248.49866252293674]>
+                        <[float64][slope][-0.004003384560869049]> // -0.2 deg
+                        <[float64][length][3200.0952]>
+                        <[float64][frequency][109700000]>
+                    >
+                    <[tmmission_checkpoint][element][2]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][TFS]>
+                        <[vector2_float64][lon_lat][-16.687900 28.002400]>
+                        <[float64][altitude][457.1999853696005]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][247.44389510760544]>
+                        <[float64][slope][0.03750634645429924]> // 2.1 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][116400000]>
+                    >
+                    <[tmmission_checkpoint][element][3]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-PRTO]>
+                        <[vector2_float64][lon_lat][-16.839494 28.220594]>
+                        <[float64][altitude][457.1999853696005]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][328.5353887878423]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][4]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-SANT]>
+                        <[vector2_float64][lon_lat][-16.809990 28.305174]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][17.072325849630886]>
+                        <[float64][slope][0.17030342234900725]> // 9.7 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][5]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-PLAY]>
+                        <[vector2_float64][lon_lat][-16.871999 28.288646]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][253.17268132145585]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][6]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-TENO]>
+                        <[vector2_float64][lon_lat][-16.933051 28.355552]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][321.2401693598198]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][7]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-BERN]>
+                        <[vector2_float64][lon_lat][-16.829220 28.383533]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][72.94672381608405]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][8]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-TEID]>
+                        <[vector2_float64][lon_lat][-16.660343 28.213622]>
+                        <[float64][altitude][2743.199912217603]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][138.76982106388903]>
+                        <[float64][slope][0.024264517633360957]> // 1.4 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][9]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][-HIDA]>
+                        <[vector2_float64][lon_lat][-16.324227 28.577305]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][39.03149384673691]>
+                        <[float64][slope][-0.01168870469003133]> // -0.7 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][10]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][TFN]>
+                        <[vector2_float64][lon_lat][-16.268800 28.536844]>
+                        <[float64][altitude][2133.599931724802]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][129.7170304927231]>
+                        <[float64][slope][0]> // 0.0 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][117700000]>
+                    >
+                    <[tmmission_checkpoint][element][11]
+                        <[string8u][type][waypoint]>
+                        <[string8u][name][30+5]>
+                        <[vector2_float64][lon_lat][-16.238257 28.447389]>
+                        <[float64][altitude][944.879969763841]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][163.2887769657658]>
+                        <[float64][slope][-0.11440411204594035]> // -6.5 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                    <[tmmission_checkpoint][element][12]
+                        <[string8u][type][destination_runway]>
+                        <[string8u][name][30]>
+                        <[vector2_float64][lon_lat][-16.326586 28.477697]>
+                        <[float64][altitude][611.7336]>
+                        //<[float64][speed][239]>
+                        <[float64][direction][291.3416017840085]>
+                        <[float64][slope][-0.035927493965124194]> // -2.1 deg
+                        <[float64][length][3171.1392]>
+                        <[float64][frequency][110300000]>
+                    >
+                    <[tmmission_checkpoint][element][13]
+                        <[string8u][type][destination]>
+                        <[string8u][name][GCXO]>
+                        <[vector2_float64][lon_lat][-16.341667 28.482778]>
+                        <[float64][altitude][633.0696]>
+                        //<[float64][speed][30]>
+                        <[float64][direction][290.97433206934926]>
+                        <[float64][slope][0.013511469037792587]> // 0.8 deg
+                        <[float64][length][0]>
+                        <[float64][frequency][0]>
+                    >
+                >
+            >
+// -----------------------------------------------------------------------------
         >
     >
 >

@@ -1,7 +1,7 @@
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
-import { MissionsList } from "../Aerofly/MissionsList.js";
+import { MissionListParser, MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { GeoJsonImport } from "../Import/GeoJson.js";
@@ -661,6 +661,11 @@ export class App {
               this.mission.fromMainMcf(mainMcf);
               break;
             case ".tmc":
+              const mlp = new MissionListParser(<string>e.target.result);
+              const missionNames = mlp.getMissionNames();
+              if (missionNames.length > 1) {
+                console.warn("Multiple missions found", missionNames);
+              }
               new MissionFactory().create(<string>e.target.result, this.mission);
               break;
             case ".fpl":

@@ -18,6 +18,15 @@ export class FileParser {
     return match ? match[1] : defaultValue;
   }
 
+  getValues(subject: string, key: string): string[] {
+    const match = subject.matchAll(new RegExp("(?:\\]\\s*\\[" + key + "\\]\\s*\\[)([^\\]]*)(?:\\])", "gm"));
+    return match
+      ? Array.from(match).map((m) => {
+          return m[1];
+        })
+      : [];
+  }
+
   setValue(subject: string, key: string, value: string) {
     return value === undefined
       ? subject
@@ -30,6 +39,18 @@ export class FileParser {
       new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">")
     );
     return match ? match[0] : "";
+  }
+
+  getGroups(subject: string, group: string, indent: number = 2): string[] {
+    const indentString = "    ".repeat(indent);
+    const match = subject.matchAll(
+      new RegExp("\\n" + indentString + "<\\[" + group + "\\][\\s\\S]+?\\n" + indentString + ">", "gm")
+    );
+    return match
+      ? Array.from(match).map((m) => {
+          return m[0];
+        })
+      : [];
   }
 
   setGroup(subject: string, group: string, indent: number, callback: (all: string) => string) {

@@ -11,6 +11,7 @@ import { MainMcfTest } from "./Tests/MainMcfTest.js";
 import { GpxTest } from "./Tests/GpxTest.js";
 import { GeoJsonImportTest } from "./Tests/GeoJsonImportTest.js";
 import { QuoteTest } from "./Tests/QuoteTest.js";
+import { MissionListTest } from "./Tests/MissionListTest.js";
 
 const dieOnError = false;
 const tests = new Tests(process);
@@ -18,6 +19,7 @@ tests.add(new LonLatTest(process, dieOnError));
 tests.add(new LonLatAreaTest(process, dieOnError));
 tests.add(new MainMcfTest(process, dieOnError));
 tests.add(new MissionTest(process, dieOnError));
+tests.add(new MissionListTest(process, dieOnError));
 tests.add(new MissionCheckpointTest(process, dieOnError));
 tests.add(new MissionConditionsTest(process, dieOnError));
 tests.add(new LonLatDateTest(process, dieOnError));
