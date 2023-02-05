@@ -629,17 +629,17 @@ export class App {
     }
     chooseMission(mlp) {
         const missionNames = mlp.getMissionNames();
-        const modal = document.getElementById('select-mission-modal');
-        const select = modal.querySelector('select');
-        select.innerHTML = '';
+        const modal = document.getElementById("select-mission-modal");
+        const select = modal.querySelector("select");
+        select.innerHTML = "";
         missionNames.forEach((m, i) => {
-            const opt = document.createElement('option');
+            const opt = document.createElement("option");
             opt.value = String(i);
             opt.innerText = m;
             select.appendChild(opt);
         });
         modal.showModal();
-        modal.querySelector('button').addEventListener('click', (e) => {
+        modal.querySelector("button").addEventListener("click", (e) => {
             e.stopPropagation();
             e.preventDefault();
             new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);

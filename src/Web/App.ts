@@ -707,18 +707,18 @@ export class App {
   chooseMission(mlp: MissionListParser) {
     const missionNames = mlp.getMissionNames();
 
-    const modal = (document.getElementById('select-mission-modal') as HTMLDialogElement);
-    const select = (modal.querySelector('select') as HTMLSelectElement);
-    select.innerHTML = '';
+    const modal = document.getElementById("select-mission-modal") as HTMLDialogElement;
+    const select = modal.querySelector("select") as HTMLSelectElement;
+    select.innerHTML = "";
     missionNames.forEach((m, i) => {
-      const opt = document.createElement('option');
+      const opt = document.createElement("option");
       opt.value = String(i);
       opt.innerText = m;
       select.appendChild(opt);
     });
     modal.showModal();
 
-    (modal.querySelector('button') as HTMLButtonElement).addEventListener('click', (e) => {
+    (modal.querySelector("button") as HTMLButtonElement).addEventListener("click", (e) => {
       e.stopPropagation();
       e.preventDefault();
       new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
