@@ -598,7 +598,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
                 >
             >
 // -----------------------------------------------------------------------------
-           <[tmmission_definition][mission][]
+            <[tmmission_definition][mission][]
                 <[string8][title][05: The Swedish Hinterlands]>
                 <[string8][description][A compass and your watch are your best friends on this part of your trip, as there are lots of beautiful forests and lakes - but not much else. Dodging clouds, finally your reach Jönköping on the southern shore of Sweden's second largest lake, Vättern.]>
                 <[string8]   [flight_setting]     [taxi]>
@@ -1283,7 +1283,7 @@ Later on you cross the Øresund between the twin cities of Helsingør and Helsin
 // -----------------------------------------------------------------------------
             <[tmmission_definition][mission][]
                 <[string8][title][11: Wave good-bye]>
-                <[string8][description][For a last time you take Carl`s Pitts and Carl up to the skies, and fly around Åland before finally finishing oyur tour.]>
+                <[string8][description][For a last time you take Carl`s Pitts and Carl up to the skies, and fly around Åland before finally finishing your tour.]>
                 <[string8]   [flight_setting]     [taxi]>
                 <[string8u]  [aircraft_name]      [pitts]>
                 <[stringt8c] [aircraft_icao]      [PTS2]>

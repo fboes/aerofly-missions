@@ -1,6 +1,6 @@
 # 11: Wave good-bye
 
-For a last time you take Carl`s Pitts and Carl up to the skies, and fly around Åland before finally finishing oyur tour.
+For a last time you take Carl`s Pitts and Carl up to the skies, and fly around Åland before finally finishing your tour.
 
 ## Carl's letter
 
