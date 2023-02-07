@@ -115,9 +115,6 @@ export class App {
         }
         const handler = target.getAttribute("data-handler");
         switch (handler) {
-          case "add-waypoint":
-            this.handleEventClickAddWaypoint(target);
-            break;
           case "download":
             this.handleEventClickDownload(target);
             break;
@@ -139,6 +136,9 @@ export class App {
           case "toggle-expert-mode":
             this.handleEventClickToggleExpertMode(target);
             break;
+          case "waypoint-edit":
+            this.handleEventClickWaypointEdit(target);
+            break;
         }
         break;
       case "input":
@@ -146,55 +146,22 @@ export class App {
         break;
     }
   }
-
-  handleEventClickAddWaypoint(target: HTMLButtonElement) {
-    const distancePreset = 3;
-    const heightPreset = Math.round((distancePreset * 318) / 100) * 100; // 3° slope
-    switch (target.id) {
-      case "add-departure":
-        {
-          let cpFrom = this.mission.checkpoints[0];
-          let cpTo = this.mission.checkpoints[1];
-          let spliceIndex = 1;
-          let distance = distancePreset + 0.5;
-          if (cpTo.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
-            cpFrom = this.mission.checkpoints[1];
-            cpTo = this.mission.checkpoints[2];
-            spliceIndex += 1;
-            distance -= 0.5;
-          }
-
-          const cp = new MissionCheckpoint();
-          cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);
-          cp.lon_lat.altitude_ft += heightPreset;
-          cp.name = cpFrom.name + "+" + distancePreset.toFixed();
-          cp.speed = cpTo.speed;
-          cp.ground_speed = cpTo.ground_speed;
-          this.mission.checkpoints.splice(spliceIndex, 0, cp);
-        }
+  handleEventClickWaypointEdit(target: HTMLButtonElement) {
+    const type = target.getAttribute("data-type");
+    const waypointId = Number((target.closest("dialog") as HTMLDialogElement).getAttribute("data-waypoint-id")) - 1;
+    switch (type) {
+      case "delete":
+        this.mission.checkpoints.splice(waypointId, 1);
         break;
-      case "add-approach":
-        {
-          const lastIndex = this.mission.checkpoints.length - 1;
-          let cpTo = this.mission.checkpoints[lastIndex];
-          let spliceIndex = lastIndex;
-          let distance = distancePreset + 0.5;
-          if (this.mission.checkpoints[lastIndex - 1].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
-            cpTo = this.mission.checkpoints[lastIndex - 1];
-            spliceIndex -= 1;
-            distance -= 0.5;
-          }
-
-          const cp = new MissionCheckpoint();
-          cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
-          cp.lon_lat.altitude_ft += heightPreset;
-          cp.name = cpTo.name + "+" + distancePreset.toFixed();
-          cp.speed = cpTo.speed;
-          cp.ground_speed = cpTo.ground_speed;
-          this.mission.checkpoints.splice(spliceIndex, 0, cp);
-        }
+      case "add-before":
+        this.mission.addCheckpointBefore(waypointId, 3, 1000);
+        break;
+      case "add-after":
+        this.mission.addCheckpointAfter(waypointId, 3, 1000);
         break;
     }
+    this.handleEventClickModalClose(target);
+
     this.mission.calculateCheckpoints();
     this.showFlightplan();
     this.drawMap();
@@ -492,7 +459,7 @@ export class App {
         tileSize: 512,
         maxzoom: 14,
       });
-      this.mapboxMap.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+      this.mapboxMap.setTerrain({ source: "mapbox-dem" });
 
       this.geoJson.fromMission(this.mission);
       this.mapboxMap.addSource("waypoints", {
@@ -605,6 +572,21 @@ export class App {
           return;
         }
         onDown(e);
+        if (e.originalEvent.shiftKey) {
+          if (!currentFeature) {
+            return;
+          }
+          const modal = document.getElementById("edit-waypoint-modal") as HTMLDialogElement;
+          modal.setAttribute("data-waypoint-id", String(currentFeature.id));
+          (modal.querySelector('[data-type="delete"]') as HTMLButtonElement).disabled =
+            currentFeature.id === 1 || currentFeature.id === this.mission.checkpoints.length - 1;
+          (modal.querySelector('[data-type="add-before"]') as HTMLButtonElement).disabled = currentFeature.id === 1;
+          (modal.querySelector('[data-type="add-after"]') as HTMLButtonElement).disabled =
+            currentFeature.id === this.mission.checkpoints.length;
+          console.log(currentFeature.id, modal.querySelector('[data-type="add-after"]') as HTMLButtonElement);
+          modal.showModal();
+          return;
+        }
         this.mapboxMap.getCanvasContainer().style.cursor = "grab";
         this.mapboxMap.on("mousemove", onMove);
         this.mapboxMap.once("mouseup", onUp);

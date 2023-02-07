@@ -609,6 +609,38 @@ export class Mission {
     return "day";
   }
 
+  addCheckpointBefore(index: number, distance: number, altitudeChange = 0) {
+    if (index < 1) {
+      throw new RangeError("Cannot add waypoint at start of flight plan");
+    }
+    let cpTo = this.checkpoints[index];
+
+    const cp = new MissionCheckpoint();
+    cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
+    cp.lon_lat.altitude_ft += altitudeChange;
+    cp.name = cpTo.name + "+" + distance.toFixed();
+    cp.speed = cpTo.speed;
+    cp.ground_speed = cpTo.ground_speed;
+    this.checkpoints.splice(index, 0, cp);
+  }
+
+  addCheckpointAfter(index: number, distance: number, altitudeChange = 0) {
+    if (index > this.checkpoints.length - 2) {
+      throw new RangeError("Cannot add waypoint at end of flight plan");
+    }
+    let cpFrom = this.checkpoints[index];
+    let cpTo = this.checkpoints[index + 1];
+
+    const cp = new MissionCheckpoint();
+    cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);
+    cp.lon_lat.altitude_ft += altitudeChange;
+    cp.name = cpFrom.name + "+" + distance.toFixed();
+    cp.speed = cpTo.speed;
+    cp.ground_speed = cpTo.ground_speed;
+    this.checkpoints.splice(index + 1, 0, cp);
+    this.calculateCheckpoints();
+  }
+
   toString(): string {
     let string = `            // Exported by Aerofly Missionsgerät
             <[tmmission_definition][mission][]

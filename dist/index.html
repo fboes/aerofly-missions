@@ -290,9 +290,6 @@
                 <output class="number" id="turn_radius"></output>
                 <span>NM</span>
               </div>
-
-              <button data-handler="add-waypoint" id="add-departure" class="expert-mode">Add departure waypoint</button>
-              <button data-handler="add-waypoint" id="add-approach" class="expert-mode">Add approach waypoint</button>
             </div>
           </details>
         </section>
@@ -343,6 +340,7 @@
             <li>Adding a frequency to a runway will convert it into an ILS.</li>
           </ul>
           <p>Too sharp curves will result in the waypoint being converted from fly-by to fly-over. If you see strange lines appear on your flight plan, your waypoints may be too close or the speed is too high.</p>
+          <p>Use <kbd>Shift</kbd> + <kbd>Click</kbd> on the map to add or delete waypoints.</p>
           <button data-handler="modal-close" class="icon" id="help-flightplan-close" title="Close flight plan help">✕ <span>Close flight plan help</span></button>
         </dialog>
         <dialog id="select-mission-modal">
@@ -355,6 +353,13 @@
             </select>
           </div>
           <button data-handler="select-mission">Select mission</button>
+        </dialog>
+        <dialog id="edit-waypoint-modal">
+          <h4>Edit waypoint</h4>
+          <button data-handler="waypoint-edit" data-type="delete">Delete waypoint</button>
+          <button data-handler="waypoint-edit" data-type="add-before">Add waypoint before</button>
+          <button data-handler="waypoint-edit" data-type="add-after">Add waypoint after</button>
+          <button data-handler="modal-close" class="icon" id="help-flightplan-close" title="Close flight plan help">✕ <span>Close waypoint editor</span></button>
         </dialog>
       </main>
       <footer>
