@@ -10,7 +10,7 @@
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
   "description": "The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "exports": "./dist/aerofly-missions.js",
   "bin": {
     "aerofly-missions": "dist/aerofly-missions.js"
