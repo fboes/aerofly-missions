@@ -121,7 +121,7 @@ export class Html extends Outputtable {
           "&nbsp;m / " +
           Math.round(m.conditions.visibility_sm) +
           "&nbsp;SM",
-        m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA),
+        m.conditions.getFlightCategory(m.origin_country !== "US"),
       ],
       "ttd"
     );
@@ -168,7 +168,7 @@ export class Html extends Outputtable {
     <caption>Airports</caption>
     <thead>`;
     html += this.outputLine(
-      ["Type", "Location ", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
+      ["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
       "th"
     );
     html += "</thead><tbody>";
@@ -177,6 +177,7 @@ export class Html extends Outputtable {
       `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(
         m.origin_icao
       )}</a>`,
+      m.origin_country,
       this.outputDateTime(m.conditions.time.dateTime),
       sunStateOrigin.localSolarTime,
       this.outputSunState(sunStateOrigin),
@@ -186,6 +187,7 @@ export class Html extends Outputtable {
       `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(
         m.destination_icao
       )}">${Quote.html(m.destination_icao)}</a>`,
+      m.destination_country,
       this.outputDateTime(time),
       sunStateDestination.localSolarTime,
       this.outputSunState(sunStateDestination),

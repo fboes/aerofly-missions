@@ -488,6 +488,7 @@ export class App {
         layout: {
           "icon-image": ["get", "marker-symbol"],
           "text-field": ["get", "title"],
+          // 'icon-rotate': ['get', 'direction'],
           "text-offset": [0, 0.5],
           "text-anchor": "top",
           "text-size": 12,
@@ -675,7 +676,7 @@ export class App {
               this.showError("Unsupported file: " + file.name);
               break;
           }
-          this.useIcao = this.mission.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA;
+          this.useIcao = this.mission.origin_country !== "US";
           this.syncToForm();
           this.showFlightplan();
           this.drawMap(true);
@@ -704,7 +705,7 @@ export class App {
       e.stopPropagation();
       e.preventDefault();
       new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
-      this.useIcao = this.mission.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA;
+      this.useIcao = this.mission.origin_country !== "US";
       this.syncToForm();
       this.showFlightplan();
       this.drawMap(true);

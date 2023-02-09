@@ -249,14 +249,7 @@ export class Mission {
       this.cruise_speed = 450; // True for most airliners
     }
     if (!this.callsign) {
-      this.callsign = "N";
-      if (this.origin_lon_lat.lon > 14) {
-        this.callsign = this.origin_lon_lat.lat < 44 ? "SE" : "SP";
-      } else if (this.origin_lon_lat.lon > 4) {
-        this.callsign = this.origin_lon_lat.lat < 55 ? "D" : "LN";
-      } else if (this.origin_lon_lat.lon > -30) {
-        this.callsign = this.origin_lon_lat.lat < 49 ? "F" : "G";
-      }
+      this.callsign = this.isoCountryToCallsignPrefix(this.origin_country);
       this.callsign +=
         this.callsign !== "D" && this.callsign !== "G"
           ? String(this.aircraft_icao.charCodeAt(0)) + String(this.aircraft_icao.charCodeAt(2)) // 4 numbers
@@ -269,6 +262,14 @@ export class Mission {
     }
     this.syncCruiseSpeed();
     this.calculateCheckpoints();
+  }
+
+  get origin_country() {
+    return this.icaoAirportToIsoCountry(this.origin_icao);
+  }
+
+  get destination_country() {
+    return this.icaoAirportToIsoCountry(this.destination_icao);
   }
 
   get aircraft_name() {
@@ -351,9 +352,7 @@ export class Mission {
         return cp;
       });
 
-      const flight_category = this.conditions.getFlightCategory(
-        this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA
-      );
+      const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
       this.syncCruiseSpeed();
       this.calculateCheckpoints();
 
@@ -440,9 +439,7 @@ export class Mission {
       return cp;
     });
 
-    const flight_category = this.conditions.getFlightCategory(
-      this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA
-    );
+    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
     this.syncCruiseSpeed();
     this.calculateCheckpoints();
 
@@ -465,9 +462,7 @@ export class Mission {
 
   setAutoTitleDescription(flight_category: string = "") {
     if (flight_category === "") {
-      flight_category = this.conditions.getFlightCategory(
-        this.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA
-      );
+      flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
     }
 
     if (this.title === "" || this.title === "Custom missions") {
@@ -573,6 +568,184 @@ export class Mission {
 
   get magnetic_declination(): number | undefined {
     return this._magnetic_declination;
+  }
+
+  /**
+   * @see https://en.wikipedia.org/wiki/ICAO_airport_code
+   * @param icaoAirportCode
+   * @returns ISO 3166 only for Europe, North America and Australia
+   */
+  protected icaoAirportToIsoCountry(icaoAirportCode: string): string {
+    switch (icaoAirportCode.substring(0, 1)) {
+      case "C":
+        return "CA";
+      case "K":
+        return "US";
+      case "Y":
+        return "AU";
+    }
+    switch (icaoAirportCode.substring(0, 2)) {
+      case "BG":
+        return "GL";
+      case "BI":
+        return "IS";
+      case "BK":
+        return "XK";
+      case "EB":
+        return "BE";
+      case "ED":
+        return "DE"; // Germany
+      case "EE":
+        return "EE"; // Estonia
+      case "EF":
+        return "FI";
+      case "EG":
+        return "GB";
+      case "EH":
+        return "NL";
+      case "EI":
+        return "IE"; // Ireland
+      case "EK":
+        return "DK";
+      case "EL":
+        return "LU";
+      case "EN":
+        return "NO";
+      case "EP":
+        return "PL";
+      case "ES":
+        return "SE";
+      case "ET":
+        return "DE"; // Germany
+      case "EV":
+        return "LT";
+      case "LT":
+        return "LV"; // Latvia
+      case "LA":
+        return "AL";
+      case "LB":
+        return "BG";
+      case "LC":
+        return "CY";
+      case "LD":
+        return "HR"; // Croatia
+      case "LE":
+        return "ES";
+      case "LF":
+        return "FR";
+      case "LG":
+        return "GR";
+      case "LH":
+        return "HU";
+      case "LI":
+        return "IT";
+      case "LJ":
+        return "SI"; // Slovenia
+      case "LK":
+        return "CZ";
+      case "LL":
+        return "IL";
+      case "LM":
+        return "MT";
+      case "LN":
+        return "MC"; // Monaco
+      case "LO":
+        return "AT";
+      case "LP":
+        return "PT";
+      case "LQ":
+        return "BA";
+      case "LR":
+        return "RO";
+      case "LS":
+        return "CH";
+      case "LT":
+        return "TR";
+      case "LU":
+        return "MD";
+      case "LV":
+        return "PS"; // Palestine
+      case "LW":
+        return "MK";
+      case "LX":
+        return "GI";
+      case "LY":
+        return "RS";
+      case "LZ":
+        return "SK"; // Slovakia
+    }
+    return "";
+  }
+
+  /**
+   *
+   * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
+   * @param string ISO 3166
+   * @returns will only partially translate, falls back to 'N'
+   */
+  protected isoCountryToCallsignPrefix(countryCode: string): string {
+    switch (countryCode) {
+      case "AL":
+        return "ZA";
+      case "AT":
+        return "OE";
+      case "AU":
+        return "VH";
+      case "BE":
+        return "OO";
+      case "BG":
+        return "LZ";
+      case "CA":
+        return "C";
+      case "CH":
+        return "HB";
+      case "CY":
+        return "5B";
+      case "CZ":
+        return "OK";
+      case "DE":
+        return "D";
+      case "DK":
+        return "OY";
+      case "EE":
+        return "ES";
+      case "ES":
+        return "EC"; // EM
+      case "FI":
+        return "OH";
+      case "FR":
+        return "F";
+      case "GB":
+        return "G";
+      case "GI":
+        return "VPG";
+      case "GR":
+        return "SX";
+      case "HR":
+        return "9A";
+      case "HU":
+        return "HA";
+      case "IE":
+        return "EI"; // EJ
+      case "IS":
+        return "TF";
+      case "IT":
+        return "I";
+      case "LU":
+        return "LX";
+      case "NL":
+        return "PH";
+      case "NO":
+        return "LN";
+      case "PL":
+        return "SP"; // SN
+      case "PT":
+        return "CR"; // CS
+      case "SE":
+        return "SE";
+      default:
+        return "N";
+    }
   }
 
   protected calculateMagneticDeclination(l: LonLat, magnetic_declination: number | undefined): number {

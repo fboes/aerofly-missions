@@ -1,5 +1,5 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { LonLat, LonLatArea } from "../World/LonLat.js";
+import { LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { Quote } from "./Quote.js";
@@ -103,7 +103,7 @@ export class Html extends Outputtable {
                 "&nbsp;m / " +
                 Math.round(m.conditions.visibility_sm) +
                 "&nbsp;SM",
-            m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA),
+            m.conditions.getFlightCategory(m.origin_country !== "US"),
         ], "ttd");
         html += "</tbody></table></div>";
         return html;
@@ -135,11 +135,12 @@ export class Html extends Outputtable {
         html += `<div class="table table-airports"><table>
     <caption>Airports</caption>
     <thead>`;
-        html += this.outputLine(["Type", "Location ", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"], "th");
+        html += this.outputLine(["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"], "th");
         html += "</thead><tbody>";
         html += this.outputLine([
             "Departure",
             `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(m.origin_icao)}</a>`,
+            m.origin_country,
             this.outputDateTime(m.conditions.time.dateTime),
             sunStateOrigin.localSolarTime,
             this.outputSunState(sunStateOrigin),
@@ -147,6 +148,7 @@ export class Html extends Outputtable {
         html += this.outputLine([
             "Destination",
             `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.destination_icao)}">${Quote.html(m.destination_icao)}</a>`,
+            m.destination_country,
             this.outputDateTime(time),
             sunStateDestination.localSolarTime,
             this.outputSunState(sunStateDestination),

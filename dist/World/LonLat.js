@@ -53,17 +53,6 @@ export class LonLat {
     set altitude_ft(altitude_ft) {
         this.altitude_m = altitude_ft / Units.feetPerMeter;
     }
-    get continent() {
-        if (this.lon < -24) {
-            return this.lat > 15 ? LonLat.CONTINENT_NORTH_AMERICA : LonLat.CONTINENT_SOUTH_AMERICA;
-        }
-        else if (this.lon < 50) {
-            return this.lat > 35 ? LonLat.CONTINENT_EUROPE : LonLat.CONTINENT_AFRICA;
-        }
-        else {
-            return this.lat > -10 ? LonLat.CONTINENT_ASIA : LonLat.CONTINENT_AUSTRALIA;
-        }
-    }
     toNavString() {
         // 360351N1151159W
         const lat = this.latMinute;
@@ -160,13 +149,6 @@ export class LonLat {
         return l;
     }
 }
-LonLat.CONTINENT_NORTH_AMERICA = "NA";
-LonLat.CONTINENT_SOUTH_AMERICA = "SA";
-LonLat.CONTINENT_EUROPE = "EU";
-LonLat.CONTINENT_AFRICA = "AF";
-LonLat.CONTINENT_ASIA = "AS";
-LonLat.CONTINENT_AUSTRALIA = "AUS";
-LonLat.CONTINENT_OTHER = "OTH";
 // In Nautical Miles
 LonLat.EARTH_MEAN_RADIUS = 3441.037;
 export class LonLatArea {

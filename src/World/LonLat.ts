@@ -1,7 +1,5 @@
 import { Units } from "./Units.js";
 
-type LonLatContinent = "NA" | "SA" | "EU" | "AF" | "AS" | "AUS" | "OTH";
-
 type LonLatMinute = {
   degree: number;
   minutes: number;
@@ -17,14 +15,6 @@ export class LonLat {
    * In degrees, -90..90. Positive for North, negative for South
    */
   lat: number;
-
-  static CONTINENT_NORTH_AMERICA: LonLatContinent = "NA";
-  static CONTINENT_SOUTH_AMERICA: LonLatContinent = "SA";
-  static CONTINENT_EUROPE: LonLatContinent = "EU";
-  static CONTINENT_AFRICA: LonLatContinent = "AF";
-  static CONTINENT_ASIA: LonLatContinent = "AS";
-  static CONTINENT_AUSTRALIA: LonLatContinent = "AUS";
-  static CONTINENT_OTHER: LonLatContinent = "OTH";
 
   // In Nautical Miles
   static EARTH_MEAN_RADIUS = 3441.037;
@@ -90,16 +80,6 @@ export class LonLat {
 
   set altitude_ft(altitude_ft: number) {
     this.altitude_m = altitude_ft / Units.feetPerMeter;
-  }
-
-  get continent(): LonLatContinent {
-    if (this.lon < -24) {
-      return this.lat > 15 ? LonLat.CONTINENT_NORTH_AMERICA : LonLat.CONTINENT_SOUTH_AMERICA;
-    } else if (this.lon < 50) {
-      return this.lat > 35 ? LonLat.CONTINENT_EUROPE : LonLat.CONTINENT_AFRICA;
-    } else {
-      return this.lat > -10 ? LonLat.CONTINENT_ASIA : LonLat.CONTINENT_AUSTRALIA;
-    }
   }
 
   toNavString(): string {

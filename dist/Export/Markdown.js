@@ -1,4 +1,4 @@
-import { LonLat, LonLatArea } from "../World/LonLat.js";
+import { LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
@@ -50,14 +50,14 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
             m.conditions.cloud.cover_code +
             " @ " +
             m.conditions.cloud.height_feet.toLocaleString("en") +
-            " ft"} | ${m.conditions.visibility.toLocaleString("en") + " m / " + Math.round(m.conditions.visibility_sm)} SM | ${m.conditions.getFlightCategory(m.origin_lon_lat.continent !== LonLat.CONTINENT_NORTH_AMERICA)} |
+            " ft"} | ${m.conditions.visibility.toLocaleString("en") + " m / " + Math.round(m.conditions.visibility_sm)} SM | ${m.conditions.getFlightCategory(m.origin_country !== "US")} |
 
 ### Airports
 
-|             | Location                                   | Date & time    | Local solar time | Sun |
-| ----------- | ------------------------------------------ | -------------- | ---------------- | --- |
-| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
-| Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
+|             | Location                                   | Country | Date & time       | Local solar time | Sun |
+| ----------- | ------------------------------------------ | ------- | ----------------- | ---------------- | --- |
+| Departure   | [${m.origin_icao}](https://skyvector.com/airport/${m.origin_icao}) | ${m.origin_country}      | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
+| Destination | [${m.destination_icao}](https://skyvector.com/airport/${m.destination_icao}) | ${m.destination_country}      | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints
 

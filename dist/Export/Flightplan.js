@@ -1,4 +1,3 @@
-import { LonLat } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { Outputtable } from "./Outputtable.js";
@@ -17,8 +16,8 @@ export class Flightplan extends Outputtable {
     /**
      * @see https://aviation.stackexchange.com/questions/13280/what-do-the-different-colors-of-weather-stations-indicate-on-skyvector
      */
-    getConditionColored(conditions, lonLat) {
-        const flight_category = conditions.getFlightCategory(lonLat.continent !== LonLat.CONTINENT_NORTH_AMERICA);
+    getConditionColored(conditions, mission) {
+        const flight_category = conditions.getFlightCategory(mission.origin_country !== "US");
         if (!this.clr.useColors) {
             return flight_category;
         }
@@ -109,7 +108,7 @@ export class Flightplan extends Outputtable {
             "VIS",
             m.conditions.visibility.toLocaleString("en") + "M / " + Math.round(m.conditions.visibility_sm) + "SM",
             "FR",
-            this.getConditionColored(m.conditions, m.origin_lon_lat),
+            this.getConditionColored(m.conditions, m),
         ]);
         output += this.outputDashes(lineLength);
         output += this.outputFourColumn([
