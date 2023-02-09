@@ -63,20 +63,14 @@ NUMENR ${m.checkpoints.length}
 `;
         m.checkpoints.forEach((cp, index) => {
             const type = this.convertWaypointType(cp.type_extended);
-            // ADEP/ADES for departure or destination airport of the flightplan, DRCT for a direct or random route leg to the waypoint, or the name of an airway or ATS route to the waypoint.
+            // ADEP/ADES for departure or destination airport of the flightplan,
+            // DRCT for a direct or random route leg to the waypoint,
+            //  or the name of an airway or ATS route to the waypoint.
             let via;
             via = type === XplaneFms.TYPE_AIRPORT ? "ADEP" : "DRCT";
             if (index === m.checkpoints.length - 1 && type === 1) {
                 via = "ADES";
             }
-            /*let name = (type !== 28) ? cp.name : (
-              //         `+12.345_+009.459`
-              (cp.lon_lat.lat >= 0 ? '+' : '-')
-              + Math.abs(cp.lon_lat.lat).toFixed(3).padStart(6, '0')
-              + '_'
-              + (cp.lon_lat.lon >= 0 ? '+' : '-')
-              + Math.abs(cp.lon_lat.lon).toFixed(3).padStart(7, '0')
-            )*/
             let name = cp.name;
             if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
                 cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
