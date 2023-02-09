@@ -1,4 +1,4 @@
-import { MissionCheckpoint, } from "../Aerofly/MissionCheckpoint.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
