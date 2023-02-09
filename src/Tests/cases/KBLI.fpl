@@ -27,6 +27,14 @@
       <comment />
     </waypoint>
     <waypoint>
+      <identifier>KBLI</identifier>
+      <type>AIRPORT</type>
+      <country-code>K1</country-code>
+      <lat>48.792694</lat>
+      <lon>-122.537528</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
       <identifier>BVS</identifier>
       <type>NDB</type>
       <country-code>K1</country-code>
@@ -35,11 +43,11 @@
       <comment />
     </waypoint>
     <waypoint>
-      <identifier>KBLI</identifier>
-      <type>AIRPORT</type>
+      <identifier>SVB</identifier>
+      <type>NDB</type>
       <country-code>K1</country-code>
-      <lat>48.792694</lat>
-      <lon>-122.537528</lon>
+      <lat>48.468597</lat>
+      <lon>-122.418414</lon>
       <comment />
     </waypoint>
   </waypoint-table>

@@ -12,31 +12,38 @@ export class XplaneFms extends GarminFpl {
         }
         const wLines = Array.from(waypointLines);
         this.waypoints = wLines.map((m, index) => {
-            let type = "USER WAYPOINT";
-            switch (Number(m[1])) {
-                case 1:
-                    type = "AIRPORT";
-                    break;
-                case 2:
-                    type = "NDB";
-                    break;
-                case 3:
-                    type = "VOR";
-                    break;
-            }
             if (index !== 0 && index !== wLines.length - 1) {
                 this.cruisingAlt = this.cruisingAlt !== undefined ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3]);
             }
             return {
                 identifier: m[2],
-                type: type,
+                type: this.convertWaypointType(Number(m[1])),
                 lat: Number(m[4]),
                 lon: Number(m[5]),
                 alt: Number(m[3]),
             };
         });
     }
+    convertWaypointType(type) {
+        switch (type) {
+            case XplaneFms.TYPE_AIRPORT:
+                return "AIRPORT";
+            case XplaneFms.TYPE_NDB:
+                return "NDB";
+            case XplaneFms.TYPE_VOR:
+                return "VOR";
+            case XplaneFms.TYPE_FIX:
+                return "INT";
+            default:
+                return "USER WAYPOINT";
+        }
+    }
 }
+XplaneFms.TYPE_AIRPORT = 1;
+XplaneFms.TYPE_NDB = 2;
+XplaneFms.TYPE_VOR = 3;
+XplaneFms.TYPE_FIX = 11;
+XplaneFms.TYPE_USER = 28;
 /**
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
@@ -55,25 +62,10 @@ ADES ${m.destination_icao}
 NUMENR ${m.checkpoints.length}
 `;
         m.checkpoints.forEach((cp, index) => {
-            // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
-            let type;
-            type = cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION ? 1 : 28;
-            if (type === 28) {
-                switch (cp.type_extended) {
-                    case MissionCheckpoint.TYPE_VOR:
-                        type = 3;
-                        break;
-                    case MissionCheckpoint.TYPE_NDB:
-                        type = 2;
-                        break;
-                    case MissionCheckpoint.TYPE_FIX:
-                        type = 11;
-                        break;
-                }
-            }
+            const type = this.convertWaypointType(cp.type_extended);
             // ADEP/ADES for departure or destination airport of the flightplan, DRCT for a direct or random route leg to the waypoint, or the name of an airway or ATS route to the waypoint.
             let via;
-            via = type === 1 ? "ADEP" : "DRCT";
+            via = type === XplaneFms.TYPE_AIRPORT ? "ADEP" : "DRCT";
             if (index === m.checkpoints.length - 1 && type === 1) {
                 via = "ADES";
             }
@@ -95,5 +87,23 @@ NUMENR ${m.checkpoints.length}
 `;
         });
         return pln;
+    }
+    convertWaypointType(type) {
+        switch (type) {
+            case MissionCheckpoint.TYPE_AIRPORT:
+                return XplaneFms.TYPE_AIRPORT;
+            case MissionCheckpoint.TYPE_DESTINATION:
+                return XplaneFms.TYPE_AIRPORT;
+            case MissionCheckpoint.TYPE_FIX:
+                return XplaneFms.TYPE_FIX;
+            case MissionCheckpoint.TYPE_NDB:
+                return XplaneFms.TYPE_NDB;
+            case MissionCheckpoint.TYPE_ORIGIN:
+                return XplaneFms.TYPE_AIRPORT;
+            case MissionCheckpoint.TYPE_VOR:
+                return XplaneFms.TYPE_VOR;
+            default:
+                return 28;
+        }
     }
 }

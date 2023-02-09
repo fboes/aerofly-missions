@@ -1,6 +1,6 @@
 import { Quote } from "../Export/Quote.js";
 
-export type GarminFplWaypointType = "AIRPORT" | "USER WAYPOINT" | "NDB" | "VOR";
+export type GarminFplWaypointType = "AIRPORT" | "USER WAYPOINT" | "NDB" | "VOR" | "INT" | "INT-VRP";
 
 export type GaminFplWaypoint = {
   identifier: string;
@@ -21,18 +21,37 @@ export class GarminFpl {
     this.read(configFileContent);
   }
 
+  /**
+   * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
+   * @param configFileContent
+   */
   read(configFileContent: string): void {
     this.cruisingAlt = undefined;
-    const waypointTableXml = this.getXmlNode(configFileContent, "waypoint-table");
 
-    this.waypoints = this.getXmlNodes(waypointTableXml, "waypoint").map((xml): GaminFplWaypoint => {
-      return {
+    // Get waypoint definitions
+    const waypointDefinitions: Map<string, GaminFplWaypoint> = new Map();
+    const waypointTableXml = this.getXmlNode(configFileContent, "waypoint-table");
+    this.getXmlNodes(waypointTableXml, "waypoint").forEach((xml) => {
+      const elevation = this.getXmlNode(xml, "lon");
+      waypointDefinitions.set(this.getXmlNode(xml, "identifier"), {
         identifier: this.getXmlNode(xml, "identifier"),
         type: <GarminFplWaypointType>this.getXmlNode(xml, "type"),
         lat: Number(this.getXmlNode(xml, "lat")),
         lon: Number(this.getXmlNode(xml, "lon")),
-        alt: undefined,
-      };
+        alt: elevation ? Number(elevation) : undefined,
+      });
+
+      // country-code
+    });
+
+    //  Always fetch first route
+    const routeTableXml = this.getXmlNode(configFileContent, "route");
+    this.waypoints = this.getXmlNodes(routeTableXml, "route-point").map((xml): GaminFplWaypoint => {
+      const waypointDefinition = waypointDefinitions.get(this.getXmlNode(xml, "waypoint-identifier"));
+      if (waypointDefinition === undefined) {
+        throw new Error("Missing waypoint definition for route point");
+      }
+      return waypointDefinition;
     });
   }
 

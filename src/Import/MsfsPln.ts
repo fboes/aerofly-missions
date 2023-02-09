@@ -1,9 +1,15 @@
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import {
+  MissionCheckpoint,
+  MissionCheckpointType,
+  MissionCheckpointTypeExtended,
+} from "../Aerofly/MissionCheckpoint.js";
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+
+type MsfsPlnWaypointType = "none" | "Airport" | "Intersection" | "VOR" | "NDB" | "User" | "ATC";
 
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
@@ -17,19 +23,30 @@ export class MsfsPln extends GarminFpl {
       // N52° 45' 7.51",W3° 53' 2.16",+002500.00
       const worldPosition = this.getXmlNode(xml, "WorldPosition");
       const coords = this.convertCoordinate(worldPosition);
-      let type = this.getXmlNode(xml, "ATCWaypointType").toUpperCase();
-      if (type === "USER") {
-        type += " WAYPOINT";
-      }
 
       return {
         identifier: this.getXmlNode(xml, "ICAOIdent") || this.getXmlAttribute(xml, "id"),
-        type: <GarminFplWaypointType>type,
+        type: this.convertWaypointType(this.getXmlNode(xml, "ATCWaypointType") as MsfsPlnWaypointType),
         lat: coords.lat,
         lon: coords.lon,
         alt: coords.altitude_ft,
       };
     });
+  }
+
+  convertWaypointType(type: MsfsPlnWaypointType): GarminFplWaypointType {
+    switch (type) {
+      case "Airport":
+        return "AIRPORT";
+      case "Intersection":
+        return "INT";
+      case "NDB":
+        return "NDB";
+      case "VOR":
+        return "VOR";
+      default:
+        return "USER WAYPOINT";
+    }
   }
 
   convertCoordinate(coordinate: string): LonLat {
@@ -124,24 +141,7 @@ export class MsfsPlnExport {
 `;
 
     m.checkpoints.forEach((cp) => {
-      let type: "none" | "Airport" | "Intersection" | "VOR" | "NDB" | "User" | "ATC";
-      type =
-        cp.type === MissionCheckpoint.TYPE_ORIGIN || cp.type === MissionCheckpoint.TYPE_DESTINATION
-          ? "Airport"
-          : "User";
-      if (type === "User") {
-        switch (cp.type_extended) {
-          case MissionCheckpoint.TYPE_VOR:
-            type = "VOR";
-            break;
-          case MissionCheckpoint.TYPE_NDB:
-            type = "NDB";
-            break;
-          case MissionCheckpoint.TYPE_FIX:
-            type = "Intersection";
-            break;
-        }
-      }
+      const type = this.convertWaypointType(cp.type_extended);
       let name = cp.name;
       if (
         (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
@@ -176,6 +176,25 @@ export class MsfsPlnExport {
     </SimBase.Document>
 `;
     return pln;
+  }
+
+  convertWaypointType(type: MissionCheckpointTypeExtended): MsfsPlnWaypointType {
+    switch (type) {
+      case MissionCheckpoint.TYPE_AIRPORT:
+        return "Airport";
+      case MissionCheckpoint.TYPE_DESTINATION:
+        return "Airport";
+      case MissionCheckpoint.TYPE_FIX:
+        return "Intersection";
+      case MissionCheckpoint.TYPE_NDB:
+        return "NDB";
+      case MissionCheckpoint.TYPE_ORIGIN:
+        return "Airport";
+      case MissionCheckpoint.TYPE_VOR:
+        return "VOR";
+      default:
+        return "User";
+    }
   }
 
   runwayXml(runway: string): string {
