@@ -32,7 +32,7 @@ export class GarminFpl {
     const waypointDefinitions: Map<string, GaminFplWaypoint> = new Map();
     const waypointTableXml = this.getXmlNode(configFileContent, "waypoint-table");
     this.getXmlNodes(waypointTableXml, "waypoint").forEach((xml) => {
-      const elevation = this.getXmlNode(xml, "lon");
+      const elevation = this.getXmlNode(xml, "elevation");
       waypointDefinitions.set(this.getXmlNode(xml, "identifier"), {
         identifier: this.getXmlNode(xml, "identifier"),
         type: <GarminFplWaypointType>this.getXmlNode(xml, "type"),

@@ -18,6 +18,7 @@ export class GarminFplTest extends Test {
       this.assertEquals(gpl.waypoints[3].type, "NDB");
       this.assertEquals(gpl.waypoints[1].lat, 48.26409);
       this.assertEquals(gpl.waypoints[4].lon, -122.537528);
+      this.assertEquals(gpl.waypoints[4].alt, undefined);
       this.assertEquals(gpl.cruisingAlt, undefined);
     }
   }
