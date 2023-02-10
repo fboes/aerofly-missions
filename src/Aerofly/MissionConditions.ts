@@ -7,7 +7,7 @@ type MissionConditionsWindCorrection = {
   heading_rad: number;
 };
 
-type MissionConditionsFlightRules = "IFR" | "LIFR" | "VFR" | "MVFR";
+export type MissionConditionsFlightRules = "IFR" | "LIFR" | "VFR" | "MVFR";
 
 export class MissionConditionsCloud {
   /**

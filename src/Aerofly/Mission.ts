@@ -5,7 +5,7 @@ import { Units } from "../World/Units.js";
 import { FileParser } from "./FileParser.js";
 import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
-import { MissionConditions } from "./MissionConditions.js";
+import { MissionConditions, MissionConditionsFlightRules } from "./MissionConditions.js";
 
 export type MissionFlightSetting = "landing" | "takeoff" | "approach" | "taxi" | "cruise";
 
@@ -521,13 +521,13 @@ export class Mission {
     });
   }
 
-  calculateCheckpoints() {
+  calculateCheckpoints(changeHeight: null | MissionConditionsFlightRules = null) {
     let lastC: MissionCheckpoint | null = null;
 
     // Add directions
     this.checkpoints.forEach((c) => {
       if (lastC !== null) {
-        c.setDirectionByCoordinates(lastC.lon_lat);
+        c.setDirectionByCoordinates(lastC.lon_lat, changeHeight);
       }
 
       if (

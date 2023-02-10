@@ -441,12 +441,12 @@ export class Mission {
             lastC = c;
         });
     }
-    calculateCheckpoints() {
+    calculateCheckpoints(changeHeight = null) {
         let lastC = null;
         // Add directions
         this.checkpoints.forEach((c) => {
             if (lastC !== null) {
-                c.setDirectionByCoordinates(lastC.lon_lat);
+                c.setDirectionByCoordinates(lastC.lon_lat, changeHeight);
             }
             if (c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
                 (lastC && lastC.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {

@@ -92,11 +92,11 @@ export class App {
   protected geoJson: GeoJson;
   static CLASS_SIMPLE_MODE = "is-simple-mode";
 
-  static SHOW_WEATHER = 0b1;
-  static SHOW_AIRPORTS = 0b10;
-  static SHOW_CHECKPOINTS = 0b100;
-  static SHOW_MAP = 0b1000;
-  static SHOW_MAP_CENTER = 0b10000;
+  static SHOW_WEATHER = 2**0;
+  static SHOW_AIRPORTS = 2**1;
+  static SHOW_CHECKPOINTS = 2**2;
+  static SHOW_MAP = 2**3;
+  static SHOW_MAP_CENTER = 2**4;
   static SHOW_ALL = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP;
 
   constructor() {
