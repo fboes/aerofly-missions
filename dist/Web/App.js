@@ -33,7 +33,9 @@ export class App {
             cruise_speed: document.getElementById("cruise_speed"),
             date: document.getElementById("date"),
             description: document.getElementById("description"),
-            flightplan: document.getElementById("flightplan"),
+            outputWeather: document.getElementById("output-weather"),
+            outputAirports: document.getElementById("output-airports"),
+            outputCheckpoints: document.getElementById("output-checkpoints"),
             main: document.querySelector("main"),
             magneticDeclination: document.getElementById("magnetic_declination"),
             makeMetarDept: document.getElementById("make-metar-dept"),
@@ -124,8 +126,7 @@ export class App {
         }
         this.handleEventClickModalClose(target);
         this.mission.calculateCheckpoints();
-        this.showFlightplan();
-        this.drawMap();
+        this.showFlightplan(App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP);
     }
     handleEventClickDownload(target) {
         var _a;
@@ -155,7 +156,7 @@ export class App {
         const icao = target.id === "make-metar-dept" ? this.mission.origin_icao : this.mission.destination_icao;
         this.fetchMetar(icao, () => {
             this.syncToForm();
-            this.showFlightplan();
+            this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
         });
     }
     handleEventClickModalClose(target) {
@@ -170,9 +171,10 @@ export class App {
     handleEventClickRandomWeather(target) {
         this.makeWeather();
         this.syncToForm();
-        this.showFlightplan();
+        this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
     }
     handleEventClickReset(target) {
+        let show = 0;
         switch (target.id) {
             case "reset-description":
                 this.mission.title = "";
@@ -182,11 +184,13 @@ export class App {
             case "reset-aircraft":
                 this.mission.aircraft_name = "c172";
                 this.mission.cruise_altitude = 0;
+                show = App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 break;
             case "reset-time":
                 this.mission.conditions.time.dateTime = new Date();
                 this.mission.conditions.time.dateTime.setUTCSeconds(0);
                 this.mission.conditions.time.dateTime.setUTCMilliseconds(0);
+                show = App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 break;
             case "reset-weather":
                 this.mission.conditions.wind_direction = 0;
@@ -196,25 +200,27 @@ export class App {
                 this.mission.conditions.thermal_strength = 0;
                 this.mission.conditions.visibility_percent = 1;
                 this.mission.conditions.clouds = [];
+                show = App.SHOW_WEATHER | App.SHOW_CHECKPOINTS;
                 break;
             case "reset-flightplan":
                 this.mission.checkpoints = [];
                 this.mission.magnetic_declination = undefined;
+                show = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 break;
         }
         this.syncToForm();
-        this.showFlightplan();
+        this.showFlightplan(show);
     }
     handleEventClickToggleExpertMode(target) {
         this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
         localStorage.setItem(App.CLASS_SIMPLE_MODE, this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? "1" : "0");
     }
     handleEventInput(target) {
-        let redraw = true;
+        let show = 0;
         switch (target.id) {
             case "aircraft_name":
                 this.mission.aircraft_name = target.value;
-                this.drawMap();
+                show |= App.SHOW_MAP | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 this.syncToForm();
                 break;
             case "callsign":
@@ -222,37 +228,44 @@ export class App {
                 break;
             case "cloud_base_feet":
                 this.mission.conditions.cloud.height_feet = target.valueAsNumber;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
-            case "cloud_base2_feet":
+            case "cloud2_base_feet":
                 this.mission.conditions.cloud2.height_feet = target.valueAsNumber;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
-            case "cloud_base3_feet":
+            case "cloud3_base_feet":
                 this.mission.conditions.cloud3.height_feet = target.valueAsNumber;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
             case "cloud_cover":
                 this.mission.conditions.cloud.cover = target.valueAsNumber / 100;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
-            case "cloud_cover2":
+            case "cloud2_cover":
                 this.mission.conditions.cloud2.cover = target.valueAsNumber / 100;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
-            case "cloud_cover3":
+            case "cloud3_cover":
                 this.mission.conditions.cloud3.cover = target.valueAsNumber / 100;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
             case "cruise_altitude_ft":
                 this.mission.cruise_altitude_ft = target.valueAsNumber;
+                show |= App.SHOW_CHECKPOINTS;
                 this.mission.syncCruiseAltitude();
                 break;
             case "cruise_speed":
                 this.mission.cruise_speed = target.valueAsNumber;
                 this.mission.syncCruiseSpeed();
                 this.syncToOutput();
-                this.drawMap();
+                show |= App.SHOW_MAP | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 break;
             case "date":
                 if (target.valueAsDate) {
@@ -260,12 +273,14 @@ export class App {
                     this.mission.conditions.time.dateTime.setUTCMonth(target.valueAsDate.getUTCMonth());
                     this.mission.conditions.time.dateTime.setUTCDate(target.valueAsDate.getUTCDate());
                 }
+                show |= App.SHOW_AIRPORTS | App.SHOW_WEATHER;
                 break;
             case "description":
                 this.mission.description = target.value;
                 break;
             case "magnetic_declination":
                 this.mission.magnetic_declination = target.value ? target.valueAsNumber : undefined;
+                show |= App.SHOW_CHECKPOINTS;
                 break;
             case "metar-api-key":
                 this.metarApiKey = target.value;
@@ -276,11 +291,13 @@ export class App {
                 break;
             case "thermal_strength":
                 this.mission.conditions.thermal_strength = target.valueAsNumber / 100;
+                show |= App.SHOW_WEATHER;
                 break;
             case "time":
                 if (target.valueAsDate) {
                     this.mission.conditions.time.dateTime.setUTCHours(target.valueAsDate.getUTCHours());
                     this.mission.conditions.time.dateTime.setUTCMinutes(target.valueAsDate.getUTCMinutes());
+                    show |= App.SHOW_AIRPORTS | App.SHOW_WEATHER;
                 }
                 break;
             case "title":
@@ -288,11 +305,12 @@ export class App {
                 break;
             case "turbulence_strength":
                 this.mission.conditions.turbulence_strength = target.valueAsNumber / 100;
+                show |= App.SHOW_WEATHER;
                 break;
             case "turn_time":
                 this.mission.turn_time = target.valueAsNumber;
                 this.syncToOutput();
-                this.drawMap();
+                show |= App.SHOW_MAP;
                 break;
             case "upload":
                 this.uploadFile();
@@ -300,23 +318,24 @@ export class App {
                 break;
             case "visibility":
                 this.mission.conditions.visibility = target.valueAsNumber;
+                show |= App.SHOW_WEATHER;
                 this.syncToOutput();
                 break;
             case "wind_direction":
                 this.mission.conditions.wind_direction = target.valueAsNumber;
-                this.drawMap();
+                show |= App.SHOW_ALL;
                 break;
             case "wind_gusts":
                 this.mission.conditions.wind_gusts = target.valueAsNumber;
+                show |= App.SHOW_WEATHER;
                 break;
             case "wind_speed":
                 this.mission.conditions.wind_speed = target.valueAsNumber;
-                this.drawMap();
+                show |= App.SHOW_ALL;
                 break;
             default:
                 const prop = target.getAttribute("data-cp-prop");
                 const id = target.getAttribute("data-cp-id");
-                redraw = false;
                 if (prop && id) {
                     const index = Number(id);
                     switch (prop) {
@@ -350,6 +369,7 @@ export class App {
                                 table.querySelector("tfoot .time_enroute").innerText =
                                     Outputtable.convertHoursToMinutesString(this.mission.time_enroute);
                             }
+                            show |= App.SHOW_AIRPORTS | App.SHOW_MAP;
                             break;
                         case "frequency_mhz":
                             this.mission.checkpoints[index].frequency_mhz = target.valueAsNumber;
@@ -358,20 +378,23 @@ export class App {
                 }
                 break;
         }
-        if (redraw) {
-            if (target.id !== "upload") {
-                this.mission.calculateCheckpoints();
-            }
-            this.showFlightplan();
+        if (target.id !== "upload") {
+            this.mission.calculateCheckpoints();
         }
-        else {
-            this.drawMap();
-            this.store();
-        }
+        this.showFlightplan(show);
     }
-    showFlightplan() {
-        if (this.elements.flightplan) {
-            this.elements.flightplan.innerHTML = this.flightplan.toString();
+    showFlightplan(show = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS) {
+        if (App.SHOW_WEATHER & show) {
+            this.elements.outputWeather.innerHTML = this.flightplan.outputWeather();
+        }
+        if (App.SHOW_AIRPORTS & show) {
+            this.elements.outputAirports.innerHTML = this.flightplan.outputAirports();
+        }
+        if (App.SHOW_CHECKPOINTS & show) {
+            this.elements.outputCheckpoints.innerHTML = this.flightplan.outputCheckpoints();
+        }
+        if (App.SHOW_MAP & show || App.SHOW_MAP_CENTER & show) {
+            this.drawMap((App.SHOW_MAP_CENTER & show) !== 0);
         }
         document.querySelectorAll('[data-handler="download"]').forEach((b) => {
             b.disabled = this.mission.checkpoints.length <= 0;
@@ -483,8 +506,7 @@ export class App {
                 this.mapboxMap.off("mousemove", onMove);
                 currentFeature = null;
                 this.mission.calculateCheckpoints();
-                this.drawMap();
-                this.showFlightplan();
+                this.showFlightplan(App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP);
             };
             // -----------------------------------------------------------------------
             // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
@@ -605,8 +627,7 @@ export class App {
                     }
                     this.useIcao = this.mission.origin_country !== "US";
                     this.syncToForm();
-                    this.showFlightplan();
-                    this.drawMap(true);
+                    this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
                 }
             };
             reader.readAsText(file);
@@ -630,8 +651,7 @@ export class App {
             new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
             this.useIcao = this.mission.origin_country !== "US";
             this.syncToForm();
-            this.showFlightplan();
-            this.drawMap(true);
+            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
             modal.close();
         });
     }
@@ -799,3 +819,9 @@ export class App {
     }
 }
 App.CLASS_SIMPLE_MODE = "is-simple-mode";
+App.SHOW_WEATHER = 0b1;
+App.SHOW_AIRPORTS = 0b10;
+App.SHOW_CHECKPOINTS = 0b100;
+App.SHOW_MAP = 0b1000;
+App.SHOW_MAP_CENTER = 0b10000;
+App.SHOW_ALL = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP;

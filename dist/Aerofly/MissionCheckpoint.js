@@ -63,6 +63,9 @@ export class MissionCheckpoint {
     get frequency_khz() {
         return this.frequency / 1000;
     }
+    /**
+     * @returns "k" for all frequencies up to 1,000 kHz
+     */
     get frequency_unit() {
         return this.frequency > 10000000 ? "M" : "k";
     }
@@ -128,12 +131,6 @@ export class MissionCheckpoint {
     get time_enroute() {
         return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
     }
-    /**
-     *
-     * @param waypoint
-     * @param cruiseAltitude in meters
-     * @returns MissionCheckpoint
-     */
     fromMainMcf(waypoint) {
         this.type = waypoint.type;
         this.name = waypoint.Identifier;

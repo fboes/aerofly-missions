@@ -130,73 +130,17 @@ export class Html extends Outputtable {
     return html;
   }
 
-  /**
-   * @returns string without proper HTML quoting, so go hack yourself ;)
-   */
-  toString(): string {
+  outputCheckpoints() {
     const m = this.mission;
     const s = new SkyVector(m);
     const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
     this.mission.checkpoints.forEach((c) => {
       lonLatArea.push(c.lon_lat);
     });
-
-    const total_distance = m.distance;
-    const total_time_enroute = m.time_enroute;
-    const time = new Date(m.conditions.time.dateTime);
-    const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
-    time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
-    const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
     const zoomLevel = lonLatArea.getZoomLevel();
     const center = lonLatArea.center;
+
     let html = "";
-
-    html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector" title="${s
-      .getCheckpoints(false)
-      .join(" ")}">current flight plan on Sky Vector</a>.
-    You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(
-      center.lat
-    )},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(
-      zoomLevel
-    )}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(
-      zoomLevel
-    )}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
-
-    html += this.outputWeather();
-
-    html += `<div class="table table-airports"><table>
-    <caption>Airports</caption>
-    <thead>`;
-    html += this.outputLine(
-      ["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
-      "th"
-    );
-    html += "</thead><tbody>";
-    html += this.outputLine([
-      "Departure",
-      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(
-        m.origin_icao
-      )}</a>`,
-      m.origin_country,
-      this.outputDateTime(m.conditions.time.dateTime),
-      sunStateOrigin.localSolarTime,
-      this.outputSunState(sunStateOrigin),
-    ]);
-    html += this.outputLine([
-      "Destination",
-      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(
-        m.destination_icao
-      )}">${Quote.html(m.destination_icao)}</a>`,
-      m.destination_country,
-      this.outputDateTime(time),
-      sunStateDestination.localSolarTime,
-      this.outputSunState(sunStateDestination),
-    ]);
-    html += "</tbody></table></div>";
-
-    if (m.checkpoints.length < 1) {
-      return html;
-    }
 
     html += `<div class="table table-checkpoints"><table>
     <caption>Checkpoints</caption>
@@ -269,10 +213,71 @@ export class Html extends Outputtable {
       "",
       "",
       "",
-      Outputtable.pad(total_distance, 4, 1) + "&nbsp;NM",
-      '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(total_time_enroute) + "</span>",
+      Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
+      '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
     ]);
     html += "</tfoot></table></div>";
+
+    html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector" title="${s
+      .getCheckpoints(false)
+      .join(" ")}">current flight plan on Sky Vector</a>.
+    You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(
+      center.lat
+    )},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(
+      zoomLevel
+    )}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(
+      zoomLevel
+    )}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
+
+    return html;
+  }
+
+  outputAirports() {
+    const m = this.mission;
+    const total_time_enroute = m.time_enroute;
+    const time = new Date(m.conditions.time.dateTime);
+    const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
+    time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
+    const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
+
+    let html = "";
+    html += `<div class="table table-airports"><table>
+    <caption>Airports</caption>
+    <thead>`;
+    html += this.outputLine(
+      ["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
+      "th"
+    );
+    html += "</thead><tbody>";
+    html += this.outputLine([
+      "Departure",
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(
+        m.origin_icao
+      )}</a>`,
+      m.origin_country,
+      this.outputDateTime(m.conditions.time.dateTime),
+      sunStateOrigin.localSolarTime,
+      this.outputSunState(sunStateOrigin),
+    ]);
+    html += this.outputLine([
+      "Destination",
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(
+        m.destination_icao
+      )}">${Quote.html(m.destination_icao)}</a>`,
+      m.destination_country,
+      this.outputDateTime(time),
+      sunStateDestination.localSolarTime,
+      this.outputSunState(sunStateDestination),
+    ]);
+    html += "</tbody></table></div>";
+    return html;
+  }
+
+  toString(): string {
+    let html = "";
+    html += this.outputWeather();
+    html += this.outputAirports();
+    html += this.outputCheckpoints();
 
     return html;
   }

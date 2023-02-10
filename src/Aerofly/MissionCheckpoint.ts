@@ -70,11 +70,11 @@ export class MissionCheckpoint {
    * If you want to set a frequency in MHz, use this setter.
    */
   set frequency_mhz(frequency_mhz: number) {
-    this.frequency = frequency_mhz * 1000000;
+    this.frequency = frequency_mhz * 1_000_000;
   }
 
   get frequency_mhz(): number {
-    return this.frequency / 1000000;
+    return this.frequency / 1_000_000;
   }
 
   /**
@@ -89,8 +89,11 @@ export class MissionCheckpoint {
     return this.frequency / 1000;
   }
 
+  /**
+   * @returns "k" for all frequencies up to 1,000 kHz
+   */
   get frequency_unit(): "M" | "k" {
-    return this.frequency > 10000000 ? "M" : "k";
+    return this.frequency > 10_000_000 ? "M" : "k";
   }
 
   get frequency_string(): string {
@@ -167,12 +170,6 @@ export class MissionCheckpoint {
     return this.distance >= 0 && this.ground_speed > 0 ? this.distance / this.ground_speed : 0;
   }
 
-  /**
-   *
-   * @param waypoint
-   * @param cruiseAltitude in meters
-   * @returns MissionCheckpoint
-   */
   fromMainMcf(waypoint: MainMcfWaypointInterface): MissionCheckpoint {
     this.type = <MissionCheckpointType>waypoint.type;
     this.name = waypoint.Identifier;
