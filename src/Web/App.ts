@@ -421,6 +421,7 @@ export class App {
                   ? MissionCheckpoint.TYPE_DESTINATION_RUNWAY
                   : MissionCheckpoint.TYPE_WAYPOINT;
               }
+              show |= App.SHOW_MAP;
               break;
             case "altitude_ft":
               this.mission.checkpoints[index].lon_lat.altitude_ft = target.valueAsNumber;
