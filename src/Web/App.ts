@@ -1,6 +1,6 @@
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import { Mission, MissionFactory } from "../Aerofly/Mission.js";
-import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
+import { MissionConditionsCloud, MissionConditionsFlightRules } from "../Aerofly/MissionConditions.js";
 import { MissionListParser, MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
@@ -92,11 +92,11 @@ export class App {
   protected geoJson: GeoJson;
   static CLASS_SIMPLE_MODE = "is-simple-mode";
 
-  static SHOW_WEATHER = 2**0;
-  static SHOW_AIRPORTS = 2**1;
-  static SHOW_CHECKPOINTS = 2**2;
-  static SHOW_MAP = 2**3;
-  static SHOW_MAP_CENTER = 2**4;
+  static SHOW_WEATHER = 2 ** 0;
+  static SHOW_AIRPORTS = 2 ** 1;
+  static SHOW_CHECKPOINTS = 2 ** 2;
+  static SHOW_MAP = 2 ** 3;
+  static SHOW_MAP_CENTER = 2 ** 4;
   static SHOW_ALL = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP;
 
   constructor() {
@@ -124,6 +124,9 @@ export class App {
         }
         const handler = target.getAttribute("data-handler");
         switch (handler) {
+          case "add-separation":
+            this.handleEventClickAddSeparation(target);
+            break;
           case "download":
             this.handleEventClickDownload(target);
             break;
@@ -155,6 +158,13 @@ export class App {
         break;
     }
   }
+
+  handleEventClickAddSeparation(target: HTMLButtonElement) {
+    const type = target.getAttribute("data-type") as MissionConditionsFlightRules;
+    this.mission.calculateCheckpoints(type);
+    this.showFlightplan(App.SHOW_CHECKPOINTS);
+  }
+
   handleEventClickWaypointEdit(target: HTMLButtonElement) {
     const type = target.getAttribute("data-type");
     const waypointId = Number((target.closest("dialog") as HTMLDialogElement).getAttribute("data-waypoint-id")) - 1;

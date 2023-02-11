@@ -79,6 +79,9 @@ export class App {
                 }
                 const handler = target.getAttribute("data-handler");
                 switch (handler) {
+                    case "add-separation":
+                        this.handleEventClickAddSeparation(target);
+                        break;
                     case "download":
                         this.handleEventClickDownload(target);
                         break;
@@ -109,6 +112,11 @@ export class App {
                 this.handleEventInput(e.target);
                 break;
         }
+    }
+    handleEventClickAddSeparation(target) {
+        const type = target.getAttribute("data-type");
+        this.mission.calculateCheckpoints(type);
+        this.showFlightplan(App.SHOW_CHECKPOINTS);
     }
     handleEventClickWaypointEdit(target) {
         const type = target.getAttribute("data-type");

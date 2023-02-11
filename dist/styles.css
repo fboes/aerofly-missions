@@ -37,7 +37,7 @@ body {
   background-color: var(--color-background);
 }
 
-* + :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .table, #flightplan, #map) {
+* + :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .table, #map) {
   margin-top: 1em;
 }
 
@@ -212,14 +212,17 @@ button.icon:hover span {
   display: inline-block;
 }
 
-button.help {
+button.help,
+button.reset {
   top: 0;
+  right: 0;
+}
+
+button.second {
   right: 2.5em;
 }
 
 button.reset {
-  top: 0;
-  right: 0;
   background-color: var(--color--warning);
   color: var(--color-highlight-contra);
 }

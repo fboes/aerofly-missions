@@ -201,18 +201,19 @@ export class MissionCheckpoint {
 
     if (changeHeight && this.type === MissionCheckpoint.TYPE_WAYPOINT) {
       let altitude_ft = this.lon_lat.altitude_ft;
+      let direction_magnetic = this.direction_magnetic;
       if (changeHeight === MissionConditions.CONDITION_VFR || changeHeight === MissionConditions.CONDITION_MVFR) {
         // Separation above 3000ft MSL
         if (altitude_ft > 3000 && altitude_ft < 20000) {
           this.lon_lat.altitude_ft =
-            this.direction < 180
+            direction_magnetic < 180
               ? Math.ceil((altitude_ft - 1500) / 2000) * 2000 + 1500 // 3500, 5500, ..
               : Math.ceil((altitude_ft - 500) / 2000) * 2000 + 500; // 4500, 6500, ..
         }
       } else {
         // IFR
         this.lon_lat.altitude_ft =
-          this.direction < 180
+          direction_magnetic < 180
             ? Math.ceil((altitude_ft - 1000) / 2000) * 2000 + 1000 // 1000, 3000, ..
             : Math.ceil(altitude_ft / 2000) * 2000; // 2000, 4000, ..
       }

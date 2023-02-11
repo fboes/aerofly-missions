@@ -103,10 +103,10 @@ export class Html extends Outputtable {
     const m = this.mission;
 
     let html = "";
-    html += `<div class="table table-weather"><table>
+    html += `<table>
     <caption>Weather</caption>
     <thead>`;
-    html += this.outputLine(["Wind ", "Clouds", "Visibility", " Flight rules"], "th");
+    html += this.outputLine(["Wind ", "Clouds", "Visibility", "Min flight rules"], "th");
     html += "</thead><tbody>";
     html += this.outputLine(
       [
@@ -125,7 +125,7 @@ export class Html extends Outputtable {
       ],
       "ttd"
     );
-    html += "</tbody></table></div>";
+    html += "</tbody></table>";
 
     return html;
   }
@@ -142,7 +142,7 @@ export class Html extends Outputtable {
 
     let html = "";
 
-    html += `<div class="table table-checkpoints"><table>
+    html += `<table>
     <caption>Checkpoints</caption>
     <thead>`;
     html += this.outputLine(
@@ -151,7 +151,7 @@ export class Html extends Outputtable {
         "Waypoint ",
         '<abbr title="Frequency">FRQ</abbr>',
         "Altitude",
-        "Speed",
+        '<abbr title="True Air Speed">TAS</abbr>',
         '<abbr title="Desired track magnetic">DTK</abbr>',
         '<abbr title="Heading magnetic">HDG</abbr> ',
         "Distance",
@@ -175,18 +175,24 @@ export class Html extends Outputtable {
       html += this.outputLine([
         Outputtable.pad(i + 1, 2, 0, "0") + ".",
         !isAirport
-          ? `<input data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._+-]+" maxlength="6" autocapitalize="characters" required="required" />`
+          ? `<input title="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${
+              c.name
+            }" pattern="[A-Z0-9._+-]+" maxlength="6" autocapitalize="characters" required="required" />`
           : c.name,
-        `<input data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${
+        `<input title="Frequency #${
+          i + 1
+        }" data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${
           c.frequency ? c.frequency_mhz : ""
         }" />&nbsp;MHz`,
-        `<input data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${
+        `<input title="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${
           !isAirportOrRunway ? -1000 : 0
         }" step="${!isAirportOrRunway ? 100 : 1}" value="${
           c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""
         }" />&nbsp;ft`,
         i !== 0
-          ? `<input data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${
+          ? `<input title="True Air Speed #${
+              i + 1
+            }" data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${
               c.speed >= 0 ? Math.round(c.speed) : ""
             }" />&nbsp;kts`
           : "",
@@ -216,7 +222,7 @@ export class Html extends Outputtable {
       Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
       '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
     ]);
-    html += "</tfoot></table></div>";
+    html += "</tfoot></table>";
 
     html += `<p class="no-print">Check your <a href="${s.toString(false)}" target="skyvector" title="${s
       .getCheckpoints(false)
@@ -241,7 +247,7 @@ export class Html extends Outputtable {
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
 
     let html = "";
-    html += `<div class="table table-airports"><table>
+    html += `<table>
     <caption>Airports</caption>
     <thead>`;
     html += this.outputLine(
@@ -269,16 +275,19 @@ export class Html extends Outputtable {
       sunStateDestination.localSolarTime,
       this.outputSunState(sunStateDestination),
     ]);
-    html += "</tbody></table></div>";
+    html += "</tbody></table>";
     return html;
   }
 
   toString(): string {
-    let html = "";
-    html += this.outputWeather();
-    html += this.outputAirports();
-    html += this.outputCheckpoints();
-
-    return html;
+    return `<div id="output-weather" class="table">
+      ${this.outputWeather()}
+    </div>
+    <div id="output-airports" class="table">
+      ${this.outputAirports()}
+    </div>
+    <div id="output-checkpoints" class="table table-checkpoints">
+      ${this.outputCheckpoints()}
+    </div>`;
   }
 }
