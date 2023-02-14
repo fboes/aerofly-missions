@@ -10,6 +10,14 @@ export class XplaneFms extends GarminFpl {
         if (!waypointLines) {
             throw new Error("No nav lines found");
         }
+        const depRwy = configFileContent.match(/\sDEPRWY RW(\S+)/);
+        if (depRwy) {
+            this.departureRunway = depRwy[1];
+        }
+        const desRwy = configFileContent.match(/\sDESRWY RW(\S+)/);
+        if (desRwy) {
+            this.destinationRunway = desRwy[1];
+        }
         const wLines = Array.from(waypointLines);
         this.waypoints = wLines.map((m, index) => {
             if (index !== 0 && index !== wLines.length - 1) {

@@ -25,6 +25,8 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints[1].alt, 18400);
       this.assertEquals(fms.waypoints[2].alt, 35000);
       this.assertEquals(fms.cruisingAlt, 35000);
+      this.assertEquals(fms.departureRunway, undefined);
+      this.assertEquals(fms.destinationRunway, undefined);
     }
 
     // Convert FMS to Mission

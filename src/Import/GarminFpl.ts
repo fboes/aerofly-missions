@@ -16,6 +16,8 @@ export class GarminFpl {
    * In feet MSL
    */
   cruisingAlt?: number;
+  departureRunway?: string;
+  destinationRunway?: string;
 
   constructor(configFileContent: string) {
     this.read(configFileContent);

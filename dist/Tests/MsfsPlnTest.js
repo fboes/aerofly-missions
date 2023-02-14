@@ -25,6 +25,8 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(pln.waypoints[1].alt, 2500);
             this.assertEqualsRounded(pln.waypoints[1].lon, -4.05834167, 8);
             this.assertEquals(pln.cruisingAlt, 2500);
+            this.assertEquals(pln.departureRunway, undefined);
+            this.assertEquals(pln.destinationRunway, undefined);
         }
         // Convert PLN to Mission
         const mission = new Mission("", "").fromGarminFpl(pln);

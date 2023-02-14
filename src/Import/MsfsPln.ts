@@ -6,6 +6,7 @@ import { Units } from "../World/Units.js";
 import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 type MsfsPlnWaypointType = "none" | "Airport" | "Intersection" | "VOR" | "NDB" | "User" | "ATC";
+type MsfsPlnRunwayDesignator = "NONE" | "CENTER" | "LEFT" | "RIGHT" | "WATER" | "A" | "B";
 
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
@@ -15,10 +16,24 @@ export class MsfsPln extends GarminFpl {
     const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
 
     this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
-    this.waypoints = this.getXmlNodes(waypointTableXml, "ATCWaypoint").map((xml): GaminFplWaypoint => {
+    const waypointsXml = this.getXmlNodes(waypointTableXml, "ATCWaypoint");
+    this.waypoints = waypointsXml.map((xml, index): GaminFplWaypoint => {
       // N52° 45' 7.51",W3° 53' 2.16",+002500.00
       const worldPosition = this.getXmlNode(xml, "WorldPosition");
       const coords = this.convertCoordinate(worldPosition);
+
+      if (index === 0 || index === waypointsXml.length - 1) {
+        const runwayNumberFP = this.getXmlNode(xml, "RunwayNumberFP");
+        let runwayDesignatorFP = this.getXmlNode(xml, "RunwayNumberFP") as MsfsPlnRunwayDesignator | "";
+        const rw = runwayNumberFP + (runwayDesignatorFP === "NONE" ? "" : runwayDesignatorFP.substring(0, 1));
+        if (runwayNumberFP) {
+          if (index === 0) {
+            this.departureRunway = rw;
+          } else {
+            this.destinationRunway = rw;
+          }
+        }
+      }
 
       return {
         identifier: this.getXmlNode(xml, "ICAOIdent") || this.getXmlAttribute(xml, "id"),
@@ -200,7 +215,7 @@ export class MsfsPlnExport {
   runwayXml(runway: string): string {
     const runwayParts = runway.match(/(\d+)(\D+)?/);
     if (runwayParts) {
-      let RunwayDesignatorFP: "NONE" | "CENTER" | "LEFT" | "RIGHT" | "WATER" | "A" | "B" = "NONE";
+      let RunwayDesignatorFP: MsfsPlnRunwayDesignator = "NONE";
       switch (runwayParts[2]) {
         case "L":
           RunwayDesignatorFP = "LEFT";
