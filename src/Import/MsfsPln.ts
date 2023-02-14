@@ -102,16 +102,13 @@ export class MsfsPlnExport {
   toString(): string {
     const m = this.mission;
     // @see https://en.wikipedia.org/wiki/ICAO_airport_code#/media/File:ICAO_FirstLetter.svg
-    const icaoRegion = m.origin_icao.substring(0, 1);
-    const departureRunway =
-      m.checkpoints[1] && m.checkpoints[1].type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
-        ? m.checkpoints[1].name
-        : "";
-    const runwayIndex = m.checkpoints.length - 2;
-    const destinationRunway =
-      m.checkpoints[runwayIndex] && m.checkpoints[runwayIndex].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY
-        ? m.checkpoints[runwayIndex].name
-        : "";
+    let icaoRegion = m.origin_icao.substring(0, 1);
+
+    const departureRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
+    const departureRunway = departureRunwayCp ? departureRunwayCp.name : "";
+
+    const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
+    const destinationRunway = destinationRunwayCp ? destinationRunwayCp.name : "";
 
     let pln = `<?xml version="1.0" encoding="UTF-8"?>
     <SimBase.Document Type="AceXML" version="1,0">
@@ -145,6 +142,10 @@ export class MsfsPlnExport {
         !name.match(/^RW/)
       ) {
         name = "RW" + name;
+      }
+      if (type === "Airport" || cp.type === MissionCheckpoint.TYPE_ORIGIN ||
+      cp.type === MissionCheckpoint.TYPE_DESTINATION) {
+        icaoRegion = cp.name.substring(0, 1)
       }
 
       pln += `            <ATCWaypoint id="${Quote.xml(name)}">

@@ -336,15 +336,11 @@ export class Mission {
                         360;
                 this.warnings.push(`Aircraft orientation inferred from mainMcf.flight_setting.orientation: ${this.origin_dir.toFixed()}°`);
             }
-            const checkpointDestination = (_a = this.checkpoints.find((c) => {
-                return c.type === MissionCheckpoint.TYPE_DESTINATION;
-            })) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
+            const checkpointDestination = (_a = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
             this.destination_icao = structuredClone(checkpointDestination.name);
             this.destination_dir = structuredClone(checkpointDestination.direction);
             this.destination_lon_lat = checkpointDestination.lon_lat.clone();
-            const checkpointDestinationRunway = (_b = this.checkpoints.find((c) => {
-                return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
-            })) !== null && _b !== void 0 ? _b : checkpointDestination;
+            const checkpointDestinationRunway = (_b = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) !== null && _b !== void 0 ? _b : checkpointDestination;
             if (ils) {
                 checkpointDestinationRunway.frequency_mhz = ils;
             }
@@ -380,9 +376,7 @@ export class Mission {
         this.origin_icao = this.checkpoints[0].name;
         this.origin_dir = this.checkpoints[1].direction;
         this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
-        const checkpointDestination = (_a = this.checkpoints.find((c) => {
-            return c.type === MissionCheckpoint.TYPE_DESTINATION;
-        })) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
+        const checkpointDestination = (_a = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = checkpointDestination.name;
         this.destination_dir = checkpointDestination.direction;
         this.destination_lon_lat = checkpointDestination.lon_lat.clone();
@@ -684,6 +678,24 @@ export class Mission {
             return "late afternoon";
         }
         return "day";
+    }
+    findCheckPointByType(type) {
+        switch (type) {
+            case MissionCheckpoint.TYPE_ORIGIN:
+                return this.checkpoints[0];
+            case MissionCheckpoint.TYPE_DESTINATION:
+                return this.checkpoints[this.checkpoints.length - 1];
+            case MissionCheckpoint.TYPE_DEPARTURE_RUNWAY:
+                return this.checkpoints[1].type === type ? this.checkpoints[1] : undefined;
+            case MissionCheckpoint.TYPE_DESTINATION_RUNWAY:
+                return this.checkpoints[this.checkpoints.length - 2].type === type
+                    ? this.checkpoints[this.checkpoints.length - 2]
+                    : undefined;
+            default:
+                return this.checkpoints.find((cp) => {
+                    return cp.type === type;
+                });
+        }
     }
     addCheckpointBefore(index, distance, altitudeChange = 0) {
         if (index < 1) {

@@ -56,10 +56,8 @@ export class Outputtable {
   }
 
   outputCodes(m: Mission, join = " "): string {
-    const lastIndex = m.checkpoints.length - 1;
     return m.checkpoints
       .map((cp) => {
-        const type = cp.type_extended;
         return cp.isExportable() ? cp.name : cp.lon_lat.toNavString();
       })
       .join(join);

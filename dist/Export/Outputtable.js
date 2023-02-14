@@ -43,10 +43,8 @@ export class Outputtable {
         return sunSymbol + " " + sunState.sunState + " @ " + sunState.solarElevationAngleDeg.toFixed() + "°";
     }
     outputCodes(m, join = " ") {
-        const lastIndex = m.checkpoints.length - 1;
         return m.checkpoints
             .map((cp) => {
-            const type = cp.type_extended;
             return cp.isExportable() ? cp.name : cp.lon_lat.toNavString();
         })
             .join(join);

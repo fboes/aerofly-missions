@@ -65,11 +65,18 @@ export class XplaneFmsExport {
 
   toString(): string {
     const m = this.mission;
+
+    const departureRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
+    const departureRunway = departureRunwayCp ? ("\nDEPRWY RW" + departureRunwayCp.name) : "";
+
+    const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
+    const destinationRunway = destinationRunwayCp ? ("\nDESRWY RW" +  destinationRunwayCp.name) : "";
+
     let pln = `I
 1100 Version
 CYCLE 1710
-ADEP ${m.origin_icao}
-ADES ${m.destination_icao}
+ADEP ${m.origin_icao}${departureRunway}
+ADES ${m.destination_icao}${destinationRunway}
 NUMENR ${m.checkpoints.length}
 `;
     m.checkpoints.forEach((cp, index) => {

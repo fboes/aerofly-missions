@@ -393,17 +393,13 @@ export class Mission {
       }
 
       const checkpointDestination =
-        this.checkpoints.find((c) => {
-          return c.type === MissionCheckpoint.TYPE_DESTINATION;
-        }) ?? this.checkpoints[this.checkpoints.length - 1];
+        this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
       this.destination_icao = structuredClone(checkpointDestination.name);
       this.destination_dir = structuredClone(checkpointDestination.direction);
       this.destination_lon_lat = checkpointDestination.lon_lat.clone();
 
       const checkpointDestinationRunway =
-        this.checkpoints.find((c) => {
-          return c.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
-        }) ?? checkpointDestination;
+        this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY) ?? checkpointDestination;
       if (ils) {
         checkpointDestinationRunway.frequency_mhz = ils;
       }
@@ -448,9 +444,7 @@ export class Mission {
     this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
 
     const checkpointDestination =
-      this.checkpoints.find((c) => {
-        return c.type === MissionCheckpoint.TYPE_DESTINATION;
-      }) ?? this.checkpoints[this.checkpoints.length - 1];
+      this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
     this.destination_icao = checkpointDestination.name;
     this.destination_dir = checkpointDestination.direction;
     this.destination_lon_lat = checkpointDestination.lon_lat.clone();
@@ -780,6 +774,25 @@ export class Mission {
     }
 
     return "day";
+  }
+
+  findCheckPointByType(type: MissionCheckpointType): MissionCheckpoint | undefined {
+    switch (type) {
+      case MissionCheckpoint.TYPE_ORIGIN:
+        return this.checkpoints[0];
+      case MissionCheckpoint.TYPE_DESTINATION:
+        return this.checkpoints[this.checkpoints.length - 1];
+      case MissionCheckpoint.TYPE_DEPARTURE_RUNWAY:
+        return this.checkpoints[1].type === type ? this.checkpoints[1] : undefined;
+      case MissionCheckpoint.TYPE_DESTINATION_RUNWAY:
+        return this.checkpoints[this.checkpoints.length - 2].type === type
+          ? this.checkpoints[this.checkpoints.length - 2]
+          : undefined;
+      default:
+        return this.checkpoints.find((cp) => {
+          return cp.type === type;
+        });
+    }
   }
 
   addCheckpointBefore(index: number, distance: number, altitudeChange = 0) {
