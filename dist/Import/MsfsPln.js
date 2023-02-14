@@ -124,7 +124,8 @@ export class MsfsPlnExport {
                 !name.match(/^RW/)) {
                 name = "RW" + name;
             }
-            if (type === "Airport" || cp.type === MissionCheckpoint.TYPE_ORIGIN ||
+            if (type === "Airport" ||
+                cp.type === MissionCheckpoint.TYPE_ORIGIN ||
                 cp.type === MissionCheckpoint.TYPE_DESTINATION) {
                 icaoRegion = cp.name.substring(0, 1);
             }

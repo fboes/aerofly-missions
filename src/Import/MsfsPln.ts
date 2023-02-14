@@ -143,9 +143,12 @@ export class MsfsPlnExport {
       ) {
         name = "RW" + name;
       }
-      if (type === "Airport" || cp.type === MissionCheckpoint.TYPE_ORIGIN ||
-      cp.type === MissionCheckpoint.TYPE_DESTINATION) {
-        icaoRegion = cp.name.substring(0, 1)
+      if (
+        type === "Airport" ||
+        cp.type === MissionCheckpoint.TYPE_ORIGIN ||
+        cp.type === MissionCheckpoint.TYPE_DESTINATION
+      ) {
+        icaoRegion = cp.name.substring(0, 1);
       }
 
       pln += `            <ATCWaypoint id="${Quote.xml(name)}">
