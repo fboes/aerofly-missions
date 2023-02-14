@@ -635,6 +635,7 @@ export class App {
                             break;
                     }
                     this.useIcao = this.mission.origin_country !== "US";
+                    this.mission.magnetic_declination = undefined;
                     this.syncToForm();
                     this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
                 }
