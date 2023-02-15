@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <!-- Exported by Aerofly Missionsgerät -->
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>ENHD local flight</Title>
+        <Descr>A late afternoon flight at ENHD under VFR conditions. Wind is 6 kts from 339°.</Descr>
+        <FPType>VFR</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>4500</CruisingAlt>
+        <DepartureID>ENHD</DepartureID>
+        <DepartureName>ENHD</DepartureName>
+        <DepartureLLA>N59° 20' 38.41",E5° 12' 54.48",+000000.00</DepartureLLA>
+        <!--DeparturePosition></DeparturePosition-->
+        <DestinationID>ENHD</DestinationID>
+        <DestinationName>ENHD</DestinationName>
+        <DestinationLLA>N59° 20' 38.71",E5° 12' 53.69",+000000.00</DestinationLLA>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="ENHD">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N59° 20' 35.43",E5° 12' 45.84",+000087.00</WorldPosition>
+            <!--SpeedMaxFP>-1</SpeedMaxFP-->
+            <RunwayNumberFP>13</RunwayNumberFP>
+            <RunwayDesignatorFP>NONE</RunwayDesignatorFP>
+            <ICAO>
+                <ICAOIdent>ENHD</ICAOIdent>
+                <ICAORegion>E</ICAORegion>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="SV002">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N58° 58' 50.00",E5° 46' 8.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV003">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N59° 0' 4.00",E6° 3' 56.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV004">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N58° 56' 26.00",E6° 6' 26.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV005">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N58° 58' 57.00",E6° 12' 4.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV006">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N59° 3' 22.00",E6° 39' 59.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV007">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N59° 8' 49.00",E6° 35' 16.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="SV008">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N59° 8' 48.00",E6° 10' 43.00",+004500.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+        </ATCWaypoint>
+        <ATCWaypoint id="ENHD">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N59° 20' 35.71",E5° 12' 45.35",+000087.00</WorldPosition>
+            <!--SpeedMaxFP>152</SpeedMaxFP-->
+            <RunwayNumberFP>31</RunwayNumberFP>
+            <RunwayDesignatorFP>NONE</RunwayDesignatorFP>
+            <ICAO>
+                <ICAOIdent>ENHD</ICAOIdent>
+                <ICAORegion>E</ICAORegion>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
