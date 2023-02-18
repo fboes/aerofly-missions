@@ -22,11 +22,14 @@ export class LonLat {
     convertMinute(lonOrLat) {
         let l = {
             degree: lonOrLat > 0 ? Math.floor(lonOrLat) : Math.ceil(lonOrLat),
-            minutes: (Math.abs(lonOrLat) % 1) * 60,
+            minutes: 0,
+            minutesDecimal: (Math.abs(lonOrLat) % 1) * 60,
             seconds: 0,
+            secondsDecimal: 0,
         };
-        l.seconds = (l.minutes % 1) * 60;
-        l.minutes = Math.floor(l.minutes);
+        l.secondsDecimal = (l.minutesDecimal % 1) * 60;
+        l.seconds = Math.floor(l.secondsDecimal);
+        l.minutes = Math.floor(l.minutesDecimal);
         return l;
     }
     get lonMinute() {

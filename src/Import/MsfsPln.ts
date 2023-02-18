@@ -98,7 +98,7 @@ export class MsfsPlnExport {
       "° " +
       lat.minutes.toFixed() +
       "' " +
-      lat.seconds.toFixed(2) +
+      lat.secondsDecimal.toFixed(2) +
       '"' +
       "," +
       lon_lat.lonHemisphere +
@@ -106,7 +106,7 @@ export class MsfsPlnExport {
       "° " +
       lon.minutes.toFixed() +
       "' " +
-      lon.seconds.toFixed(2) +
+      lon.secondsDecimal.toFixed(2) +
       '"' +
       "," +
       (lon_lat.altitude_m >= 0 ? "+" : "-") +

@@ -69,11 +69,13 @@ export class LonLatTest extends Test {
 
       this.assertEquals(lat.degree, 36);
       this.assertEquals(lat.minutes, 2);
-      this.assertEqualsRounded(lat.seconds, 6.36, 2);
+      this.assertEqualsRounded(lat.secondsDecimal, 6.36, 2);
+      this.assertEqualsRounded(lat.seconds, 6, 2);
       this.assertEquals(lonLat.latHemisphere, "N");
       this.assertEquals(lon.degree, -115);
       this.assertEquals(lon.minutes, 6);
-      this.assertEqualsRounded(lon.seconds, 57.24, 2);
+      this.assertEqualsRounded(lon.secondsDecimal, 57.24, 2);
+      this.assertEqualsRounded(lon.seconds, 57, 2);
       this.assertEquals(lonLat.lonHemisphere, "W");
       this.assertEquals(lonLat.toNavString(), "360206N1150657W");
     }
