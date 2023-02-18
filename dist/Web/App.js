@@ -120,7 +120,7 @@ export class App {
     }
     handleEventClickWaypointEdit(target) {
         const type = target.getAttribute("data-type");
-        const waypointId = Number(target.closest("dialog").getAttribute("data-waypoint-id")) - 1;
+        const waypointId = Number(target.closest("dialog").getAttribute("data-cp-id"));
         switch (type) {
             case "delete":
                 this.mission.checkpoints.splice(waypointId, 1);
@@ -343,7 +343,7 @@ export class App {
                 break;
             default:
                 const prop = target.getAttribute("data-cp-prop");
-                const id = target.getAttribute("data-cp-id");
+                const id = (target.closest("[data-cp-id]") || target).getAttribute("data-cp-id");
                 if (prop && id) {
                     const index = Number(id);
                     switch (prop) {
@@ -363,6 +363,14 @@ export class App {
                             break;
                         case "altitude_ft":
                             this.mission.checkpoints[index].lon_lat.altitude_ft = target.valueAsNumber;
+                            break;
+                        case "lat":
+                            this.mission.checkpoints[index].lon_lat.lat = target.valueAsNumber;
+                            show |= App.SHOW_MAP;
+                            break;
+                        case "lon":
+                            this.mission.checkpoints[index].lon_lat.lon = target.valueAsNumber;
+                            show |= App.SHOW_MAP;
                             break;
                         case "speed":
                             this.mission.checkpoints[index].speed = target.valueAsNumber;
@@ -541,13 +549,23 @@ export class App {
                         return;
                     }
                     const modal = document.getElementById("edit-waypoint-modal");
-                    modal.setAttribute("data-waypoint-id", String(currentFeature.id));
+                    const currentCheckpointIndex = Number(currentFeature.id) - 1;
+                    if (currentCheckpointIndex < 0 || currentCheckpointIndex >= this.mission.checkpoints.length) {
+                        return;
+                    }
+                    const currentCheckpoint = this.mission.checkpoints[currentCheckpointIndex];
+                    modal.setAttribute("data-cp-id", String(currentCheckpointIndex));
                     modal.querySelector('[data-type="delete"]').disabled =
                         currentFeature.id === 1 || currentFeature.id === this.mission.checkpoints.length - 1;
                     modal.querySelector('[data-type="add-before"]').disabled = currentFeature.id === 1;
                     modal.querySelector('[data-type="add-after"]').disabled =
                         currentFeature.id === this.mission.checkpoints.length;
-                    console.log(currentFeature.id, modal.querySelector('[data-type="add-after"]'));
+                    document.getElementById("wp-lon").value = currentCheckpoint.lon_lat.lon.toFixed(5);
+                    document.getElementById("wp-lat").value = currentCheckpoint.lon_lat.lat.toFixed(5);
+                    document.getElementById("wp-name").value = currentCheckpoint.name;
+                    modal.addEventListener("close", (e) => {
+                        this.showFlightplan(App.SHOW_ALL);
+                    }, { once: true });
                     modal.showModal();
                     return;
                 }
@@ -663,7 +681,7 @@ export class App {
             this.syncToForm();
             this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
             modal.close();
-        });
+        }, { once: true });
     }
     makeWeather() {
         const lastHeading = this.mission.checkpoints.length

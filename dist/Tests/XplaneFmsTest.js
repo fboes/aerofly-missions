@@ -11,7 +11,6 @@ export class XplaneFmsTest extends Test {
         this.testEGOV();
         this.testLittleNavMap();
         this.testGarminParse();
-        this.testRunways();
     }
     testEGOV() {
         const fms = new XplaneFms(fs.readFileSync("./src/Tests/cases/EGCC-EDDF.fms", "utf8"));
@@ -84,28 +83,6 @@ export class XplaneFmsTest extends Test {
         // Convert FMS to Mission
         const mission = new Mission("", "").fromGarminFpl(fms);
         this.group(XplaneFms.name + ": Mission conversion");
-        {
-            this.assertEquals(mission.checkpoints.length, 11);
-            this.assertEquals(mission.checkpoints[0].type, MissionCheckpoint.TYPE_ORIGIN);
-            this.assertEquals(mission.checkpoints[1].type, MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
-            this.assertEquals(mission.checkpoints[9].type, MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
-            this.assertEquals(mission.checkpoints[10].type, MissionCheckpoint.TYPE_DESTINATION);
-        }
-    }
-    testRunways() {
-        const fms = new XplaneFms(fs.readFileSync("./src/Tests/cases/ENHD_local_flight.fms", "utf8"));
-        this.group(XplaneFms.name + ": Runway test");
-        {
-            this.assertEquals(fms.waypoints.length, 9);
-            this.assertEquals(fms.waypoints[0].identifier, "ENHD");
-            this.assertEquals(fms.waypoints[0].type, "AIRPORT");
-            this.assertEquals(fms.waypoints[8].type, "AIRPORT");
-            this.assertEquals(fms.departureRunway, "13");
-            this.assertEquals(fms.destinationRunway, "31");
-        }
-        // Convert FMS to Mission
-        const mission = new Mission("", "").fromGarminFpl(fms);
-        this.group(XplaneFms.name + ": Runway conversion");
         {
             this.assertEquals(mission.checkpoints.length, 11);
             this.assertEquals(mission.checkpoints[0].type, MissionCheckpoint.TYPE_ORIGIN);

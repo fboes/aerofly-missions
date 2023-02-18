@@ -368,6 +368,22 @@
         </dialog>
         <dialog id="edit-waypoint-modal">
           <h4>Edit waypoint</h4>
+          <div>
+            <label for="wp-name">Name</label>
+            <input data-cp-prop="name" type="text" pattern="[A-Z0-9._+-]+" id="wp-name" maxlength="6" autocapitalize="characters" required="required" />
+          </div>
+          <div class="col-2">
+            <div>
+              <label for="wp-lat">Latitude (N/S)</label>
+              <input data-cp-prop="lat" type="number" min="-90" max="90" id="wp-lat" step="0.00001" required="required" />
+              <span>°</span>
+            </div>
+            <div>
+              <label for="wp-lon">Longitude (E/W)</label>
+              <input data-cp-prop="lon" type="number" min="-180" max="180" id="wp-lon" step="0.00001" required="required" />
+              <span>°</span>
+            </div>
+          </div>
           <button data-handler="waypoint-edit" data-type="delete">Delete waypoint</button>
           <button data-handler="waypoint-edit" data-type="add-before">Add waypoint before</button>
           <button data-handler="waypoint-edit" data-type="add-after">Add waypoint after</button>

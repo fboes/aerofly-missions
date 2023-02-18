@@ -17,7 +17,7 @@ export class MsfsPln extends GarminFpl {
             const coords = this.convertCoordinate(worldPosition);
             if (index === 0 || index === waypointsXml.length - 1) {
                 const runwayNumberFP = this.getXmlNode(xml, "RunwayNumberFP");
-                let runwayDesignatorFP = this.getXmlNode(xml, "RunwayDesignatorFP");
+                let runwayDesignatorFP = this.getXmlNode(xml, "RunwayNumberFP");
                 const rw = runwayNumberFP + (runwayDesignatorFP === "NONE" ? "" : runwayDesignatorFP.substring(0, 1));
                 if (runwayNumberFP) {
                     if (index === 0) {
@@ -109,43 +109,44 @@ export class MsfsPlnExport {
         const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
         const destinationRunway = destinationRunwayCp ? destinationRunwayCp.name : "";
         let pln = `<?xml version="1.0" encoding="UTF-8"?>
-<SimBase.Document Type="AceXML" version="1,0">
-    <!-- Exported by Aerofly Missionsgerät -->
-    <Descr>AceXML Document</Descr>
-    <FlightPlan.FlightPlan>
-        <Title>${Quote.xml(m.title)}</Title>
-        <Descr>${Quote.xml(m.description)}</Descr>
-        <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
-        <RouteType>Direct</RouteType>
-        <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
-        <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
-        <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
-        <DepartureLLA>${this.getLla(m.origin_lon_lat)}</DepartureLLA>
-        <!--DeparturePosition></DeparturePosition-->
-        <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
-        <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
-        <DestinationLLA>${this.getLla(m.destination_lon_lat)}</DestinationLLA>
-        <AppVersion>
-            <AppVersionMajor>10</AppVersionMajor>
-            <AppVersionBuild>61472</AppVersionBuild>
-        </AppVersion>
+    <SimBase.Document Type="AceXML" version="1,0">
+        <!-- Exported by Aerofly Missionsgerät -->
+        <Descr>AceXML Document</Descr>
+        <FlightPlan.FlightPlan>
+            <Title>${Quote.xml(m.title)}</Title>
+            <Descr>${Quote.xml(m.description)}</Descr>
+            <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
+            <RouteType>Direct</RouteType>
+            <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
+            <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
+            <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
+            <DepartureLLA>${this.getLla(m.origin_lon_lat)}</DepartureLLA>
+            <!--DeparturePosition></DeparturePosition-->
+            <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
+            <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
+            <DestinationLLA>${this.getLla(m.destination_lon_lat)}</DestinationLLA>
+            <AppVersion>
+                <AppVersionMajor>10</AppVersionMajor>
+                <AppVersionBuild>61472</AppVersionBuild>
+            </AppVersion>
 `;
-        m.checkpoints
-            .filter((cp) => {
-            return (cp.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && cp.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
-        })
-            .forEach((cp) => {
+        m.checkpoints.forEach((cp) => {
             const type = this.convertWaypointType(cp.type_extended);
             let name = cp.name;
+            if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+                cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
+                !name.match(/^RW/)) {
+                name = "RW" + name;
+            }
             if (type === "Airport" ||
                 cp.type === MissionCheckpoint.TYPE_ORIGIN ||
                 cp.type === MissionCheckpoint.TYPE_DESTINATION) {
                 icaoRegion = cp.name.substring(0, 1);
             }
-            pln += `        <ATCWaypoint id="${Quote.xml(name)}">
-            <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
-            <WorldPosition>${this.getLla(cp.lon_lat)}</WorldPosition>
-            <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
+            pln += `            <ATCWaypoint id="${Quote.xml(name)}">
+                <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
+                <WorldPosition>${this.getLla(cp.lon_lat)}</WorldPosition>
+                <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
 `;
             if (cp.type === MissionCheckpoint.TYPE_ORIGIN && departureRunway) {
                 pln += this.runwayXml(departureRunway);
@@ -154,17 +155,17 @@ export class MsfsPlnExport {
                 pln += this.runwayXml(destinationRunway);
             }
             if (type !== "User") {
-                pln += `            <ICAO>
-                <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
-                <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
-            </ICAO>
+                pln += `                <ICAO>
+                    <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
+                    <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
+                </ICAO>
 `;
             }
-            pln += `        </ATCWaypoint>
+            pln += `            </ATCWaypoint>
 `;
         });
-        pln += `    </FlightPlan.FlightPlan>
-  </SimBase.Document>
+        pln += `        </FlightPlan.FlightPlan>
+    </SimBase.Document>
 `;
         return pln;
     }
@@ -201,8 +202,8 @@ export class MsfsPlnExport {
                     RunwayDesignatorFP = "CENTER";
                     break;
             }
-            return `            <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
-            <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
+            return `                <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
+                <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
 `;
         }
         return "";

@@ -371,7 +371,8 @@ export class Mission {
             return cp;
         });
         const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
-        this.magnetic_declination = undefined;
+        this.syncCruiseSpeed();
+        this.calculateCheckpoints();
         this.origin_icao = this.checkpoints[0].name;
         this.origin_dir = this.checkpoints[1].direction;
         this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
@@ -379,22 +380,6 @@ export class Mission {
         this.destination_icao = checkpointDestination.name;
         this.destination_dir = checkpointDestination.direction;
         this.destination_lon_lat = checkpointDestination.lon_lat.clone();
-        if (gpl.departureRunway && !this.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY)) {
-            const cp = new MissionCheckpoint();
-            cp.lon_lat = this.origin_lon_lat.getRelativeCoordinates(0.5, Number(gpl.departureRunway.replace(/\D+/g, "")) * 10 + this.origin_lon_lat.magnetic_declination);
-            cp.name = gpl.departureRunway;
-            cp.type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
-            this.checkpoints.splice(1, 0, cp);
-        }
-        if (gpl.destinationRunway && !this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) {
-            const cp = new MissionCheckpoint();
-            cp.lon_lat = this.destination_lon_lat.getRelativeCoordinates(0.5, Number(gpl.destinationRunway.replace(/\D+/g, "")) * 10 + 180 + this.destination_lon_lat.magnetic_declination);
-            cp.name = gpl.destinationRunway;
-            cp.type = MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
-            this.checkpoints.splice(this.checkpoints.length - 1, 0, cp);
-        }
-        this.syncCruiseSpeed();
-        this.calculateCheckpoints();
         this.setAutoTitleDescription(flight_category);
         return this;
     }

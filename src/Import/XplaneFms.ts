@@ -88,38 +88,32 @@ ADEP ${m.origin_icao}${departureRunway}
 ADES ${m.destination_icao}${destinationRunway}
 NUMENR ${m.checkpoints.length}
 `;
-    m.checkpoints
-      .filter((cp) => {
-        return (
-          cp.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && cp.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY
-        );
-      })
-      .forEach((cp, index) => {
-        const type = this.convertWaypointType(cp.type_extended);
+    m.checkpoints.forEach((cp, index) => {
+      const type = this.convertWaypointType(cp.type_extended);
 
-        // ADEP/ADES for departure or destination airport of the flightplan,
-        // DRCT for a direct or random route leg to the waypoint,
-        //  or the name of an airway or ATS route to the waypoint.
-        let via: "ADEP" | "ADES" | "DRCT";
-        via = type === XplaneFms.TYPE_AIRPORT ? "ADEP" : "DRCT";
-        if (index === m.checkpoints.length - 1 && type === 1) {
-          via = "ADES";
-        }
+      // ADEP/ADES for departure or destination airport of the flightplan,
+      // DRCT for a direct or random route leg to the waypoint,
+      //  or the name of an airway or ATS route to the waypoint.
+      let via: "ADEP" | "ADES" | "DRCT";
+      via = type === XplaneFms.TYPE_AIRPORT ? "ADEP" : "DRCT";
+      if (index === m.checkpoints.length - 1 && type === 1) {
+        via = "ADES";
+      }
 
-        let name = cp.name;
-        if (
-          (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
-            cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
-          !name.match(/^RW/)
-        ) {
-          name = "RW" + name;
-        }
+      let name = cp.name;
+      if (
+        (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
+          cp.type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) &&
+        !name.match(/^RW/)
+      ) {
+        name = "RW" + name;
+      }
 
-        pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(
-          6
-        )} ${cp.lon_lat.lon.toFixed(6)}
+      pln += `${type} ${name} ${via} ${cp.lon_lat.altitude_ft.toFixed(6)} ${cp.lon_lat.lat.toFixed(
+        6
+      )} ${cp.lon_lat.lon.toFixed(6)}
 `;
-      });
+    });
 
     return pln;
   }

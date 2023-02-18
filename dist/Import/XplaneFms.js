@@ -73,11 +73,7 @@ ADEP ${m.origin_icao}${departureRunway}
 ADES ${m.destination_icao}${destinationRunway}
 NUMENR ${m.checkpoints.length}
 `;
-        m.checkpoints
-            .filter((cp) => {
-            return (cp.type !== MissionCheckpoint.TYPE_DEPARTURE_RUNWAY && cp.type !== MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
-        })
-            .forEach((cp, index) => {
+        m.checkpoints.forEach((cp, index) => {
             const type = this.convertWaypointType(cp.type_extended);
             // ADEP/ADES for departure or destination airport of the flightplan,
             // DRCT for a direct or random route leg to the waypoint,
