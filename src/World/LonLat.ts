@@ -52,7 +52,7 @@ export class LonLat {
       secondsDecimal: 0,
     };
     l.secondsDecimal = (l.minutesDecimal % 1) * 60;
-    l.seconds = Math.floor(l.secondsDecimal)
+    l.seconds = Math.floor(l.secondsDecimal);
     l.minutes = Math.floor(l.minutesDecimal);
     return l;
   }
