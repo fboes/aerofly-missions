@@ -1,23 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="512" height="512" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
  <defs>
   <linearGradient id="linearGradient4574" x1="14.737" x2="41.417" y1="14.69" y2="41.37" gradientTransform="scale(10.667)" gradientUnits="userSpaceOnUse">
    <stop stop-color="#1753a0" offset="0"/>
    <stop stop-color="#000a2f" offset="1"/>
   </linearGradient>
  </defs>
- <g stroke-width="10.667">
-  <ellipse cx="256" cy="256" rx="256" ry="256" fill="url(#linearGradient4574)" style="paint-order:stroke fill markers"/>
-  <path d="m225.02 23.687c-51.413-0.0033-93.095 41.67-93.103 93.084 0.0224 2.8458 0.17536 5.6891 0.45835 8.5208-7.2823-2.2054-14.849-3.3286-22.458-3.3333-42.882 1e-3 -77.644 34.764-77.645 77.646 0.05387 41.58 32.852 75.738 74.395 77.479 105.88 0.37675 211.72 0.23168 302.86 0.52086 39.337-2e-3 71.227-31.891 71.228-71.229-2e-3 -39.338-31.891-71.228-71.228-71.229-4.8099 0.0224-9.6051 0.53194-14.312 1.5208 1.8438-5.8152 2.7853-11.878 2.7917-17.979-3e-3 -32.963-26.724-59.685-59.687-59.687-11.891 0.01824-23.505 3.5875-33.354 10.25-16.754-28.213-47.124-45.523-79.936-45.563z" fill="#eef3f9" style="paint-order:stroke fill markers"/>
-  <path d="m405.98 135.04c-3.297 4e-3 -6.5075 0.16096-9.5833 0.43755 52.791 2 51.604 67.187-1.7292 67.187h-213.33c-53.333 0-74.666 21.333-74.666 74.667l223.45 223.46a256 256 0 0 0 181.88-244.79 256 256 0 0 0-5.8333-52.854l-35.646-33.666c-14.194-26.969-41.462-34.466-64.541-34.437z" opacity=".25"/>
+ <circle cx="256" cy="256" r="256" fill="url(#linearGradient4574)" stroke-width="10.667" style="paint-order:stroke fill markers"/>
+ <g transform="translate(144)">
+  <path d="m96 352 96-256 96 256h-72l-24 32-24-32z" fill="#d6e7ff"/>
+  <path d="m192 384v-288l-24 256z" opacity=".3"/>
+  <path d="m192 384v-288l24 256z" fill="#fff" opacity=".3"/>
  </g>
- <g transform="matrix(8.3775 8.3776 -8.3775 8.3776 367.85 -121.05)">
-  <g stroke-width=".7746">
-   <path d="m21 33h6v8l-3 5-3-5z" fill="#f4dd10"/>
-   <rect x="21" y="29" width="6" height="3" fill="#f41610" style="paint-order:stroke fill markers"/>
-   <path d="m25 29.047v11.953l-1 5 3-5v-12z" opacity=".25"/>
-  </g>
-  <path d="m20.998 41 3.0008 5.0013 3.0008-5.0013z" opacity=".33" stroke-width="1.937"/>
-  <path d="m22.8 44 1.2 2 1.2-2z" opacity=".33" stroke-width=".7746"/>
+ <g transform="translate(-16)">
+  <path d="m96 352 96-256 96 256h-72l-24 32-24-32z" fill="#f0f6ff"/>
+  <path d="m192 384v-288l-24 256z" opacity=".3"/>
+  <path d="m192 384v-288l24 256z" fill="#fff" opacity=".3"/>
  </g>
+ <path d="m176 96 96 256h-72l-24 32-24-32h-72l185.85 159.3a256 256 0 0 0 245.09-240.37l-174.93-174.93 96 256-256-256z" opacity=".25"/>
 </svg>
