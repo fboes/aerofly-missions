@@ -306,10 +306,15 @@ export class MissionConditions {
     }
     hydrate(json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-        this.time.time_day = (_a = json.time.time_day) !== null && _a !== void 0 ? _a : this.time.time_day;
-        this.time.time_hours = (_b = json.time.time_hours) !== null && _b !== void 0 ? _b : this.time.time_hours;
-        this.time.time_month = (_c = json.time.time_month) !== null && _c !== void 0 ? _c : this.time.time_month;
-        this.time.time_year = (_d = json.time.time_year) !== null && _d !== void 0 ? _d : this.time.time_year;
+        if (json.time.dateTime) {
+            this.time.dateTime = new Date(json.time.dateTime);
+        }
+        else {
+            this.time.time_day = (_a = json.time.time_day) !== null && _a !== void 0 ? _a : this.time.time_day;
+            this.time.time_hours = (_b = json.time.time_hours) !== null && _b !== void 0 ? _b : this.time.time_hours;
+            this.time.time_month = (_c = json.time.time_month) !== null && _c !== void 0 ? _c : this.time.time_month;
+            this.time.time_year = (_d = json.time.time_year) !== null && _d !== void 0 ? _d : this.time.time_year;
+        }
         this.wind_direction = (_e = json.wind_direction) !== null && _e !== void 0 ? _e : this.wind_direction;
         this.wind_speed = (_f = json.wind_speed) !== null && _f !== void 0 ? _f : this.wind_speed;
         this.wind_gusts = (_g = json.wind_gusts) !== null && _g !== void 0 ? _g : this.wind_gusts;

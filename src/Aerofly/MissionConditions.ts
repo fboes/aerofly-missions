@@ -357,10 +357,14 @@ export class MissionConditions {
   }
 
   hydrate(json: MissionConditions) {
-    this.time.time_day = json.time.time_day ?? this.time.time_day;
-    this.time.time_hours = json.time.time_hours ?? this.time.time_hours;
-    this.time.time_month = json.time.time_month ?? this.time.time_month;
-    this.time.time_year = json.time.time_year ?? this.time.time_year;
+    if (json.time.dateTime) {
+      this.time.dateTime = new Date(json.time.dateTime);
+    } else {
+      this.time.time_day = json.time.time_day ?? this.time.time_day;
+      this.time.time_hours = json.time.time_hours ?? this.time.time_hours;
+      this.time.time_month = json.time.time_month ?? this.time.time_month;
+      this.time.time_year = json.time.time_year ?? this.time.time_year;
+    }
     this.wind_direction = json.wind_direction ?? this.wind_direction;
     this.wind_speed = json.wind_speed ?? this.wind_speed;
     this.wind_gusts = json.wind_gusts ?? this.wind_gusts;
