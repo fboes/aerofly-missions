@@ -14,6 +14,12 @@ export class Markdown extends Outputtable {
     outputLine(fields) {
         return "| " + fields.join(" | ") + " |\n";
     }
+    removeFrequencies(fields, hasFrequencies) {
+        if (!hasFrequencies) {
+            fields.splice(2, 1);
+        }
+        return fields;
+    }
     toString(filename = "custom_missions.tmc") {
         const m = this.mission;
         const s = new SkyVector(m);
@@ -25,6 +31,7 @@ export class Markdown extends Outputtable {
         const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
         const zoomLevel = this.lonLatArea.getZoomLevel();
         const center = this.lonLatArea.center;
+        const hasFrequencies = m.hasFrequencies;
         let markdown = `# ${m.title}
 
 ${m.description}
@@ -62,8 +69,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 ### Checkpoints
 
 `;
-        markdown += this.outputLine(["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"]);
-        markdown += "| :-: | --------- | ---------: | --------: | ---: | ---: | -------: | ----: |" + "\n";
+        markdown += this.outputLine(this.removeFrequencies(["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"], hasFrequencies));
+        markdown += this.outputLine(this.removeFrequencies([":-:", "---------", "---------:", "--------:", "---:", "---:", "-------:", "----:"], hasFrequencies));
         m.checkpoints.forEach((c, i) => {
             let frqString = "";
             if (c.frequency) {
@@ -71,7 +78,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
                     c.frequency_unit === "M" ? Outputtable.pad(c.frequency_mhz, 6, 2) : c.frequency_khz.toFixed().padStart(6);
                 frqString += " " + c.frequency_unit + "Hz";
             }
-            markdown += this.outputLine([
+            markdown += this.outputLine(this.removeFrequencies([
                 Outputtable.pad(i + 1, 2, 0, "0") + ".",
                 c.name.padEnd(9, " "),
                 c.frequency ? frqString : " ".repeat(10),
@@ -80,9 +87,9 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
                 c.heading >= 0 ? Outputtable.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
                 c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) + " NM" : " ".repeat(8),
                 c.time_enroute > 0 ? Outputtable.convertHoursToMinutesString(c.time_enroute) : " ".repeat(5),
-            ]);
+            ], hasFrequencies));
         });
-        markdown += this.outputLine([
+        markdown += this.outputLine(this.removeFrequencies([
             "   ",
             "**Total**",
             "          ",
@@ -91,13 +98,14 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
             "    ",
             "**" + Outputtable.pad(total_distance, 4, 1) + " NM**",
             "**" + Outputtable.convertHoursToMinutesString(total_time_enroute) + "**",
-        ]);
+        ], hasFrequencies));
         markdown += `
 ---
 
 [Previous mission](#) • [Mission overview](#) • [Next mission](#)
 
-Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)`;
+Generated via [Aerofly Missionsgerät](https://github.com/fboes/aerofly-missions)
+`;
         return markdown;
     }
 }
