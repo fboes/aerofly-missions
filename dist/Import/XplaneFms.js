@@ -78,10 +78,9 @@ NUMENR ${m.checkpoints.length}
             // ADEP/ADES for departure or destination airport of the flightplan,
             // DRCT for a direct or random route leg to the waypoint,
             //  or the name of an airway or ATS route to the waypoint.
-            let via;
-            via = type === XplaneFms.TYPE_AIRPORT ? "ADEP" : "DRCT";
-            if (index === m.checkpoints.length - 1 && type === 1) {
-                via = "ADES";
+            let via = "DRCT";
+            if (type === XplaneFms.TYPE_AIRPORT && (index === 0 || index === m.checkpoints.length - 1)) {
+                via = index === 0 ? "ADEP" : "ADES";
             }
             let name = cp.name;
             if ((cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY ||
