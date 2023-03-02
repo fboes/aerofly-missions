@@ -177,7 +177,7 @@ export class Html extends Outputtable {
         !isAirport
           ? `<input title="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${
               c.name
-            }" pattern="[A-Z0-9._+-]+" maxlength="6" autocapitalize="characters" required="required" />`
+            }" pattern="[A-Z0-9._+-]+" maxlength="8" autocapitalize="characters" required="required" />`
           : c.name,
         `<input title="Frequency #${
           i + 1

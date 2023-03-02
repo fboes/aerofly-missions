@@ -312,6 +312,15 @@ export class Mission {
     return total_distance;
   }
 
+  get hasFrequencies(): boolean {
+    this.checkpoints.forEach((cp) => {
+      if (cp.frequency) {
+        return true;
+      }
+    });
+    return false;
+  }
+
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, withoutCheckpoints = false): Mission {
     this.aircraft_name = mainMcf.aircraft.name;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
@@ -419,7 +428,7 @@ export class Mission {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
-      cp.lon_lat.altitude_ft = w.alt ? w.alt : 0;
+      cp.lon_lat.altitude_ft = w.alt ?? 0;
       cp.name = w.identifier;
       if (w.type === "AIRPORT" && (i === 0 || i === gpl.waypoints.length - 1)) {
         cp.type = i === 0 ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
@@ -452,6 +461,37 @@ export class Mission {
     this.setAutoTitleDescription(flight_category);
 
     return this;
+  }
+
+  reverseWaypoints() {
+    this.checkpoints = this.checkpoints.reverse();
+    if (this.checkpoints[0].type === MissionCheckpoint.TYPE_DESTINATION) {
+      this.checkpoints[0].type = MissionCheckpoint.TYPE_ORIGIN;
+    }
+    if (this.checkpoints[1].type === MissionCheckpoint.TYPE_DESTINATION_RUNWAY) {
+      this.checkpoints[1].type = MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
+    }
+    if (this.checkpoints[this.checkpoints.length - 2].type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
+      this.checkpoints[this.checkpoints.length - 2].type = MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
+    }
+    if (this.checkpoints[this.checkpoints.length - 1].type === MissionCheckpoint.TYPE_ORIGIN) {
+      this.checkpoints[this.checkpoints.length - 1].type = MissionCheckpoint.TYPE_DESTINATION;
+    }
+
+    const tmp_dir = this.origin_dir;
+    const tmp_icao = this.origin_icao;
+    const tmp_lon_lat = this.origin_lon_lat;
+    this.origin_dir = this.destination_dir;
+    this.origin_icao = this.destination_icao;
+    this.origin_lon_lat = this.destination_lon_lat;
+    this.destination_dir = tmp_dir;
+    this.destination_icao = tmp_icao;
+    this.destination_lon_lat = tmp_lon_lat;
+
+    this.syncCruiseSpeed();
+    this.calculateCheckpoints();
+    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
+    this.setAutoTitleDescription(flight_category);
   }
 
   setAutoTitleDescription(flight_category: string = "") {

@@ -100,6 +100,9 @@ export class App {
                     case "reset":
                         this.handleEventClickReset(target);
                         break;
+                    case "reverse-flightplan":
+                        this.handleEventClickRverseFlightplan(target);
+                        break;
                     case "toggle-expert-mode":
                         this.handleEventClickToggleExpertMode(target);
                         break;
@@ -218,6 +221,11 @@ export class App {
         }
         this.syncToForm();
         this.showFlightplan(show);
+    }
+    handleEventClickRverseFlightplan(target) {
+        this.mission.reverseWaypoints();
+        this.syncToForm();
+        this.showFlightplan(App.SHOW_ALL);
     }
     handleEventClickToggleExpertMode(target) {
         this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
@@ -525,13 +533,37 @@ export class App {
                 this.mission.calculateCheckpoints();
                 this.showFlightplan(App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP);
             };
+            const onClick = () => {
+                if (!currentFeature) {
+                    return;
+                }
+                const modal = document.getElementById("edit-waypoint-modal");
+                const currentCheckpointIndex = Number(currentFeature.id) - 1;
+                if (currentCheckpointIndex < 0 || currentCheckpointIndex >= this.mission.checkpoints.length) {
+                    return;
+                }
+                const currentCheckpoint = this.mission.checkpoints[currentCheckpointIndex];
+                modal.setAttribute("data-cp-id", String(currentCheckpointIndex));
+                modal.querySelector('[data-type="delete"]').disabled =
+                    currentFeature.id === 1 || currentFeature.id === this.mission.checkpoints.length - 1;
+                modal.querySelector('[data-type="add-before"]').disabled = currentFeature.id === 1;
+                modal.querySelector('[data-type="add-after"]').disabled =
+                    currentFeature.id === this.mission.checkpoints.length;
+                document.getElementById("wp-lon").value = currentCheckpoint.lon_lat.lon.toFixed(5);
+                document.getElementById("wp-lat").value = currentCheckpoint.lon_lat.lat.toFixed(5);
+                document.getElementById("wp-name").value = currentCheckpoint.name;
+                modal.addEventListener("close", (e) => {
+                    this.showFlightplan(App.SHOW_ALL);
+                }, { once: true });
+                modal.showModal();
+            };
             // -----------------------------------------------------------------------
             // @see https://docs.mapbox.com/mapbox-gl-js/example/drag-a-point/
-            this.mapboxMap.on("mouseenter", "waypoints", () => {
+            this.mapboxMap.on("mouseenter", "waypoints", (e) => {
                 if (this.mapboxMap === undefined) {
                     return;
                 }
-                this.mapboxMap.getCanvasContainer().style.cursor = "move";
+                this.mapboxMap.getCanvasContainer().style.cursor = e.originalEvent.shiftKey ? "move" : "pointer";
             });
             this.mapboxMap.on("mouseleave", "waypoints", () => {
                 if (this.mapboxMap === undefined) {
@@ -545,41 +577,16 @@ export class App {
                 }
                 onDown(e);
                 if (e.originalEvent.shiftKey) {
-                    if (!currentFeature) {
-                        return;
-                    }
-                    const modal = document.getElementById("edit-waypoint-modal");
-                    const currentCheckpointIndex = Number(currentFeature.id) - 1;
-                    if (currentCheckpointIndex < 0 || currentCheckpointIndex >= this.mission.checkpoints.length) {
-                        return;
-                    }
-                    const currentCheckpoint = this.mission.checkpoints[currentCheckpointIndex];
-                    modal.setAttribute("data-cp-id", String(currentCheckpointIndex));
-                    modal.querySelector('[data-type="delete"]').disabled =
-                        currentFeature.id === 1 || currentFeature.id === this.mission.checkpoints.length - 1;
-                    modal.querySelector('[data-type="add-before"]').disabled = currentFeature.id === 1;
-                    modal.querySelector('[data-type="add-after"]').disabled =
-                        currentFeature.id === this.mission.checkpoints.length;
-                    document.getElementById("wp-lon").value = currentCheckpoint.lon_lat.lon.toFixed(5);
-                    document.getElementById("wp-lat").value = currentCheckpoint.lon_lat.lat.toFixed(5);
-                    document.getElementById("wp-name").value = currentCheckpoint.name;
-                    modal.addEventListener("close", (e) => {
-                        this.showFlightplan(App.SHOW_ALL);
-                    }, { once: true });
-                    modal.showModal();
-                    return;
+                    this.mapboxMap.getCanvasContainer().style.cursor = "grab";
+                    this.mapboxMap.on("mousemove", onMove);
+                    this.mapboxMap.once("mouseup", onUp);
                 }
-                this.mapboxMap.getCanvasContainer().style.cursor = "grab";
-                this.mapboxMap.on("mousemove", onMove);
-                this.mapboxMap.once("mouseup", onUp);
+                else {
+                    onClick();
+                }
             });
             this.mapboxMap.on("touchstart", "waypoints", (e) => {
-                if (this.mapboxMap === undefined || e.points.length !== 1) {
-                    return;
-                }
-                onDown(e);
-                this.mapboxMap.on("touchmove", onMove);
-                this.mapboxMap.once("touchend", onUp);
+                onClick();
             });
         });
     }
@@ -722,35 +729,29 @@ export class App {
             return response.json();
         })
             .then((responseJson) => {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
             if (responseJson.data.length < 1) {
                 this.showError(`No data in METAR response`);
             }
             const metar = responseJson.data[0];
-            if (metar.wind) {
-                this.mission.conditions.wind_direction = (_a = metar.wind.degrees) !== null && _a !== void 0 ? _a : 0;
-                this.mission.conditions.wind_gusts = (_b = metar.wind.gust_kts) !== null && _b !== void 0 ? _b : 0;
-                this.mission.conditions.wind_speed = (_c = metar.wind.speed_kts) !== null && _c !== void 0 ? _c : 0;
-            }
-            else {
-                this.mission.conditions.wind_direction = 0;
-                this.mission.conditions.wind_gusts = 0;
-                this.mission.conditions.wind_speed = 0;
-            }
-            let visibility = (_d = metar.visibility.meters_float) !== null && _d !== void 0 ? _d : 0;
+            this.mission.conditions.wind_direction = (_b = (_a = metar.wind) === null || _a === void 0 ? void 0 : _a.degrees) !== null && _b !== void 0 ? _b : 0;
+            this.mission.conditions.wind_gusts = (_d = (_c = metar.wind) === null || _c === void 0 ? void 0 : _c.gust_kts) !== null && _d !== void 0 ? _d : 0;
+            this.mission.conditions.wind_speed = (_f = (_e = metar.wind) === null || _e === void 0 ? void 0 : _e.speed_kts) !== null && _f !== void 0 ? _f : 0;
+            let visibility = (_h = (_g = metar.visibility) === null || _g === void 0 ? void 0 : _g.meters_float) !== null && _h !== void 0 ? _h : 0;
             if (visibility === 9999) {
                 visibility = 20000;
             }
             this.mission.conditions.visibility = Math.round(visibility / 500) * 500;
-            this.mission.conditions.clouds = metar.clouds.map((c) => {
-                var _a;
-                const cloud = new MissionConditionsCloud();
-                cloud.cover_code = c.code;
-                cloud.height_feet = (_a = c.feet) !== null && _a !== void 0 ? _a : 0;
-                return cloud;
-            });
+            this.mission.conditions.clouds =
+                (_k = (_j = metar.clouds) === null || _j === void 0 ? void 0 : _j.map((c) => {
+                    var _a;
+                    const cloud = new MissionConditionsCloud();
+                    cloud.cover_code = c.code;
+                    cloud.height_feet = (_a = c.feet) !== null && _a !== void 0 ? _a : 0;
+                    return cloud;
+                })) !== null && _k !== void 0 ? _k : [];
             // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
-            this.mission.conditions.thermal_strength = (((_e = metar.temperature.celsius) !== null && _e !== void 0 ? _e : 14) - 5) / 25;
+            this.mission.conditions.thermal_strength = (((_m = (_l = metar.temperature) === null || _l === void 0 ? void 0 : _l.celsius) !== null && _m !== void 0 ? _m : 14) - 5) / 25;
             this.mission.conditions.makeTurbulence();
             callback();
         });
