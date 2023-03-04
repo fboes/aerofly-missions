@@ -23,6 +23,8 @@ a fresh installation.
 
 ## `.pln` flight plan file for Microsoft Flight Simulator
 
+To load a custom mission file in Microsoft Flight Simulator:
+
 1. Put the new `.pln` file into any folder.
 2. Open up MSFS and and start via "World Map"
 3. Click "Load / Save" > "Load" and select the `.pln` file
