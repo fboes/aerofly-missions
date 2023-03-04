@@ -1,4 +1,8 @@
-# ![](favicon-64x64.png) `custom_missions.tmc` installation instructions
+# ![](favicon-64x64.png) Custom missions installation instructions
+
+Depending on your flight simulator you will need a different file format. Check your installation files for a matching file ending.
+
+## `.tmc` flight plan file for Aerofly FS 4
 
 To install a custom missions file in Aerofly FS 4:
 
@@ -16,6 +20,12 @@ and rename the old file `_custom_missions.tmc` back to `custom_missions.tmc`.
 
 In case your Aerofly FS 4 installation gets damaged in this process, consider
 a fresh installation.
+
+## `.pln` flight plan file for Microsoft Flight Simulator
+
+1. Put the new `.pln` file into any folder.
+2. Open up MSFS and and start via "World Map"
+3. Click "Load / Save" > "Load" and select the `.pln` file
 
 ---
 
