@@ -787,8 +787,13 @@ export class Mission {
       return magnetic_declination;
     }
     // TODO: Get IPACS to disclose how to parse `world/magnetic.tmm`
+    if (l.lon >= -123 && l.lon <= -119 && l.lat >= 37 && l.lat <= 40) {
+      // Reno / San Francisco
+      return 14;
+    }
+
     // Formula for parts of Europe and Aerofly FS 4
-    return l.lon > -10 && l.lon < 26 && l.lat > 45 ? (7 / 22) * l.lon - 3.4 : 0;
+    return l.lon >= -10 && l.lon <= 26 && l.lat >= 45 ? (7 / 22) * l.lon - 3.4 : 0;
   }
 
   protected getLocalDaytime(): string {
