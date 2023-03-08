@@ -300,13 +300,14 @@
         </section>
         <section>
           <h2 class="no-print">Step 3: Check flight plan</h2>
-          <div id="output-weather" class="table"></div>
-          <div id="output-airports" class="table"></div>
-          <div id="output-checkpoints" class="table table-checkpoints"></div>
+          <missionsgeraet-weather id="output-weather" class="component"></missionsgeraet-weather>
+          <missionsgeraet-airports id="output-airports" class="component"></missionsgeraet-airports>
+          <missionsgeraet-checkpoints id="output-checkpoints" class="component"></missionsgeraet-checkpoints>
           <div id="map">
             <p>By activating the Mapbox map you consent to the integration probably sending personal data across the internet. Please reload the page after activating Mapbox.</p>
             <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox map</button>
           </div>
+
           <button data-handler="modal-open" type="button" data-modal="help-flightplan-modal" class="icon help second" title="Open flight plan help">? <span>Open flight plan help</span></button>
           <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺ <span>Reset flight plan</span></button>
         </section>
@@ -314,11 +315,8 @@
           <h2>Step 4: Save converted files</h2>
           <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane <code>fms</code> flight plan files.</p>
           <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight including weather data, as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
-          <button data-handler="download" type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
-          <button data-handler="download" type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
-          <button data-handler="download" type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
-          <button data-handler="download" type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
-          <button data-handler="download" type="button" class="expert-mode" id="download-json">Download <code>custom_missions.geojson</code></button>
+
+          <missionsgeraet-buttons id="download-buttons"></missionsgeraet-buttons>
         </section>
 
         <dialog id="settings-modal">

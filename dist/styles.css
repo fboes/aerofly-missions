@@ -37,7 +37,7 @@ body {
   background-color: var(--color-background);
 }
 
-* + :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .table, #map) {
+* + :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .component, #map) {
   margin-top: 1em;
 }
 
@@ -257,9 +257,10 @@ dialog::backdrop {
 
 /* Table */
 
-.table {
+.component {
   max-width: 100%;
   overflow: auto;
+  display: block;
 }
 
 caption {

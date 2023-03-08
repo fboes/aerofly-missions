@@ -1,20 +1,18 @@
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import { Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
-import { MissionListParser, MissionsList } from "../Aerofly/MissionsList.js";
-import { asciify } from "../Cli/Arguments.js";
+import { MissionListParser } from "../Aerofly/MissionsList.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { GeoJsonImport } from "../Import/GeoJson.js";
-import { Html } from "../Export/Html.js";
-import { Markdown } from "../Export/Markdown.js";
-import { SkyVector } from "../Export/SkyVector.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { Gpx } from "../Import/Gpx.js";
-import { MsfsPln, MsfsPlnExport } from "../Import/MsfsPln.js";
-import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
+import { MsfsPln } from "../Import/MsfsPln.js";
+import { XplaneFms } from "../Import/XplaneFms.js";
 import { LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Outputtable } from "../Export/Outputtable.js";
+import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./Components.js";
+import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 export class App {
     constructor() {
         this.elements = {
@@ -32,6 +30,7 @@ export class App {
             cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
             cruise_speed: document.getElementById("cruise_speed"),
             date: document.getElementById("date"),
+            downloadButtons: document.getElementById("download-buttons"),
             description: document.getElementById("description"),
             outputWeather: document.getElementById("output-weather"),
             outputAirports: document.getElementById("output-airports"),
@@ -59,11 +58,19 @@ export class App {
         this.useIcao = true;
         this.metarApiKey = "";
         this.mission = new Mission("", "");
-        this.missionList = new MissionsList("");
-        this.missionList.missions.push(this.mission);
+        customElements.define("missionsgeraet-buttons", ComponentsDownloadButtons);
+        this.elements.downloadButtons.mission = this.mission;
+        this.elements.downloadButtons.draw();
+        customElements.define("missionsgeraet-weather", ComponentsWeather);
+        this.elements.outputWeather.mission = this.mission;
+        this.elements.outputWeather.draw();
+        customElements.define("missionsgeraet-airports", ComponentsAirports);
+        this.elements.outputAirports.mission = this.mission;
+        this.elements.outputAirports.draw();
+        customElements.define("missionsgeraet-checkpoints", ComponentsCheckpoints);
+        this.elements.outputCheckpoints.mission = this.mission;
+        this.elements.outputCheckpoints.draw();
         this.restore();
-        this.flightplan = new Html(this.mission);
-        this.skyVector = new SkyVector(this.mission);
         this.geoJson = new GeoJson();
         document.body.addEventListener("input", this);
         document.body.addEventListener("click", this);
@@ -81,9 +88,6 @@ export class App {
                 switch (handler) {
                     case "add-separation":
                         this.handleEventClickAddSeparation(target);
-                        break;
-                    case "download":
-                        this.handleEventClickDownload(target);
                         break;
                     case "fetch-metar":
                         this.handleEventClickFetchMetar(target);
@@ -138,30 +142,6 @@ export class App {
         this.handleEventClickModalClose(target);
         this.mission.calculateCheckpoints();
         this.showFlightplan(App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP);
-    }
-    handleEventClickDownload(target) {
-        var _a;
-        const filename = ((_a = target.querySelector("code")) === null || _a === void 0 ? void 0 : _a.innerText) || "";
-        if (!filename) {
-            this.showError("Missing filename for saving");
-        }
-        switch (target.id) {
-            case "download-json":
-                this.download(filename, JSON.stringify(this.geoJson.fromMission(this.mission), null, 2), "application/geo+json");
-                break;
-            case "download-md":
-                this.download(filename, new Markdown(this.mission).toString(filename.replace(".md", ".tmc")), "text/markdown");
-                break;
-            case "download-pln":
-                this.download(filename, new MsfsPlnExport(this.mission).toString());
-                break;
-            case "download-fms":
-                this.download(filename, new XplaneFmsExport(this.mission).toString());
-                break;
-            case "download-tmc":
-                this.download(filename, this.missionList.toString());
-                break;
-        }
     }
     handleEventClickFetchMetar(target) {
         const icao = target.id === "make-metar-dept" ? this.mission.origin_icao : this.mission.destination_icao;
@@ -410,26 +390,18 @@ export class App {
     }
     showFlightplan(show = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS) {
         if (App.SHOW_WEATHER & show) {
-            this.elements.outputWeather.innerHTML = this.flightplan.outputWeather();
+            this.elements.outputWeather.draw();
         }
         if (App.SHOW_AIRPORTS & show) {
-            this.elements.outputAirports.innerHTML = this.flightplan.outputAirports();
+            this.elements.outputAirports.draw();
         }
         if (App.SHOW_CHECKPOINTS & show) {
-            this.elements.outputCheckpoints.innerHTML = this.flightplan.outputCheckpoints();
+            this.elements.outputCheckpoints.draw();
         }
         if (App.SHOW_MAP & show || App.SHOW_MAP_CENTER & show) {
             this.drawMap((App.SHOW_MAP_CENTER & show) !== 0);
         }
-        document.querySelectorAll('[data-handler="download"]').forEach((b) => {
-            b.disabled = this.mission.checkpoints.length <= 0;
-        });
-        const slug = this.mission.title
-            ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
-            : "custom_missions";
-        document.querySelectorAll('[data-handler="download"] code').forEach((el) => {
-            el.innerText = slug + el.innerText.replace(/^.+\./, ".");
-        });
+        this.elements.downloadButtons.draw();
         this.store();
     }
     addMapbox(mapboxMap) {
@@ -755,14 +727,6 @@ export class App {
             this.mission.conditions.makeTurbulence();
             callback();
         });
-    }
-    download(filename, content, type = "text/plain") {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(new File([content], filename, {
-            type,
-        }));
-        a.download = filename;
-        a.click();
     }
     syncToForm() {
         this.elements.aircraft_name.value = this.mission.aircraft_name;

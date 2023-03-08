@@ -1,24 +1,20 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
-import { LonLat, LonLatArea } from "../World/LonLat.js";
+import { MissionConditions, MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
+import { Outputtable } from "../Export/Outputtable.js";
+import { Quote } from "../Export/Quote.js";
+import { SkyVector } from "../Export/SkyVector.js";
+import { LonLatArea } from "../World/LonLat.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
-import { Outputtable } from "./Outputtable.js";
-import { Quote } from "./Quote.js";
-import { SkyVector } from "./SkyVector.js";
 
-export class Html extends Outputtable {
-  constructor(protected mission: Mission) {
-    super();
-  }
-
+class ComponentsOutputtable extends HTMLElement {
   /**
    * @param fields Table cell contents
    * @param join `td` or `th`; to supress a `th` at the beginnining of a `tr`
    *              with `td`s set it to `ttd`, which will be converted to `td`
    * @returns string
    */
-  outputLine(fields: string[], join = "td"): string {
+  protected outputLine(fields: string[], join = "td"): string {
     const tag = join === "ttd" ? "td" : join;
     return join === "td"
       ? `<tr><th scope="row">` +
@@ -29,7 +25,11 @@ export class Html extends Outputtable {
       : `<tr><${tag}>` + fields.join(`</${tag}><${tag}>`) + `</${tag}></tr>`;
   }
 
-  outputSunState(sunState: LonLateDateSunState): string {
+  protected outputDateTime(date: Date) {
+    return date.toISOString().replace(/:\d+\.\d+/, "");
+  }
+
+  protected outputSunState(sunState: LonLateDateSunState): string {
     const deg = (sunState.solarElevationAngleDeg / 6) * 5;
     const degX = Math.max(0, Math.min(18, 12 - deg));
 
@@ -53,11 +53,7 @@ export class Html extends Outputtable {
     //return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
   }
 
-  outputDateTime(date: Date) {
-    return Quote.html(super.outputDateTime(date)).replace(/(T|Z)/g, "<small>$1</small>");
-  }
-
-  outputCover(cloud: MissionConditionsCloud): string {
+  protected outputCover(cloud: MissionConditionsCloud): string {
     const octas = Math.round(cloud.cover * 8);
     let svg = `<svg width="20" height="20" version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <style>
@@ -99,8 +95,30 @@ export class Html extends Outputtable {
     return svg;
   }
 
-  outputWeather() {
+  protected getWind(conditions: MissionConditions): string {
+    let wind_speed = conditions.wind_speed.toFixed();
+    const gust_type = conditions.wind_gusts_type;
+    if (gust_type) {
+      wind_speed += "G" + conditions.wind_gusts.toFixed();
+    }
+    return Outputtable.padThree(conditions.wind_direction) + "° @ " + wind_speed;
+  }
+}
+
+export class ComponentsWeather extends ComponentsOutputtable {
+  mission?: Mission;
+
+  constructor() {
+    super();
+    this.draw();
+  }
+
+  draw() {
     const m = this.mission;
+    if (!m) {
+      this.innerHTML = "";
+      return;
+    }
 
     let html = "";
     html += `<table>
@@ -127,11 +145,81 @@ export class Html extends Outputtable {
     );
     html += "</tbody></table>";
 
-    return html;
+    this.innerHTML = html;
+  }
+}
+
+export class ComponentsAirports extends ComponentsOutputtable {
+  mission?: Mission;
+
+  constructor() {
+    super();
+    this.draw();
   }
 
-  outputCheckpoints() {
+  draw(): void {
     const m = this.mission;
+    if (!m) {
+      this.innerHTML = "";
+      return;
+    }
+
+    const total_time_enroute = m.time_enroute;
+    const time = new Date(m.conditions.time.dateTime);
+    const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
+    time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
+    const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
+
+    let html = "";
+    html += `<table>
+    <caption>Airports</caption>
+    <thead>`;
+    html += this.outputLine(
+      ["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
+      "th"
+    );
+    html += "</thead><tbody>";
+    html += this.outputLine([
+      "Departure",
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(
+        m.origin_icao
+      )}</a>`,
+      m.origin_country,
+      this.outputDateTime(m.conditions.time.dateTime),
+      sunStateOrigin.localSolarTime,
+      this.outputSunState(sunStateOrigin),
+    ]);
+    html += this.outputLine([
+      "Destination",
+      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(
+        m.destination_icao
+      )}">${Quote.html(m.destination_icao)}</a>`,
+      m.destination_country,
+      this.outputDateTime(time),
+      sunStateDestination.localSolarTime,
+      this.outputSunState(sunStateDestination),
+    ]);
+    html += "</tbody></table>";
+
+    this.innerHTML = html;
+  }
+}
+
+export class ComponentsCheckpoints extends ComponentsOutputtable {
+  mission?: Mission;
+
+  constructor() {
+    super();
+    this.draw();
+  }
+
+  draw() {
+    const m = this.mission;
+    if (!m || !this.mission) {
+      this.innerHTML = "";
+      return;
+    }
+
     const s = new SkyVector(m);
     const lonLatArea = new LonLatArea(this.mission.origin_lon_lat);
     this.mission.checkpoints.forEach((c) => {
@@ -235,59 +323,6 @@ export class Html extends Outputtable {
       zoomLevel
     )}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
 
-    return html;
-  }
-
-  outputAirports() {
-    const m = this.mission;
-    const total_time_enroute = m.time_enroute;
-    const time = new Date(m.conditions.time.dateTime);
-    const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
-    time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
-    const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-
-    let html = "";
-    html += `<table>
-    <caption>Airports</caption>
-    <thead>`;
-    html += this.outputLine(
-      ["Type", "Location ", "Country", "Date &amp; time ", '<abbr title="Local solar time">LST</abbr>', " Sun"],
-      "th"
-    );
-    html += "</thead><tbody>";
-    html += this.outputLine([
-      "Departure",
-      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(m.origin_icao)}">${Quote.html(
-        m.origin_icao
-      )}</a>`,
-      m.origin_country,
-      this.outputDateTime(m.conditions.time.dateTime),
-      sunStateOrigin.localSolarTime,
-      this.outputSunState(sunStateOrigin),
-    ]);
-    html += this.outputLine([
-      "Destination",
-      `<a target="skyvector" href="https://skyvector.com/airport/${encodeURIComponent(
-        m.destination_icao
-      )}">${Quote.html(m.destination_icao)}</a>`,
-      m.destination_country,
-      this.outputDateTime(time),
-      sunStateDestination.localSolarTime,
-      this.outputSunState(sunStateDestination),
-    ]);
-    html += "</tbody></table>";
-    return html;
-  }
-
-  toString(): string {
-    return `<div id="output-weather" class="table">
-      ${this.outputWeather()}
-    </div>
-    <div id="output-airports" class="table">
-      ${this.outputAirports()}
-    </div>
-    <div id="output-checkpoints" class="table table-checkpoints">
-      ${this.outputCheckpoints()}
-    </div>`;
+    this.innerHTML = html;
   }
 }
