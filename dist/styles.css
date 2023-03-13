@@ -275,6 +275,10 @@ table {
   width: 100%;
 }
 
+table.empty {
+  display: none;
+}
+
 table input {
   max-width: 6.5em;
 }
