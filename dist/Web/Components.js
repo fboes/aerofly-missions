@@ -63,7 +63,6 @@ class ComponentsOutputtable extends HTMLElement {
     <line x1="3" y1="10" x2="5" y2="10" transform="rotate(315, 10, 10)" />
     <rect x="1" y="${19 - degX}" width="18" height="${degX}" style="fill: currentColor" />
   </svg> ${Quote.html(sunState.sunState)}`;
-        //return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
     }
     outputCover(cloud) {
         const octas = Math.round(cloud.cover * 8);
@@ -179,10 +178,17 @@ export class ComponentsAirports extends ComponentsOutputtable {
 export class ComponentsCheckpoints extends ComponentsOutputtable {
     constructor() {
         super();
-        this.elementsTfoot = document.createElement("tfoot");
-        this.elementsP = document.createElement("p");
-        this.elements.table.appendChild(this.elementsTfoot);
-        this.appendChild(this.elementsP);
+        this.elements = {
+            table: document.createElement("table"),
+            caption: document.createElement("caption"),
+            thead: document.createElement("thead"),
+            tbody: document.createElement("tbody"),
+            tfoot: document.createElement("tfoot"),
+            p: document.createElement("p"),
+        };
+        this.elements.table.appendChild(this.elements.tfoot);
+        this.elements.p.className = "no-print";
+        this.appendChild(this.elements.p);
         this.elements.caption.innerText = "Checkpoints";
         this.elements.thead.innerHTML = this.outputLine([
             "#",
@@ -202,8 +208,8 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
         const m = this.mission;
         if (!m || !this.mission || m.checkpoints.length === 0) {
             this.elements.table.classList.add("empty");
-            this.elementsTfoot.innerHTML = "";
-            this.elementsP.innerHTML = "";
+            this.elements.tfoot.innerHTML = "";
+            this.elements.p.innerHTML = "";
             return;
         }
         const s = new SkyVector(m);
@@ -258,7 +264,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                 Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
                 '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
             ]);
-            this.elementsTfoot.innerHTML = html;
+            this.elements.tfoot.innerHTML = html;
         }
         {
             let html = "";
@@ -266,7 +272,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                 .getCheckpoints(false)
                 .join(" ")}">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(center.lat)},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(zoomLevel)}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(zoomLevel)}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
-            this.elementsP.innerHTML = html;
+            this.elements.p.innerHTML = html;
         }
     }
 }

@@ -75,7 +75,6 @@ class ComponentsOutputtable extends HTMLElement {
     <line x1="3" y1="10" x2="5" y2="10" transform="rotate(315, 10, 10)" />
     <rect x="1" y="${19 - degX}" width="18" height="${degX}" style="fill: currentColor" />
   </svg> ${Quote.html(sunState.sunState)}`;
-    //return super.outputSunState(sunState).replace(/\s/g, "&nbsp;");
   }
 
   protected outputCover(cloud: MissionConditionsCloud): string {
@@ -224,13 +223,20 @@ export class ComponentsAirports extends ComponentsOutputtable {
 export class ComponentsCheckpoints extends ComponentsOutputtable {
   mission?: Mission;
 
-  elementsTfoot = <HTMLTableSectionElement>document.createElement("tfoot");
-  elementsP = <HTMLParagraphElement>document.createElement("p");
+  protected elements = {
+    table: <HTMLTableElement>document.createElement("table"),
+    caption: <HTMLTableCaptionElement>document.createElement("caption"),
+    thead: <HTMLTableSectionElement>document.createElement("thead"),
+    tbody: <HTMLTableSectionElement>document.createElement("tbody"),
+    tfoot: <HTMLTableSectionElement>document.createElement("tfoot"),
+    p: <HTMLParagraphElement>document.createElement("p"),
+  };
 
   constructor() {
     super();
-    this.elements.table.appendChild(this.elementsTfoot);
-    this.appendChild(this.elementsP);
+    this.elements.table.appendChild(this.elements.tfoot);
+    this.elements.p.className = "no-print";
+    this.appendChild(this.elements.p);
     this.elements.caption.innerText = "Checkpoints";
     this.elements.thead.innerHTML = this.outputLine(
       [
@@ -255,8 +261,8 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
     const m = this.mission;
     if (!m || !this.mission || m.checkpoints.length === 0) {
       this.elements.table.classList.add("empty");
-      this.elementsTfoot.innerHTML = "";
-      this.elementsP.innerHTML = "";
+      this.elements.tfoot.innerHTML = "";
+      this.elements.p.innerHTML = "";
       return;
     }
 
@@ -336,7 +342,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
         Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
         '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
       ]);
-      this.elementsTfoot.innerHTML = html;
+      this.elements.tfoot.innerHTML = html;
     }
 
     {
@@ -352,7 +358,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
         zoomLevel
       )}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
 
-      this.elementsP.innerHTML = html;
+      this.elements.p.innerHTML = html;
     }
   }
 }
