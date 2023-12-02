@@ -234,7 +234,11 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
 
   constructor() {
     super();
+    this.elements.table.appendChild(this.elements.caption);
+    this.elements.table.appendChild(this.elements.thead);
+    this.elements.table.appendChild(this.elements.tbody);
     this.elements.table.appendChild(this.elements.tfoot);
+    this.appendChild(this.elements.table);
     this.elements.p.className = "no-print";
     this.appendChild(this.elements.p);
     this.elements.caption.innerText = "Checkpoints";
@@ -293,7 +297,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
           !isAirport
             ? `<input title="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${
                 c.name
-              }" pattern="[A-Z0-9._+-]+" maxlength="8" autocapitalize="characters" required="required" />`
+              }" pattern="[A-Z0-9._+\\-]+" maxlength="8" autocapitalize="characters" required="required" />`
             : c.name,
           `<input title="Frequency #${
             i + 1

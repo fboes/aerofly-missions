@@ -20,7 +20,7 @@ Your flights:
 1. [Crossing to Sweden](./03_crossing_to_sweden.md)
 1. [Letters to America](./04_letters_to_america.md)
 1. [The Swedish Hinterlands](./05_the_swedish_hinterlands.md)
-1. [The Lake where Gripens play](./05_the_swedish_hinterlands.md)
+1. [The Lake where Gripens play](./06_the_lake_where_gripens_play.md)
 1. [Carl's Toyland](./07_carls_toyland.md)
 1. [Outskirts of Stockholm](./08_outskirts_of_stockholm.md)
 1. [Finally! Stockholm!](./09_finally_stockholm.md)
