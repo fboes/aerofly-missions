@@ -3,7 +3,7 @@
 1. [Building a custom missions file](./custom-missions.md)
 1. [Flight plan output](./flightplan.md)
 1. [Sources for flight plans](./importing-flightplans.md)
-1. [Generic `custom_missions.tmc` installation instructions](./generic-installation.md)
+1. [Generic `custom_missions_user.tmc` installation instructions](./generic-installation.md)
 
 On a more theoretical level:
 

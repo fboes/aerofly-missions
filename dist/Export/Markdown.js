@@ -20,7 +20,7 @@ export class Markdown extends Outputtable {
         }
         return fields;
     }
-    toString(filename = "custom_missions.tmc") {
+    toString(filename = "custom_missions_user.tmc") {
         const m = this.mission;
         const s = new SkyVector(m);
         const total_distance = m.distance;

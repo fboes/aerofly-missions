@@ -148,7 +148,7 @@ export class Arguments {
     }
     helpText(c) {
         return `${c.lightBlue}Usage: nodejs index.js [PARAMETERS...]${c.reset}
-  Convert Aerofly FS 4 main.mcf file into a custom_missions.tmc file.
+  Convert Aerofly FS 4 main.mcf file into a custom_missions_user.tmc file.
 
 Parameters:
 ${c.lightBlue}  -s, --source      ${c.reset} Location of the main.mcf; defaults to \`${this.source}\`

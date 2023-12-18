@@ -26,7 +26,7 @@ export class Markdown extends Outputtable {
     return fields;
   }
 
-  toString(filename = "custom_missions.tmc"): string {
+  toString(filename = "custom_missions_user.tmc"): string {
     const m = this.mission;
     const s = new SkyVector(m);
 

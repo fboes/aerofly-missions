@@ -7,7 +7,7 @@ import { XplaneFmsExport } from "../Import/XplaneFms.js";
 export class ComponentsDownloadButtons extends HTMLElement {
     constructor() {
         super();
-        this.innerHTML = `<button type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
+        this.innerHTML = `<button type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
     <button type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
     <button type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
     <button type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
