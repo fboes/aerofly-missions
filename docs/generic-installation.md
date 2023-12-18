@@ -2,7 +2,7 @@
 
 To install a custom missions file in Aerofly FS 4:
 
-1. Open a file explorer in your Aerofly FS 4 game folder.
+1. Open a file explorer in your Aerofly FS 4 user folder, located at `C:\Users\%USERNAME%\Documents\Aerofly FS 4`.
 2. Open up the `missions` folder.
 3. Put the new `.tmc` file into the `missions` folder,
    and rename it to `custom_missions_user.tmc`.
