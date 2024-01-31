@@ -45,7 +45,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
       case "download-json":
         this.download(
           filename,
-          JSON.stringify(new GeoJson().fromMission(this.mission), null, 2),
+          JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2),
           "application/geo+json"
         );
         break;

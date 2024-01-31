@@ -1,7 +1,7 @@
 import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { MissionCheckpoint, MissionCheckpointType } from "../Aerofly/MissionCheckpoint.js";
 import { Position } from "geojson";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
@@ -82,7 +82,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
     return this;
   }
 
-  fromMission(mission: Mission) {
+  fromMission(mission: Mission, forExport = false) {
     this.features = mission.checkpoints.map((c, index): GeoJsonFeature => {
       return {
         type: "Feature",
@@ -93,14 +93,11 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         },
         properties: {
           title: c.name,
-          type: c.type,
+          type: forExport ? c.type_extended : c.type,
           altitude: c.lon_lat.altitude_m,
           direction: c.direction,
           frequency: c.frequency_string,
-          "marker-symbol":
-            c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
-              ? "airport"
-              : "dot-10",
+          "marker-symbol": this.getGeoJsonIcon(c, forExport),
           "marker-color":
             c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
               ? "#5e6eba"
@@ -303,5 +300,21 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
   protected getGeoJsonPosition(entry: LonLat): Position {
     return entry.altitude_m ? [entry.lon, entry.lat, entry.altitude_m] : [entry.lon, entry.lat];
+  }
+
+  protected getGeoJsonIcon(cp: MissionCheckpoint, forExport = false): string {
+    switch (cp.type_extended) {
+      case MissionCheckpoint.TYPE_ORIGIN:
+      case MissionCheckpoint.TYPE_DESTINATION:
+        return "airport";
+      case MissionCheckpoint.TYPE_VOR:
+        return forExport ? "square-stroked" : "dot-10";
+      case MissionCheckpoint.TYPE_NDB:
+        return forExport ? "circle-stroked" : "dot-10";
+      case MissionCheckpoint.TYPE_FIX:
+        return forExport ? "triangle-stroked" : "dot-10";
+      default:
+        return forExport ? "triangle" : "dot-10";
+    }
   }
 }

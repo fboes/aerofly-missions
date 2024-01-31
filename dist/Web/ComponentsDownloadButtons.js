@@ -34,7 +34,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
         const filename = this.filename;
         switch (e.target.closest("button").id) {
             case "download-json":
-                this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission), null, 2), "application/geo+json");
+                this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
                 break;
             case "download-md":
                 this.download(filename + ".md", new Markdown(this.mission).toString(filename + ".tmc"), "text/markdown");
