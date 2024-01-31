@@ -13,7 +13,7 @@ export class GeoJson {
                 id: index + 1,
                 geometry: {
                     type: "Point",
-                    coordinates: [lon_lat.lon, lon_lat.lat],
+                    coordinates: [lon_lat.lon, lon_lat.lat, waypoint.Elevation],
                 },
                 properties: {
                     title: waypoint.Identifier,
@@ -24,6 +24,9 @@ export class GeoJson {
                     "marker-symbol": waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
                         ? "airport"
                         : "dot-10",
+                    "marker-color": waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
+                        ? "#5e6eba"
+                        : "#555555",
                 },
             };
         });
@@ -60,7 +63,7 @@ export class GeoJson {
                 id: index + 1,
                 geometry: {
                     type: "Point",
-                    coordinates: [c.lon_lat.lon, c.lon_lat.lat],
+                    coordinates: [c.lon_lat.lon, c.lon_lat.lat, c.lon_lat.altitude_m],
                 },
                 properties: {
                     title: c.name,
@@ -71,6 +74,9 @@ export class GeoJson {
                     "marker-symbol": c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
                         ? "airport"
                         : "dot-10",
+                    "marker-color": c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
+                        ? "#5e6eba"
+                        : "#555555",
                 },
             };
         });
@@ -141,6 +147,7 @@ export class GeoJson {
                     direction: undefined,
                     frequency: undefined,
                     "marker-symbol": "dot-10",
+                    stroke: "#FF1493",
                 },
             },
             {
@@ -177,7 +184,7 @@ export class GeoJson {
                 c.direction === undefined ||
                 nextCheckpoint.distance === undefined ||
                 c.distance === undefined) {
-                lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
+                lineCoordinates.push(this.getGeoJsonPosition(c.lon_lat));
             }
             else {
                 let turnDegrees = c.direction - nextCheckpoint.direction;
@@ -195,13 +202,13 @@ export class GeoJson {
                     const segmentDegrees = turnDegrees / segments;
                     const segmentLength = ((turnRadius * 2 * Math.PI) / 360) * Math.abs(segmentDegrees);
                     let entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, c.direction - 180);
-                    lineCoordinates.push([entry.lon, entry.lat]);
+                    lineCoordinates.push(this.getGeoJsonPosition(entry));
                     for (let i = 0; i < segments; i++) {
                         entry = entry.getRelativeCoordinates(segmentLength, c.direction - (i + 0.5) * segmentDegrees);
-                        lineCoordinates.push([entry.lon, entry.lat]);
+                        lineCoordinates.push(this.getGeoJsonPosition(entry));
                     }
                     //entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, nextCheckpoint.direction);
-                    //lineCoordinates.push([entry.lon, entry.lat]);
+                    //lineCoordinates.push(this.getGeoJsonPosition(entry));
                 }
                 else {
                     // Fly-over
@@ -213,14 +220,14 @@ export class GeoJson {
                     const rotationDegrees = Math.abs(turnDegrees) - counterRotationDegrees;
                     const prefix = Math.sign(turnDegrees);
                     let entry = c.lon_lat.clone();
-                    lineCoordinates.push([entry.lon, entry.lat]);
+                    lineCoordinates.push(this.getGeoJsonPosition(entry));
                     // rotate one direction
                     let segments = Math.ceil(Math.abs(rotationDegrees) / (360 / segmentsPerCircle));
                     let segmentDegrees = rotationDegrees / segments;
                     let segmentLength = ((turnRadius * 2 * Math.PI) / 360) * Math.abs(segmentDegrees);
                     for (let i = 0; i < segments; i++) {
                         entry = entry.getRelativeCoordinates(segmentLength, c.direction - (i + 0.5) * segmentDegrees * prefix);
-                        lineCoordinates.push([entry.lon, entry.lat]);
+                        lineCoordinates.push(this.getGeoJsonPosition(entry));
                     }
                     // rotate other direction
                     segments = Math.ceil(Math.abs(counterRotationDegrees) / (360 / segmentsPerCircle));
@@ -228,9 +235,9 @@ export class GeoJson {
                     segmentLength = ((turnRadius * 2 * Math.PI) / 360) * Math.abs(segmentDegrees);
                     for (let i = 0; i < segments; i++) {
                         entry = entry.getRelativeCoordinates(segmentLength, c.direction - rotationDegrees * prefix + (i + 0.5) * segmentDegrees * prefix);
-                        lineCoordinates.push([entry.lon, entry.lat]);
+                        lineCoordinates.push(this.getGeoJsonPosition(entry));
                     }
-                    //lineCoordinates.push([c.lon_lat.lon, c.lon_lat.lat]);
+                    //lineCoordinates.push(this.getGeoJsonPosition(c.lon_lat));
                 }
             }
         });
@@ -244,5 +251,8 @@ export class GeoJson {
     getTurnRadius(speedKts, turnTimeMin = 2) {
         const distance = speedKts * (turnTimeMin / 60);
         return distance / (2 * Math.PI);
+    }
+    getGeoJsonPosition(entry) {
+        return entry.altitude_m ? [entry.lon, entry.lat, entry.altitude_m] : [entry.lon, entry.lat];
     }
 }
