@@ -424,6 +424,9 @@ export class Mission {
       this.cruise_altitude_ft = gpl.cruisingAlt;
     }
 
+    // Assuming non AFS4 flight plans to start on the ground ;)
+    this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
+
     this.checkpoints = gpl.waypoints.map((w, i) => {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
@@ -439,7 +442,17 @@ export class Mission {
       ) {
         cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
         cp.name = cp.name.replace(/^(RW)/, "");
+
+        /*if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
+          gpl.departureRunway = undefined;
+        } else {
+          gpl.destinationRunway = undefined;
+        }*/
       }
+
+      //this.addCheckpointAfter(0, 0.5);
+      // if (gpl.departureRunway) {
+      // if (gpl.destinationRunway) {
 
       return cp;
     });

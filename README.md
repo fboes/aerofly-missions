@@ -1,11 +1,10 @@
 # ![](docs/favicon-64x64.png) Aerofly Missionsgerät
 
-The Aerofly Missionsgerät converts [Aerofly FS 4's](https://www.aerofly.com/) `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings.
+The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`) and X-Plane (`fms`). It also imports Garmin flight plan files (`fpl`).
 
-There are two versions of this tool:
+Head over to [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/) to get started.
 
-1. **Web version**: Use the Missionsgerät right out of your browser by visiting [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/).
-2. **Local Node.js CLI tool**: If you want some automation for your workflow.
+There is also a local Node.js CLI tool, if you want some automation for your workflow.
 
 ![Flight plan as text briefing](docs/flightplan.png)
 

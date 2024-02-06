@@ -361,6 +361,8 @@ export class Mission {
         if (gpl.cruisingAlt) {
             this.cruise_altitude_ft = gpl.cruisingAlt;
         }
+        // Assuming non AFS4 flight plans to start on the ground ;)
+        this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
         this.checkpoints = gpl.waypoints.map((w, i) => {
             var _a;
             let cp = new MissionCheckpoint();

@@ -8,8 +8,8 @@
     <meta property="og:title" name="title" content="Aerofly Missionsgerät" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fboes.github.io/aerofly-missions/dist/" />
-    <meta property="og:locale" content="en_GB" />
-    <meta property="og:description" name="description" content="The Aerofly Missionsgerät converts Aerofly FS 4's `main.mcf` and other flight plan file formats into a shareable mission file, using your current flight plan and other settings." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:description" name="description" content="The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator and X-Plane. It also imports Garmin flight plan files." />
     <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät" />
     <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/social-1200x630.png" />
     <link rel="icon" sizes="180x180" href="favicon-180x180.png" />
@@ -34,7 +34,7 @@
         </h1>
       </header>
       <main class="is-simple-mode">
-        <p>The Aerofly Missionsgerät converts <a href="https://www.aerofly.com/">Aerofly FS 4's</a> <code>main.mcf</code> (and other flight plan file formats) into a <code>custom_missions_user.tmc</code> file (and other flight plan file formats), using your current flight plan and other settings to generate a shareable mission.</p>
+        <p>The Aerofly Missionsgerät converts simulator flight plan files for <a href="https://www.aerofly.com/">Aerofly FS 4</a> (<code>main.mcf</code> and <code>tmc</code>), Microsoft Flight Simulator (<code>pln</code>) and X-Plane (<code>fms</code>). It also imports Garmin flight plan files (<code>fpl</code>).<br />For more information see the <a href="https://fboes.github.io/aerofly-missions/docs/">Missionsgerät's instructions</a>.</p>
 
         <section class="no-print">
           <h2>Step 1: Load flight plan file</h2>
@@ -305,6 +305,7 @@
             <p>By activating the Mapbox map you consent to the integration probably sending personal data across the internet. Please reload the page after activating Mapbox.</p>
             <button onclick="localStorage.setItem('mapbox.consent', '1'); window.location.reload()">Activate Mapbox map</button>
           </div>
+          <p>Use <kbd>Shift</kbd> + <kbd>Click</kbd> on the map to move waypoints.</p>
 
           <button data-handler="modal-open" type="button" data-modal="help-flightplan-modal" class="icon help second" title="Open flight plan help">? <span>Open flight plan help</span></button>
           <button data-handler="reset" type="button" class="icon reset" id="reset-flightplan" title="Reset flight plan">↺ <span>Reset flight plan</span></button>
@@ -312,6 +313,7 @@
         <section class="no-print">
           <h2>Step 4: Save converted files</h2>
           <p>The Missionsgerät exports Aerofly FS <code>tmc</code>, Microsoft FS <code>pln</code> or X-Plane <code>fms</code> flight plan files.</p>
+          <p>See the <a href="https://fboes.github.io/aerofly-missions/docs/generic-installation.html">Missionsgerät's instructions on how to install the mission files into Aerofly FS4</a>.</p>
           <p class="expert-mode">It also generates a Markdown file containing a textual description of the flight including weather data, as well as a <a href="https://geojson.org/">GeoJSON</a> file.</p>
 
           <missionsgeraet-buttons id="download-buttons"></missionsgeraet-buttons>

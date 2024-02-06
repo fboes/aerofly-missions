@@ -10,6 +10,7 @@ export class MsfsPlnTest extends Test {
     this.testEGOV();
     this.testLittleNavMap();
     this.testGarminParse();
+    this.testRunway();
   }
 
   testEGOV() {
@@ -34,6 +35,7 @@ export class MsfsPlnTest extends Test {
     this.group(MsfsPln.name + ": Mission conversion");
     {
       this.assertEquals(mission.checkpoints.length, 16);
+      this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
     }
 
     // Export Mission to XML
@@ -88,10 +90,23 @@ export class MsfsPlnTest extends Test {
     this.group(MsfsPln.name + ": Mission conversion");
     {
       this.assertEquals(mission.checkpoints.length, 11);
+      this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
       this.assertEquals(mission.checkpoints[0].type, MissionCheckpoint.TYPE_ORIGIN);
       this.assertEquals(mission.checkpoints[1].type, MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
       this.assertEquals(mission.checkpoints[9].type, MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
       this.assertEquals(mission.checkpoints[10].type, MissionCheckpoint.TYPE_DESTINATION);
+    }
+  }
+
+  testRunway() {
+    const pln = new MsfsPln(fs.readFileSync("./src/Tests/cases/ENHD_local_flight.pln", "utf8"));
+    this.group(MsfsPln.name + ": Runway check");
+    {
+      this.assertEquals(pln.departureRunway, "13");
+      this.assertEquals(pln.destinationRunway, "31");
+
+      const mission = new Mission("", "").fromGarminFpl(pln);
+      this.assertEquals(mission.checkpoints.length, 9);
     }
   }
 }
