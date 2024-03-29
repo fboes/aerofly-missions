@@ -71,7 +71,7 @@ export class GeoJson {
                     altitude: c.lon_lat.altitude_m,
                     direction: c.direction,
                     frequency: c.frequency_string,
-                    "marker-symbol": this.getGeoJsonIcon(c, forExport),
+                    "marker-symbol": this.getGeoJsonIcon(c),
                     "marker-color": c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
                         ? "#5e6eba"
                         : "#555555",
@@ -253,19 +253,19 @@ export class GeoJson {
     getGeoJsonPosition(entry) {
         return entry.altitude_m ? [entry.lon, entry.lat, entry.altitude_m] : [entry.lon, entry.lat];
     }
-    getGeoJsonIcon(cp, forExport = false) {
+    getGeoJsonIcon(cp) {
         switch (cp.type_extended) {
             case MissionCheckpoint.TYPE_ORIGIN:
             case MissionCheckpoint.TYPE_DESTINATION:
                 return "airport";
             case MissionCheckpoint.TYPE_VOR:
-                return forExport ? "square-stroked" : "dot-10";
+                return "navaid-vor";
             case MissionCheckpoint.TYPE_NDB:
-                return forExport ? "circle-stroked" : "dot-10";
+                return "navaid-ndb";
             case MissionCheckpoint.TYPE_FIX:
-                return forExport ? "triangle-stroked" : "dot-10";
+                return "navaid-fix";
             default:
-                return forExport ? "triangle" : "dot-10";
+                return "navaid-waypoint";
         }
     }
 }

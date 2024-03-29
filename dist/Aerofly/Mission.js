@@ -378,7 +378,15 @@ export class Mission {
                 cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
                 cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
                 cp.name = cp.name.replace(/^(RW)/, "");
+                /*if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
+                  gpl.departureRunway = undefined;
+                } else {
+                  gpl.destinationRunway = undefined;
+                }*/
             }
+            //this.addCheckpointAfter(0, 0.5);
+            // if (gpl.departureRunway) {
+            // if (gpl.destinationRunway) {
             return cp;
         });
         const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
