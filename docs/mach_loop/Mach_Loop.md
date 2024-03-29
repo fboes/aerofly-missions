@@ -24,8 +24,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.24984430214315,
 
 |             | Location                                   | Date & time       | Local solar time | Sun         |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
-| Origin      | [EGOV](https://skyvector.com/airport/EGOV) | 2022-12-01T09:56Z | 09:48            | ☀ Day @ 9°  |
-| Destination | [EGOV](https://skyvector.com/airport/EGOV) | 2022-12-01T10:20Z | 10:11            | ☀ Day @ 11° |
+| Origin      | [EGOV](https://www.pilotnav.com/airport/EGOV) | 2022-12-01T09:56Z | 09:48            | ☀ Day @ 9°  |
+| Destination | [EGOV](https://www.pilotnav.com/airport/EGOV) | 2022-12-01T10:20Z | 10:11            | ☀ Day @ 11° |
 
 ### Checkpoints
 

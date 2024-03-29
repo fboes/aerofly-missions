@@ -30,8 +30,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.784541072260765
 
 |             | Location                                   | Date & time       | Local solar time | Sun          |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ------------ |
-| Origin      | [ESKN](https://skyvector.com/airport/ESKN) | 2022-11-26T07:09Z | 08:28            | ☼ Dusk @ -1° |
-| Destination | [ESSB](https://skyvector.com/airport/ESSB) | 2022-11-26T07:33Z | 08:56            | ☀ Day @ 1°   |
+| Origin      | [ESKN](https://www.pilotnav.com/airport/ESKN) | 2022-11-26T07:09Z | 08:28            | ☼ Dusk @ -1° |
+| Destination | [ESSB](https://www.pilotnav.com/airport/ESSB) | 2022-11-26T07:33Z | 08:56            | ☀ Day @ 1°   |
 
 ### Checkpoints
 

@@ -30,8 +30,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=57.751506218186606
 
 |             | Location                                   | Date & time       | Local solar time | Sun         |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
-| Origin      | [ESGJ](https://skyvector.com/airport/ESGJ) | 2022-11-13T08:49Z | 10:00            | ☀ Day @ 10° |
-| Destination | [ESIA](https://skyvector.com/airport/ESIA) | 2022-11-13T09:12Z | 10:25            | ☀ Day @ 10° |
+| Origin      | [ESGJ](https://www.pilotnav.com/airport/ESGJ) | 2022-11-13T08:49Z | 10:00            | ☀ Day @ 10° |
+| Destination | [ESIA](https://www.pilotnav.com/airport/ESIA) | 2022-11-13T09:12Z | 10:25            | ☀ Day @ 10° |
 
 ### Checkpoints
 

@@ -26,8 +26,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.91821934264146,
 
 |             | Location                                   | Date & time       | Local solar time | Sun         |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
-| Departure   | [KEDW](https://skyvector.com/airport/KEDW) | 2023-01-14T16:00Z | 07:59            | ☀ Day @ 10° |
-| Destination | [KEDW](https://skyvector.com/airport/KEDW) | 2023-01-14T16:39Z | 08:38            | ☀ Day @ 16° |
+| Departure   | [KEDW](https://www.pilotnav.com/airport/KEDW) | 2023-01-14T16:00Z | 07:59            | ☀ Day @ 10° |
+| Destination | [KEDW](https://www.pilotnav.com/airport/KEDW) | 2023-01-14T16:39Z | 08:38            | ☀ Day @ 16° |
 
 ### Checkpoints
 

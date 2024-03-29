@@ -28,8 +28,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.53763457444899,
 
 |             | Location                                   | Date & time       | Local solar time | Sun         |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
-| Departure   | [EDHI](https://skyvector.com/airport/EDHI) | 2022-08-15T07:09Z | 07:44            | ☀ Day @ 26° |
-| Destination | [EDHI](https://skyvector.com/airport/EDHI) | 2022-08-15T07:16Z | 07:51            | ☀ Day @ 27° |
+| Departure   | [EDHI](https://www.pilotnav.com/airport/EDHI) | 2022-08-15T07:09Z | 07:44            | ☀ Day @ 26° |
+| Destination | [EDHI](https://www.pilotnav.com/airport/EDHI) | 2022-08-15T07:16Z | 07:51            | ☀ Day @ 27° |
 
 ### Checkpoints
 

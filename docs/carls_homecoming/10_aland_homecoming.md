@@ -36,8 +36,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=59.349212876682174
 
 |             | Location                                   | Date & time       | Local solar time | Sun          |
 | ----------- | ------------------------------------------ | ----------------- | ---------------- | ------------ |
-| Origin      | [ESSB](https://skyvector.com/airport/ESSB) | 2022-11-27T07:19Z | 08:42            | ☼ Dusk @ -0° |
-| Destination | [EFMA](https://skyvector.com/airport/EFMA) | 2022-11-27T07:53Z | 09:24            | ☀ Day @ 2°   |
+| Origin      | [ESSB](https://www.pilotnav.com/airport/ESSB) | 2022-11-27T07:19Z | 08:42            | ☼ Dusk @ -0° |
+| Destination | [EFMA](https://www.pilotnav.com/airport/EFMA) | 2022-11-27T07:53Z | 09:24            | ☀ Day @ 2°   |
 
 ### Checkpoints
 
