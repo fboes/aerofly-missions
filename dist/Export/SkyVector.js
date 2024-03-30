@@ -27,4 +27,12 @@ export class SkyVector {
         parameters.push("fpl=" + encodeURIComponent("N" + cruise + "A" + alt + " " + this.getCheckpoints(filterRunway).join(" ")));
         return "https://skyvector.com/?" + parameters.join("&");
     }
+    /**
+     * @param icaoCode of airport
+     * @returns URL to airport procedures and information
+     */
+    static airportLink(icaoCode) {
+        return ((icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://www.pilotnav.com/airport/") +
+            encodeURIComponent(icaoCode));
+    }
 }

@@ -22,8 +22,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=34.908089,-117.885
 
 ### Airports
 
-|             | Location                                   | Date & time       | Local solar time | Sun         |
-| ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
+|             | Location                                      | Date & time       | Local solar time | Sun         |
+| ----------- | --------------------------------------------- | ----------------- | ---------------- | ----------- |
 | Departure   | [KEDW](https://www.pilotnav.com/airport/KEDW) | 2022-08-15T18:00Z | 10:04            | ☀ Day @ 56° |
 | Destination | [KEDW](https://www.pilotnav.com/airport/KEDW) | 2022-08-15T18:30Z | 10:34            | ☀ Day @ 61° |
 

@@ -32,8 +32,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.53760657450579,
 
 ### Airports
 
-|             | Location                                   | Date & time       | Local solar time | Sun         |
-| ----------- | ------------------------------------------ | ----------------- | ---------------- | ----------- |
+|             | Location                                      | Date & time       | Local solar time | Sun         |
+| ----------- | --------------------------------------------- | ----------------- | ---------------- | ----------- |
 | Origin      | [EDHI](https://www.pilotnav.com/airport/EDHI) | 2022-10-23T07:05Z | 08:00            | ☀ Day @ 7°  |
 | Destination | [EKAE](https://www.pilotnav.com/airport/EKAE) | 2022-10-23T07:46Z | 08:43            | ☀ Day @ 11° |
 

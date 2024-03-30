@@ -30,8 +30,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=55.591431052724666
 
 ### Airports
 
-|             | Location                                   | Date & time       | Local solar time | Sun          |
-| ----------- | ------------------------------------------ | ----------------- | ---------------- | ------------ |
+|             | Location                                      | Date & time       | Local solar time | Sun          |
+| ----------- | --------------------------------------------- | ----------------- | ---------------- | ------------ |
 | Origin      | [EKRK](https://www.pilotnav.com/airport/EKRK) | 2022-11-05T06:30Z | 07:34            | ☼ Dusk @ -1° |
 | Destination | [ESTA](https://www.pilotnav.com/airport/ESTA) | 2022-11-05T07:05Z | 08:12            | ☀ Day @ 3°   |
 

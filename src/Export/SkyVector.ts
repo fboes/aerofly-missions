@@ -36,4 +36,15 @@ export class SkyVector {
 
     return "https://skyvector.com/?" + parameters.join("&");
   }
+
+  /**
+   * @param icaoCode of airport
+   * @returns URL to airport procedures and information
+   */
+  static airportLink(icaoCode: string): string {
+    return (
+      (icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://www.pilotnav.com/airport/") +
+      encodeURIComponent(icaoCode)
+    );
+  }
 }

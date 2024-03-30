@@ -20,8 +20,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=53.24979742928385,
 
 ### Airports
 
-|             | Location                                   | Date & time       | Local solar time | Sun          |
-| ----------- | ------------------------------------------ | ----------------- | ---------------- | ------------ |
+|             | Location                                      | Date & time       | Local solar time | Sun          |
+| ----------- | --------------------------------------------- | ----------------- | ---------------- | ------------ |
 | Departure   | [EGOV](https://www.pilotnav.com/airport/EGOV) | 2022-12-24T08:30Z | 08:11            | ☼ Dusk @ -1° |
 | Destination | [EGOV](https://www.pilotnav.com/airport/EGOV) | 2022-12-24T08:54Z | 08:35            | ☀ Day @ 2°   |
 

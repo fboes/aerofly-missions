@@ -28,8 +28,8 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=58.520264578726795
 
 ### Airports
 
-|             | Location                                   | Date & time       | Local solar time | Sun        |
-| ----------- | ------------------------------------------ | ----------------- | ---------------- | ---------- |
+|             | Location                                      | Date & time       | Local solar time | Sun        |
+| ----------- | --------------------------------------------- | ----------------- | ---------------- | ---------- |
 | Origin      | [ESIA](https://www.pilotnav.com/airport/ESIA) | 2022-11-20T07:45Z | 08:56            | ☀ Day @ 3° |
 | Destination | [ESSL](https://www.pilotnav.com/airport/ESSL) | 2022-11-20T08:03Z | 09:19            | ☀ Day @ 5° |
 
