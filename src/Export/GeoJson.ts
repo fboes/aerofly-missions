@@ -119,7 +119,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         altitude: undefined,
         direction: mission.origin_dir,
         frequency: undefined,
-        "marker-symbol": "airport",
+        "marker-symbol": "af-large_airport",
       },
     });
 
@@ -136,7 +136,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         altitude: undefined,
         direction: mission.destination_dir,
         frequency: undefined,
-        "marker-symbol": "airport",
+        "marker-symbol": "af-large_airport",
       },
     });
 
@@ -304,15 +304,19 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
   protected getGeoJsonIcon(cp: MissionCheckpoint): string {
     switch (cp.type_extended) {
+      case MissionCheckpoint.TYPE_DESTINATION:
+        return "af-large_airport";
       case MissionCheckpoint.TYPE_ORIGIN:
       case MissionCheckpoint.TYPE_DESTINATION:
-        return "airport";
+        return "af-large_airport";
       case MissionCheckpoint.TYPE_VOR:
         return "navaid-vor";
       case MissionCheckpoint.TYPE_NDB:
         return "navaid-ndb";
       case MissionCheckpoint.TYPE_FIX:
         return "navaid-fix";
+      case MissionCheckpoint.TYPE_AIRPORT:
+        return "af-medium_airport";
       default:
         return "navaid-waypoint";
     }

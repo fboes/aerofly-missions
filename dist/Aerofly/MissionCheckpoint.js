@@ -85,8 +85,15 @@ export class MissionCheckpoint {
             if (this.frequency) {
                 return this.frequency_unit === "M" ? MissionCheckpoint.TYPE_VOR : MissionCheckpoint.TYPE_NDB;
             }
-            if (this.name.match(/^[A-Z]{4,5}$/)) {
-                return this.name.length === 4 ? MissionCheckpoint.TYPE_AIRPORT : MissionCheckpoint.TYPE_FIX;
+            if (this.name.match(/^[A-Z]{3,5}$/)) {
+                switch (this.name.length) {
+                    case 3:
+                        return MissionCheckpoint.TYPE_VOR;
+                    case 4:
+                        return MissionCheckpoint.TYPE_AIRPORT;
+                    default:
+                        return MissionCheckpoint.TYPE_FIX;
+                }
             }
         }
         return this.type;
