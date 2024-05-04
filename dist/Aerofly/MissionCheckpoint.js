@@ -222,7 +222,10 @@ export class MissionCheckpoint {
 }
 MissionCheckpoint.TYPE_ORIGIN = "origin";
 MissionCheckpoint.TYPE_DEPARTURE_RUNWAY = "departure_runway";
+MissionCheckpoint.TYPE_DEPARTURE = "departure";
 MissionCheckpoint.TYPE_WAYPOINT = "waypoint";
+MissionCheckpoint.TYPE_ARRIVAL = "arrival";
+MissionCheckpoint.TYPE_APPROACH = "approach";
 MissionCheckpoint.TYPE_DESTINATION_RUNWAY = "destination_runway";
 MissionCheckpoint.TYPE_DESTINATION = "destination";
 MissionCheckpoint.TYPE_VOR = "vor";

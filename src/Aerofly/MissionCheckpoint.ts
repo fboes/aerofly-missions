@@ -58,7 +58,10 @@ export class MissionCheckpoint {
 
   static TYPE_ORIGIN: MissionCheckpointType = "origin";
   static TYPE_DEPARTURE_RUNWAY: MissionCheckpointType = "departure_runway";
+  static TYPE_DEPARTURE: MissionCheckpointType = "departure";
   static TYPE_WAYPOINT: MissionCheckpointType = "waypoint";
+  static TYPE_ARRIVAL: MissionCheckpointType = "arrival";
+  static TYPE_APPROACH: MissionCheckpointType = "approach";
   static TYPE_DESTINATION_RUNWAY: MissionCheckpointType = "destination_runway";
   static TYPE_DESTINATION: MissionCheckpointType = "destination";
   static TYPE_VOR: MissionCheckpointTypeExtended = "vor";

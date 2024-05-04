@@ -346,11 +346,17 @@ export class Mission {
           break;
       }
       this.conditions.fromMainMcf(mainMcf);
+
+      let lastPosition: LonLat | null = null;
       this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
+        // Please not that procedure waypoints cannot be restored as of now
         return [
           MissionCheckpoint.TYPE_ORIGIN,
           MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
+          //MissionCheckpoint.TYPE_DEPARTURE,
           MissionCheckpoint.TYPE_WAYPOINT,
+          //MissionCheckpoint.TYPE_ARRIVAL,
+          //MissionCheckpoint.TYPE_APPROACH,
           MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
           MissionCheckpoint.TYPE_DESTINATION,
         ].includes(w.type);
@@ -358,6 +364,13 @@ export class Mission {
       }).map((w) => {
         let cp = new MissionCheckpoint();
         cp.fromMainMcf(w);
+
+        if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
+          cp.lon_lat = lastPosition.getRelativeCoordinates(3, 45);
+          console.log(cp.lon_lat);
+        }
+
+        lastPosition = cp.lon_lat;
         return cp;
       });
 
