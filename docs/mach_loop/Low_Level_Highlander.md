@@ -22,10 +22,10 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=57.71113752425876,
 
 ### Airports
 
-|             | Location                                      | Date & time       | Local solar time | Sun          |
-| ----------- | --------------------------------------------- | ----------------- | ---------------- | ------------ |
-| Departure   | [EGQS](https://www.pilotnav.com/airport/EGQS) | 2022-12-17T09:02Z | 08:51            | ☼ Dusk @ -0° |
-| Destination | [EGQS](https://www.pilotnav.com/airport/EGQS) | 2022-12-17T09:38Z | 09:27            | ☀ Day @ 3°   |
+|             | Location                                 | Date & time       | Local solar time | Sun          |
+| ----------- | ---------------------------------------- | ----------------- | ---------------- | ------------ |
+| Departure   | [EGQS](https://opennav.com/airport/EGQS) | 2022-12-17T09:02Z | 08:51            | ☼ Dusk @ -0° |
+| Destination | [EGQS](https://opennav.com/airport/EGQS) | 2022-12-17T09:38Z | 09:27            | ☀ Day @ 3°   |
 
 ### Checkpoints
 

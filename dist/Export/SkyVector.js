@@ -32,7 +32,7 @@ export class SkyVector {
      * @returns URL to airport procedures and information
      */
     static airportLink(icaoCode) {
-        return ((icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://www.pilotnav.com/airport/") +
+        return ((icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://opennav.com/airport/") +
             encodeURIComponent(icaoCode));
     }
 }

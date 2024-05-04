@@ -43,7 +43,7 @@ export class SkyVector {
    */
   static airportLink(icaoCode: string): string {
     return (
-      (icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://www.pilotnav.com/airport/") +
+      (icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://opennav.com/airport/") +
       encodeURIComponent(icaoCode)
     );
   }

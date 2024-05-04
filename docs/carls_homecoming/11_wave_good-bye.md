@@ -26,10 +26,10 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=60.123931066290545
 
 ### Airports
 
-|             | Location                                      | Date & time       | Local solar time | Sun        |
-| ----------- | --------------------------------------------- | ----------------- | ---------------- | ---------- |
-| Origin      | [EFMA](https://www.pilotnav.com/airport/EFMA) | 2022-12-10T07:50Z | 09:16            | ☀ Day @ 0° |
-| Destination | [EFMA](https://www.pilotnav.com/airport/EFMA) | 2022-12-10T08:28Z | 09:54            | ☀ Day @ 3° |
+|             | Location                                 | Date & time       | Local solar time | Sun        |
+| ----------- | ---------------------------------------- | ----------------- | ---------------- | ---------- |
+| Origin      | [EFMA](https://opennav.com/airport/EFMA) | 2022-12-10T07:50Z | 09:16            | ☀ Day @ 0° |
+| Destination | [EFMA](https://opennav.com/airport/EFMA) | 2022-12-10T08:28Z | 09:54            | ☀ Day @ 3° |
 
 ### Checkpoints
 

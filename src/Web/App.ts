@@ -891,8 +891,8 @@ export class App {
       this.elements.metar.setAttribute("href", "https://metar-taf.com/" + this.mission.destination_icao);
       this.elements.metar.innerText = "check the weather for " + this.mission.destination_icao;
     } else {
-      this.elements.makeMetarDept.disabled = false;
-      this.elements.makeMetarDest.disabled = false;
+      this.elements.makeMetarDept.disabled = true;
+      this.elements.makeMetarDest.disabled = true;
     }
     this.elements.turn_radius.value = (
       (this.mission.cruise_speed * (this.mission.turn_time / 60)) /

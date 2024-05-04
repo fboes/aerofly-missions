@@ -26,10 +26,10 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=56.28662121770193,
 
 ### Airports
 
-|             | Location                                      | Date & time       | Local solar time | Sun        |
-| ----------- | --------------------------------------------- | ----------------- | ---------------- | ---------- |
-| Origin      | [ESTA](https://www.pilotnav.com/airport/ESTA) | 2022-11-06T07:19Z | 08:26            | ☀ Day @ 4° |
-| Destination | [ESGG](https://www.pilotnav.com/airport/ESGG) | 2022-11-06T07:59Z | 09:04            | ☀ Day @ 7° |
+|             | Location                                 | Date & time       | Local solar time | Sun        |
+| ----------- | ---------------------------------------- | ----------------- | ---------------- | ---------- |
+| Origin      | [ESTA](https://opennav.com/airport/ESTA) | 2022-11-06T07:19Z | 08:26            | ☀ Day @ 4° |
+| Destination | [ESGG](https://opennav.com/airport/ESGG) | 2022-11-06T07:59Z | 09:04            | ☀ Day @ 7° |
 
 ### Checkpoints
 

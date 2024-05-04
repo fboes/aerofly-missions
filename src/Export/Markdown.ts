@@ -80,8 +80,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 
 ### Airports
 
-|             | Location                                    | Country | Date & time       | Local solar time | Sun |
-| ----------- | ------------------------------------------- | ------- | ----------------- | ---------------- | --- |
+|             | Location                                 | Country | Date & time       | Local solar time | Sun |
+| ----------- | ---------------------------------------- | ------- | ----------------- | ---------------- | --- |
 | Departure   | [${m.origin_icao}](${SkyVector.airportLink(m.origin_icao)}) | ${
       m.origin_country
     }      | ${this.outputDateTime(m.conditions.time.dateTime)} | ${

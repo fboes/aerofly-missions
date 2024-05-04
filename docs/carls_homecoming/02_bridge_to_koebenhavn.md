@@ -32,10 +32,10 @@ Check your [Sky Vector Flight Plan](https://skyvector.com/?ll=54.85408665805144,
 
 ### Airports
 
-|             | Location                                      | Date & time       | Local solar time | Sun          |
-| ----------- | --------------------------------------------- | ----------------- | ---------------- | ------------ |
-| Origin      | [EKAE](https://www.pilotnav.com/airport/EKAE) | 2022-10-30T06:10Z | 07:08            | ☼ Dusk @ -3° |
-| Destination | [EKRK](https://www.pilotnav.com/airport/EKRK) | 2022-10-30T06:43Z | 07:47            | ☀ Day @ 2°   |
+|             | Location                                 | Date & time       | Local solar time | Sun          |
+| ----------- | ---------------------------------------- | ----------------- | ---------------- | ------------ |
+| Origin      | [EKAE](https://opennav.com/airport/EKAE) | 2022-10-30T06:10Z | 07:08            | ☼ Dusk @ -3° |
+| Destination | [EKRK](https://opennav.com/airport/EKRK) | 2022-10-30T06:43Z | 07:47            | ☀ Day @ 2°   |
 
 ### Checkpoints
 
