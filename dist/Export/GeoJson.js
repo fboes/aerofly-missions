@@ -86,7 +86,7 @@ export class GeoJson {
                 coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
             },
             properties: {
-                title: mission.origin_icao,
+                title: mission.aircraft_icao + " ORIGIN",
                 type: "plane",
                 altitude: undefined,
                 direction: mission.origin_dir,
@@ -102,7 +102,7 @@ export class GeoJson {
                 coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
             },
             properties: {
-                title: mission.destination_icao,
+                title: mission.aircraft_icao + " DESTINATION",
                 type: "plane",
                 altitude: undefined,
                 direction: mission.destination_dir,
