@@ -164,7 +164,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           frequency: undefined,
           "marker-symbol": "dot-10",
           "symbol-sort-key": 2,
-      },
+        },
       },
       {
         type: "Feature",
