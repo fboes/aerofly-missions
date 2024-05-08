@@ -520,6 +520,7 @@ export class App {
           "text-offset": [0, 0.5],
           "text-anchor": "top",
           "text-size": 12,
+          "symbol-sort-key": ["get", "symbol-sort-key"],
         },
         paint: {
           "icon-color": "#FF1493",

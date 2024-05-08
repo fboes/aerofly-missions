@@ -102,6 +102,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
             c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
               ? "#5e6eba"
               : "#555555",
+          "symbol-sort-key": 0,
         },
       };
     });
@@ -120,6 +121,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         direction: mission.origin_dir,
         frequency: undefined,
         "marker-symbol": "af-large_airport",
+        "symbol-sort-key": 1,
       },
     });
 
@@ -137,6 +139,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         direction: mission.destination_dir,
         frequency: undefined,
         "marker-symbol": "af-large_airport",
+        "symbol-sort-key": 1,
       },
     });
 
@@ -160,7 +163,8 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           direction: undefined,
           frequency: undefined,
           "marker-symbol": "dot-10",
-        },
+          "symbol-sort-key": 2,
+      },
       },
       {
         type: "Feature",
@@ -176,6 +180,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           direction: undefined,
           frequency: undefined,
           "marker-symbol": "dot-10",
+          "symbol-sort-key": 2,
           stroke: "#FF1493",
         },
       },
@@ -196,6 +201,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           direction: undefined,
           frequency: undefined,
           "marker-symbol": "dot-10",
+          "symbol-sort-key": 2,
         },
       },
     ];

@@ -75,6 +75,7 @@ export class GeoJson {
                     "marker-color": c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
                         ? "#5e6eba"
                         : "#555555",
+                    "symbol-sort-key": 0,
                 },
             };
         });
@@ -92,6 +93,7 @@ export class GeoJson {
                 direction: mission.origin_dir,
                 frequency: undefined,
                 "marker-symbol": "af-large_airport",
+                "symbol-sort-key": 1,
             },
         });
         this.features.push({
@@ -108,6 +110,7 @@ export class GeoJson {
                 direction: mission.destination_dir,
                 frequency: undefined,
                 "marker-symbol": "af-large_airport",
+                "symbol-sort-key": 1,
             },
         });
         this.drawLine(this.getLineCoordinates(mission));
@@ -129,6 +132,7 @@ export class GeoJson {
                     direction: undefined,
                     frequency: undefined,
                     "marker-symbol": "dot-10",
+                    "symbol-sort-key": 2,
                 },
             },
             {
@@ -145,6 +149,7 @@ export class GeoJson {
                     direction: undefined,
                     frequency: undefined,
                     "marker-symbol": "dot-10",
+                    "symbol-sort-key": 2,
                     stroke: "#FF1493",
                 },
             },
@@ -165,6 +170,7 @@ export class GeoJson {
                     direction: undefined,
                     frequency: undefined,
                     "marker-symbol": "dot-10",
+                    "symbol-sort-key": 2,
                 },
             },
         ];
