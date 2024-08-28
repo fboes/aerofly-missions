@@ -905,6 +905,7 @@ export class Mission {
                 <[string8][description][${Quote.tmc(this.description)}]>
                 <[string8]   [flight_setting]     [${Quote.tmc(this.flight_setting)}]>
                 <[string8u]  [aircraft_name]      [${Quote.tmc(this.aircraft_name)}]>
+                //<[string8u][aircraft_livery]    []>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this.aircraft_icao)}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
                 <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
