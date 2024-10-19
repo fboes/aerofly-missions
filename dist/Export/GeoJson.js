@@ -71,7 +71,7 @@ export class GeoJson {
                     altitude: c.lon_lat.altitude_m,
                     direction: c.direction,
                     frequency: c.frequency_string,
-                    "marker-symbol": this.getGeoJsonIcon(c),
+                    "marker-symbol": this.getGeoJsonIcon(c, mission.finish),
                     "marker-color": c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
                         ? "#5e6eba"
                         : "#555555",
@@ -199,7 +199,8 @@ export class GeoJson {
                     turnDegrees += 360;
                 }
                 const turnAnticipationDistance = Math.tan(((Math.abs(turnDegrees) / 180) * Math.PI) / 2) * turnRadius;
-                if (Math.abs(turnDegrees) < 150 &&
+                if (!c.flyOver &&
+                    Math.abs(turnDegrees) < 150 &&
                     turnAnticipationDistance <= Math.min(c.distance / 2, nextCheckpoint.distance / 2)) {
                     // Fly-by
                     const segments = Math.ceil(Math.abs(turnDegrees) / (360 / segmentsPerCircle));
@@ -215,6 +216,7 @@ export class GeoJson {
                     //lineCoordinates.push(this.getGeoJsonPosition(entry));
                 }
                 else {
+                    console.log("Fly-over");
                     // Fly-over
                     // @see https://en.wikipedia.org/wiki/Circular_segment
                     turnDegrees *= 2;
@@ -259,7 +261,10 @@ export class GeoJson {
     getGeoJsonPosition(entry) {
         return entry.altitude_m ? [entry.lon, entry.lat, entry.altitude_m] : [entry.lon, entry.lat];
     }
-    getGeoJsonIcon(cp) {
+    getGeoJsonIcon(cp, finishCp) {
+        if (finishCp && finishCp === cp) {
+            return "af-large_airbase";
+        }
         switch (cp.type_extended) {
             case MissionCheckpoint.TYPE_DESTINATION:
                 return "af-large_airport";

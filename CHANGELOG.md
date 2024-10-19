@@ -1,5 +1,7 @@
 # Changelog
 
+- Added `flyOver` property to waypoints
+- Added `finish` property to missions
 - Added new cloud layers
 - Improved handling of Garmin `fpl` files
 - Prioritizing waypoints in GeoJson

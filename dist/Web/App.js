@@ -126,6 +126,7 @@ export class App {
         this.showFlightplan(App.SHOW_CHECKPOINTS);
     }
     handleEventClickWaypointEdit(target) {
+        var _a;
         const type = target.getAttribute("data-type");
         const waypointId = Number(target.closest("dialog").getAttribute("data-cp-id"));
         switch (type) {
@@ -137,6 +138,14 @@ export class App {
                 break;
             case "add-after":
                 this.mission.addCheckpointAfter(waypointId, 3, 1000);
+                break;
+            case "make-finish":
+                const currentWaypoint = this.mission.checkpoints[waypointId];
+                this.mission.finish =
+                    currentWaypoint === this.mission.finish ? null : (_a = this.mission.checkpoints[waypointId]) !== null && _a !== void 0 ? _a : null;
+                break;
+            case "toggle-flyover":
+                this.mission.checkpoints[waypointId].flyOver = !this.mission.checkpoints[waypointId].flyOver;
                 break;
         }
         this.handleEventClickModalClose(target);

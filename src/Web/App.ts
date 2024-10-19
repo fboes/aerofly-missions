@@ -187,6 +187,14 @@ export class App {
       case "add-after":
         this.mission.addCheckpointAfter(waypointId, 3, 1000);
         break;
+      case "make-finish":
+        const currentWaypoint = this.mission.checkpoints[waypointId];
+        this.mission.finish =
+          currentWaypoint === this.mission.finish ? null : this.mission.checkpoints[waypointId] ?? null;
+        break;
+      case "toggle-flyover":
+        this.mission.checkpoints[waypointId].flyOver = !this.mission.checkpoints[waypointId].flyOver;
+        break;
     }
     this.handleEventClickModalClose(target);
 

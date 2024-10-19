@@ -39,6 +39,7 @@ export class Mission {
          * True heading of aircraft in Degrees on exit
          */
         this.destination_dir = 0;
+        this.finish = null;
         this.conditions = new MissionConditions();
         this.checkpoints = [];
         /**
@@ -303,6 +304,7 @@ export class Mission {
                     break;
             }
             this.conditions.fromMainMcf(mainMcf);
+            this.finish = null;
             let lastPosition = null;
             this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
                 // Please not that procedure waypoints cannot be restored as of now
@@ -373,6 +375,7 @@ export class Mission {
         }
         // Assuming non AFS4 flight plans to start on the ground ;)
         this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
+        this.finish = null;
         this.checkpoints = gpl.waypoints.map((w, i) => {
             var _a;
             let cp = new MissionCheckpoint();
@@ -787,6 +790,8 @@ export class Mission {
         this.calculateCheckpoints();
     }
     toString() {
+        var _a, _b;
+        const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane('finish')) !== null && _b !== void 0 ? _b : '';
         let string = `            // Exported by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
@@ -804,7 +809,7 @@ export class Mission {
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>
                 //<[float64]   [cruise_speed]       [${this.cruise_speed}]>
-${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
+${this.conditions + finish}                <[list_tmmission_checkpoint][checkpoints][]
 `;
         this.checkpoints.forEach((c, i) => {
             string += c.toString(i);
@@ -816,7 +821,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
         return string;
     }
     hydrate(json) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
         this._title = (_a = json._title) !== null && _a !== void 0 ? _a : this._title;
         this._description = (_b = json._description) !== null && _b !== void 0 ? _b : this._description;
         this.flight_setting = (_c = json.flight_setting) !== null && _c !== void 0 ? _c : this.flight_setting;
@@ -842,6 +847,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
         this.cruise_altitude = (_w = json.cruise_altitude) !== null && _w !== void 0 ? _w : this.cruise_altitude;
         this.turn_time = (_x = json.turn_time) !== null && _x !== void 0 ? _x : this.turn_time;
         this.conditions.hydrate(json.conditions);
+        this.finish = (_y = json.finish) !== null && _y !== void 0 ? _y : this.finish;
         this.checkpoints = json.checkpoints.map((c) => {
             const cx = new MissionCheckpoint();
             cx.hydrate(c);
@@ -892,6 +898,7 @@ export class MissionFactory extends FileParser {
         mission.conditions.visibility = this.getNumber(tmmission_conditions, "visibility");
         mission.conditions.cloud.cover = this.getNumber(tmmission_conditions, "cloud_cover");
         mission.conditions.cloud.height = this.getNumber(tmmission_conditions, "cloud_base");
+        mission.finish = null;
         mission.checkpoints = list_tmmission_checkpoint
             .split("<[tmmission_checkpoint")
             .slice(1)

@@ -44,6 +44,7 @@ export class Mission {
    * True heading of aircraft in Degrees on exit
    */
   destination_dir: number = 0;
+  finish: MissionCheckpoint | null = null;
   conditions: MissionConditions = new MissionConditions();
   checkpoints: MissionCheckpoint[] = [];
   /**
@@ -347,6 +348,7 @@ export class Mission {
       }
       this.conditions.fromMainMcf(mainMcf);
 
+      this.finish = null;
       let lastPosition: LonLat | null = null;
       this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
         // Please not that procedure waypoints cannot be restored as of now
@@ -440,6 +442,7 @@ export class Mission {
     // Assuming non AFS4 flight plans to start on the ground ;)
     this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
 
+    this.finish = null;
     this.checkpoints = gpl.waypoints.map((w, i) => {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
@@ -899,6 +902,7 @@ export class Mission {
   }
 
   toString(): string {
+    const finish = this.finish?.toStringTargetPlane("finish") ?? "";
     let string = `            // Exported by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
@@ -916,7 +920,7 @@ export class Mission {
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>
                 //<[float64]   [cruise_speed]       [${this.cruise_speed}]>
-${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
+${this.conditions + finish}                <[list_tmmission_checkpoint][checkpoints][]
 `;
     this.checkpoints.forEach((c, i) => {
       string += c.toString(i);
@@ -956,6 +960,7 @@ ${this.conditions}                <[list_tmmission_checkpoint][checkpoints][]
 
     this.conditions.hydrate(json.conditions);
 
+    this.finish = json.finish ?? this.finish;
     this.checkpoints = json.checkpoints.map((c) => {
       const cx = new MissionCheckpoint();
       cx.hydrate(c);
@@ -1005,6 +1010,7 @@ export class MissionFactory extends FileParser {
     mission.conditions.cloud.cover = this.getNumber(tmmission_conditions, "cloud_cover");
     mission.conditions.cloud.height = this.getNumber(tmmission_conditions, "cloud_base");
 
+    mission.finish = null;
     mission.checkpoints = list_tmmission_checkpoint
       .split("<[tmmission_checkpoint")
       .slice(1)
