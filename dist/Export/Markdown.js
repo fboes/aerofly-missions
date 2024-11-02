@@ -32,7 +32,8 @@ export class Markdown extends Outputtable {
         const zoomLevel = this.lonLatArea.getZoomLevel();
         const center = this.lonLatArea.center;
         const hasFrequencies = m.hasFrequencies;
-        let markdown = `# ${m.title}
+        let markdown = `\
+# ${m.title}
 
 ${m.description}
 

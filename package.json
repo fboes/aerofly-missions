@@ -28,7 +28,7 @@
     "prettier": "npx prettier --cache --write .",
     "prettier-check": "npx prettier --cache --check .",
     "serve": "npx http-server ./dist -o -c-1",
-    "build": "tsc --build"
+    "build": "npm run prettier && tsc --build"
   },
   "main": "index.js",
   "repository": {

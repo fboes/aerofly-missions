@@ -5,11 +5,13 @@ export class MissionsList {
         this.missions = [];
     }
     toString() {
-        return `<[file][][]
+        return `\
+<[file][][]
     <[tmmissions_list][][]
         <[list_tmmission_definition][missions][]
 // -----------------------------------------------------------------------------
-${this.missions.join("")}        >
+${this.missions.join("")}\
+        >
     >
 >
 `;

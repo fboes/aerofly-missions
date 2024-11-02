@@ -147,7 +147,8 @@ export class Arguments {
         return asciify(filename).substring(0, 32);
     }
     helpText(c) {
-        return `${c.lightBlue}Usage: nodejs index.js [PARAMETERS...]${c.reset}
+        return `\
+${c.lightBlue}Usage: nodejs index.js [PARAMETERS...]${c.reset}
   Convert Aerofly FS 4 main.mcf file into a custom_missions_user.tmc file.
 
 Parameters:

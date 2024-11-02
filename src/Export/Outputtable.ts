@@ -1,5 +1,4 @@
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 

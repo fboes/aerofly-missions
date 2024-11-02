@@ -282,7 +282,8 @@ export class MissionConditions {
         this.turbulence_strength = Math.min(1, this.wind_speed / 80 + this.wind_gusts / 20);
     }
     toString() {
-        return `                <[tmmission_conditions][conditions][]
+        return `\
+                <[tmmission_conditions][conditions][]
                     <[tm_time_utc][time][]
                         <[int32][time_year][${this.time.time_year.toFixed()}]>
                         <[int32][time_month][${this.time.time_month.toFixed()}]>

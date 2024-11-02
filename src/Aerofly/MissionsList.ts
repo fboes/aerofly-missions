@@ -7,11 +7,13 @@ export class MissionsList {
   constructor(public title: string) {}
 
   toString(): string {
-    return `<[file][][]
+    return `\
+<[file][][]
     <[tmmissions_list][][]
         <[list_tmmission_definition][missions][]
 // -----------------------------------------------------------------------------
-${this.missions.join("")}        >
+${this.missions.join("")}\
+        >
     >
 >
 `;

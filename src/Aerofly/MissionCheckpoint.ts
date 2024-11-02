@@ -240,10 +240,12 @@ export class MissionCheckpoint {
   toString(index: number): string {
     let flyOver = "";
     if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
-      flyOver = `                        <[bool][FlyOver][${this.flyOver ? "true" : "false"}]>
-      `;
+      flyOver = `\
+                        <[bool][FlyOver][${this.flyOver ? "true" : "false"}]>
+`;
     }
-    return `                    <[tmmission_checkpoint][element][${index}]
+    return `\
+                    <[tmmission_checkpoint][element][${index}]
                         <[string8u][type][${Quote.tmc(this.type)}]>
                         <[string8u][name][${Quote.tmc(this.name)}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
@@ -253,12 +255,14 @@ export class MissionCheckpoint {
                         <[float64][slope][${this.slope}]> // ${this.slope_deg.toFixed(1)} deg
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>
-${flyOver}                    >
+${flyOver}\
+                    >
 `;
   }
 
   toStringTargetPlane(name: string = "finish"): string {
-    return `                <[tmmission_target_plane][${name}][]
+    return `\
+                <[tmmission_target_plane][${name}][]
                     <[vector2_float64][lon_lat][${this.lon_lat.lon} ${this.lon_lat.lat}]>
                     <[float64][direction][${this.direction}]>
                 >

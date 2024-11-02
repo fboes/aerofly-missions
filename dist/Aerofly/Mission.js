@@ -791,8 +791,9 @@ export class Mission {
     }
     toString() {
         var _a, _b;
-        const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane('finish')) !== null && _b !== void 0 ? _b : '';
-        let string = `            // Exported by Aerofly Missionsgerät
+        const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane("finish")) !== null && _b !== void 0 ? _b : "";
+        let string = `\
+            // Exported by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
                 <[string8][description][${Quote.tmc(this.description)}]>
@@ -809,12 +810,14 @@ export class Mission {
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>
                 //<[float64]   [cruise_speed]       [${this.cruise_speed}]>
-${this.conditions + finish}                <[list_tmmission_checkpoint][checkpoints][]
+${this.conditions + finish}\
+                <[list_tmmission_checkpoint][checkpoints][]
 `;
         this.checkpoints.forEach((c, i) => {
             string += c.toString(i);
         });
-        string += `                >
+        string += `\
+                >
             >
 // -----------------------------------------------------------------------------
 `;
