@@ -192,7 +192,7 @@ export class MissionCheckpoint {
         const altDifference = this.lon_lat.altitude_m - lastLonLat.altitude_m; // m
         this.slope = altDifference / this.distance_m;
     }
-    toString(index) {
+    toString(index, noGuides = false) {
         let flyOver = "";
         if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
             flyOver = `\
@@ -204,7 +204,7 @@ export class MissionCheckpoint {
                         <[string8u][type][${Quote.tmc(this.type)}]>
                         <[string8u][name][${Quote.tmc(this.name)}]>
                         <[vector2_float64][lon_lat][${this.lon_lat}]>
-                        <[float64][altitude][${this.lon_lat.altitude_m}]>
+                        <[float64][altitude][${noGuides ? -100 : this.lon_lat.altitude_m}]>
                         //<[float64][speed][${this.speed}]>
                         <[float64][direction][${this.direction}]>
                         <[float64][slope][${this.slope}]> // ${this.slope_deg.toFixed(1)} deg

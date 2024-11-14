@@ -30,24 +30,25 @@ export class App {
             cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
             cruise_speed: document.getElementById("cruise_speed"),
             date: document.getElementById("date"),
-            downloadButtons: document.getElementById("download-buttons"),
             description: document.getElementById("description"),
-            outputWeather: document.getElementById("output-weather"),
-            outputAirports: document.getElementById("output-airports"),
-            outputCheckpoints: document.getElementById("output-checkpoints"),
-            main: document.querySelector("main"),
+            downloadButtons: document.getElementById("download-buttons"),
             magneticDeclination: document.getElementById("magnetic_declination"),
+            main: document.querySelector("main"),
             makeMetarDept: document.getElementById("make-metar-dept"),
             makeMetarDest: document.getElementById("make-metar-dest"),
             metar: document.getElementById("metar"),
             metarApiKey: document.getElementById("metar-api-key"),
+            no_guides: document.getElementById("no_guides"),
             origin_dir: document.getElementById("origin_dir"),
+            outputAirports: document.getElementById("output-airports"),
+            outputCheckpoints: document.getElementById("output-checkpoints"),
+            outputWeather: document.getElementById("output-weather"),
             thermal_strength: document.getElementById("thermal_strength"),
             time: document.getElementById("time"),
             title: document.getElementById("title"),
             turbulence_strength: document.getElementById("turbulence_strength"),
-            turn_time: document.getElementById("turn_time"),
             turn_radius: document.getElementById("turn_radius"),
+            turn_time: document.getElementById("turn_time"),
             upload: document.getElementById("upload"),
             visibility_sm: document.getElementById("visibility_sm"),
             visibility: document.getElementById("visibility"),
@@ -105,7 +106,7 @@ export class App {
                         this.handleEventClickReset(target);
                         break;
                     case "reverse-flightplan":
-                        this.handleEventClickRverseFlightplan(target);
+                        this.handleEventClickReverseFlightplan(target);
                         break;
                     case "toggle-expert-mode":
                         this.handleEventClickToggleExpertMode(target);
@@ -211,7 +212,7 @@ export class App {
         this.syncToForm();
         this.showFlightplan(show);
     }
-    handleEventClickRverseFlightplan(target) {
+    handleEventClickReverseFlightplan(target) {
         this.mission.reverseWaypoints();
         this.syncToForm();
         this.showFlightplan(App.SHOW_ALL);
@@ -337,6 +338,9 @@ export class App {
             case "wind_speed":
                 this.mission.conditions.wind_speed = target.valueAsNumber;
                 show |= App.SHOW_ALL;
+                break;
+            case "no_guides":
+                this.mission.no_guides = target.checked;
                 break;
             default:
                 const prop = target.getAttribute("data-cp-prop");
@@ -763,6 +767,7 @@ export class App {
         this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
         this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
         this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
+        this.elements.no_guides.checked = this.mission.no_guides;
         if (this.mission.magnetic_declination !== undefined) {
             this.elements.magneticDeclination.valueAsNumber = this.mission.magnetic_declination;
         }

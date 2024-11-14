@@ -254,7 +254,6 @@ export class GeoJson implements GeoJSON.FeatureCollection {
           //entry = c.lon_lat.getRelativeCoordinates(turnAnticipationDistance, nextCheckpoint.direction);
           //lineCoordinates.push(this.getGeoJsonPosition(entry));
         } else {
-          console.log("Fly-over");
           // Fly-over
           // @see https://en.wikipedia.org/wiki/Circular_segment
           turnDegrees *= 2;

@@ -59,6 +59,12 @@ export class Mission {
    * How many minutes does it take to make a full circle
    */
   turn_time: number = 2;
+
+  /**
+   * Hide guides in missio
+   */
+  no_guides: boolean = false;
+
   protected _magnetic_declination?: number;
 
   static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
@@ -369,7 +375,6 @@ export class Mission {
 
         if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
           cp.lon_lat = lastPosition.getRelativeCoordinates(3, 45);
-          console.log(cp.lon_lat);
         }
 
         lastPosition = cp.lon_lat;
@@ -925,7 +930,7 @@ ${this.conditions + finish}\
                 <[list_tmmission_checkpoint][checkpoints][]
 `;
     this.checkpoints.forEach((c, i) => {
-      string += c.toString(i);
+      string += c.toString(i, this.no_guides);
     });
     string += `\
                 >
@@ -960,6 +965,7 @@ ${this.conditions + finish}\
     this.cruise_speed = json.cruise_speed ?? this.cruise_speed;
     this.cruise_altitude = json.cruise_altitude ?? this.cruise_altitude;
     this.turn_time = json.turn_time ?? this.turn_time;
+    this.no_guides = json.no_guides ?? this.no_guides;
 
     this.conditions.hydrate(json.conditions);
 

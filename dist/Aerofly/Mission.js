@@ -54,6 +54,10 @@ export class Mission {
          * How many minutes does it take to make a full circle
          */
         this.turn_time = 2;
+        /**
+         * Hide guides in missio
+         */
+        this.no_guides = false;
         this.warnings = [];
         this.title = title;
         this.description = description;
@@ -324,7 +328,6 @@ export class Mission {
                 cp.fromMainMcf(w);
                 if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
                     cp.lon_lat = lastPosition.getRelativeCoordinates(3, 45);
-                    console.log(cp.lon_lat);
                 }
                 lastPosition = cp.lon_lat;
                 return cp;
@@ -814,7 +817,7 @@ ${this.conditions + finish}\
                 <[list_tmmission_checkpoint][checkpoints][]
 `;
         this.checkpoints.forEach((c, i) => {
-            string += c.toString(i);
+            string += c.toString(i, this.no_guides);
         });
         string += `\
                 >
@@ -824,7 +827,7 @@ ${this.conditions + finish}\
         return string;
     }
     hydrate(json) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
         this._title = (_a = json._title) !== null && _a !== void 0 ? _a : this._title;
         this._description = (_b = json._description) !== null && _b !== void 0 ? _b : this._description;
         this.flight_setting = (_c = json.flight_setting) !== null && _c !== void 0 ? _c : this.flight_setting;
@@ -849,8 +852,9 @@ ${this.conditions + finish}\
         this.cruise_speed = (_v = json.cruise_speed) !== null && _v !== void 0 ? _v : this.cruise_speed;
         this.cruise_altitude = (_w = json.cruise_altitude) !== null && _w !== void 0 ? _w : this.cruise_altitude;
         this.turn_time = (_x = json.turn_time) !== null && _x !== void 0 ? _x : this.turn_time;
+        this.no_guides = (_y = json.no_guides) !== null && _y !== void 0 ? _y : this.no_guides;
         this.conditions.hydrate(json.conditions);
-        this.finish = (_y = json.finish) !== null && _y !== void 0 ? _y : this.finish;
+        this.finish = (_z = json.finish) !== null && _z !== void 0 ? _z : this.finish;
         this.checkpoints = json.checkpoints.map((c) => {
             const cx = new MissionCheckpoint();
             cx.hydrate(c);

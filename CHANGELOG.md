@@ -1,14 +1,15 @@
 # Changelog
 
+- Added `no_guides` to hide guides
 - Added `flyOver` property to waypoints
 - Added `finish` property to missions
 - Added new cloud layers
 - Improved handling of Garmin `fpl` files
-- Prioritizing waypoints in GeoJson
+- Prioritizing waypoints in GeoJSON
 - Improved GeoJSON output
 - Added stub to import departure, approach and arrival waypoints
 - Fixed METAR button disabling
-- Improved GeoJson symbols
+- Improved GeoJSON symbols
 - Changed airport links to be more clever
 - Updated mission links
 - Changed links for airports, changed styling for waypoints

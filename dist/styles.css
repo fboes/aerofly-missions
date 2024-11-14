@@ -135,6 +135,10 @@ input.has-output {
   width: calc(100% - 2.5em);
 }
 
+input[type="checkbox"] {
+  width: auto;
+}
+
 input.has-output + output {
   width: 2em;
   border: none;

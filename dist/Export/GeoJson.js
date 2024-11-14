@@ -216,7 +216,6 @@ export class GeoJson {
                     //lineCoordinates.push(this.getGeoJsonPosition(entry));
                 }
                 else {
-                    console.log("Fly-over");
                     // Fly-over
                     // @see https://en.wikipedia.org/wiki/Circular_segment
                     turnDegrees *= 2;

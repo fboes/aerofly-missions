@@ -56,24 +56,25 @@ export class App {
     cruise_altitude_ft: <HTMLInputElement>document.getElementById("cruise_altitude_ft"),
     cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
     date: <HTMLInputElement>document.getElementById("date"),
-    downloadButtons: <ComponentsDownloadButtons>document.getElementById("download-buttons"),
     description: <HTMLTextAreaElement>document.getElementById("description"),
-    outputWeather: <ComponentsWeather>document.getElementById("output-weather"),
-    outputAirports: <ComponentsAirports>document.getElementById("output-airports"),
-    outputCheckpoints: <ComponentsCheckpoints>document.getElementById("output-checkpoints"),
-    main: <HTMLElement>document.querySelector("main"),
+    downloadButtons: <ComponentsDownloadButtons>document.getElementById("download-buttons"),
     magneticDeclination: <HTMLInputElement>document.getElementById("magnetic_declination"),
+    main: <HTMLElement>document.querySelector("main"),
     makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
     makeMetarDest: <HTMLButtonElement>document.getElementById("make-metar-dest"),
     metar: <HTMLAnchorElement>document.getElementById("metar"),
     metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
+    no_guides: <HTMLInputElement>document.getElementById("no_guides"),
     origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
+    outputAirports: <ComponentsAirports>document.getElementById("output-airports"),
+    outputCheckpoints: <ComponentsCheckpoints>document.getElementById("output-checkpoints"),
+    outputWeather: <ComponentsWeather>document.getElementById("output-weather"),
     thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
     time: <HTMLInputElement>document.getElementById("time"),
     title: <HTMLInputElement>document.getElementById("title"),
     turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
-    turn_time: <HTMLInputElement>document.getElementById("turn_time"),
     turn_radius: <HTMLOutputElement>document.getElementById("turn_radius"),
+    turn_time: <HTMLInputElement>document.getElementById("turn_time"),
     upload: <HTMLInputElement>document.getElementById("upload"),
     visibility_sm: <HTMLOutputElement>document.getElementById("visibility_sm"),
     visibility: <HTMLInputElement>document.getElementById("visibility"),
@@ -152,7 +153,7 @@ export class App {
             this.handleEventClickReset(target);
             break;
           case "reverse-flightplan":
-            this.handleEventClickRverseFlightplan(target);
+            this.handleEventClickReverseFlightplan(target);
             break;
           case "toggle-expert-mode":
             this.handleEventClickToggleExpertMode(target);
@@ -267,7 +268,7 @@ export class App {
     this.showFlightplan(show);
   }
 
-  handleEventClickRverseFlightplan(target: HTMLButtonElement) {
+  handleEventClickReverseFlightplan(target: HTMLButtonElement) {
     this.mission.reverseWaypoints();
     this.syncToForm();
     this.showFlightplan(App.SHOW_ALL);
@@ -398,6 +399,9 @@ export class App {
       case "wind_speed":
         this.mission.conditions.wind_speed = target.valueAsNumber;
         show |= App.SHOW_ALL;
+        break;
+      case "no_guides":
+        this.mission.no_guides = target.checked;
         break;
       default:
         const prop = target.getAttribute("data-cp-prop");
@@ -861,6 +865,7 @@ export class App {
     this.elements.wind_direction.value = this.mission.conditions.wind_direction.toFixed();
     this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
     this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
+    this.elements.no_guides.checked = this.mission.no_guides;
     if (this.mission.magnetic_declination !== undefined) {
       this.elements.magneticDeclination.valueAsNumber = this.mission.magnetic_declination;
     } else {
