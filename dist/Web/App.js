@@ -16,45 +16,46 @@ import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 export class App {
     constructor() {
         this.elements = {
-            aircraft_name: document.getElementById("aircraft_name"),
-            callsign: document.getElementById("callsign"),
-            cloud_base_feet: document.getElementById("cloud_base_feet"),
-            cloud_cover_code: document.getElementById("cloud_cover_code"),
-            cloud_cover: document.getElementById("cloud_cover"),
-            cloud2_base_feet: document.getElementById("cloud2_base_feet"),
-            cloud2_cover_code: document.getElementById("cloud2_cover_code"),
-            cloud2_cover: document.getElementById("cloud2_cover"),
-            cloud3_base_feet: document.getElementById("cloud3_base_feet"),
-            cloud3_cover_code: document.getElementById("cloud3_cover_code"),
-            cloud3_cover: document.getElementById("cloud3_cover"),
-            cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
-            cruise_speed: document.getElementById("cruise_speed"),
-            date: document.getElementById("date"),
-            description: document.getElementById("description"),
-            downloadButtons: document.getElementById("download-buttons"),
-            magneticDeclination: document.getElementById("magnetic_declination"),
-            main: document.querySelector("main"),
-            makeMetarDept: document.getElementById("make-metar-dept"),
-            makeMetarDest: document.getElementById("make-metar-dest"),
-            metar: document.getElementById("metar"),
-            metarApiKey: document.getElementById("metar-api-key"),
-            no_guides: document.getElementById("no_guides"),
-            origin_dir: document.getElementById("origin_dir"),
-            outputAirports: document.getElementById("output-airports"),
-            outputCheckpoints: document.getElementById("output-checkpoints"),
-            outputWeather: document.getElementById("output-weather"),
-            thermal_strength: document.getElementById("thermal_strength"),
-            time: document.getElementById("time"),
-            title: document.getElementById("title"),
-            turbulence_strength: document.getElementById("turbulence_strength"),
-            turn_radius: document.getElementById("turn_radius"),
-            turn_time: document.getElementById("turn_time"),
-            upload: document.getElementById("upload"),
+            wind_speed: document.getElementById("wind_speed"),
+            wind_gusts: document.getElementById("wind_gusts"),
+            wind_direction: document.getElementById("wind_direction"),
             visibility_sm: document.getElementById("visibility_sm"),
             visibility: document.getElementById("visibility"),
-            wind_direction: document.getElementById("wind_direction"),
-            wind_gusts: document.getElementById("wind_gusts"),
-            wind_speed: document.getElementById("wind_speed"),
+            upload: document.getElementById("upload"),
+            turn_time: document.getElementById("turn_time"),
+            turn_radius: document.getElementById("turn_radius"),
+            turbulence_strength: document.getElementById("turbulence_strength"),
+            title: document.getElementById("title"),
+            time: document.getElementById("time"),
+            thermal_strength: document.getElementById("thermal_strength"),
+            outputWeather: document.getElementById("output-weather"),
+            outputCheckpoints: document.getElementById("output-checkpoints"),
+            outputAirports: document.getElementById("output-airports"),
+            origin_dir: document.getElementById("origin_dir"),
+            no_guides: document.getElementById("no_guides"),
+            metarApiKey: document.getElementById("metar-api-key"),
+            metar: document.getElementById("metar"),
+            makeMetarDest: document.getElementById("make-metar-dest"),
+            makeMetarDept: document.getElementById("make-metar-dept"),
+            main: document.querySelector("main"),
+            magneticDeclination: document.getElementById("magnetic_declination"),
+            flight_setting: document.getElementById("flight_setting"),
+            downloadButtons: document.getElementById("download-buttons"),
+            description: document.getElementById("description"),
+            date: document.getElementById("date"),
+            cruise_speed: document.getElementById("cruise_speed"),
+            cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
+            cloud_cover_code: document.getElementById("cloud_cover_code"),
+            cloud_cover: document.getElementById("cloud_cover"),
+            cloud_base_feet: document.getElementById("cloud_base_feet"),
+            cloud3_cover_code: document.getElementById("cloud3_cover_code"),
+            cloud3_cover: document.getElementById("cloud3_cover"),
+            cloud3_base_feet: document.getElementById("cloud3_base_feet"),
+            cloud2_cover_code: document.getElementById("cloud2_cover_code"),
+            cloud2_cover: document.getElementById("cloud2_cover"),
+            cloud2_base_feet: document.getElementById("cloud2_base_feet"),
+            callsign: document.getElementById("callsign"),
+            aircraft_name: document.getElementById("aircraft_name"),
         };
         this.useIcao = true;
         this.metarApiKey = "";
@@ -185,6 +186,7 @@ export class App {
             case "reset-aircraft":
                 this.mission.aircraft_name = "c172";
                 this.mission.cruise_altitude = 0;
+                this.mission.flight_setting = Mission.FLIGHT_SETTING_TAXI;
                 show = App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
                 break;
             case "reset-time":
@@ -753,6 +755,7 @@ export class App {
         this.elements.cloud3_cover.value = (this.mission.conditions.cloud3.cover * 100).toFixed();
         this.elements.cruise_altitude_ft.value = this.mission.cruise_altitude_ft.toFixed();
         this.elements.cruise_speed.value = this.mission.cruise_speed.toFixed();
+        this.elements.flight_setting.value = this.mission.flight_setting;
         this.elements.date.valueAsDate = this.mission.conditions.time.dateTime;
         this.elements.description.value = this.mission.description;
         this.elements.metarApiKey.value = this.metarApiKey;

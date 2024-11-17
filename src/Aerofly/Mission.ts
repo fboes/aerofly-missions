@@ -7,7 +7,17 @@ import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
 import { MissionConditions, MissionConditionsFlightRules } from "./MissionConditions.js";
 
-export type MissionFlightSetting = "landing" | "takeoff" | "approach" | "taxi" | "cruise";
+export type MissionFlightSetting =
+  | "cold_and_dark"
+  | "before_start"
+  | "taxi"
+  | "takeoff"
+  | "cruise"
+  | "approach"
+  | "landing"
+  | "winch_launch"
+  | "aerotow"
+  | "pushback";
 
 export class Mission {
   /**
@@ -67,11 +77,14 @@ export class Mission {
 
   protected _magnetic_declination?: number;
 
+  static FLIGHT_SETTING_COLD_AND_DARK: MissionFlightSetting = "cold_and_dark";
+  static FLIGHT_SETTING_BEFORE_START: MissionFlightSetting = "before_start";
   static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
   static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";
   static FLIGHT_SETTING_APPROACH: MissionFlightSetting = "approach";
   static FLIGHT_SETTING_TAXI: MissionFlightSetting = "taxi";
   static FLIGHT_SETTING_CRUISE: MissionFlightSetting = "cruise";
+
   static MAX_LENGTH_TITLE = 32;
   static MAX_LENGTH_DESCRIPTION = 50;
   static MAX_LINES_DESCRIPTION = 8;
@@ -986,7 +999,7 @@ export class MissionFactory extends FileParser {
 
     mission.title = this.getValue(tmmission_definition, "title");
     mission.description = this.getValue(tmmission_definition, "description");
-    mission.flight_setting = <MissionFlightSetting>this.getValue(tmmission_definition, "flight_setting");
+    mission.flight_setting = this.convertFlightSetting(this.getValue(tmmission_definition, "flight_setting"));
     mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
     mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
     mission.callsign = this.getValue(tmmission_definition, "callsign");
@@ -1045,5 +1058,24 @@ export class MissionFactory extends FileParser {
     mission.calculateCheckpoints();
 
     return mission;
+  }
+
+  protected convertFlightSetting(mainMcfFlightSetting: string): MissionFlightSetting {
+    switch (mainMcfFlightSetting) {
+      case "approach":
+        return Mission.FLIGHT_SETTING_APPROACH;
+      case "beforeStart":
+        return Mission.FLIGHT_SETTING_BEFORE_START;
+      case "coldAndDark":
+        return Mission.FLIGHT_SETTING_COLD_AND_DARK;
+      case "cruise":
+        return Mission.FLIGHT_SETTING_CRUISE;
+      case "landing":
+        return Mission.FLIGHT_SETTING_LANDING;
+      case "takeoff":
+        return Mission.FLIGHT_SETTING_TAKEOFF;
+      default:
+        return Mission.FLIGHT_SETTING_TAXI;
+    }
   }
 }

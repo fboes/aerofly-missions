@@ -42,45 +42,46 @@ type AppStorable = {
 
 export class App {
   elements = {
-    aircraft_name: <HTMLSelectElement>document.getElementById("aircraft_name"),
-    callsign: <HTMLInputElement>document.getElementById("callsign"),
-    cloud_base_feet: <HTMLInputElement>document.getElementById("cloud_base_feet"),
-    cloud_cover_code: <HTMLOutputElement>document.getElementById("cloud_cover_code"),
-    cloud_cover: <HTMLInputElement>document.getElementById("cloud_cover"),
-    cloud2_base_feet: <HTMLInputElement>document.getElementById("cloud2_base_feet"),
-    cloud2_cover_code: <HTMLOutputElement>document.getElementById("cloud2_cover_code"),
-    cloud2_cover: <HTMLInputElement>document.getElementById("cloud2_cover"),
-    cloud3_base_feet: <HTMLInputElement>document.getElementById("cloud3_base_feet"),
-    cloud3_cover_code: <HTMLOutputElement>document.getElementById("cloud3_cover_code"),
-    cloud3_cover: <HTMLInputElement>document.getElementById("cloud3_cover"),
-    cruise_altitude_ft: <HTMLInputElement>document.getElementById("cruise_altitude_ft"),
-    cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
-    date: <HTMLInputElement>document.getElementById("date"),
-    description: <HTMLTextAreaElement>document.getElementById("description"),
-    downloadButtons: <ComponentsDownloadButtons>document.getElementById("download-buttons"),
-    magneticDeclination: <HTMLInputElement>document.getElementById("magnetic_declination"),
-    main: <HTMLElement>document.querySelector("main"),
-    makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
-    makeMetarDest: <HTMLButtonElement>document.getElementById("make-metar-dest"),
-    metar: <HTMLAnchorElement>document.getElementById("metar"),
-    metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
-    no_guides: <HTMLInputElement>document.getElementById("no_guides"),
-    origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
-    outputAirports: <ComponentsAirports>document.getElementById("output-airports"),
-    outputCheckpoints: <ComponentsCheckpoints>document.getElementById("output-checkpoints"),
-    outputWeather: <ComponentsWeather>document.getElementById("output-weather"),
-    thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
-    time: <HTMLInputElement>document.getElementById("time"),
-    title: <HTMLInputElement>document.getElementById("title"),
-    turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
-    turn_radius: <HTMLOutputElement>document.getElementById("turn_radius"),
-    turn_time: <HTMLInputElement>document.getElementById("turn_time"),
-    upload: <HTMLInputElement>document.getElementById("upload"),
+    wind_speed: <HTMLInputElement>document.getElementById("wind_speed"),
+    wind_gusts: <HTMLInputElement>document.getElementById("wind_gusts"),
+    wind_direction: <HTMLInputElement>document.getElementById("wind_direction"),
     visibility_sm: <HTMLOutputElement>document.getElementById("visibility_sm"),
     visibility: <HTMLInputElement>document.getElementById("visibility"),
-    wind_direction: <HTMLInputElement>document.getElementById("wind_direction"),
-    wind_gusts: <HTMLInputElement>document.getElementById("wind_gusts"),
-    wind_speed: <HTMLInputElement>document.getElementById("wind_speed"),
+    upload: <HTMLInputElement>document.getElementById("upload"),
+    turn_time: <HTMLInputElement>document.getElementById("turn_time"),
+    turn_radius: <HTMLOutputElement>document.getElementById("turn_radius"),
+    turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
+    title: <HTMLInputElement>document.getElementById("title"),
+    time: <HTMLInputElement>document.getElementById("time"),
+    thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
+    outputWeather: <ComponentsWeather>document.getElementById("output-weather"),
+    outputCheckpoints: <ComponentsCheckpoints>document.getElementById("output-checkpoints"),
+    outputAirports: <ComponentsAirports>document.getElementById("output-airports"),
+    origin_dir: <HTMLInputElement>document.getElementById("origin_dir"),
+    no_guides: <HTMLInputElement>document.getElementById("no_guides"),
+    metarApiKey: <HTMLInputElement>document.getElementById("metar-api-key"),
+    metar: <HTMLAnchorElement>document.getElementById("metar"),
+    makeMetarDest: <HTMLButtonElement>document.getElementById("make-metar-dest"),
+    makeMetarDept: <HTMLButtonElement>document.getElementById("make-metar-dept"),
+    main: <HTMLElement>document.querySelector("main"),
+    magneticDeclination: <HTMLInputElement>document.getElementById("magnetic_declination"),
+    flight_setting: <HTMLSelectElement>document.getElementById("flight_setting"),
+    downloadButtons: <ComponentsDownloadButtons>document.getElementById("download-buttons"),
+    description: <HTMLTextAreaElement>document.getElementById("description"),
+    date: <HTMLInputElement>document.getElementById("date"),
+    cruise_speed: <HTMLInputElement>document.getElementById("cruise_speed"),
+    cruise_altitude_ft: <HTMLInputElement>document.getElementById("cruise_altitude_ft"),
+    cloud_cover_code: <HTMLOutputElement>document.getElementById("cloud_cover_code"),
+    cloud_cover: <HTMLInputElement>document.getElementById("cloud_cover"),
+    cloud_base_feet: <HTMLInputElement>document.getElementById("cloud_base_feet"),
+    cloud3_cover_code: <HTMLOutputElement>document.getElementById("cloud3_cover_code"),
+    cloud3_cover: <HTMLInputElement>document.getElementById("cloud3_cover"),
+    cloud3_base_feet: <HTMLInputElement>document.getElementById("cloud3_base_feet"),
+    cloud2_cover_code: <HTMLOutputElement>document.getElementById("cloud2_cover_code"),
+    cloud2_cover: <HTMLInputElement>document.getElementById("cloud2_cover"),
+    cloud2_base_feet: <HTMLInputElement>document.getElementById("cloud2_base_feet"),
+    callsign: <HTMLInputElement>document.getElementById("callsign"),
+    aircraft_name: <HTMLSelectElement>document.getElementById("aircraft_name"),
   };
   mission: Mission;
   useIcao = true;
@@ -239,6 +240,7 @@ export class App {
       case "reset-aircraft":
         this.mission.aircraft_name = "c172";
         this.mission.cruise_altitude = 0;
+        this.mission.flight_setting = Mission.FLIGHT_SETTING_TAXI;
         show = App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
         break;
       case "reset-time":
@@ -851,6 +853,7 @@ export class App {
     this.elements.cloud3_cover.value = (this.mission.conditions.cloud3.cover * 100).toFixed();
     this.elements.cruise_altitude_ft.value = this.mission.cruise_altitude_ft.toFixed();
     this.elements.cruise_speed.value = this.mission.cruise_speed.toFixed();
+    this.elements.flight_setting.value = this.mission.flight_setting;
     this.elements.date.valueAsDate = this.mission.conditions.time.dateTime;
     this.elements.description.value = this.mission.description;
     this.elements.metarApiKey.value = this.metarApiKey;

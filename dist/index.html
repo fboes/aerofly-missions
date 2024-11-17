@@ -153,6 +153,22 @@
               </div>
             </div>
 
+            <div class="expert-mode">
+              <label for="flight_setting">Flight setting</label>
+              <select id="flight_setting">
+                <option value="cold_and_dark">Cold &amp; dark</option>
+                <option value="before_start">Before engine start</option>
+                <option value="taxi">Ready to taxi</option>
+                <option value="takeoff">Ready to take-off</option>
+                <option value="cruise">Cruise (in-flight)</option>
+                <option value="approach">Approach configuration (in-flight)</option>
+                <option value="landing">Landing configuration (in-flight)</option>
+                <option value="winch_launch">Winch launch (glider)</option>
+                <option value="aerotow">Linked to tow plane (glider)</option>
+                <option value="pushback">Ready for pushback</option>
+              </select>
+            </div>
+
             <button data-handler="reset" type="button" class="icon reset" id="reset-aircraft" title="Reset aircraft &amp; cruise settings">↺ <span>Reset aircraft &amp; cruise settings</span></button>
           </details>
           <details>
@@ -294,7 +310,9 @@
                 <input type="checkbox" id="no_guides" />
                 <span>Hide guides</span>
               </div>
+            </div>
 
+            <div class="col-3">
               <button class="expert-mode" data-handler="add-separation" data-type="VFR">Add VFR separation</button>
               <button class="expert-mode" data-handler="add-separation" data-type="IFR">Add IFR separation</button>
               <button class="expert-mode" data-handler="reverse-flightplan">Reverse flight plan</button>

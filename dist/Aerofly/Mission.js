@@ -862,6 +862,8 @@ ${this.conditions + finish}\
         });
     }
 }
+Mission.FLIGHT_SETTING_COLD_AND_DARK = "cold_and_dark";
+Mission.FLIGHT_SETTING_BEFORE_START = "before_start";
 Mission.FLIGHT_SETTING_LANDING = "landing";
 Mission.FLIGHT_SETTING_TAKEOFF = "takeoff";
 Mission.FLIGHT_SETTING_APPROACH = "approach";
@@ -877,7 +879,7 @@ export class MissionFactory extends FileParser {
         const list_tmmission_checkpoint = this.getGroup(configFileContent, "list_tmmission_checkpoint", 4);
         mission.title = this.getValue(tmmission_definition, "title");
         mission.description = this.getValue(tmmission_definition, "description");
-        mission.flight_setting = this.getValue(tmmission_definition, "flight_setting");
+        mission.flight_setting = this.convertFlightSetting(this.getValue(tmmission_definition, "flight_setting"));
         mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
         mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
         mission.callsign = this.getValue(tmmission_definition, "callsign");
@@ -927,5 +929,23 @@ export class MissionFactory extends FileParser {
         });
         mission.calculateCheckpoints();
         return mission;
+    }
+    convertFlightSetting(mainMcfFlightSetting) {
+        switch (mainMcfFlightSetting) {
+            case "approach":
+                return Mission.FLIGHT_SETTING_APPROACH;
+            case "beforeStart":
+                return Mission.FLIGHT_SETTING_BEFORE_START;
+            case "coldAndDark":
+                return Mission.FLIGHT_SETTING_COLD_AND_DARK;
+            case "cruise":
+                return Mission.FLIGHT_SETTING_CRUISE;
+            case "landing":
+                return Mission.FLIGHT_SETTING_LANDING;
+            case "takeoff":
+                return Mission.FLIGHT_SETTING_TAKEOFF;
+            default:
+                return Mission.FLIGHT_SETTING_TAXI;
+        }
     }
 }
