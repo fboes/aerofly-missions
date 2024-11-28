@@ -1,12 +1,9 @@
 # Changelog
 
-## November
+## 2.20.0
 
 - Fixed `no_guides` to hide guides
 - Added DR 400 aircraft
-
-## October
-
 - Added `no_guides` to hide guides
 - Added `flyOver` property to waypoints
 - Added `finish` property to missions
