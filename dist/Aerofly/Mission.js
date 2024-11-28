@@ -794,6 +794,11 @@ export class Mission {
     }
     toString() {
         var _a, _b;
+        if (this.no_guides) {
+            // Create finish target plane 1m in front of aircraft origin position
+            this.finish = new MissionCheckpoint();
+            this.finish.lon_lat = this.origin_lon_lat.getRelativeCoordinates(1 / Units.meterPerNauticalMile, this.origin_dir);
+        }
         const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane("finish")) !== null && _b !== void 0 ? _b : "";
         let string = `\
             // Exported by Aerofly Missionsgerät
@@ -817,7 +822,7 @@ ${this.conditions + finish}\
                 <[list_tmmission_checkpoint][checkpoints][]
 `;
         this.checkpoints.forEach((c, i) => {
-            string += c.toString(i, this.no_guides);
+            string += c.toString(i);
         });
         string += `\
                 >
