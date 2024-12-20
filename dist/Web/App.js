@@ -353,12 +353,12 @@ export class App {
                         case "name":
                             this.mission.checkpoints[index].name = target.value;
                             if (index === 1) {
-                                this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRC]?$/)
+                                this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRCSGHUW]?$/)
                                     ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
                                     : MissionCheckpoint.TYPE_WAYPOINT;
                             }
                             else if (index === this.mission.checkpoints.length - 2) {
-                                this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRC]?$/)
+                                this.mission.checkpoints[index].type = target.value.match(/^\d\d[LRCSGHUW]?$/)
                                     ? MissionCheckpoint.TYPE_DESTINATION_RUNWAY
                                     : MissionCheckpoint.TYPE_WAYPOINT;
                             }

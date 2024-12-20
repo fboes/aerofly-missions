@@ -125,27 +125,28 @@ export class MsfsPlnExport {
     const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
     const destinationRunway = destinationRunwayCp ? destinationRunwayCp.name : "";
 
-    let pln = `<?xml version="1.0" encoding="UTF-8"?>
-    <SimBase.Document Type="AceXML" version="1,0">
-        <!-- Exported by Aerofly Missionsgerät -->
-        <Descr>AceXML Document</Descr>
-        <FlightPlan.FlightPlan>
-            <Title>${Quote.xml(m.title)}</Title>
-            <Descr>${Quote.xml(m.description)}</Descr>
-            <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
-            <RouteType>Direct</RouteType>
-            <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
-            <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
-            <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
-            <DepartureLLA>${this.getLla(m.origin_lon_lat)}</DepartureLLA>
-            <!--DeparturePosition></DeparturePosition-->
-            <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
-            <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
-            <DestinationLLA>${this.getLla(m.destination_lon_lat)}</DestinationLLA>
-            <AppVersion>
-                <AppVersionMajor>10</AppVersionMajor>
-                <AppVersionBuild>61472</AppVersionBuild>
-            </AppVersion>
+    let pln = `\
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <!-- Exported by Aerofly Missionsgerät -->
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>${Quote.xml(m.title)}</Title>
+        <Descr>${Quote.xml(m.description)}</Descr>
+        <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
+        <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
+        <DepartureName>${Quote.xml(m.origin_icao)}</DepartureName>
+        <DepartureLLA>${this.getLla(m.origin_lon_lat)}</DepartureLLA>
+        <!--DeparturePosition></DeparturePosition-->
+        <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
+        <DestinationName>${Quote.xml(m.destination_icao)}</DestinationName>
+        <DestinationLLA>${this.getLla(m.destination_lon_lat)}</DestinationLLA>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
 `;
 
     m.checkpoints.forEach((cp) => {
@@ -166,10 +167,11 @@ export class MsfsPlnExport {
         icaoRegion = cp.name.substring(0, 1);
       }
 
-      pln += `            <ATCWaypoint id="${Quote.xml(name)}">
-                <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
-                <WorldPosition>${this.getLla(cp.lon_lat)}</WorldPosition>
-                <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
+      pln += `\
+        <ATCWaypoint id="${Quote.xml(name)}">
+            <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
+            <WorldPosition>${this.getLla(cp.lon_lat)}</WorldPosition>
+            <!--SpeedMaxFP>${Quote.xml((cp.speed ? cp.speed : -1).toFixed())}</SpeedMaxFP-->
 `;
       if (cp.type === MissionCheckpoint.TYPE_ORIGIN && departureRunway) {
         pln += this.runwayXml(departureRunway);
@@ -177,18 +179,21 @@ export class MsfsPlnExport {
         pln += this.runwayXml(destinationRunway);
       }
       if (type !== "User") {
-        pln += `                <ICAO>
-                    <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
-                    <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
-                </ICAO>
+        pln += `\
+            <ICAO>
+                <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
+                <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
+            </ICAO>
 `;
       }
-      pln += `            </ATCWaypoint>
+      pln += `\
+        </ATCWaypoint>
 `;
     });
 
-    pln += `        </FlightPlan.FlightPlan>
-    </SimBase.Document>
+    pln += `\
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
 `;
     return pln;
   }
@@ -213,7 +218,7 @@ export class MsfsPlnExport {
   }
 
   runwayXml(runway: string): string {
-    const runwayParts = runway.match(/(\d+)(\D+)?/);
+    const runwayParts = runway.match(/(\d+)([LRCSGHUW])?/);
     if (runwayParts) {
       let RunwayDesignatorFP: MsfsPlnRunwayDesignator = "NONE";
       switch (runwayParts[2]) {
@@ -226,9 +231,13 @@ export class MsfsPlnExport {
         case "C":
           RunwayDesignatorFP = "CENTER";
           break;
+        case "W":
+          RunwayDesignatorFP = "WATER";
+          break;
       }
-      return `                <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
-                <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
+      return `\
+            <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
+            <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
 `;
     }
     return "";

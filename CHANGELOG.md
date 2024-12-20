@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.20.1
+
+- Added runway support for STOL, Glider, Helicopter, Ultralight, Water
+- Improved MSFS `pln` output
+- Improved handling of `flyOver` property on waypoint
+
 ## 2.20.0
 
 - Fixed `no_guides` to hide guides

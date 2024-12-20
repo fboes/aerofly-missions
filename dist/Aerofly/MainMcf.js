@@ -67,6 +67,7 @@ export class MainMcfFactory extends FileParser {
                     Elevation: this.getNumber(wp, "Elevation"),
                     Altitude: this.getNumberArray(wp, "Altitude"),
                     Length: this.getNumber(wp, "RunwayLength"),
+                    FlyOver: this.getValue(wp, "FlyOver", "false") !== "false",
                 };
             });
         }

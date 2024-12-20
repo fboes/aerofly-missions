@@ -155,6 +155,7 @@ export class MissionCheckpoint {
         }
         this.frequency = waypoint.NavaidFrequency;
         this.length = waypoint.Length;
+        this.flyOver = waypoint.FlyOver;
         return this;
     }
     /**
@@ -196,7 +197,7 @@ export class MissionCheckpoint {
         let flyOver = "";
         if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
             flyOver = `\
-                        <[bool][FlyOver][${this.flyOver ? "true" : "false"}]>
+                        <[bool][fly_over][${this.flyOver ? "true" : "false"}]>
 `;
         }
         return `\
@@ -223,7 +224,7 @@ ${flyOver}\
 `;
     }
     hydrate(cp) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
         this.type = (_a = cp.type) !== null && _a !== void 0 ? _a : this.type;
         this.name = (_b = cp.name) !== null && _b !== void 0 ? _b : this.name;
         this.lon_lat.magnetic_declination = (_c = cp.lon_lat.magnetic_declination) !== null && _c !== void 0 ? _c : this.lon_lat.magnetic_declination;
@@ -238,6 +239,7 @@ ${flyOver}\
         this.speed = (_m = cp.speed) !== null && _m !== void 0 ? _m : this.speed;
         this.ground_speed = (_o = cp.ground_speed) !== null && _o !== void 0 ? _o : this.ground_speed;
         this.heading = (_p = cp.heading) !== null && _p !== void 0 ? _p : this.heading;
+        this.flyOver = (_q = cp.flyOver) !== null && _q !== void 0 ? _q : this.flyOver;
     }
 }
 MissionCheckpoint.TYPE_ORIGIN = "origin";

@@ -197,6 +197,7 @@ export class MissionCheckpoint {
     }
     this.frequency = waypoint.NavaidFrequency;
     this.length = waypoint.Length;
+    this.flyOver = waypoint.FlyOver;
     return this;
   }
 
@@ -241,7 +242,7 @@ export class MissionCheckpoint {
     let flyOver = "";
     if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
       flyOver = `\
-                        <[bool][FlyOver][${this.flyOver ? "true" : "false"}]>
+                        <[bool][fly_over][${this.flyOver ? "true" : "false"}]>
 `;
     }
     return `\
@@ -284,5 +285,6 @@ ${flyOver}\
     this.speed = cp.speed ?? this.speed;
     this.ground_speed = cp.ground_speed ?? this.ground_speed;
     this.heading = cp.heading ?? this.heading;
+    this.flyOver = cp.flyOver ?? this.flyOver;
   }
 }

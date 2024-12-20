@@ -929,6 +929,7 @@ export class MissionFactory extends FileParser {
             cp.length = this.getNumber(wp, "length");
             cp.frequency = this.getNumber(wp, "frequency");
             cp.speed = this.getNumber(wp, "speed", mission.cruise_speed);
+            cp.flyOver = this.getValue(wp, "fly_over", "false") !== "false";
             mission.cruise_altitude = Math.max(mission.cruise_altitude, cp.lon_lat.altitude_m);
             return cp;
         });
