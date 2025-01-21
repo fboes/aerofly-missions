@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>KEYW to KMIA</Title>
+        <FPType>IFR</FPType>
+        <RouteType>HighAlt</RouteType>
+        <CruisingAlt>25000.000</CruisingAlt>
+        <DepartureID>KEYW</DepartureID>
+        <DepartureLLA>N24° 33' 22.03",W81° 45' 35.84",+000003.00</DepartureLLA>
+        <DestinationID>KMIA</DestinationID>
+        <DestinationLLA>N25° 47' 43.30",W80° 17' 24.42",+000009.00</DestinationLLA>
+        <Descr>KEYW to KMIA created by SimBrief</Descr>
+        <DepartureName>Key West Intl</DepartureName>
+        <DestinationName>Miami Intl</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="KEYW">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N24° 33' 22.03",W81° 45' 35.84",+000003.00</WorldPosition>
+            <RunwayNumberFP>27</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>KEYW</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="CARNU">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 8' 18.13",W81° 19' 32.12",+025000.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>CARNU</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="SNDBR">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 23' 14.77",W80° 51' 36.85",+025000.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>SNDBR</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="ROYGO">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 26' 19.74",W80° 48' 47.19",+025000.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>ROYGO</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="DUMPP">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 31' 35.35",W80° 43' 38.04",+025000.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>DUMPP</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="FEEFA">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 38' 20.00",W80° 37' 0.74",+025000.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>FEEFA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="HILDI">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 41' 56.89",W80° 33' 27.36",+025000.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>HILDI</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="JJUMP">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 42' 4.68",W80° 24' 54.48",+023500.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>JJUMP</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="REELN">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 42' 11.36",W80° 17' 11.85",+018400.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>REELN</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="WNNER">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 36' 59.80",W80° 6' 54.06",+010300.00</WorldPosition>
+            <ArrivalFP>SNDBR3</ArrivalFP>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>WNNER</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="KMIA">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N25° 47' 43.30",W80° 17' 24.42",+000009.00</WorldPosition>
+            <RunwayNumberFP>26</RunwayNumberFP>
+            <RunwayDesignatorFP>LEFT</RunwayDesignatorFP>
+            <ICAO>
+                <ICAOIdent>KMIA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

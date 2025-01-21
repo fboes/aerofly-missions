@@ -14,7 +14,7 @@ export class XplaneFmsTest extends Test {
         this.testRunway();
     }
     testEGOV() {
-        const fms = new XplaneFms(fs.readFileSync("./src/Tests/cases/EGCC-EDDF.fms", "utf8"));
+        const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EGCC-EDDF.fms", "utf8"));
         this.group(XplaneFms.name);
         {
             this.assertEquals(fms.waypoints.length, 17);
@@ -59,7 +59,7 @@ export class XplaneFmsTest extends Test {
     testLittleNavMap() {
         this.group(XplaneFms.name + ": Little Nav Map");
         {
-            const fms = new XplaneFms(fs.readFileSync("./src/Tests/cases/egov-lnavmap.fms", "utf8"));
+            const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.fms", "utf8"));
             this.assertEquals(fms.waypoints.length, 16);
             this.assertEquals(fms.waypoints[0].identifier, "EGOV");
             this.assertEquals(fms.waypoints[0].type, "AIRPORT");
@@ -70,7 +70,7 @@ export class XplaneFmsTest extends Test {
         }
     }
     testGarminParse() {
-        const fms = new XplaneFms(fs.readFileSync("./src/Tests/cases/EFMA-lnavmap.fms", "utf8"));
+        const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.fms", "utf8"));
         this.group(XplaneFms.name + ": Little Nav Map to Mission");
         {
             this.assertEquals(fms.waypoints.length, 11);
@@ -95,7 +95,7 @@ export class XplaneFmsTest extends Test {
         }
     }
     testRunway() {
-        const pln = new XplaneFms(fs.readFileSync("./src/Tests/cases/ENHD_local_flight.fms", "utf8"));
+        const pln = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.fms", "utf8"));
         this.group(XplaneFms.name + ": Runway check");
         {
             this.assertEquals(pln.departureRunway, "13");

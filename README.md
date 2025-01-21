@@ -24,6 +24,7 @@ There is also a local Node.js CLI tool, if you want some automation for your wor
 | Garmin `fpl` flight plan file                                                                                                                       |   ✅   |        |
 | `gpx` GPS Route file                                                                                                                                |   ✅   |        |
 | [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
+| [SimBrief API](./docs/importing-flightplans.md)                                                                                                     |   ✅   |        |
 
 ## Local Node.js CLI tool
 

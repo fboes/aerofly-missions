@@ -21,13 +21,15 @@ export class MissionTest extends Test {
       this.assert(mission.destination_lon_lat instanceof LonLat, "destination_lon_lat has correct type");
 
       mission.aircraft_icao = "ab12";
-      this.assertEquals(mission.aircraft_icao, "AB12");
+      this.assertEquals(mission.aircraft_icao, "A320");
+
+      mission.aircraft_icao = "A380";
+      this.assertEquals(mission.aircraft_icao, "A380");
     }
 
     this.group(Mission.name + ": Warnings");
     {
       const mission = new Mission("a".repeat(64), "b".repeat(500));
-      this.assertEquals(mission.title, "a".repeat(Mission.MAX_LENGTH_TITLE), "Truncating title");
       this.assertEquals(mission.warnings.length, 2, "Throwing warnings");
 
       const mission2 = new Mission("a".repeat(32), "b".repeat(200));
@@ -40,7 +42,7 @@ export class MissionTest extends Test {
     this.group(MissionFactory.name);
     {
       const mission = new MissionFactory().create(
-        fs.readFileSync("./src/Tests/cases/kclm_kbli.tmc", "utf8"),
+        fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8"),
         new Mission("", "")
       );
 

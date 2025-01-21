@@ -8,7 +8,7 @@ export class GpxTest extends Test {
         this.dieOnError = dieOnError;
         this.group(Gpx.name);
         {
-            const gpl = new Gpx(fs.readFileSync("./src/Tests/cases/EGOV.gpx", "utf8"));
+            const gpl = new Gpx(fs.readFileSync("./src/Tests/fixtures/EGOV.gpx", "utf8"));
             this.assertEquals(gpl.waypoints.length, 13);
             this.assertEquals(gpl.waypoints[0].identifier, "EGOV");
             this.assertEquals(gpl.waypoints[0].type, "AIRPORT");

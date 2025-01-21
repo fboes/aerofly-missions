@@ -14,6 +14,8 @@ import mapboxgl, { Map, MapMouseEvent, MapTouchEvent } from "mapbox-gl";
 import { Outputtable } from "../Export/Outputtable.js";
 import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./Components.js";
 import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
+import { ComponentSimBrief } from "./ComponentSimbrief.js";
+import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
 
 type ApiResult = {
   data: {
@@ -37,6 +39,7 @@ type ApiResult = {
 
 type AppStorable = {
   metarApiKey: string;
+  simBriefUsername: string;
   mission: Mission;
 };
 
@@ -82,6 +85,7 @@ export class App {
     cloud2_base_feet: <HTMLInputElement>document.getElementById("cloud2_base_feet"),
     callsign: <HTMLInputElement>document.getElementById("callsign"),
     aircraft_name: <HTMLSelectElement>document.getElementById("aircraft_name"),
+    simBrief: <ComponentSimBrief>document.querySelector("missionsgeraet-simbrief"),
   };
   mission: Mission;
   useIcao = true;
@@ -99,6 +103,21 @@ export class App {
 
   constructor() {
     this.mission = new Mission("", "");
+
+    customElements.define("missionsgeraet-simbrief", ComponentSimBrief);
+    this.elements.simBrief.addEventListener(
+      "simbrief-payload-fetched",
+      (event: CustomEventInit<SimBriefApiPayload>) => {
+        if (!event.detail) {
+          return;
+        }
+
+        const simBrief = new SimBrief();
+        simBrief.convertMission(event.detail, this.mission);
+        this.syncToForm();
+        this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
+      }
+    );
 
     customElements.define("missionsgeraet-buttons", ComponentsDownloadButtons);
     this.elements.downloadButtons.mission = this.mission;
@@ -924,6 +943,7 @@ export class App {
   toJSON(): AppStorable {
     return {
       metarApiKey: this.metarApiKey,
+      simBriefUsername: this.elements.simBrief.username,
       mission: this.mission,
     };
   }
@@ -931,6 +951,9 @@ export class App {
   hydrate(json: AppStorable) {
     if (json.metarApiKey) {
       this.metarApiKey = json.metarApiKey;
+    }
+    if (json.simBriefUsername) {
+      this.elements.simBrief.username = json.simBriefUsername;
     }
     if (json.mission) {
       this.mission.hydrate(json.mission);

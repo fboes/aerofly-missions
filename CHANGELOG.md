@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.21.0
+
+- Added SimBrief support
+
 ## 2.20.1
 
 - Added runway support for STOL, Glider, Helicopter, Ultralight, Water

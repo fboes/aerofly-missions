@@ -15,7 +15,7 @@ export class MsfsPlnTest extends Test {
 
   testEGOV() {
     // Parse PLN
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/cases/EGOV.pln", "utf8"));
+    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EGOV.pln", "utf8"));
     this.group(MsfsPln.name);
     {
       this.assertEquals(pln.waypoints.length, 16);
@@ -60,7 +60,7 @@ export class MsfsPlnTest extends Test {
   testLittleNavMap() {
     this.group(MsfsPln.name + ": Little Nav Map");
     {
-      const pln = new MsfsPln(fs.readFileSync("./src/Tests/cases/egov-lnavmap.pln", "utf8"));
+      const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.pln", "utf8"));
       this.assertEquals(pln.waypoints.length, 16);
       this.assertEquals(pln.waypoints[0].identifier, "EGOV");
       this.assertEquals(pln.waypoints[0].type, "AIRPORT");
@@ -72,7 +72,7 @@ export class MsfsPlnTest extends Test {
   }
 
   testGarminParse() {
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/cases/EFMA-lnavmap.pln", "utf8"));
+    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.pln", "utf8"));
     this.group(MsfsPln.name + ": Little Nav Map to Mission");
     {
       this.assertEquals(pln.waypoints.length, 11);
@@ -99,7 +99,7 @@ export class MsfsPlnTest extends Test {
   }
 
   testRunway() {
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/cases/ENHD_local_flight.pln", "utf8"));
+    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.pln", "utf8"));
     this.group(MsfsPln.name + ": Runway check");
     {
       this.assertEquals(pln.departureRunway, "13");

@@ -175,13 +175,19 @@ button {
   color: var(--color-text);
   margin-top: 0.5em;
   cursor: pointer;
-}
 
-button.primary {
-  background-color: var(--color-highlight);
-  color: var(--color-highlight-contra);
-  padding-top: 1em;
-  padding-bottom: 1em;
+  &.primary {
+    background-color: var(--color-highlight);
+    color: var(--color-highlight-contra);
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  &.secondary {
+    background-color: var(--color-highlight);
+    color: var(--color-highlight-contra);
+    margin: 0;
+  }
 }
 
 ::file-selector-button {
@@ -204,42 +210,45 @@ button:is(:hover, :focus):not(:disabled),
   box-shadow: var(--color-darken-more) 0px 0.5em 0.5em;
 }
 
-button.icon {
-  width: auto;
-  font-size: 0.8rem;
-  border-radius: 1em;
-  padding: 0.35em 0.5em 0.55em;
-  min-width: 2em;
-  height: 2em;
-  position: absolute;
-  text-align: center;
-  top: 1em;
-  right: 1em;
-  line-height: 1;
-  text-align: center;
-}
+button {
+  &.icon {
+    width: auto;
+    font-size: 0.8rem;
+    border-radius: 1em;
+    padding: 0.35em 0.5em 0.55em;
+    min-width: 2em;
+    height: 2em;
+    position: absolute;
+    text-align: center;
+    top: 1em;
+    right: 1em;
+    line-height: 1;
+    text-align: center;
+  }
 
-button.icon span {
-  display: none;
-}
+  &.icon span {
+    display: none;
+  }
 
-button.icon:hover span {
-  display: inline-block;
-}
+  &.icon:hover span {
+    display: inline-block;
+  }
 
-button.help,
-button.reset {
-  top: 0;
-  right: 0;
-}
+  &.help,
+  &.reset {
+    top: 0;
+    right: 0;
+  }
 
-button.second {
-  right: 2.5em;
-}
+  &.second {
+    right: 2.5em;
+  }
 
-button.reset {
-  background-color: var(--color--warning);
-  color: var(--color-highlight-contra);
+  &.reset,
+  &.is-loading {
+    background-color: var(--color--warning);
+    color: var(--color-highlight-contra);
+  }
 }
 
 /* Dialog */
@@ -249,7 +258,7 @@ dialog {
   background-color: var(--color-background);
   border: 1px solid var(--color-darken);
   padding: 1em;
-  margin: auto;
+  margin: auto !important;
   box-shadow: var(--color-darken-more) 0.5em 0.5em 0.5em;
   border-radius: 0.25em;
   max-width: 40em;

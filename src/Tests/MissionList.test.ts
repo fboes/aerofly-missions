@@ -8,7 +8,7 @@ export class MissionListTest extends Test {
 
     this.group(MissionListParser.name);
     {
-      const fileContent = fs.readFileSync("./src/Tests/cases/kclm_kbli.tmc", "utf8");
+      const fileContent = fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8");
       const missionListParser = new MissionListParser(fileContent);
 
       const missionNames = missionListParser.getMissionNames();

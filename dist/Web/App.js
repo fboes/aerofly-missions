@@ -13,6 +13,8 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Outputtable } from "../Export/Outputtable.js";
 import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./Components.js";
 import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
+import { ComponentSimBrief } from "./ComponentSimbrief.js";
+import { SimBrief } from "../Import/SimBrief.js";
 export class App {
     constructor() {
         this.elements = {
@@ -56,10 +58,21 @@ export class App {
             cloud2_base_feet: document.getElementById("cloud2_base_feet"),
             callsign: document.getElementById("callsign"),
             aircraft_name: document.getElementById("aircraft_name"),
+            simBrief: document.querySelector("missionsgeraet-simbrief"),
         };
         this.useIcao = true;
         this.metarApiKey = "";
         this.mission = new Mission("", "");
+        customElements.define("missionsgeraet-simbrief", ComponentSimBrief);
+        this.elements.simBrief.addEventListener("simbrief-payload-fetched", (event) => {
+            if (!event.detail) {
+                return;
+            }
+            const simBrief = new SimBrief();
+            simBrief.convertMission(event.detail, this.mission);
+            this.syncToForm();
+            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
+        });
         customElements.define("missionsgeraet-buttons", ComponentsDownloadButtons);
         this.elements.downloadButtons.mission = this.mission;
         this.elements.downloadButtons.draw();
@@ -817,12 +830,16 @@ export class App {
     toJSON() {
         return {
             metarApiKey: this.metarApiKey,
+            simBriefUsername: this.elements.simBrief.username,
             mission: this.mission,
         };
     }
     hydrate(json) {
         if (json.metarApiKey) {
             this.metarApiKey = json.metarApiKey;
+        }
+        if (json.simBriefUsername) {
+            this.elements.simBrief.username = json.simBriefUsername;
         }
         if (json.mission) {
             this.mission.hydrate(json.mission);
