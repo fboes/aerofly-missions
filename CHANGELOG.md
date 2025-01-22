@@ -2,6 +2,7 @@
 
 ## 2.21.1
 
+- Improved origin coordinates on importing `pln` flight plans
 - SimBrief username can be substituted with SimBrief user id in API call
 
 ## 2.21.0

@@ -4,7 +4,7 @@ Flight planners:
 
 - [SimBrief.com](https://www.simbrief.com/): You can either download flight plans from SimBrief and import these via the regular way, or you can use the SimBrief API (see below)
 - [SkyVector](https://skyvector.com/): Use the "Save Plan" option and download your flight plan as Garmin `fpl` file
-- [Little Nav Map](https://github.com/albar965/littlenavmap)
+- [Little Nav Map](https://github.com/albar965/littlenavmap): Use "Convert departure to waypoints" for the departure runway waypoint before exporting, and use the option "Export Flight Plan as MSFS 2020"
 
 Flight plans:
 

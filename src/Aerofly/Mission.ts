@@ -505,35 +505,46 @@ export class Mission {
       ) {
         cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
         cp.name = cp.name.replace(/^(RW)/, "");
-
-        /*if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
-          gpl.departureRunway = undefined;
-        } else {
-          gpl.destinationRunway = undefined;
-        }*/
       }
-
-      //this.addCheckpointAfter(0, 0.5);
-      // if (gpl.departureRunway) {
-      // if (gpl.destinationRunway) {
 
       return cp;
     });
 
-    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
-    this.syncCruiseSpeed();
-    this.calculateCheckpoints();
+    // Find runways and runway directions
+    const departureRunway: MissionCheckpoint | undefined = this.findCheckPointByType(
+      MissionCheckpoint.TYPE_DEPARTURE_RUNWAY
+    );
+    const departureRunwayDirection: number | undefined = departureRunway
+      ? Number(departureRunway.name.replace(/\D+/, "") + "0")
+      : undefined;
+    const destinationRunway: MissionCheckpoint | undefined = this.findCheckPointByType(
+      MissionCheckpoint.TYPE_DESTINATION_RUNWAY
+    );
+    const destinationRunwayDirection: number | undefined = destinationRunway
+      ? Number(destinationRunway.name.replace(/\D+/, "") + "0")
+      : undefined;
 
+    // TODO: If no runways exist, check for gpl.departureRunway / gpl.destinationRunway
+
+    // Set origin to runway if exists
     this.origin_icao = this.checkpoints[0].name;
-    this.origin_dir = this.checkpoints[1].direction;
-    this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
+    this.origin_dir = departureRunwayDirection ?? this.checkpoints[1].direction;
+    this.origin_lon_lat =
+      departureRunway?.lon_lat.getRelativeCoordinates(0.002, (departureRunwayDirection ?? 0) + 180) ??
+      this.checkpoints[0].lon_lat.clone();
 
+    // Set destination to runway if exists
     const checkpointDestination =
       this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
     this.destination_icao = checkpointDestination.name;
-    this.destination_dir = checkpointDestination.direction;
-    this.destination_lon_lat = checkpointDestination.lon_lat.clone();
+    this.destination_dir = destinationRunwayDirection ?? checkpointDestination.direction;
+    this.destination_lon_lat =
+      destinationRunway?.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection ?? 0) ??
+      checkpointDestination.lon_lat.clone();
 
+    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
+    this.syncCruiseSpeed();
+    this.calculateCheckpoints();
     this.setAutoTitleDescription(flight_category);
 
     return this;

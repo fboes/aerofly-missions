@@ -10,7 +10,7 @@
         <DepartureLLA>N60° 7' 30.91",E19° 54' 24.37",+000017.00</DepartureLLA>
         <DestinationID>EFMA</DestinationID>
         <DestinationLLA>N60° 7' 19.00",E19° 53' 47.00",+000017.00</DestinationLLA>
-        <Descr>EFMA, EFMA</Descr>
+        <Descr>EFMA, EFMA created by Little Navmap 3.0.13.beta1</Descr>
         <DeparturePosition>Gate 01</DeparturePosition>
         <DepartureName>Mariehamn</DepartureName>
         <DestinationName>Mariehamn</DestinationName>
@@ -27,11 +27,17 @@
         </ATCWaypoint>
         <ATCWaypoint id="RW21">
             <ATCWaypointType>User</ATCWaypointType>
-            <WorldPosition>N60° 7' 48.11",E19° 54' 17.44",+000017.00</WorldPosition>
+            <WorldPosition>N60° 7' 48.11",E19° 54' 17.44",+000223.83</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW21</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="RW213">
             <ATCWaypointType>User</ATCWaypointType>
-            <WorldPosition>N60° 5' 2.63",E19° 51' 55.28",+001185.87</WorldPosition>
+            <WorldPosition>N60° 5' 2.63",E19° 51' 55.28",+001358.10</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW213</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="RATSO">
             <ATCWaypointType>Intersection</ATCWaypointType>
@@ -61,18 +67,30 @@
         <ATCWaypoint id="W-3515">
             <ATCWaypointType>User</ATCWaypointType>
             <WorldPosition>N60° 13' 4.77",E19° 31' 35.80",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>W-3515</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="W-6315">
             <ATCWaypointType>User</ATCWaypointType>
             <WorldPosition>N60° 13' 14.76",E19° 41' 1.95",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>W-6315</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="RW213">
             <ATCWaypointType>User</ATCWaypointType>
-            <WorldPosition>N60° 10' 33.55",E19° 56' 39.94",+001017.00</WorldPosition>
+            <WorldPosition>N60° 10' 33.55",E19° 56' 39.94",+001020.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW213</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="RW21">
             <ATCWaypointType>User</ATCWaypointType>
             <WorldPosition>N60° 7' 48.11",E19° 54' 17.44",+000017.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW21</ICAOIdent>
+            </ICAO>
         </ATCWaypoint>
         <ATCWaypoint id="EFMA">
             <ATCWaypointType>Airport</ATCWaypointType>

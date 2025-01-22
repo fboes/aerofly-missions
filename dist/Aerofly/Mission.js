@@ -400,7 +400,7 @@ export class Mission {
         return this;
     }
     fromGarminFpl(gpl) {
-        var _a;
+        var _a, _b, _c;
         if (gpl.cruisingAlt) {
             this.cruise_altitude_ft = gpl.cruisingAlt;
         }
@@ -422,27 +422,33 @@ export class Mission {
                 cp.name.match(/^(RW)?\d\d[A-Z]?$/)) {
                 cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
                 cp.name = cp.name.replace(/^(RW)/, "");
-                /*if (cp.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY) {
-                  gpl.departureRunway = undefined;
-                } else {
-                  gpl.destinationRunway = undefined;
-                }*/
             }
-            //this.addCheckpointAfter(0, 0.5);
-            // if (gpl.departureRunway) {
-            // if (gpl.destinationRunway) {
             return cp;
         });
+        // Find runways and runway directions
+        const departureRunway = this.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
+        const departureRunwayDirection = departureRunway
+            ? Number(departureRunway.name.replace(/\D+/, "") + "0")
+            : undefined;
+        const destinationRunway = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
+        const destinationRunwayDirection = destinationRunway
+            ? Number(destinationRunway.name.replace(/\D+/, "") + "0")
+            : undefined;
+        // TODO: If no runways exist, check for gpl.departureRunway / gpl.destinationRunway
+        // Set origin to runway if exists
+        this.origin_icao = this.checkpoints[0].name;
+        this.origin_dir = departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : this.checkpoints[1].direction;
+        this.origin_lon_lat =
+            (_a = departureRunway === null || departureRunway === void 0 ? void 0 : departureRunway.lon_lat.getRelativeCoordinates(0.002, (departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : 0) + 180)) !== null && _a !== void 0 ? _a : this.checkpoints[0].lon_lat.clone();
+        // Set destination to runway if exists
+        const checkpointDestination = (_b = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _b !== void 0 ? _b : this.checkpoints[this.checkpoints.length - 1];
+        this.destination_icao = checkpointDestination.name;
+        this.destination_dir = destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : checkpointDestination.direction;
+        this.destination_lon_lat =
+            (_c = destinationRunway === null || destinationRunway === void 0 ? void 0 : destinationRunway.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : 0)) !== null && _c !== void 0 ? _c : checkpointDestination.lon_lat.clone();
         const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
         this.syncCruiseSpeed();
         this.calculateCheckpoints();
-        this.origin_icao = this.checkpoints[0].name;
-        this.origin_dir = this.checkpoints[1].direction;
-        this.origin_lon_lat = this.checkpoints[0].lon_lat.clone();
-        const checkpointDestination = (_a = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
-        this.destination_icao = checkpointDestination.name;
-        this.destination_dir = checkpointDestination.direction;
-        this.destination_lon_lat = checkpointDestination.lon_lat.clone();
         this.setAutoTitleDescription(flight_category);
         return this;
     }
