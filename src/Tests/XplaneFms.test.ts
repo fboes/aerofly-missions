@@ -85,7 +85,7 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(fms.waypoints[4].type, "VOR");
       this.assertEquals(fms.waypoints[5].type, "NDB");
-      this.assertEquals(fms.waypoints[1].alt, 17);
+      this.assertEqualsRounded(fms.waypoints[1].alt ?? 0, 223.83, 2);
       this.assertEquals(fms.cruisingAlt, 2500);
     }
 

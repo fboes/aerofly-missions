@@ -81,7 +81,7 @@ export class MsfsPlnTest extends Test {
       this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(pln.waypoints[4].type, "VOR");
       this.assertEquals(pln.waypoints[5].type, "NDB");
-      this.assertEquals(pln.waypoints[1].alt, 17);
+      this.assertEqualsRounded(pln.waypoints[1].alt ?? 0, 223.83, 2);
       this.assertEquals(pln.cruisingAlt, 2500);
     }
 

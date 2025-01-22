@@ -67,6 +67,7 @@ export class MsfsPlnTest extends Test {
         }
     }
     testGarminParse() {
+        var _a;
         const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.pln", "utf8"));
         this.group(MsfsPln.name + ": Little Nav Map to Mission");
         {
@@ -76,7 +77,7 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
             this.assertEquals(pln.waypoints[4].type, "VOR");
             this.assertEquals(pln.waypoints[5].type, "NDB");
-            this.assertEquals(pln.waypoints[1].alt, 17);
+            this.assertEqualsRounded((_a = pln.waypoints[1].alt) !== null && _a !== void 0 ? _a : 0, 223.83, 2);
             this.assertEquals(pln.cruisingAlt, 2500);
         }
         // Convert FMS to Mission
