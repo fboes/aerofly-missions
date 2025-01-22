@@ -13,20 +13,22 @@ export class SimBriefTest extends Test {
     }
     static async init(process, dieOnError = false) {
         const self = new SimBriefTest(process, dieOnError);
-        await self.testMsfsLive();
-        await self.testAeroflyLive();
+        await self.testMsfsLive("fjboes");
+        await self.testMsfsLive("746243");
+        await self.testAeroflyLive("fjboes");
+        await self.testAeroflyLive("746243");
         return self;
     }
-    async testMsfsLive() {
-        this.group(SimBrief.name + ".testMsfsLive");
+    async testMsfsLive(username) {
+        this.group(SimBrief.name + ".testMsfsLive(" + username + ")");
         const simBrief = new SimBrief();
-        const msfsPln = await simBrief.fetchMsfs("fjboes");
+        const msfsPln = await simBrief.fetchMsfs(username);
         this.assert(msfsPln !== "", "Response not empty");
         const pln = new MsfsPln(msfsPln);
         this.assert(pln !== null, "is valid MSFS PLN");
     }
     testMsfsStatic() {
-        this.group(SimBrief.name + ".testMsfsStatic");
+        this.group(SimBrief.name + ".testMsfsStatic()");
         const msfsPln = fs.readFileSync("./src/Tests/fixtures/simbrief-mfs.pln", "utf8");
         this.assert(msfsPln !== "", "Response not empty");
         const pln = new MsfsPln(msfsPln);
@@ -39,14 +41,14 @@ export class SimBriefTest extends Test {
         this.assertEquals(mission.checkpoints[0].name, mission.origin_icao);
         this.assertEquals(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
     }
-    async testAeroflyLive() {
-        this.group(SimBrief.name + ".testAeroflyLive");
+    async testAeroflyLive(username) {
+        this.group(SimBrief.name + ".testAeroflyLive(" + username + ")");
         const simBrief = new SimBrief();
-        const mission = await simBrief.fetchMission("fjboes", new Mission("TEST", "TEST"));
+        const mission = await simBrief.fetchMission(username, new Mission("TEST", "TEST"));
         this.assert(mission !== null, "Response not empty");
     }
     testAeroflyStatic() {
-        this.group(SimBrief.name + ".testAeroflyStatic");
+        this.group(SimBrief.name + ".testAeroflyStatic()");
         const simBrief = new SimBrief();
         const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);

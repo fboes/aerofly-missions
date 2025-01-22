@@ -18,15 +18,15 @@ Flight plans:
 
 Here's how to set it up:
 
-1. Obviously you will need a **SimBrief account** with a SimBrief username.
+1. Obviously you will need a **SimBrief account** with a SimBrief username (alias).
 2. Activate the **expert mode** for the Missionsgerät with the small cog wheel in the upper right corner.
-3. The "Import" has now an input field for your SimBrief username, which you need to supply. No password needed, as the SimBrief API makes all your flight plans public by default.
+3. The "Import" section now has an input field for your [SimBrief username (alias)](https://dispatch.simbrief.com/account#settings), which you need to supply. No password needed, as the SimBrief API makes all your flight plans public by default.
 
 Here's how to convert your flight plan:
 
 1. **Create** a flight plan in SimBrief.
 2. Hit the button labelled "Fetch SimBrief flight plan" to **fetch the flight plan** and automatically **convert** it into a Missionsgerät mission.
-3. **Download** the Aerofly FS custom user mission and [import](./generic-installation.md) it as usual.
+3. **Download** the Aerofly FS custom user mission and [install the mission file in Aerofly FS](./generic-installation.md) as usual.
 
 This method not only saves a lot of time, but also receives extra information from SimBrief like basic weather, navigational aid frequencies and aircraft data.
 

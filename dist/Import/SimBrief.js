@@ -2,7 +2,9 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { LonLat } from "../World/LonLat.js";
 export class SimBrief {
     async fetch(username) {
-        const url = `https://www.simbrief.com/api/xml.fetcher.php?username=${encodeURIComponent(username)}&json=v2`;
+        const parameterName = username.match(/^\d+$/) ? "userid" : "username";
+        const url = `https://www.simbrief.com/api/xml.fetcher.php?${encodeURIComponent(parameterName)}=${encodeURIComponent(username)}&json=v2`;
+        console.log(url);
         const response = await fetch(url, {
             headers: {
                 Accept: "application/json",

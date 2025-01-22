@@ -31,4 +31,5 @@ tests.add(new GpxTest(process, dieOnError));
 tests.add(new GeoJsonImportTest(process, dieOnError));
 tests.add(new QuoteTest(process, dieOnError));
 tests.add(new SimBriefTest(process, dieOnError));
+// tests.add(await SimBriefTest.init(process, dieOnError));
 tests.exit();

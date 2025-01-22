@@ -2,13 +2,12 @@ import { SimBrief } from "../Import/SimBrief.js";
 export class ComponentSimBrief extends HTMLElement {
     constructor() {
         super();
-        this.style.display = "block";
         this.innerHTML = `\
-<p>Optionally you can download your last flight briefing from SimBrief by supplying your <a href="https://forum.navigraph.com/t/user-id-for-simbrief/8149">SimBrief username</a>.</p>
+<p>Optionally you can download <a href="https://dispatch.simbrief.com/home" target="simbrief">your last flight briefing from SimBrief</a> by supplying your <a href="https://dispatch.simbrief.com/account#settings" target="simbrief">SimBrief username</a>.</p>
 <div class="col-2">
   <div>
     <label for="simbrief-username">SimBrief username</label>
-    <input type="text" id="simbrief-username" pattern="\\S+" />
+    <input type="text" id="simbrief-username" pattern="[A-Za-z0-9]+" />
   </div>
   <div>
     <label for="simbrief-fetch">SimBrief API Call</label>

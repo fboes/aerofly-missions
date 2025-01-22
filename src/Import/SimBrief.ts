@@ -52,7 +52,11 @@ export type SimBriefApiPayload = {
 
 export class SimBrief {
   public async fetch(username: string): Promise<SimBriefApiPayload> {
-    const url = `https://www.simbrief.com/api/xml.fetcher.php?username=${encodeURIComponent(username)}&json=v2`;
+    const parameterName = username.match(/^\d+$/) ? "userid" : "username";
+    const url = `https://www.simbrief.com/api/xml.fetcher.php?${encodeURIComponent(parameterName)}=${encodeURIComponent(
+      username
+    )}&json=v2`;
+    console.log(url);
 
     const response = await fetch(url, {
       headers: {

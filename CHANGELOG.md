@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.21.1
+
+- SimBrief username can be substituted with SimBrief user id in API call
+
 ## 2.21.0
 
 - Added SimBrief support

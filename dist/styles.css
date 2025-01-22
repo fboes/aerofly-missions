@@ -108,6 +108,10 @@ small {
   aspect-ratio: 16/9;
 }
 
+missionsgeraet-simbrief {
+  display: block;
+}
+
 /* Form */
 
 button,
