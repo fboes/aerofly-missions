@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyList>
+  <version type="int">2</version>
+  <source type="string">Created by Little Navmap Version 3.0.13.beta1 (revision e8629d57) on 2025 01 23T17:53:33+01:00</source>
+  <departure>
+    <airport type="string">KEYW</airport>
+  </departure>
+  <destination>
+    <airport type="string">KHWO</airport>
+  </destination>
+  <route>
+    <wp n="0">
+      <departure type="bool">true</departure>
+      <type type="string">navaid</type>
+      <ident type="string">KEYW</ident>
+      <lon type="double">-81.75955200</lon>
+      <lat type="double">24.55611038</lat>
+    </wp>
+    <wp n="1">
+      <type type="string">basic</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">132</altitude-ft>
+      <ident type="string">RW27</ident>
+      <lon type="double">-81.75231934</lon>
+      <lat type="double">24.55619431</lat>
+    </wp>
+    <wp n="2">
+      <type type="string">basic</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">1114</altitude-ft>
+      <ident type="string">RW27+3</ident>
+      <lon type="double">-81.80728912</lon>
+      <lat type="double">24.55564690</lat>
+    </wp>
+    <wp n="3">
+      <type type="string">navaid</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">1720</altitude-ft>
+      <ident type="string">EYW</ident>
+      <lon type="double">-81.80047607</lon>
+      <lat type="double">24.58587837</lat>
+    </wp>
+    <wp n="4">
+      <type type="string">navaid</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">2500</altitude-ft>
+      <ident type="string">MTH</ident>
+      <lon type="double">-81.09531403</lon>
+      <lat type="double">24.71188354</lat>
+    </wp>
+    <wp n="5">
+      <type type="string">navaid</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">2500</altitude-ft>
+      <ident type="string">JOMIN</ident>
+      <lon type="double">-80.34867859</lon>
+      <lat type="double">25.22395325</lat>
+    </wp>
+    <wp n="6">
+      <type type="string">navaid</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">2500</altitude-ft>
+      <ident type="string">VKZ</ident>
+      <lon type="double">-80.15444183</lon>
+      <lat type="double">25.75189972</lat>
+    </wp>
+    <wp n="7">
+      <type type="string">basic</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">1010</altitude-ft>
+      <ident type="string">RW28L+3</ident>
+      <lon type="double">-80.17933655</lon>
+      <lat type="double">25.99822807</lat>
+    </wp>
+    <wp n="8">
+      <type type="string">basic</type>
+      <alt-restrict type="string">at</alt-restrict>
+      <altitude-ft type="double">5</altitude-ft>
+      <ident type="string">RW28L</ident>
+      <lon type="double">-80.23496246</lon>
+      <lat type="double">25.99823761</lat>
+    </wp>
+    <wp n="9">
+      <approach type="bool">true</approach>
+      <type type="string">navaid</type>
+      <ident type="string">KHWO</ident>
+      <lon type="double">-80.24072266</lon>
+      <lat type="double">26.00122261</lat>
+    </wp>
+  </route>
+</PropertyList>

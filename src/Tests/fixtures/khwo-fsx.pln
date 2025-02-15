@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>KEYW to KHWO</Title>
+        <FPType>VFR</FPType>
+        <RouteType>Direct</RouteType>
+        <CruisingAlt>2500</CruisingAlt>
+        <DepartureID>KEYW</DepartureID>
+        <DepartureLLA>N24° 33' 15.68",W81° 45' 15.02",+000003.00</DepartureLLA>
+        <DestinationID>KHWO</DestinationID>
+        <DestinationLLA>N26° 0' 4.40",W80° 14' 26.60",+000005.00</DestinationLLA>
+        <Descr>KEYW, KHWO created by Little Navmap 3.0.13.beta1</Descr>
+        <DeparturePosition>Commercial Ramp</DeparturePosition>
+        <DepartureName>Key West Intl</DepartureName>
+        <DestinationName>North Perry</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>10</AppVersionMajor>
+            <AppVersionBuild>61472</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="KEYW">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N24° 33' 22.00",W81° 45' 34.39",+000003.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>KEYW</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW27">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N24° 33' 22.30",W81° 45' 8.35",+000132.19</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW27</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW273">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N24° 33' 20.33",W81° 48' 26.24",+001114.06</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW273</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="EYW">
+            <ATCWaypointType>VOR</ATCWaypointType>
+            <WorldPosition>N24° 35' 9.16",W81° 48' 1.71",+001720.06</WorldPosition>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>EYW</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="MTH">
+            <ATCWaypointType>NDB</ATCWaypointType>
+            <WorldPosition>N24° 42' 42.78",W81° 5' 43.13",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>MTH</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="JOMIN">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N25° 13' 26.23",W80° 20' 55.24",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>JOMIN</ICAOIdent>
+                <ICAOAirport>KHST</ICAOAirport>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="VKZ">
+            <ATCWaypointType>VOR</ATCWaypointType>
+            <WorldPosition>N25° 45' 6.84",W80° 9' 15.99",+002500.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>K7</ICAORegion>
+                <ICAOIdent>VKZ</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW28L3">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N25° 59' 53.62",W80° 10' 45.61",+001010.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW28L3</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="RW28L">
+            <ATCWaypointType>User</ATCWaypointType>
+            <WorldPosition>N25° 59' 53.66",W80° 14' 5.86",+000005.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>RW28L</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="KHWO">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N26° 0' 4.40",W80° 14' 26.60",+000005.00</WorldPosition>
+            <ICAO>
+                <ICAOIdent>KHWO</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>

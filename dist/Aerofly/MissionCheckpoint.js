@@ -194,10 +194,15 @@ export class MissionCheckpoint {
         this.slope = altDifference / this.distance_m;
     }
     toString(index) {
-        let flyOver = "";
+        let additional = "";
         if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
-            flyOver = `\
+            additional += `\
                         <[bool][fly_over][${this.flyOver ? "true" : "false"}]>
+`;
+        }
+        if (this.lon_lat.altitude_m !== 0) {
+            additional += `\
+                        <[bool][alt_cst][true]>
 `;
         }
         return `\
@@ -211,7 +216,7 @@ export class MissionCheckpoint {
                         <[float64][slope][${this.slope}]> // ${this.slope_deg.toFixed(1)} deg
                         <[float64][length][${this.length}]>
                         <[float64][frequency][${this.frequency.toFixed()}]>
-${flyOver}\
+${additional}\
                     >
 `;
     }
