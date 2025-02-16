@@ -31,15 +31,18 @@ export class SimBrief {
     convertMission(simbriefPayload, mission) {
         mission.conditions.time.dateTime = new Date(simbriefPayload.times.sched_out);
         mission.conditions.visibility = Number(simbriefPayload.origin.metar_visibility != "9999" ? simbriefPayload.origin.metar_visibility : 20000);
-        mission.conditions.cloud.height_feet = Number(simbriefPayload.origin.metar_ceiling != "9999" ? simbriefPayload.origin.metar_ceiling : 0);
-        mission.conditions.cloud.cover = Number(simbriefPayload.origin.metar_ceiling != "9999" ? 0.5 : 0);
-        mission.conditions.cloud2.height_feet = 0;
-        mission.conditions.cloud2.cover = 0;
+        const clouds = [...simbriefPayload.origin.metar.matchAll(/\b(FEW|SCT|BKN|OVC":)(\d{3})\b/g)];
+        mission.conditions.cloud.cover_code = clouds[0] && clouds[0][1] ? clouds[0][1] : "";
+        mission.conditions.cloud.height_feet = clouds[0] && clouds[0][2] ? Number(clouds[0][2]) * 100 : 0;
+        mission.conditions.cloud2.cover_code = clouds[1] && clouds[1][1] ? clouds[1][1] : "";
+        mission.conditions.cloud2.height_feet = clouds[1] && clouds[1][2] ? Number(clouds[1][2]) * 100 : 0;
+        mission.conditions.cloud3.cover_code = clouds[2] && clouds[2][1] ? clouds[2][1] : "";
+        mission.conditions.cloud3.height_feet = clouds[2] && clouds[2][2] ? Number(clouds[2][2]) * 100 : 0;
         mission.conditions.cloud3.height_feet = 0;
-        mission.conditions.cloud3.cover = 0;
-        const windMatch = simbriefPayload.origin.metar.match(/\s(\d{3})(\d{2})KT\s/);
+        const windMatch = simbriefPayload.origin.metar.match(/\b(\d{3})(\d{2})(?:G(\d{2}))?KT\b/);
         mission.conditions.wind_direction = windMatch && windMatch[1] ? Number(windMatch[1]) : 0;
         mission.conditions.wind_speed = windMatch && windMatch[2] ? Number(windMatch[2]) : 0;
+        mission.conditions.wind_gusts = windMatch && windMatch[3] ? Number(windMatch[3]) : 0;
         const departureRunwayOrientation = Number(simbriefPayload.origin.plan_rwy.replace(/\D+/, "")) * 10;
         const originPosition = new LonLat(Number(simbriefPayload.origin.pos_long), Number(simbriefPayload.origin.pos_lat), Number(simbriefPayload.origin.elevation));
         mission.origin_icao = simbriefPayload.origin.icao_code;
