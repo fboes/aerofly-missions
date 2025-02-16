@@ -21,12 +21,14 @@ export class ComponentSimBrief extends HTMLElement {
       <li>Edit the starting position and orientation of your aircraft.</li>
       <li>Check time, date and weather. Only basic weather has been imported.</li>
     </ul>
-    <button onclick="this.closest('dialog').close();" class="icon" title="Close flight plan help">✕ <span>Close</span></button>
+    <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
+    <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
   <dialog class="error">
     <h4>Error</h4>
     <p>There was an error loading your flight plan. Please check your SimBrief username, and if there is an active flight plan in SimBrief.</p>
-    <button onclick="this.closest('dialog').close();" class="icon" title="Close flight plan help">✕ <span>Close</span></button>
+    <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
+    <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
 </div>`;
         this.elements = {

@@ -6,6 +6,7 @@
 
 ## 2.21.3
 
+- Improved SimBrief UX
 - Added new aircraft types
 - Improved handling of SimBrief weather
 
