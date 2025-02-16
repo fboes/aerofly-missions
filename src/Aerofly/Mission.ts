@@ -215,6 +215,9 @@ export class Mission {
       case "b737":
         this._aircraft_icao = "B735";
         break;
+      case "b739-900":
+        this._aircraft_icao = "B739";
+        break;
       case "b747":
         this._aircraft_icao = "B744";
         break;
@@ -223,6 +226,9 @@ export class Mission {
         break;
       case "b777":
         this._aircraft_icao = "B77W";
+        break;
+      case "b777f":
+        this._aircraft_icao = "B77L";
         break;
       case "b747":
         this._aircraft_icao = "B744";
@@ -307,8 +313,17 @@ export class Mission {
       this.aircraft_name = aircraft_icao.toLowerCase();
     } else {
       const aircraftMapping: { [icao: string]: string } = {
+        A20N: "a320",
+        A21N: "a321",
+        B38M: "b737",
         B735: "b737",
+        B738: "b737",
+        B739: "b737-900",
         B744: "b747",
+        B748: "b747",
+        B772: "b777",
+        B77F: "b777f",
+        B77L: "b777f",
         B77W: "b777",
         B78X: "b787",
         BE58: "b58",

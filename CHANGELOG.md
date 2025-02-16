@@ -6,6 +6,7 @@
 
 ## 2.21.3
 
+- Added new aircraft types
 - Improved handling of SimBrief weather
 
 ## 2.21.2
