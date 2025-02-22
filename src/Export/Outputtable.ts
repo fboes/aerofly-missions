@@ -5,12 +5,16 @@ import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 export class Outputtable {
   /**
    * @param hours number
-   * @returns string MINUTES:SECONDS
+   * @returns string HOURS:MINUTES:SECONDS
    */
   static convertHoursToMinutesString(hours: number): string {
-    const seconds = Math.ceil(hours * 60 * 60);
+    const hoursFloor = Math.floor(hours)
+    const seconds = Math.ceil((hours - hoursFloor) * 60 * 60);
 
     return (
+      Math.floor(hoursFloor)
+        .toFixed() +
+      ":" +
       Math.floor(seconds / 60)
         .toFixed()
         .padStart(2, "0") +

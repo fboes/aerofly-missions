@@ -99,13 +99,13 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 `;
     markdown += this.outputLine(
       this.removeFrequencies(
-        ["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"],
+        ["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "    ETE"],
         hasFrequencies
       )
     );
     markdown += this.outputLine(
       this.removeFrequencies(
-        [":-:", "---------", "---------:", "--------:", "---:", "---:", "-------:", "----:"],
+        [":-:", "---------", "---------:", "--------:", "---:", "---:", "-------:", "------:"],
         hasFrequencies
       )
     );

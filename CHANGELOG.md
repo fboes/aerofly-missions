@@ -4,6 +4,10 @@
 
 - [Add an elevated line to a map - Mapbox GL JS - Mapbox](https://docs.mapbox.com/mapbox-gl-js/example/elevated-line/), which requires an updated type definition and an updated Mapbox GL JS. Wait till it is stable.
 
+## 2.21.4
+
+- Added hour output on flight plans
+
 ## 2.21.3
 
 - Improved SimBrief UX

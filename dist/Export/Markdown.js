@@ -70,8 +70,8 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 ### Checkpoints
 
 `;
-        markdown += this.outputLine(this.removeFrequencies(["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "  ETE"], hasFrequencies));
-        markdown += this.outputLine(this.removeFrequencies([":-:", "---------", "---------:", "--------:", "---:", "---:", "-------:", "----:"], hasFrequencies));
+        markdown += this.outputLine(this.removeFrequencies(["#  ", "Waypoint ", "Frequency ", "Altitude ", "DTK ", "HDG ", "Distance", "    ETE"], hasFrequencies));
+        markdown += this.outputLine(this.removeFrequencies([":-:", "---------", "---------:", "--------:", "---:", "---:", "-------:", "------:"], hasFrequencies));
         m.checkpoints.forEach((c, i) => {
             let frqString = "";
             if (c.frequency) {
