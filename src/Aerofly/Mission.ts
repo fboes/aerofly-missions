@@ -141,7 +141,7 @@ export class Mission {
    * @see this.setAircraft
    */
   set aircraft_name(aircraft_name: string) {
-    const aircraft = AircraftFinder.getByAeroflyCode(aircraft_name);
+    const aircraft = AircraftFinder.getByAeroflyCode(aircraft_name.toLowerCase());
     this.setAircraft(aircraft);
   }
 
@@ -153,7 +153,7 @@ export class Mission {
    * @see this.setAircraft
    */
   set aircraft_icao(aircraft_icao: string) {
-    const aircraft = AircraftFinder.getByIcaoCode(aircraft_icao);
+    const aircraft = AircraftFinder.getByIcaoCode(aircraft_icao.toUpperCase());
     this.setAircraft(aircraft);
   }
 

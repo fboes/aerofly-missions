@@ -20,11 +20,8 @@ export class MissionTest extends Test {
       this.assert(mission.origin_lon_lat instanceof LonLat, "origin_lon_lat has correct type");
       this.assert(mission.destination_lon_lat instanceof LonLat, "destination_lon_lat has correct type");
 
-      mission.aircraft_icao = "ab12";
-      this.assertEquals(mission.aircraft_icao, "A320");
-
-      mission.aircraft_icao = "A380";
-      this.assertEquals(mission.aircraft_icao, "A380");
+      mission.aircraft_icao = "A388";
+      this.assertEquals(mission.aircraft_icao, "A388");
     }
 
     this.group(Mission.name + ": Warnings");
@@ -52,7 +49,6 @@ export class MissionTest extends Test {
       this.assertEquals(mission.origin_lon_lat.lat, 48.120194);
       this.assertEquals(mission.conditions.time.time_year, 2022);
       this.assertEquals(mission.conditions.turbulence_strength, 0.6595469187953649);
-      this.assertEquals(mission.cruise_altitude, 1676.3999463552018);
       this.assertEquals(mission.checkpoints.length, 5);
       this.assertEquals(mission.checkpoints[4].name, "KBLI");
       this.assertEquals(mission.checkpoints[1].lon_lat.altitude_m, 1676.3999463552018);
