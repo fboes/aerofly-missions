@@ -2,6 +2,7 @@ import { Quote } from "../Export/Quote.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
+import { Aircraft, AircraftFinder } from "./Aircraft.js";
 import { FileParser } from "./FileParser.js";
 import { MainMcf } from "./MainMcf.js";
 import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
@@ -137,156 +138,44 @@ export class Mission {
   }
 
   /**
-   * ...this also sets `this._aircraft_icao`, `this._cruise_speed` and `this.callsign`
+   * @see this.setAircraft
    */
   set aircraft_name(aircraft_name: string) {
-    this._aircraft_name = aircraft_name.toLowerCase();
-    this._aircraft_icao = "";
-    this.cruise_speed = 0;
-    this.callsign = "";
-    this.turn_time = 2;
-    switch (this._aircraft_name) {
-      case "b58":
-        this._aircraft_icao = "BE58";
-        this.callsign = "N58EU";
-        this.cruise_speed = 180;
-        break;
-      case "jungmeister":
-        this._aircraft_icao = "BU33";
-        this.callsign = "HBMIZ";
-        this.cruise_speed = 110;
-        this.turn_time = 1;
-        break;
-      case "q400":
-        this._aircraft_icao = "DH8D";
-        this.cruise_speed = 360;
-        break;
-      case "crj900":
-        this._aircraft_icao = "CRJ9";
-        break;
-      case "c90gtx":
-        this._aircraft_icao = "BE9L";
-        this.callsign = "DIBYP";
-        this.cruise_speed = 226;
-        break;
-      case "f15e":
-        this._aircraft_icao = "F15";
-        this.callsign = "ASJ0494";
-        this.cruise_speed = 570;
-        this.turn_time = 1;
-        break;
-      case "f18":
-        this._aircraft_icao = "F18H";
-        this.callsign = "VVAC260";
-        this.cruise_speed = 570;
-        this.turn_time = 1;
-        break;
-      case "f4u":
-        this._aircraft_icao = "CORS";
-        this.cruise_speed = 187;
-        this.turn_time = 1;
-        break;
-      case "p38":
-        this._aircraft_icao = "P38";
-        this.callsign = "N38BP";
-        this.cruise_speed = 239;
-        this.turn_time = 1;
-        break;
-      case "bf109e":
-        this._aircraft_icao = "ME09";
-        this.cruise_speed = 320;
-        this.turn_time = 1;
-        break;
-      case "mb339":
-        this._aircraft_icao = "M339";
-        this.callsign = "FPR456";
-        this.cruise_speed = 350;
-        this.turn_time = 1;
-        break;
-      case "pitts":
-        this._aircraft_icao = "PTS2";
-        this.callsign = "DEUJS";
-        this.cruise_speed = 152;
-        this.turn_time = 1;
-        break;
-      case "a320":
-        this.callsign = "LH321";
-        break;
-      case "b737":
-        this._aircraft_icao = "B735";
-        break;
-      case "b739-900":
-        this._aircraft_icao = "B739";
-        break;
-      case "b747":
-        this._aircraft_icao = "B744";
-        break;
-      case "b787":
-        this._aircraft_icao = "B78X";
-        break;
-      case "b777":
-        this._aircraft_icao = "B77W";
-        break;
-      case "b777f":
-        this._aircraft_icao = "B77L";
-        break;
-      case "b747":
-        this._aircraft_icao = "B744";
-        break;
-      case "concorde":
-        this._aircraft_icao = "CONC";
-        this.callsign = "FBVFB";
-        this.cruise_speed = 1165;
-        break;
-      case "ec135":
-        this._aircraft_icao = "EC35";
-        this.callsign = "CHX64";
-        this.cruise_speed = 137;
-        break;
-      case "c172":
-        this.callsign = "N51911";
-        this.cruise_speed = 122;
-        break;
-      case "uh60":
-        this._aircraft_icao = "H60";
-        this.callsign = "EVAC26212";
-        this.cruise_speed = 152;
-        break;
-      case "dr1":
-        this.cruise_speed = 97;
-        this.turn_time = 1;
-        break;
-      case "camel":
-        this.cruise_speed = 98;
-        this._aircraft_icao = "CAML";
-        this.turn_time = 1;
-        break;
-      case "r22":
-        this.cruise_speed = 96;
-        this._aircraft_icao = "R22";
-        break;
-    }
+    const aircraft = AircraftFinder.getByAeroflyCode(aircraft_name);
+    this.setAircraft(aircraft);
+  }
 
-    if (!this._aircraft_icao) {
-      this._aircraft_icao = aircraft_name.toUpperCase();
-    }
-    if (!this.cruise_speed) {
-      this.cruise_speed = 450; // True for most airliners
-    }
-    if (!this.callsign) {
-      this.callsign = this.isoCountryToCallsignPrefix(this.origin_country);
-      this.callsign +=
-        this.callsign !== "D" && this.callsign !== "G"
-          ? String(this._aircraft_icao.charCodeAt(0)) + String(this._aircraft_icao.charCodeAt(2)) // 4 numbers
-          : String.fromCharCode(
-              (this._aircraft_icao.charCodeAt(1) % 26) + 65,
-              (this._aircraft_icao.charCodeAt(0) % 26) + 65,
-              (this._aircraft_icao.charCodeAt(3) % 26) + 65,
-              (this._aircraft_icao.charCodeAt(2) % 26) + 65
-            ); // 4 numbers
-    }
+  get aircraft_name() {
+    return this._aircraft_name;
+  }
+
+  /**
+   * @see this.setAircraft
+   */
+  set aircraft_icao(aircraft_icao: string) {
+    const aircraft = AircraftFinder.getByIcaoCode(aircraft_icao);
+    this.setAircraft(aircraft);
+  }
+
+  /**
+   * @param aircraft will set all relevant properties in this missoion
+   */
+  setAircraft(aircraft: Aircraft) {
+    this._aircraft_name = aircraft.aeroflyCode;
+    this._aircraft_icao = aircraft.icaoCode;
+    this.callsign = aircraft.callsign;
+    this.cruise_speed = aircraft.cruiseSpeedKts;
+    this.cruise_altitude_ft = aircraft.cruiseAltitudeFt;
+    this.turn_time = aircraft.turnTime;
     this.syncCruiseSpeed();
     this.calculateCheckpoints();
+  }
+
+  /**
+   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
+   */
+  get aircraft_icao() {
+    return this._aircraft_icao;
   }
 
   get origin_country() {
@@ -295,63 +184,6 @@ export class Mission {
 
   get destination_country() {
     return this.icaoAirportToIsoCountry(this.destination_icao);
-  }
-
-  get aircraft_name() {
-    return this._aircraft_name;
-  }
-
-  /**
-   * Will set the Aerofly model according to the ICAO code. If code is not found in models,
-   * will set "A320"
-   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
-   */
-  set aircraft_icao(aircraft_icao: string) {
-    const lowerCaseAircraft: string[] = ["P38", "A320", "A380", "LJ45", "C172", "DR1", "R22"];
-
-    if (lowerCaseAircraft.includes(aircraft_icao)) {
-      this.aircraft_name = aircraft_icao.toLowerCase();
-    } else {
-      const aircraftMapping: { [icao: string]: string } = {
-        A20N: "a320",
-        A21N: "a321",
-        B38M: "b737",
-        B735: "b737",
-        B738: "b737",
-        B739: "b737-900",
-        B744: "b747",
-        B748: "b747",
-        B772: "b777",
-        B77F: "b777f",
-        B77L: "b777f",
-        B77W: "b777",
-        B78X: "b787",
-        BE58: "b58",
-        BE9L: "c90gtx",
-        BU33: "jungmeister",
-        CAML: "camel",
-        CONC: "concorde",
-        CORS: "f4u",
-        CRJ9: "crj900",
-        DH8D: "q400",
-        EC35: "ec135",
-        F15: "f15e",
-        F18H: "f18",
-        H60: "uh60",
-        M339: "mb339",
-        ME09: "bf109e",
-        PTS2: "pitts",
-      };
-
-      this.aircraft_name = aircraftMapping[aircraft_icao] || "a320"; // Default to "a320" if no match
-    }
-  }
-
-  /**
-   * @see https://www.icao.int/publications/doc8643/pages/search.aspx
-   */
-  get aircraft_icao() {
-    return this._aircraft_icao;
   }
 
   /**
