@@ -19,6 +19,16 @@ export type Aircraft = AircraftBasic & {
   turnTime: number;
 };
 
+type SelectOptionGroup = {
+  label: string;
+  options: SelectOption[];
+};
+
+type SelectOption = {
+  value: string;
+  label: string;
+};
+
 /**
  * @see https://www.icao.int/publications/doc8643/pages/search.aspx
  */
@@ -2196,42 +2206,83 @@ export const AircraftFinder = {
     return code;
   },
 
-  /*getSelectOptions() {
+  /*   getSelectOptions() {
     const options = {
-      airliners: {
-        optgroup: "Airliners",
+      airliner: {
+        label: "Airliner",
         options: [],
-      },
-      helicopters: {
-        optgroup: "Helicopters",
+      } as SelectOptionGroup,
+      helicopter: {
+        label: "Helicopters",
         options: [],
-      },
+      } as SelectOptionGroup,
       general_aviation: {
-        optgroup: "General Aviation",
+        label: "General Aviation",
         options: [],
-      },
-      historical_aircraft: {
-        optgroup: "Histporical Aircraft",
+      } as SelectOptionGroup,
+      historical: {
+        label: "Historical Aircraft",
         options: [],
-      },
+      } as SelectOptionGroup,
       military: {
-        optgroup: "Military Aircraft",
+        label: "Military Aircraft",
         options: [],
-      },
-      gliders: {
-        optgroup: "Gliders",
+      } as SelectOptionGroup,
+      aerobatic: {
+        label: "Aerobatic aircraft",
         options: [],
-      },
-   };
+      } as SelectOptionGroup,
+      glider: {
+        label: "Gliders",
+        options: [],
+      } as SelectOptionGroup,
+    };
 
-   for(const aircraft of AircraftCollection) {
-    const o = {
-      value: aircraft.aeroflyCode,
-      label: aircraft.nameFull,
+    for (const aircraft of AircraftCollection) {
+      const o = {
+        value: aircraft.aeroflyCode,
+        label: aircraft.nameFull,
+      };
+
+      if (aircraft.tags.includes("historical")) {
+        options.historical.options.push(o);
+      } else if (aircraft.tags.includes("airliner")) {
+        options.airliner.options.push(o);
+      } else if (aircraft.tags.includes("helicopter")) {
+        options.helicopter.options.push(o);
+      } else if (aircraft.tags.includes("military")) {
+        options.military.options.push(o);
+      } else if (aircraft.tags.includes("glider")) {
+        options.glider.options.push(o);
+      } else if (aircraft.tags.includes("aerobatic")) {
+        options.aerobatic.options.push(o);
+      } else {
+        options.general_aviation.options.push(o);
+      }
     }
-    options.airliners.options.push(o);
-   }
 
-   return options;
-  },*/
+    let html = "";
+    for (const optgroup of [
+      options.airliner,
+      options.helicopter,
+      options.general_aviation,
+      options.historical,
+      options.military,
+      options.aerobatic,
+      options.glider,
+    ]) {
+      if (optgroup.options.length === 0) {
+        continue;
+      }
+      html += `<optgroup label="${optgroup.label}">`;
+      for (const option of optgroup.options) {
+        html += `<option value="${option.value}">${option.label}</option>`;
+      }
+      html += "</optgroup>";
+    }
+
+    return html;
+  }, */
 };
+
+// console.log(AircraftFinder.getSelectOptions());

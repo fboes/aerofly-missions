@@ -6,6 +6,7 @@
 
 ## 2.22.0
 
+- Improved aircraft select field
 - Changed default values for aircraft
 
 ## 2.21.4

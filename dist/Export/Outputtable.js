@@ -7,8 +7,7 @@ export class Outputtable {
     static convertHoursToMinutesString(hours) {
         const hoursFloor = Math.floor(hours);
         const seconds = Math.ceil((hours - hoursFloor) * 60 * 60);
-        return (Math.floor(hoursFloor)
-            .toFixed() +
+        return (Math.floor(hoursFloor).toFixed() +
             ":" +
             Math.floor(seconds / 60)
                 .toFixed()
