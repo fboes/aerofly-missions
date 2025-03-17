@@ -1,0 +1,22 @@
+[
+  { "ident": "EDDH", "type": "DPT", "lat": 53.63601, "lon": 9.99966, "alt": 0, "heading": 230 },
+  { "ident": "DH100", "type": "WPT", "lat": 53.5674, "lon": 9.85918, "alt": 5400 },
+  { "ident": "DH168", "type": "WPT", "lat": 53.4557, "lon": 9.35417, "alt": 21700 },
+  { "ident": "WSN", "type": "NDB", "lat": 53.34717, "lon": 8.87473, "alt": 30600 },
+  { "ident": "SIMAF", "type": "WPT", "lat": 53.26694, "lon": 8.69278, "alt": 32800 },
+  { "ident": "OTEXE", "type": "WPT", "lat": 53.25665, "lon": 8.55755, "alt": 34000 },
+  { "ident": "IGREF", "type": "WPT", "lat": 53.19528, "lon": 7.7925, "alt": 39800 },
+  { "ident": "SOFED", "type": "WPT", "lat": 53.14519, "lon": 7.20736, "alt": 43400 },
+  { "ident": "OLGER", "type": "WPT", "lat": 53.13306, "lon": 7.07056, "alt": 44000 },
+  { "ident": "EEL", "type": "VOR", "lat": 53.16417, "lon": 6.66675, "alt": 45600 },
+  { "ident": "T_O_C", "type": "FIX", "lat": 52.99865, "lon": 6.21773, "alt": 47000 },
+  { "ident": "VALKO", "type": "WPT", "lat": 52.07134, "lon": 3.83983, "alt": 47000 },
+  { "ident": "GALSO", "type": "WPT", "lat": 51.73278, "lon": 3.17194, "alt": 47000 },
+  { "ident": "AMRIV", "type": "WPT", "lat": 51.68861, "lon": 2.66694, "alt": 47000 },
+  { "ident": "MOMIC", "type": "WPT", "lat": 51.67361, "lon": 2.5, "alt": 47000 },
+  { "ident": "SUMUM", "type": "WPT", "lat": 51.63729, "lon": 2.10771, "alt": 47000 },
+  { "ident": "T_O_D", "type": "FIX", "lat": 51.66562, "lon": 1.98149, "alt": 47000 },
+  { "ident": "LOGAN", "type": "WPT", "lat": 51.74759, "lon": 1.61183, "alt": 37600 },
+  { "ident": "JACKO", "type": "WPT", "lat": 51.73574, "lon": 1.42667, "alt": 33200 },
+  { "ident": "EGLC", "type": "DST", "lat": 51.50553, "lon": 0.04576, "alt": 0, "heading": 93 }
+]

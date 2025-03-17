@@ -1,0 +1,44 @@
+[
+  {
+    "ident": "KSFO",
+    "type": "DPT",
+    "lat": 37.62872,
+    "lon": -122.39335,
+    "alt": 0,
+    "spd": "",
+    "heading": 117.9
+  },
+  {
+    "ident": "HYP",
+    "type": "VOR-DME",
+    "lat": 37.2194,
+    "lon": -120.4,
+    "alt": "10000",
+    "spd": "300"
+  },
+  {
+    "ident": "KSMX",
+    "type": "VORTAC",
+    "lat": 35.2523,
+    "lon": -120.76,
+    "alt": "FL350",
+    "spd": "M0.85"
+  },
+  {
+    "ident": "FIX",
+    "type": "FIX",
+    "lat": 33.8846112757352,
+    "lon": -118.87756347656251,
+    "alt": "8000",
+    "spd": "300"
+  },
+  {
+    "ident": "KLAX",
+    "type": "DST",
+    "lat": 33.93365,
+    "lon": -118.41903,
+    "alt": 0,
+    "spd": "150",
+    "heading": 82.95
+  }
+]

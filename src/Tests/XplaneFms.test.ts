@@ -20,7 +20,7 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints.length, 17);
       this.assertEquals(fms.waypoints[0].identifier, "EGCC");
       this.assertEquals(fms.waypoints[0].type, "AIRPORT");
-      this.assertEquals(fms.waypoints[1].type, "INT");
+      this.assertEquals(fms.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(fms.waypoints[1].lat, 53.2064);
       this.assertEquals(fms.waypoints[1].lon, -0.861111);
       this.assertEquals(fms.waypoints[1].alt, 18400);
@@ -38,7 +38,7 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
     }
 
-    // Export Mission to XML
+    // Export Mission to FMS
     const exportFms = new XplaneFmsExport(mission);
     //console.log(exportFms.toString());
 

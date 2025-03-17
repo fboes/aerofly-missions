@@ -1,0 +1,148 @@
+{
+  "nodes": [
+    {
+      "type": "APT",
+      "ident": "KLAX",
+      "name": "Los Angeles Intl",
+      "alt": 0,
+      "lat": 33.9431,
+      "lon": -118.409,
+      "via": null
+    },
+    {
+      "type": "FIX",
+      "ident": "BASAL",
+      "name": null,
+      "alt": 32400,
+      "lat": 34.7578,
+      "lon": -116.862,
+      "via": null
+    },
+    {
+      "type": "VOR",
+      "ident": "DAG",
+      "name": "DAGGETT",
+      "alt": 35000,
+      "lat": 34.962500000000006,
+      "lon": -116.578,
+      "via": { "type": "AWY-LO", "ident": "V394" }
+    },
+    {
+      "type": "FIX",
+      "ident": "JOKUR",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.041799999999995,
+      "lon": -116.4,
+      "via": { "type": "AWY-LO", "ident": "V587" }
+    },
+    {
+      "type": "FIX",
+      "ident": "TEELE",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.05760000000001,
+      "lon": -116.364,
+      "via": { "type": "AWY-LO", "ident": "V587" }
+    },
+    {
+      "type": "FIX",
+      "ident": "DANBY",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.31139999999999,
+      "lon": -115.786,
+      "via": { "type": "AWY-LO", "ident": "V587" }
+    },
+    {
+      "type": "FIX",
+      "ident": "WHIGG",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.50790000000001,
+      "lon": -115.524,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "FIX",
+      "ident": "WOPMA",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.548,
+      "lon": -115.47,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "FIX",
+      "ident": "BOACH",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.678200000000004,
+      "lon": -115.295,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "FIX",
+      "ident": "CRESO",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.774,
+      "lon": -115.165,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "FIX",
+      "ident": "DICSA",
+      "name": null,
+      "alt": 35000,
+      "lat": 35.8681,
+      "lon": -115.038,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "VOR",
+      "ident": "BLD",
+      "name": "BOULDER CITY",
+      "alt": 35000,
+      "lat": 35.9958,
+      "lon": -114.864,
+      "via": { "type": "AWY-LO", "ident": "V21" }
+    },
+    {
+      "type": "VOR",
+      "ident": "BCE",
+      "name": "BRYCE CANYON",
+      "alt": 35000,
+      "lat": 37.6892,
+      "lon": -112.304,
+      "via": { "type": "AWY-HI", "ident": "J60" }
+    },
+    {
+      "type": "VOR",
+      "ident": "HVE",
+      "name": "HANKSVILLE",
+      "alt": 35000,
+      "lat": 38.416799999999995,
+      "lon": -110.7,
+      "via": { "type": "AWY-HI", "ident": "J60" }
+    },
+    {
+      "type": "VOR",
+      "ident": "DBL",
+      "name": "RED TABLE (EAGLE)",
+      "alt": 18600,
+      "lat": 39.4393,
+      "lon": -106.895,
+      "via": { "type": "AWY-HI", "ident": "J60" }
+    },
+    {
+      "type": "APT",
+      "ident": "KBJC",
+      "name": "Rocky Mountain Metropolitan",
+      "alt": 0,
+      "lat": 39.90899999999999,
+      "lon": -105.117,
+      "via": null
+    }
+  ]
+}

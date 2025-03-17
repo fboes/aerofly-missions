@@ -3,6 +3,7 @@ import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { Markdown } from "../Export/Markdown.js";
+import { GeoFsExport } from "../Import/GeoFs.js";
 import { MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
 
@@ -15,6 +16,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
     this.innerHTML = `<button type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
     <button type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
     <button type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+    <button type="button" id="download-geofs-json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
     <button type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
     <button type="button" class="expert-mode" id="download-json">Download <code>custom_missions.geojson</code></button>`;
   }
@@ -57,6 +59,9 @@ export class ComponentsDownloadButtons extends HTMLElement {
         break;
       case "download-fms":
         this.download(filename + ".fms", new XplaneFmsExport(this.mission).toString());
+        break;
+      case "download-geofs-json":
+        this.download(filename + ".geofs.json", new GeoFsExport(this.mission).toString());
         break;
       case "download-tmc":
         const m = new MissionsList("");

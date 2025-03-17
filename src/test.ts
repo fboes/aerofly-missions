@@ -13,6 +13,7 @@ import { GeoJsonImportTest } from "./Tests/GeoJsonImport.test.js";
 import { QuoteTest } from "./Tests/Quote.test.js";
 import { MissionListTest } from "./Tests/MissionList.test.js";
 import { SimBriefTest } from "./Tests/SimBrief.test.js";
+import { GeoFsTest } from "./Tests/GeoFs.test.js";
 
 const dieOnError = false;
 const tests = new Tests(process);
@@ -32,4 +33,5 @@ tests.add(new GeoJsonImportTest(process, dieOnError));
 tests.add(new QuoteTest(process, dieOnError));
 tests.add(new SimBriefTest(process, dieOnError));
 // tests.add(await SimBriefTest.init(process, dieOnError));
+tests.add(new GeoFsTest(process, dieOnError));
 tests.exit();

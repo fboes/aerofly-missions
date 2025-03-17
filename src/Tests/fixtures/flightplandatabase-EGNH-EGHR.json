@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "type": "APT",
+      "ident": "EGNH",
+      "name": "Blackpool",
+      "alt": 0,
+      "lat": 53.77170000000001,
+      "lon": -3.0331500000000062,
+      "via": null
+    },
+    {
+      "type": "FIX",
+      "ident": "PEPUL",
+      "name": null,
+      "alt": 20200,
+      "lat": 52.267499999999984,
+      "lon": -1.8873299999999915,
+      "via": null
+    },
+    {
+      "type": "APT",
+      "ident": "EGHR",
+      "name": "Chichester / Goodwood",
+      "alt": 0,
+      "lat": 50.860600000000005,
+      "lon": -0.759034000000014,
+      "via": null
+    }
+  ]
+}

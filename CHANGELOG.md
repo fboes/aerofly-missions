@@ -8,6 +8,7 @@
 
 - Improved aircraft select field
 - Changed default values for aircraft
+- Added GeoFS import / export
 
 ## 2.21.4
 

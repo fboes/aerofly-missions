@@ -180,7 +180,7 @@ export class MsfsPlnExport {
                 return "Airport";
             case MissionCheckpoint.TYPE_DESTINATION:
                 return "Airport";
-            case MissionCheckpoint.TYPE_FIX:
+            case MissionCheckpoint.TYPE_INTERSECTION:
                 return "Intersection";
             case MissionCheckpoint.TYPE_NDB:
                 return "NDB";

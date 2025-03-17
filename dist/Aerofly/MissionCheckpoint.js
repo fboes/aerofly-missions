@@ -84,6 +84,11 @@ export class MissionCheckpoint {
             frequency_unit +
             "Hz");
     }
+    /**
+     * @see https://aviation.stackexchange.com/questions/23743/what-is-the-difference-between-a-fix-a-waypoint-and-an-intersection
+     * FIX− A geographical position determined by visual reference to the surface, by reference to one or more radio NAVAIDs, by celestial plotting, or by another navigational device.
+     * WAYPOINT− A predetermined geographical position used for route/instrument approach definition, progress reports, published VFR routes, visual reporting points or points for transitioning and/or circumnavigating controlled and/or special use airspace, that is defined relative to a VORTAC station or in terms of latitude/longitude coordinates.
+     */
     get type_extended() {
         if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
             if (this.frequency) {
@@ -96,9 +101,10 @@ export class MissionCheckpoint {
                     case 4:
                         return MissionCheckpoint.TYPE_AIRPORT;
                     default:
-                        return MissionCheckpoint.TYPE_FIX;
+                        return MissionCheckpoint.TYPE_WAYPOINT;
                 }
             }
+            return MissionCheckpoint.TYPE_FIX;
         }
         return this.type;
     }
@@ -258,4 +264,5 @@ MissionCheckpoint.TYPE_DESTINATION = "destination";
 MissionCheckpoint.TYPE_VOR = "vor";
 MissionCheckpoint.TYPE_NDB = "ndb";
 MissionCheckpoint.TYPE_FIX = "fix";
+MissionCheckpoint.TYPE_INTERSECTION = "intersection";
 MissionCheckpoint.TYPE_AIRPORT = "airport";

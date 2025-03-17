@@ -40,8 +40,6 @@ export class XplaneFms extends GarminFpl {
                 return "NDB";
             case XplaneFms.TYPE_VOR:
                 return "VOR";
-            case XplaneFms.TYPE_FIX:
-                return "INT";
             default:
                 return "USER WAYPOINT";
         }
@@ -99,7 +97,7 @@ NUMENR ${m.checkpoints.length}
                 return XplaneFms.TYPE_AIRPORT;
             case MissionCheckpoint.TYPE_DESTINATION:
                 return XplaneFms.TYPE_AIRPORT;
-            case MissionCheckpoint.TYPE_FIX:
+            case MissionCheckpoint.TYPE_WAYPOINT:
                 return XplaneFms.TYPE_FIX;
             case MissionCheckpoint.TYPE_NDB:
                 return XplaneFms.TYPE_NDB;

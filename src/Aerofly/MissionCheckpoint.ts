@@ -13,7 +13,7 @@ export type MissionCheckpointType =
   | "approach"
   | "destination_runway"
   | "destination";
-export type MissionCheckpointTypeExtended = MissionCheckpointType | "vor" | "ndb" | "fix" | "airport";
+export type MissionCheckpointTypeExtended = MissionCheckpointType | "vor" | "ndb" | "fix" | "intersection" | "airport";
 
 export class MissionCheckpoint {
   type: MissionCheckpointType = "waypoint";
@@ -71,6 +71,7 @@ export class MissionCheckpoint {
   static TYPE_VOR: MissionCheckpointTypeExtended = "vor";
   static TYPE_NDB: MissionCheckpointTypeExtended = "ndb";
   static TYPE_FIX: MissionCheckpointTypeExtended = "fix";
+  static TYPE_INTERSECTION: MissionCheckpointTypeExtended = "intersection";
   static TYPE_AIRPORT: MissionCheckpointTypeExtended = "airport";
 
   /**
@@ -117,6 +118,11 @@ export class MissionCheckpoint {
     );
   }
 
+  /**
+   * @see https://aviation.stackexchange.com/questions/23743/what-is-the-difference-between-a-fix-a-waypoint-and-an-intersection
+   * FIX− A geographical position determined by visual reference to the surface, by reference to one or more radio NAVAIDs, by celestial plotting, or by another navigational device.
+   * WAYPOINT− A predetermined geographical position used for route/instrument approach definition, progress reports, published VFR routes, visual reporting points or points for transitioning and/or circumnavigating controlled and/or special use airspace, that is defined relative to a VORTAC station or in terms of latitude/longitude coordinates.
+   */
   get type_extended(): MissionCheckpointTypeExtended {
     if (this.type === MissionCheckpoint.TYPE_WAYPOINT) {
       if (this.frequency) {
@@ -129,9 +135,11 @@ export class MissionCheckpoint {
           case 4:
             return MissionCheckpoint.TYPE_AIRPORT;
           default:
-            return MissionCheckpoint.TYPE_FIX;
+            return MissionCheckpoint.TYPE_WAYPOINT;
         }
       }
+
+      return MissionCheckpoint.TYPE_FIX;
     }
 
     return this.type;

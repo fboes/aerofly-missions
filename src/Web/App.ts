@@ -16,6 +16,7 @@ import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./
 import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 import { ComponentSimBrief } from "./ComponentSimbrief.js";
 import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
+import { GeoFs } from "../Import/GeoFs.js";
 
 type ApiResult = {
   data: {
@@ -737,6 +738,10 @@ export class App {
             case ".fms":
               const xplane = new XplaneFms(<string>e.target.result);
               this.mission.fromGarminFpl(xplane);
+              break;
+            case ".json":
+              const geoFs = new GeoFs(<string>e.target.result);
+              this.mission.fromGarminFpl(geoFs);
               break;
             case ".gpx":
               const gpx = new Gpx(<string>e.target.result);
