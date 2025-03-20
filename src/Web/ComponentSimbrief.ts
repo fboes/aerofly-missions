@@ -1,4 +1,5 @@
 import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
+import { Matomo } from "./Matomo.js";
 
 export class ComponentSimBrief extends HTMLElement {
   static observedAttributes = ["username"];
@@ -76,6 +77,7 @@ export class ComponentSimBrief extends HTMLElement {
     if ((e.target as HTMLElement) === this.elements.fetchButton) {
       const simBrief = new SimBrief();
       this.elements.fetchButton.classList.add("is-loading");
+      this.dispatchEvent(Matomo.createEvent("Import", "SimBrief"));
       simBrief
         .fetch(this.username)
         .then((simbriefPayload: SimBriefApiPayload) => {

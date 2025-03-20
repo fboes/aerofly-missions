@@ -9,6 +9,7 @@
 - Improved aircraft select field
 - Changed default values for aircraft
 - Added GeoFS import / export
+- Added local GDPR conformal tracking
 
 ## 2.21.4
 

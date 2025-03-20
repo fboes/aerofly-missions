@@ -7,12 +7,21 @@ export type SimBriefApiPayloadAirport = {
   icao_code: string;
   pos_lat: string;
   pos_long: string;
-  elevation: string; // ft
+  /**
+   * Feet
+   */
+  elevation: string;
   name: string;
   plan_rwy: string;
   metar: string;
-  metar_visibility: string; // meters
-  metar_ceiling: string; // ft
+  /**
+   * Meters
+   */
+  metar_visibility: string;
+  /**
+   * Feet
+   */
+  metar_ceiling: string;
   metar_category: string;
 };
 export type SimBriefApiPayloadNavlogItem = {
@@ -21,6 +30,9 @@ export type SimBriefApiPayloadNavlogItem = {
   pos_lat: string;
   pos_long: string;
   altitude_feet: string;
+  /**
+   * Can be in kHz or MHz
+   */
   frequency: string;
 };
 export type SimBriefApiPayloadFmsDownload = {
@@ -57,7 +69,6 @@ export class SimBrief {
     const url = `https://www.simbrief.com/api/xml.fetcher.php?${encodeURIComponent(parameterName)}=${encodeURIComponent(
       username
     )}&json=v2`;
-    console.log(url);
 
     const response = await fetch(url, {
       headers: {
@@ -170,7 +181,12 @@ export class SimBrief {
           m.lon_lat = new LonLat(Number(navlogItem.pos_long), Number(navlogItem.pos_lat));
           m.lon_lat.altitude_ft = Number(navlogItem.altitude_feet);
           m.type = "waypoint";
-          m.frequency_mhz = Number(navlogItem.frequency);
+
+          let frequency = Number(navlogItem.frequency);
+          if (frequency > 118) {
+            frequency /= 1000;
+          }
+          m.frequency_mhz = frequency;
 
           mission.cruise_altitude = Math.max(mission.cruise_altitude, m.lon_lat.altitude_m);
 

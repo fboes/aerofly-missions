@@ -290,22 +290,22 @@ caption {
 table {
   border-collapse: separate;
   width: 100%;
-}
 
-table.empty {
-  display: none;
-}
+  &.empty {
+    display: none;
+  }
 
-table input {
-  max-width: 6.5em;
-}
+  input {
+    max-width: 6.5em;
+  }
 
-table input[type="number"] {
-  width: 5.5em;
-}
+  input[type="number"] {
+    width: 5.5em;
+  }
 
-table input[data-cp-prop="speed"] {
-  width: 4.5em;
+  input[data-cp-prop="speed"] {
+    width: 4.5em;
+  }
 }
 
 thead,
@@ -328,15 +328,17 @@ th {
   text-align: right;
 }
 
-.is-simple-mode .expert-mode,
-.is-simple-mode .table-checkpoints :is(td, th):nth-child(3),
-.is-simple-mode .table-checkpoints :is(td, th):nth-child(5) {
-  display: none;
-}
+.is-simple-mode {
+  .expert-mode,
+  .table-checkpoints :is(td, th):nth-child(3),
+  .table-checkpoints :is(td, th):nth-child(5) {
+    display: none;
+  }
 
-.is-simple-mode button#expert-mode {
-  background-color: var(--color--warning);
-  color: var(--color-highlight-contra);
+  button#expert-mode {
+    background-color: var(--color--warning);
+    color: var(--color-highlight-contra);
+  }
 }
 
 /* Page */
@@ -345,18 +347,18 @@ th {
   margin: auto;
   max-width: 50em;
   position: relative;
-}
 
-.container > * {
-  padding: 1em;
+  > * {
+    padding: 1em;
+  }
 }
 
 header {
   color: var(--color-highlight);
-}
 
-header img {
-  vertical-align: -0.5em;
+  img {
+    vertical-align: -0.5em;
+  }
 }
 
 footer {
@@ -416,32 +418,32 @@ footer {
       "settings map"
       "buttons map";
     column-gap: 3em;
-  }
 
-  main > p {
-    grid-area: p;
-  }
+    > p {
+      grid-area: p;
+    }
 
-  main > section:nth-child(2) {
-    grid-area: upload;
-  }
+    > section:nth-child(2) {
+      grid-area: upload;
+    }
 
-  main > section:nth-child(3) {
-    grid-area: settings;
-  }
+    > section:nth-child(3) {
+      grid-area: settings;
+    }
 
-  main > section:nth-child(4) {
-    padding-left: 3em;
-    border-left: 1px solid var(--color-darken-more);
-    grid-area: map;
-  }
+    > section:nth-child(4) {
+      padding-left: 3em;
+      border-left: 1px solid var(--color-darken-more);
+      grid-area: map;
+    }
 
-  main > section:nth-child(5) {
-    grid-area: buttons;
-  }
+    > section:nth-child(5) {
+      grid-area: buttons;
+    }
 
-  main > section:nth-child(even) h2 {
-    border-top: none;
+    > section:nth-child(even) h2 {
+      border-top: none;
+    }
   }
 }
 
@@ -473,4 +475,10 @@ footer {
     color: black !important;
     background-color: white;
   }
+}
+
+#matomo-opt-out label {
+  display: inline-block;
+  margin-inline-start: 1em;
+  font-size: 1em;
 }

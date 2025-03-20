@@ -5,6 +5,7 @@ import { Markdown } from "../Export/Markdown.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
 import { MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
+import { Matomo } from "./Matomo.js";
 export class ComponentsDownloadButtons extends HTMLElement {
     constructor() {
         super();
@@ -34,7 +35,8 @@ export class ComponentsDownloadButtons extends HTMLElement {
             return;
         }
         const filename = this.filename;
-        switch (e.target.closest("button").id) {
+        const downloadCase = e.target.closest("button").id;
+        switch (downloadCase) {
             case "download-json":
                 this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
                 break;
@@ -56,6 +58,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
                 this.download(filename + ".tmc", m.toString());
                 break;
         }
+        document.body.dispatchEvent(Matomo.createEvent("Export", downloadCase));
     }
     draw() {
         const slug = this.filename;

@@ -431,7 +431,13 @@
 
         <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.</p>
 
-        <p class="no-print">This software complies with the General Data Protection Regulation (GDPR). See also the <a href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
+        <p class="no-print">This software complies with the General Data Protection Regulation (GDPR), and uses a self-hosted Matomo installation. You may want to see the <a href="https://3960.org/impressum/">impress &amp; data protection statement</a>. See also the <a href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
+
+        <details>
+          <summary>Tracking opt-out</summary>
+          <div id="matomo-opt-out"></div>
+          <script src="https://stats.3960.org/index.php?module=CoreAdminHome&amp;action=optOutJS&amp;divId=matomo-opt-out&amp;language=auto&amp;showIntro=1"></script>
+        </details>
       </footer>
     </div>
     <script type="module">
@@ -469,5 +475,32 @@
         navigator.serviceWorker.register("./sw.js");
       }
     </script>
+    <!-- Matomo -->
+    <script>
+      var _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function () {
+        var u = "https://stats.3960.org/";
+        _paq.push(["setTrackerUrl", u + "matomo.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d = document,
+          g = d.createElement("script"),
+          s = d.getElementsByTagName("script")[0];
+        g.async = true;
+        g.src = u + "matomo.js";
+        s.parentNode.insertBefore(g, s);
+      })();
+
+      document.body.addEventListener(
+        "matomo-event",
+        (e) => {
+          _paq.push(e.detail);
+        },
+        true
+      );
+    </script>
+    <!-- End Matomo Code -->
   </body>
 </html>

@@ -155,7 +155,7 @@ export class MissionCheckpoint {
       MissionCheckpoint.TYPE_DESTINATION,
       MissionCheckpoint.TYPE_NDB,
       MissionCheckpoint.TYPE_VOR,
-      MissionCheckpoint.TYPE_FIX,
+      MissionCheckpoint.TYPE_WAYPOINT,
       MissionCheckpoint.TYPE_AIRPORT,
     ].includes(type);
   }

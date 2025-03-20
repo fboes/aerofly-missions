@@ -6,6 +6,7 @@ import { Markdown } from "../Export/Markdown.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
 import { MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
+import { Matomo } from "./Matomo.js";
 
 export class ComponentsDownloadButtons extends HTMLElement {
   mission?: Mission;
@@ -43,7 +44,8 @@ export class ComponentsDownloadButtons extends HTMLElement {
     }
     const filename = this.filename;
 
-    switch (((e.target as HTMLElement).closest("button") as HTMLButtonElement).id) {
+    const downloadCase = ((e.target as HTMLElement).closest("button") as HTMLButtonElement).id;
+    switch (downloadCase) {
       case "download-json":
         this.download(
           filename,
@@ -69,6 +71,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
         this.download(filename + ".tmc", m.toString());
         break;
     }
+    document.body.dispatchEvent(Matomo.createEvent("Export", downloadCase));
   }
 
   draw() {
