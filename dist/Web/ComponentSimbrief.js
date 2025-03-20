@@ -11,11 +11,11 @@ export class ComponentSimBrief extends HTMLElement {
     <input type="text" id="simbrief-username" pattern="[A-Za-z0-9]+" />
   </div>
   <div>
-    <label for="simbrief-fetch">SimBrief API Call</label>
+    <div class="label">SimBrief API Call</div>
     <button data-handler="simbrief-fetch" type="button" id="simbrief-fetch" class="secondary">Fetch SimBrief flight plan</button>
   </div>
   <dialog class="success">
-    <h4>Flight plan has been imported</h4>
+    <h3>Flight plan has been imported</h3>
     <p>You flight plan has been successfully imported from SimBrief. Things left to do:</p>
     <ul>
       <li>Check if your aircraft type has been properly imported.</li>
@@ -26,7 +26,7 @@ export class ComponentSimBrief extends HTMLElement {
     <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
   <dialog class="error">
-    <h4>Error</h4>
+    <h3>Error</h3>
     <p>There was an error loading your flight plan. Please check your SimBrief username, and if there is an active flight plan in SimBrief.</p>
     <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
     <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>

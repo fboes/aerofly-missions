@@ -298,7 +298,7 @@
               </div>
 
               <div>
-                <label for="origin_dir">General magnetic declination override</label>
+                <label for="magnetic_declination">General magnetic declination override</label>
                 <input type="number" min="-180" max="180" id="magnetic_declination" title="Set this to '' to get automatic values" />
                 <span>°</span>
               </div>
@@ -354,7 +354,7 @@
         </section>
 
         <dialog id="settings-modal">
-          <h4>Settings</h4>
+          <h3>Settings</h3>
           <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>, the Missionsgerät can fetch the current weather for you.</p>
           <div>
             <label for="metar-api-key">CheckWX API key</label>
@@ -371,7 +371,7 @@
           <button data-handler="modal-close" class="icon" id="settings-close" title="Close settings">✕ <span>Close settings</span></button>
         </dialog>
         <dialog id="help-flightplan-modal">
-          <h4>Fligh plan help</h4>
+          <h3>Fligh plan help</h3>
           <ul>
             <li>Naming a waypoint with two digits and an optional <code>R</code>, <code>L</code> or <code>C</code> converts it into a runway.</li>
             <li>Naming a waypoint with five letters will convert it into a named fix.</li>
@@ -383,14 +383,14 @@
           <button data-handler="modal-close" class="icon" title="Close flight plan help">✕ <span>Close flight plan help</span></button>
         </dialog>
         <dialog id="help-navigation-modal">
-          <h4>Navigation help</h4>
+          <h3>Navigation help</h3>
           <p>Using flight level separation will convert all altitudes in your flight plan to the <a href="https://en.wikipedia.org/wiki/Flight_level" target="help">correct altitudes needed for separation</a>.</p>
           <p>Switching between separations repeatedly will increase the altitude, because separation will always round up to prevent a flight plan hitting terrain.</p>
           <p>You may want to set the magnetic declination manually by subtracting the magnetic heading from the true heading to get the magnetic declination.</p>
           <button data-handler="modal-close" class="icon" title="Close navigation help">✕ <span>Close navigation help</span></button>
         </dialog>
         <dialog id="select-mission-modal">
-          <h4>Choose mission</h4>
+          <h3>Choose mission</h3>
           <p>The file you have selected contains multiple missions. Please choose one.</p>
           <div>
             <label for="select-mission">Mission to import</label>
@@ -401,7 +401,7 @@
           <button data-handler="select-mission">Select mission</button>
         </dialog>
         <dialog id="edit-waypoint-modal">
-          <h4>Edit waypoint</h4>
+          <h3>Edit waypoint</h3>
           <div>
             <label for="wp-name">Name</label>
             <input data-cp-prop="name" type="text" pattern="[A-Z0-9._+\-]+" id="wp-name" maxlength="8" autocapitalize="characters" required="required" />
@@ -429,7 +429,7 @@
       <footer>
         <p>Author: <a href="https://3960.org/">Frank Bo&euml;s</a> &middot; <a href="https://github.com/fboes/aerofly-missions">GitHub</a> &middot; Copyright & license: See <a href="../LICENSE.txt">LICENSE.txt</a></p>
 
-        <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the <a href="../LICENSE.txt">LICENSE.txt</a>, this tool comes with no warranty and might damage your files.</p>
+        <p class="no-print">This tool is NOT affiliated with, endorsed, or sponsored by IPACS GbR. As stated in the license, this tool comes with no warranty and might damage your files.</p>
 
         <p class="no-print">This software complies with the General Data Protection Regulation (GDPR), and uses a self-hosted Matomo installation. You may want to see the <a href="https://3960.org/impressum/">impress &amp; data protection statement</a>. See also the <a href="https://www.mapbox.com/legal/privacy">Customer Privacy Resources of Mapbox</a> for more details.</p>
 

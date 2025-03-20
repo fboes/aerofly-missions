@@ -178,21 +178,17 @@ export class ComponentsAirports extends ComponentsOutputtable {
 export class ComponentsCheckpoints extends ComponentsOutputtable {
     constructor() {
         super();
-        this.elements = {
-            table: document.createElement("table"),
-            caption: document.createElement("caption"),
-            thead: document.createElement("thead"),
-            tbody: document.createElement("tbody"),
+        this.moreElements = {
             tfoot: document.createElement("tfoot"),
             p: document.createElement("p"),
         };
-        this.elements.table.appendChild(this.elements.caption);
-        this.elements.table.appendChild(this.elements.thead);
-        this.elements.table.appendChild(this.elements.tbody);
-        this.elements.table.appendChild(this.elements.tfoot);
-        this.appendChild(this.elements.table);
-        this.elements.p.className = "no-print";
-        this.appendChild(this.elements.p);
+        // this.elements.table.appendChild(this.elements.caption);
+        // this.elements.table.appendChild(this.elements.thead);
+        // this.elements.table.appendChild(this.elements.tbody);
+        // this.appendChild(this.elements.table);
+        this.elements.table.appendChild(this.moreElements.tfoot);
+        this.appendChild(this.moreElements.p);
+        this.moreElements.p.className = "no-print";
         this.elements.caption.innerText = "Checkpoints";
         this.elements.thead.innerHTML = this.outputLine([
             "#",
@@ -212,8 +208,8 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
         const m = this.mission;
         if (!m || !this.mission || m.checkpoints.length === 0) {
             this.elements.table.classList.add("empty");
-            this.elements.tfoot.innerHTML = "";
-            this.elements.p.innerHTML = "";
+            this.moreElements.tfoot.innerHTML = "";
+            this.moreElements.p.innerHTML = "";
             return;
         }
         const s = new SkyVector(m);
@@ -236,12 +232,12 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                 html += this.outputLine([
                     Outputtable.pad(i + 1, 2, 0, "0") + ".",
                     !isAirport
-                        ? `<input title="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._+\\-]+" maxlength="8" autocapitalize="characters" required="required" />`
+                        ? `<input aria-label="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._+\\-]+" maxlength="8" autocapitalize="characters" required="required" />`
                         : c.name,
-                    `<input title="Frequency #${i + 1}" data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ""}" />&nbsp;MHz`,
-                    `<input title="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!isAirportOrRunway ? -1000 : 0}" step="${!isAirportOrRunway ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""}" />&nbsp;ft`,
+                    `<input aria-label="Frequency #${i + 1}" data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ""}" />&nbsp;MHz`,
+                    `<input aria-label="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!isAirportOrRunway ? -1000 : 0}" step="${!isAirportOrRunway ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""}" />&nbsp;ft`,
                     i !== 0
-                        ? `<input title="True Air Speed #${i + 1}" data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ""}" />&nbsp;kts`
+                        ? `<input aria-label="True Air Speed #${i + 1}" data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ""}" />&nbsp;kts`
                         : "",
                     i !== 0 ? Outputtable.padThree(c.direction_magnetic) + "°" : "",
                     i !== 0 ? '<span class="heading">' + Outputtable.padThree(c.heading_magnetic) + "</span>°" : "",
@@ -267,8 +263,8 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                 "",
                 Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
                 '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
-            ]);
-            this.elements.tfoot.innerHTML = html;
+            ], "ttd");
+            this.moreElements.tfoot.innerHTML = html;
         }
         {
             let html = "";
@@ -276,7 +272,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                 .getCheckpoints(false)
                 .join(" ")}">current flight plan on Sky Vector</a>.
     You may also want to take a look at <a href="https://www.google.com/maps/@?api=1&amp;map_action=map&amp;center=${encodeURIComponent(center.lat)},${encodeURIComponent(center.lon)}&amp;zoom=${encodeURIComponent(zoomLevel)}&amp;basemap=terrain" target="gmap">Google Maps</a> / <a href="https://www.openstreetmap.org/#map=${encodeURIComponent(zoomLevel)}/${encodeURIComponent(center.lat)}/${encodeURIComponent(center.lon)}" target="osm">OpenStreetMap</a>.</p>`;
-            this.elements.p.innerHTML = html;
+            this.moreElements.p.innerHTML = html;
         }
     }
 }

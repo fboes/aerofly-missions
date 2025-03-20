@@ -7,7 +7,7 @@
   --color-darken-less: rgba(0, 0, 0, 0.01);
   --color-darken: rgba(0, 0, 0, 0.1);
   --color-darken-more: rgba(0, 0, 0, 0.2);
-  --color--warning: deeppink;
+  --color--warning: #E6007A;
   --fontweight-bold: 600;
 }
 
@@ -37,7 +37,7 @@ body {
   background-color: var(--color-background);
 }
 
-* + :is(label, form, p, h1, h2, h3, h4, details, pre, ul, .component, #map) {
+* + :is(label, .label, form, p, h1, h2, h3, h4, details, pre, ul, .component, #map) {
   margin-top: 1em;
 }
 
@@ -64,6 +64,10 @@ summary {
 h2 {
   border-top: 1px solid var(--color-darken-more);
   padding-top: 0.2em;
+}
+
+h3 {
+  font-size: 1em;
 }
 
 ul {
@@ -168,10 +172,11 @@ select {
   background: var(--color-darken-less);
 }
 
-label {
+label,
+.label {
   padding: 0.25em 0 0;
   display: block;
-  font-size: 0.66em;
+  font-size: 0.6875em;
 }
 
 button {
