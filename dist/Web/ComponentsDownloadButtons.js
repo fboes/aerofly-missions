@@ -2,10 +2,11 @@ import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { Markdown } from "../Export/Markdown.js";
+import { GarminExport } from "../Import/GarminFpl.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
 import { MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
-import { Matomo } from "./Matomo.js";
+import { StatEvent } from "./StatEvent.js";
 export class ComponentsDownloadButtons extends HTMLElement {
     constructor() {
         super();
@@ -13,6 +14,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
     <button type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
     <button type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
     <button type="button" id="download-geofs-json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
+    <button type="button" id="download-fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
     <button type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
     <button type="button" class="expert-mode" id="download-json">Download <code>custom_missions.geojson</code></button>`;
     }
@@ -52,13 +54,16 @@ export class ComponentsDownloadButtons extends HTMLElement {
             case "download-geofs-json":
                 this.download(filename + ".geofs.json", new GeoFsExport(this.mission).toString());
                 break;
+            case "download-fpl":
+                this.download(filename + ".fpl", new GarminExport(this.mission).toString());
+                break;
             case "download-tmc":
                 const m = new MissionsList("");
                 m.missions.push(this.mission);
                 this.download(filename + ".tmc", m.toString());
                 break;
         }
-        document.body.dispatchEvent(Matomo.createEvent("Export", downloadCase));
+        document.body.dispatchEvent(StatEvent.createEvent("Export", downloadCase));
     }
     draw() {
         const slug = this.filename;

@@ -276,6 +276,9 @@ export class Mission {
                 cp.type = i === 1 ? MissionCheckpoint.TYPE_DEPARTURE_RUNWAY : MissionCheckpoint.TYPE_DESTINATION_RUNWAY;
                 cp.name = cp.name.replace(/^(RW)/, "");
             }
+            if (w.countryCode) {
+                cp.icao_region = w.countryCode;
+            }
             return cp;
         });
         // Find runways and runway directions

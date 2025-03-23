@@ -5,6 +5,7 @@ import { LonLat } from "../World/LonLat.js";
 
 export type SimBriefApiPayloadAirport = {
   icao_code: string;
+  icao_region: string;
   pos_lat: string;
   pos_long: string;
   /**
@@ -27,6 +28,7 @@ export type SimBriefApiPayloadAirport = {
 export type SimBriefApiPayloadNavlogItem = {
   ident: string;
   type: "ltlg" | "wpt" | "vor" | "apt";
+  icao_region: string;
   pos_lat: string;
   pos_long: string;
   altitude_feet: string;
@@ -151,6 +153,7 @@ export class SimBrief {
     originCheckpoint.name = simbriefPayload.origin.icao_code;
     originCheckpoint.lon_lat = originPosition;
     originCheckpoint.type = "origin";
+    originCheckpoint.icao_region = simbriefPayload.origin.icao_region;
 
     const departureRunwayCheckpoint = new MissionCheckpoint();
     departureRunwayCheckpoint.name = simbriefPayload.origin.plan_rwy;
@@ -161,6 +164,7 @@ export class SimBrief {
     destinationCheckpoint.name = simbriefPayload.destination.icao_code;
     destinationCheckpoint.lon_lat = destinationPosition;
     destinationCheckpoint.type = "destination";
+    destinationCheckpoint.icao_region = simbriefPayload.destination.icao_region;
 
     const destinationRunwayCheckpoint = new MissionCheckpoint();
     destinationRunwayCheckpoint.name = simbriefPayload.destination.plan_rwy;
@@ -181,6 +185,7 @@ export class SimBrief {
           m.lon_lat = new LonLat(Number(navlogItem.pos_long), Number(navlogItem.pos_lat));
           m.lon_lat.altitude_ft = Number(navlogItem.altitude_feet);
           m.type = "waypoint";
+          m.icao_region = navlogItem.icao_region;
 
           let frequency = Number(navlogItem.frequency);
           if (frequency > 118) {

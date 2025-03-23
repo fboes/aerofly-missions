@@ -1,5 +1,5 @@
-export class Matomo {
-  static eventName = "matomo-event";
+export class StatEvent {
+  static eventName = "stat-event";
 
   /**
    *
@@ -15,7 +15,7 @@ export class Matomo {
     eventName: string | null = null,
     eventValue: string | null = null
   ): CustomEvent {
-    return new CustomEvent(Matomo.eventName, {
+    return new CustomEvent(StatEvent.eventName, {
       detail:
         eventValue !== null
           ? ["trackEvent", eventCategory, eventAction, eventName, eventValue]

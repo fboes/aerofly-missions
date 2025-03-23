@@ -1,4 +1,4 @@
-export class Matomo {
+export class StatEvent {
     /**
      *
      * @param eventCategory This describes the type of events you want to track. For example, Link Clicks, Videos, Outbound Links, and Form Events.
@@ -8,11 +8,11 @@ export class Matomo {
      * @returns
      */
     static createEvent(eventCategory, eventAction, eventName = null, eventValue = null) {
-        return new CustomEvent(Matomo.eventName, {
+        return new CustomEvent(StatEvent.eventName, {
             detail: eventValue !== null
                 ? ["trackEvent", eventCategory, eventAction, eventName, eventValue]
                 : ["trackEvent", eventCategory, eventAction, eventName].filter((c) => c !== null),
         });
     }
 }
-Matomo.eventName = "matomo-event";
+StatEvent.eventName = "stat-event";

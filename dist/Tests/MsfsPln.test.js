@@ -75,6 +75,8 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(pln.waypoints[0].identifier, "EFMA");
             this.assertEquals(pln.waypoints[0].type, "AIRPORT");
             this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
+            this.assertEquals(pln.waypoints[3].identifier, "RATSO");
+            this.assertEquals(pln.waypoints[3].countryCode, "EF");
             this.assertEquals(pln.waypoints[4].type, "VOR");
             this.assertEquals(pln.waypoints[5].type, "NDB");
             this.assertEqualsRounded((_a = pln.waypoints[1].alt) !== null && _a !== void 0 ? _a : 0, 223.83, 2);
@@ -87,9 +89,11 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(mission.checkpoints.length, 11);
             this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
             this.assertEquals(mission.checkpoints[0].type, MissionCheckpoint.TYPE_ORIGIN);
+            this.assertEquals(mission.checkpoints[0].icao_region, "EF");
             this.assertEquals(mission.checkpoints[1].type, MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
             this.assertEquals(mission.checkpoints[9].type, MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
             this.assertEquals(mission.checkpoints[10].type, MissionCheckpoint.TYPE_DESTINATION);
+            this.assertEquals(mission.checkpoints[10].icao_region, "EF");
         }
     }
     testRunway() {

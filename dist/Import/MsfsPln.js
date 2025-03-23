@@ -34,6 +34,7 @@ export class MsfsPln extends GarminFpl {
                 lat: coords.lat,
                 lon: coords.lon,
                 alt: coords.altitude_ft,
+                countryCode: this.getXmlNode(xml, "ICAORegion") || undefined,
             };
         });
     }
@@ -102,8 +103,6 @@ export class MsfsPlnExport {
     }
     toString() {
         const m = this.mission;
-        // @see https://en.wikipedia.org/wiki/ICAO_airport_code#/media/File:ICAO_FirstLetter.svg
-        let icaoRegion = m.origin_icao.substring(0, 1);
         const departureRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
         const departureRunway = departureRunwayCp ? departureRunwayCp.name : "";
         const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
@@ -139,11 +138,6 @@ export class MsfsPlnExport {
                 !name.match(/^RW/)) {
                 name = "RW" + name;
             }
-            if (type === "Airport" ||
-                cp.type === MissionCheckpoint.TYPE_ORIGIN ||
-                cp.type === MissionCheckpoint.TYPE_DESTINATION) {
-                icaoRegion = cp.name.substring(0, 1);
-            }
             pln += `\
         <ATCWaypoint id="${Quote.xml(name)}">
             <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
@@ -160,7 +154,7 @@ export class MsfsPlnExport {
                 pln += `\
             <ICAO>
                 <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
-                <ICAORegion>${Quote.xml(icaoRegion)}</ICAORegion>
+                <ICAORegion>${Quote.xml(cp.icao_region || "")}</ICAORegion>
             </ICAO>
 `;
             }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
+  <created>2025-03-23T18:56:44Z</created>
+  <waypoint-table>
+    <waypoint>
+      <identifier>KLAS</identifier>
+      <type>AIRPORT</type>
+      <country-code>K2</country-code>
+      <lat>36.080044</lat>
+      <lon>-115.152236</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>BLD</identifier>
+      <type>VOR</type>
+      <country-code>K2</country-code>
+      <lat>35.995792</lat>
+      <lon>-114.863578</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>MEADS</identifier>
+      <type>INT</type>
+      <country-code>K2</country-code>
+      <lat>36.163675</lat>
+      <lon>-114.491561</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>0L9</identifier>
+      <type>AIRPORT</type>
+      <country-code>K2</country-code>
+      <lat>36.311039</lat>
+      <lon>-114.463894</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>SV001</identifier>
+      <type>USER WAYPOINT</type>
+      <country-code />
+      <lat>36.123308</lat>
+      <lon>-114.850616</lon>
+      <comment />
+    </waypoint>
+    <waypoint>
+      <identifier>KLAS</identifier>
+      <type>AIRPORT</type>
+      <country-code>K2</country-code>
+      <lat>36.080044</lat>
+      <lon>-115.152236</lon>
+      <comment />
+    </waypoint>
+  </waypoint-table>
+  <route>
+    <route-name>KLAS KLAS</route-name>
+    <flight-plan-index>1</flight-plan-index>
+    <route-point>
+      <waypoint-identifier>KLAS</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>BLD</waypoint-identifier>
+      <waypoint-type>VOR</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>MEADS</waypoint-identifier>
+      <waypoint-type>INT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>0L9</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+    <route-point>
+      <waypoint-identifier>SV001</waypoint-identifier>
+      <waypoint-type>USER WAYPOINT</waypoint-type>
+      <waypoint-country-code />
+    </route-point>
+    <route-point>
+      <waypoint-identifier>KLAS</waypoint-identifier>
+      <waypoint-type>AIRPORT</waypoint-type>
+      <waypoint-country-code>K2</waypoint-country-code>
+    </route-point>
+  </route>
+</flight-plan>

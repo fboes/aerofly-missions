@@ -60,6 +60,8 @@ export class MissionCheckpoint {
    */
   heading: number = -1;
 
+  #icao_region: string | null = null;
+
   static TYPE_ORIGIN: MissionCheckpointType = "origin";
   static TYPE_DEPARTURE_RUNWAY: MissionCheckpointType = "departure_runway";
   static TYPE_DEPARTURE: MissionCheckpointType = "departure";
@@ -116,6 +118,33 @@ export class MissionCheckpoint {
       frequency_unit +
       "Hz"
     );
+  }
+
+  set icao_region(icao_region: string | null) {
+    this.#icao_region = icao_region;
+  }
+
+  /**
+   * @see https://en.m.wikipedia.org/wiki/ICAO_airport_code
+   */
+  get icao_region(): string | null {
+    if (this.#icao_region) {
+      return this.#icao_region;
+    }
+
+    const airportMatch = this.name.match(/^([A-Z]{2})[A-Z]{2}$/);
+    if (airportMatch && airportMatch[1]) {
+      const specialRegionMatch = airportMatch[1].match(/^[CKUYZ]/);
+      if (
+        specialRegionMatch &&
+        !["UA", "UB", "UC", "UD", "UG", "UK", "UM", "UT", "ZK", "ZM"].includes(airportMatch[1])
+      ) {
+        return specialRegionMatch[0];
+      }
+
+      return airportMatch[1];
+    }
+    return null;
   }
 
   /**

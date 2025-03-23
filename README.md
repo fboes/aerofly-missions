@@ -1,6 +1,6 @@
 # ![](docs/favicon-64x64.png) Aerofly Missionsgerät
 
-The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`), X-Plane (`fms`) and GeoFS ( `json`). It also imports Garmin flight plan files (`fpl`).
+The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`), X-Plane (`fms`), GeoFS ( `json`), and Garmin / Infinte Flight flight plan files (`fpl`).
 
 Head over to [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/) to get started.
 
@@ -22,7 +22,7 @@ There is also a local Node.js CLI tool, if you want some automation for your wor
 | [Microsoft FS `pln` flight plan file](https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm) |   ✅   |   ✅   |
 | [X-Plane `fms` flight plan file](https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/)                                       |   ✅   |   ✅   |
 | [GeoFS `json` flight plan file](https://www.geo-fs.com/pages/documentation.php)                                                                     |   ✅   |   ✅   |
-| Garmin `fpl` flight plan file                                                                                                                       |   ✅   |        |
+| Garmin / Infinite Flight `fpl` flight plan file                                                                                                     |   ✅   |   ✅   |
 | `gpx` GPS Route file                                                                                                                                |   ✅   |        |
 | [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
 | [SimBrief API](./docs/importing-flightplans.md)                                                                                                     |   ✅   |        |

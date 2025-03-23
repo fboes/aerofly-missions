@@ -329,17 +329,20 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
 
     {
       let html = "";
-      html += this.outputLine([
-        "",
-        "Total",
-        "",
-        "",
-        "",
-        "",
-        "",
-        Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
-        '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
-      ], "ttd");
+      html += this.outputLine(
+        [
+          "",
+          "Total",
+          "",
+          "",
+          "",
+          "",
+          "",
+          Outputtable.pad(m.distance, 4, 1) + "&nbsp;NM",
+          '<span class="time_enroute">' + Outputtable.convertHoursToMinutesString(m.time_enroute) + "</span>",
+        ],
+        "ttd"
+      );
       this.moreElements.tfoot.innerHTML = html;
     }
 

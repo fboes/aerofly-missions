@@ -72,6 +72,11 @@ export class SimBriefTest extends Test {
     this.assertEquals(mission.origin_icao, "KEYW");
     this.assertEquals(mission.destination_icao, "KMIA");
     this.assertEquals(mission.checkpoints[0].name, mission.origin_icao);
+    this.assertEquals(mission.checkpoints[0].icao_region, "K7");
+    this.assertEquals(mission.checkpoints[2].name, "CARNU");
+    this.assertEquals(mission.checkpoints[2].icao_region, "K7");
+    this.assertEquals(mission.checkpoints[3].name, "SNDBR");
+    this.assertEquals(mission.checkpoints[3].icao_region, "K7");
     this.assertEquals(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
     this.assertEquals(mission.conditions.wind_speed, 5);
     this.assertEquals(mission.conditions.wind_gusts, 0);

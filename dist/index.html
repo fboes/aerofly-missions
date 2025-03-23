@@ -9,7 +9,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fboes.github.io/aerofly-missions/dist/" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:description" name="description" content="The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator, X-Plane and GeoFS. It also imports Garmin flight plan files." />
+    <meta property="og:description" name="description" content="The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator, X-Plane, GeoFS, and Garmin / Infinte Flight flight plan files." />
     <meta property="og:site_name" name="application-name" content="Aerofly Missionsgerät" />
     <meta property="og:image" content="https://fboes.github.io/aerofly-missions/dist/social-1200x630.png" />
     <link rel="icon" sizes="180x180" href="favicon-180x180.png" />
@@ -34,12 +34,12 @@
         </h1>
       </header>
       <main class="is-simple-mode">
-        <p>The Aerofly Missionsgerät converts simulator flight plan files for <a href="https://www.aerofly.com/">Aerofly FS 4</a> (<code>main.mcf</code> and <code>tmc</code>), Microsoft Flight Simulator (<code>pln</code>), X-Plane (<code>fms</code>) and GeoFS (<code>json</code>). It also imports Garmin flight plan files (<code>fpl</code>).<br />For more information see the <a href="https://fboes.github.io/aerofly-missions/docs/">Missionsgerät's instructions</a>.</p>
+        <p>The Aerofly Missionsgerät converts simulator flight plan files for <a href="https://www.aerofly.com/">Aerofly FS 4</a> (<code>main.mcf</code> and <code>tmc</code>), Microsoft Flight Simulator (<code>pln</code>), X-Plane (<code>fms</code>), GeoFS (<code>json</code>), and Garmin / Infinte Flight flight plan files (<code>fpl</code>).<br />For more information see the <a href="https://fboes.github.io/aerofly-missions/docs/">Missionsgerät's instructions</a>.</p>
 
         <section class="no-print">
           <h2>Step 1: Load flight plan file</h2>
 
-          <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin <code>fpl</code>, Microsoft FS <code>pln</code>, X-Plane <code>fms</code>, GeoFS <code>json</code> or <code>gpx</code> flight plan files.</p>
+          <p>The Missionsgerät imports Aerofly FS <code>main.mcf</code>, Aerofly FS <code>tmc</code>, Garmin / Infinite Flight <code>fpl</code>, Microsoft FS <code>pln</code>, X-Plane <code>fms</code>, GeoFS <code>json</code> or <code>gpx</code> flight plan files.</p>
 
           <div>
             <label for="upload">Import file</label>
@@ -494,7 +494,7 @@
       })();
 
       document.body.addEventListener(
-        "matomo-event",
+        "stat-event",
         (e) => {
           _paq.push(e.detail);
         },

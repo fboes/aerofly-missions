@@ -1,3 +1,10 @@
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _GarminExport_instances, _GarminExport_geWaypointXml, _GarminExport_getRouteXml;
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
     constructor(configFileContent) {
@@ -21,8 +28,8 @@ export class GarminFpl {
                 lat: Number(this.getXmlNode(xml, "lat")),
                 lon: Number(this.getXmlNode(xml, "lon")),
                 alt: elevation ? Number(elevation) : undefined,
+                countryCode: this.getXmlNode(xml, "country-code") || undefined,
             });
-            // country-code
         });
         //  Always fetch first route
         const routeTableXml = this.getXmlNode(configFileContent, "route");
@@ -48,3 +55,80 @@ export class GarminFpl {
         return match ? Quote.unXml(match[1]) : "";
     }
 }
+export class GarminExport {
+    constructor(mission) {
+        this.mission = mission;
+        _GarminExport_instances.add(this);
+    }
+    toString() {
+        const routePoints = this.mission.checkpoints.map((cp) => {
+            var _a;
+            return {
+                identifier: cp.name,
+                type: this.convertWaypointType(cp.type_extended),
+                lat: cp.lon_lat.lat,
+                lon: cp.lon_lat.lon,
+                alt: cp.lon_lat.altitude_ft,
+                countryCode: (_a = cp.icao_region) !== null && _a !== void 0 ? _a : undefined,
+            };
+        });
+        let pln = `\
+<?xml version="1.0" encoding="utf-8"?>
+<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
+  <created>2022-12-06T08:04:27Z</created>
+  <waypoint-table>
+${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_geWaypointXml).call(this, routePoints)}
+  </waypoint-table>
+  <route>
+    <route-name>${Quote.xml(this.mission.title)}</route-name>
+    <flight-plan-index>1</flight-plan-index>
+${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRouteXml).call(this, routePoints)}
+  </route>
+</flight-plan>
+`;
+        return pln;
+    }
+    convertWaypointType(type) {
+        switch (type) {
+            case MissionCheckpoint.TYPE_AIRPORT:
+            case MissionCheckpoint.TYPE_DESTINATION:
+            case MissionCheckpoint.TYPE_ORIGIN:
+                return "AIRPORT";
+            case MissionCheckpoint.TYPE_INTERSECTION:
+                return "INT";
+            case MissionCheckpoint.TYPE_NDB:
+                return "NDB";
+            case MissionCheckpoint.TYPE_VOR:
+                return "VOR";
+            default:
+                return "USER WAYPOINT";
+        }
+    }
+}
+_GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function _GarminExport_geWaypointXml(routePoints) {
+    const waypoints = routePoints.map((rp) => {
+        return `\
+    <waypoint>
+      <identifier>${Quote.xml(rp.identifier)}</identifier>
+      <type>${Quote.xml(rp.type)}</type>
+      <country-code>${Quote.xml(rp.countryCode || "")}</country-code>
+      <lat>${Quote.xml(rp.lat.toString())}</lat>
+      <lon>${Quote.xml(rp.lon.toString())}</lon>
+      <elevation>${Quote.xml((rp.alt || "").toString())}</elevation>
+      <comment />
+    </waypoint>`;
+    });
+    return [...new Set(waypoints)].join("\n");
+}, _GarminExport_getRouteXml = function _GarminExport_getRouteXml(routePoints) {
+    return routePoints
+        .map((rp) => {
+        var _a;
+        return `\
+    <route-point>
+      <waypoint-identifier>${Quote.xml(rp.identifier)}</waypoint-identifier>
+      <waypoint-type>${Quote.xml(rp.type)}</waypoint-type>
+      <waypoint-country-code>${Quote.xml((_a = rp.countryCode) !== null && _a !== void 0 ? _a : "")}</waypoint-country-code>
+    </route-point>`;
+    })
+        .join("\n");
+};

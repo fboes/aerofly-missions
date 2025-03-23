@@ -17,7 +17,7 @@ import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 import { ComponentSimBrief } from "./ComponentSimbrief.js";
 import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
 import { GeoFs } from "../Import/GeoFs.js";
-import { Matomo } from "./Matomo.js";
+import { StatEvent } from "./StatEvent.js";
 
 type ApiResult = {
   data: {
@@ -756,7 +756,7 @@ export class App {
               this.showError("Unsupported file: " + file.name);
               break;
           }
-          document.body.dispatchEvent(Matomo.createEvent("Import", fileEnding));
+          document.body.dispatchEvent(StatEvent.createEvent("Import", fileEnding));
           this.useIcao = this.mission.origin_country !== "US";
           this.mission.magnetic_declination = undefined;
           this.syncToForm();
