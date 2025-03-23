@@ -86,6 +86,9 @@ export class GarminFpl {
   }
 }
 
+/**
+ * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
+ */
 export class GarminExport {
   constructor(protected mission: Mission) {}
 
@@ -104,12 +107,12 @@ export class GarminExport {
     let pln = `\
 <?xml version="1.0" encoding="utf-8"?>
 <flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
-  <created>2022-12-06T08:04:27Z</created>
   <waypoint-table>
 ${this.#geWaypointXml(routePoints)}
   </waypoint-table>
   <route>
     <route-name>${Quote.xml(this.mission.title)}</route-name>
+    <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
 ${this.#getRouteXml(routePoints)}
   </route>
@@ -134,7 +137,6 @@ ${this.#getRouteXml(routePoints)}
       <lat>${Quote.xml(rp.lat.toString())}</lat>
       <lon>${Quote.xml(rp.lon.toString())}</lon>
       <elevation>${Quote.xml((rp.alt || "").toString())}</elevation>
-      <comment />
     </waypoint>`;
     });
 

@@ -100,7 +100,7 @@ export class GarminFplTest extends Test {
         this.group(GarminExport.name + ": Re-export");
         {
             const string = exportPln.toString();
-            console.log(string);
+            //console.log(string);
             this.assert(string !== "", "XML not empty");
             this.assertEquals((string.match(/<identifier>/g) || []).length, 5);
             this.assertEquals((string.match(/<country-code>K2<\/country-code>/g) || []).length, 4);

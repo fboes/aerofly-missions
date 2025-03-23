@@ -55,6 +55,9 @@ export class GarminFpl {
         return match ? Quote.unXml(match[1]) : "";
     }
 }
+/**
+ * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
+ */
 export class GarminExport {
     constructor(mission) {
         this.mission = mission;
@@ -75,12 +78,12 @@ export class GarminExport {
         let pln = `\
 <?xml version="1.0" encoding="utf-8"?>
 <flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
-  <created>2022-12-06T08:04:27Z</created>
   <waypoint-table>
 ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_geWaypointXml).call(this, routePoints)}
   </waypoint-table>
   <route>
     <route-name>${Quote.xml(this.mission.title)}</route-name>
+    <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
 ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRouteXml).call(this, routePoints)}
   </route>
@@ -115,7 +118,6 @@ _GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function 
       <lat>${Quote.xml(rp.lat.toString())}</lat>
       <lon>${Quote.xml(rp.lon.toString())}</lon>
       <elevation>${Quote.xml((rp.alt || "").toString())}</elevation>
-      <comment />
     </waypoint>`;
     });
     return [...new Set(waypoints)].join("\n");
