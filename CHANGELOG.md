@@ -11,7 +11,7 @@
 
 ## 2.23.0
 
-- Added GeoFS import / export
+- Added GeoFS import / exportdownload
 - Added on-site GDPR conformal tracking
 - Improved accessibility
 

@@ -10,6 +10,7 @@ type MsfsPlnRunwayDesignator = "NONE" | "CENTER" | "LEFT" | "RIGHT" | "WATER" | 
 
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
+ * @see https://docs.flightsimulator.com/msfs2024/html/5_Content_Configuration/Mission_XML_Files/EFB_Flight_Plan_XML_Properties.htm
  */
 export class MsfsPln extends GarminFpl {
   read(configFileContent: string): void {
@@ -130,8 +131,8 @@ export class MsfsPlnExport {
     <!-- Exported by Aerofly Missionsgerät -->
     <Descr>AceXML Document</Descr>
     <FlightPlan.FlightPlan>
-        <Title>${Quote.xml(m.title)}</Title>
-        <Descr>${Quote.xml(m.description)}</Descr>
+        <Title>${Quote.xml(m.origin_icao + " to " + m.destination_icao)}</Title>
+        <Descr>${Quote.xml(m.title)}</Descr>
         <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
         <RouteType>Direct</RouteType>
         <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>

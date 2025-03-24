@@ -10,13 +10,16 @@ import { StatEvent } from "./StatEvent.js";
 export class ComponentsDownloadButtons extends HTMLElement {
     constructor() {
         super();
-        this.innerHTML = `<button type="button" class="primary" id="download-tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
-    <button type="button" id="download-pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
-    <button type="button" id="download-fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
-    <button type="button" id="download-geofs-json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
-    <button type="button" id="download-fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
-    <button type="button" class="expert-mode" id="download-md">Download <code>custom_missions.md</code> documentation</button>
-    <button type="button" class="expert-mode" id="download-json">Download <code>custom_missions.geojson</code></button>`;
+        this.innerHTML = `<button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
+    <button type="button" data-filesuffix=".pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
+    <details>
+      <summary>More download options…</summary>
+      <button type="button" data-filesuffix=".fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+      <button type="button" data-filesuffix=".geofs.json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
+      <button type="button" data-filesuffix=".fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
+      <button type="button" class="expert-mode" data-filesuffix=".md">Download <code>custom_missions.md</code> documentation</button>
+      <button type="button" class="expert-mode" data-filesuffix=".geojson">Download <code>custom_missions.geojson</code></button>
+    </details>`;
     }
     connectedCallback() {
         this.draw();
@@ -25,53 +28,55 @@ export class ComponentsDownloadButtons extends HTMLElement {
     disconnectedCallback() {
         this.removeEventListener("click", this);
     }
-    get filename() {
+    get slug() {
         var _a;
         return ((_a = this.mission) === null || _a === void 0 ? void 0 : _a.title)
             ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
             : "custom_missions";
     }
     handleEvent(e) {
+        var _a;
         e.stopPropagation();
         if (!this.mission) {
             return;
         }
-        const filename = this.filename;
-        const downloadCase = e.target.closest("button").id;
-        switch (downloadCase) {
-            case "download-json":
+        const fileSuffix = (_a = e.target.closest("button").dataset.filesuffix) !== null && _a !== void 0 ? _a : ".tmc";
+        const filename = this.slug + fileSuffix;
+        switch (fileSuffix) {
+            case ".geojson":
                 this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
                 break;
-            case "download-md":
-                this.download(filename + ".md", new Markdown(this.mission).toString(filename + ".tmc"), "text/markdown");
+            case ".md":
+                this.download(filename, new Markdown(this.mission).toString(filename), "text/markdown");
                 break;
-            case "download-pln":
-                this.download(filename + ".pln", new MsfsPlnExport(this.mission).toString());
+            case ".pln":
+                this.download(filename, new MsfsPlnExport(this.mission).toString());
                 break;
-            case "download-fms":
-                this.download(filename + ".fms", new XplaneFmsExport(this.mission).toString());
+            case ".fms":
+                this.download(filename, new XplaneFmsExport(this.mission).toString());
                 break;
-            case "download-geofs-json":
-                this.download(filename + ".geofs.json", new GeoFsExport(this.mission).toString());
+            case ".geofs.json":
+                this.download(filename, new GeoFsExport(this.mission).toString());
                 break;
-            case "download-fpl":
-                this.download(filename + ".fpl", new GarminExport(this.mission).toString());
+            case ".fpl":
+                this.download(filename, new GarminExport(this.mission).toString());
                 break;
-            case "download-tmc":
+            case ".tmc":
                 const m = new MissionsList("");
                 m.missions.push(this.mission);
-                this.download(filename + ".tmc", m.toString());
+                this.download(filename, m.toString());
                 break;
         }
-        document.body.dispatchEvent(StatEvent.createEvent("Export", downloadCase));
+        document.body.dispatchEvent(StatEvent.createEvent("Export", fileSuffix));
     }
     draw() {
-        const slug = this.filename;
+        const filename = this.slug;
         this.querySelectorAll("button").forEach((b) => {
             b.disabled = !this.mission || this.mission.checkpoints.length <= 0;
         });
         this.querySelectorAll("code").forEach((el) => {
-            el.innerText = slug + el.innerText.replace(/^.+\./, ".");
+            const fileSuffix = el.closest("button").dataset.filesuffix;
+            el.innerText = filename + fileSuffix;
         });
     }
     download(filename, content, type = "text/plain") {

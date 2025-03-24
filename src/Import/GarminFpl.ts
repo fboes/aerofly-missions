@@ -1,5 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import { asciify } from "../Cli/Arguments.js";
 import { Quote } from "../Export/Quote.js";
 
 export type GarminFplWaypointType = "AIRPORT" | "USER WAYPOINT" | "NDB" | "VOR" | "INT" | "INT-VRP";
@@ -99,19 +100,26 @@ export class GarminExport {
         type: this.convertWaypointType(cp.type_extended),
         lat: cp.lon_lat.lat,
         lon: cp.lon_lat.lon,
-        alt: cp.lon_lat.altitude_ft,
+        alt: cp.lon_lat.altitude_m,
         countryCode: cp.icao_region ?? undefined,
       };
     });
+    const routeName = asciify(this.mission.title)
+      .toUpperCase()
+      .replace(/_/g, " ")
+      .replace(/[^A-Z0-9 ]+/g, "")
+      .substring(0, 25);
 
     let pln = `\
 <?xml version="1.0" encoding="utf-8"?>
-<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
+<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www8.garmin.com/xmlschemas/FlightPlan/v1 https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd">
   <waypoint-table>
 ${this.#geWaypointXml(routePoints)}
   </waypoint-table>
   <route>
-    <route-name>${Quote.xml(this.mission.title)}</route-name>
+    <route-name>${Quote.xml(routeName)}</route-name>
     <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
 ${this.#getRouteXml(routePoints)}
@@ -123,12 +131,15 @@ ${this.#getRouteXml(routePoints)}
   }
 
   /**
-   *
    * @param routePoints
    * @returns  An unordered list of unique waypoints referenced by a flight plan. This table may also contain waypoints not referenced by the route of a flight plan.
    */
   #geWaypointXml(routePoints: GaminFplWaypoint[]): string {
     const waypoints = routePoints.map((rp): string => {
+      const elevation = rp.alt
+        ? `      <elevation>${Quote.xml(rp.alt.toString())}</elevation>
+`
+        : ``;
       return `\
     <waypoint>
       <identifier>${Quote.xml(rp.identifier)}</identifier>
@@ -136,7 +147,8 @@ ${this.#getRouteXml(routePoints)}
       <country-code>${Quote.xml(rp.countryCode || "")}</country-code>
       <lat>${Quote.xml(rp.lat.toString())}</lat>
       <lon>${Quote.xml(rp.lon.toString())}</lon>
-      <elevation>${Quote.xml((rp.alt || "").toString())}</elevation>
+      <comment />
+${elevation}\
     </waypoint>`;
     });
 

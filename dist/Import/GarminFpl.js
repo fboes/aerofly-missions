@@ -5,6 +5,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _GarminExport_instances, _GarminExport_geWaypointXml, _GarminExport_getRouteXml;
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { asciify } from "../Cli/Arguments.js";
 import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
     constructor(configFileContent) {
@@ -71,18 +72,25 @@ export class GarminExport {
                 type: this.convertWaypointType(cp.type_extended),
                 lat: cp.lon_lat.lat,
                 lon: cp.lon_lat.lon,
-                alt: cp.lon_lat.altitude_ft,
+                alt: cp.lon_lat.altitude_m,
                 countryCode: (_a = cp.icao_region) !== null && _a !== void 0 ? _a : undefined,
             };
         });
+        const routeName = asciify(this.mission.title)
+            .toUpperCase()
+            .replace(/_/g, " ")
+            .replace(/[^A-Z0-9 ]+/g, "")
+            .substring(0, 25);
         let pln = `\
 <?xml version="1.0" encoding="utf-8"?>
-<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1">
+<flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www8.garmin.com/xmlschemas/FlightPlan/v1 https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd">
   <waypoint-table>
 ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_geWaypointXml).call(this, routePoints)}
   </waypoint-table>
   <route>
-    <route-name>${Quote.xml(this.mission.title)}</route-name>
+    <route-name>${Quote.xml(routeName)}</route-name>
     <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
 ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRouteXml).call(this, routePoints)}
@@ -110,6 +118,10 @@ ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRo
 }
 _GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function _GarminExport_geWaypointXml(routePoints) {
     const waypoints = routePoints.map((rp) => {
+        const elevation = rp.alt
+            ? `      <elevation>${Quote.xml(rp.alt.toString())}</elevation>
+`
+            : ``;
         return `\
     <waypoint>
       <identifier>${Quote.xml(rp.identifier)}</identifier>
@@ -117,7 +129,8 @@ _GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function 
       <country-code>${Quote.xml(rp.countryCode || "")}</country-code>
       <lat>${Quote.xml(rp.lat.toString())}</lat>
       <lon>${Quote.xml(rp.lon.toString())}</lon>
-      <elevation>${Quote.xml((rp.alt || "").toString())}</elevation>
+      <comment />
+${elevation}\
     </waypoint>`;
     });
     return [...new Set(waypoints)].join("\n");
