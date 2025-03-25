@@ -10,6 +10,10 @@ import { GarminFpl } from "./GarminFpl.js";
 export class MsfsPln extends GarminFpl {
     read(configFileContent) {
         const waypointTableXml = this.getXmlNode(configFileContent, "FlightPlan.FlightPlan");
+        const versionId = Number(this.getXmlNode(waypointTableXml, "AppVersionMajor"));
+        if (versionId <= 0 || versionId > 12) {
+            throw Error("Unknown flight plan version ID");
+        }
         this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
         const waypointsXml = this.getXmlNodes(waypointTableXml, "ATCWaypoint");
         this.waypoints = waypointsXml.map((xml, index) => {

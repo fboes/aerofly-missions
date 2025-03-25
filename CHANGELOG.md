@@ -4,14 +4,14 @@
 
 - [Add an elevated line to a map - Mapbox GL JS - Mapbox](https://docs.mapbox.com/mapbox-gl-js/example/elevated-line/), which requires an updated type definition and an updated Mapbox GL JS. Wait till it is stable.
 
-## 2.23.1
+## 2.24.0
 
 - Fixed handling of ICAO regions
 - Added Garmin FPL / Infinite Flight export
 
 ## 2.23.0
 
-- Added GeoFS import / exportdownload
+- Added GeoFS import / export
 - Added on-site GDPR conformal tracking
 - Improved accessibility
 

@@ -65,7 +65,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
 |             | Location                                 | Country | Date & time       | Local solar time | Sun |
 | ----------- | ---------------------------------------- | ------- | ----------------- | ---------------- | --- |
 | Departure   | [${m.origin_icao}](${SkyVector.airportLink(m.origin_icao)}) | ${m.origin_country}      | ${this.outputDateTime(m.conditions.time.dateTime)} | ${sunStateOrigin.localSolarTime} | ${this.outputSunState(sunStateOrigin)} |
-| Destination | [${m.destination_icao}](${SkyVector.airportLink(m.destination_icao)}) | ${m.destination_country}      | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime} | ${this.outputSunState(sunStateDestination)} |
+| Destination | [${m.destination_icao}](${SkyVector.airportLink(m.destination_icao)}) | ${m.destination_country}      | ${this.outputDateTime(time)} | ${sunStateDestination.localSolarTime.padEnd(16, " ")} | ${this.outputSunState(sunStateDestination)} |
 
 ### Checkpoints
 
@@ -87,7 +87,7 @@ Check your [Sky Vector Flight Plan](${s.toString()}). You may also want to take 
                 c.direction >= 0 ? Outputtable.padThree(c.direction_magnetic) + "°" : " ".repeat(4),
                 c.heading >= 0 ? Outputtable.padThree(c.heading_magnetic) + "°" : " ".repeat(4),
                 c.distance >= 0 ? Outputtable.pad(c.distance, 5, 1) + " NM" : " ".repeat(8),
-                c.time_enroute > 0 ? Outputtable.convertHoursToMinutesString(c.time_enroute) : " ".repeat(5),
+                c.time_enroute > 0 ? Outputtable.convertHoursToMinutesString(c.time_enroute) : " ".repeat(7),
             ], hasFrequencies));
         });
         markdown += this.outputLine(this.removeFrequencies([

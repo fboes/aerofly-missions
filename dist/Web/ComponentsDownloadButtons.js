@@ -11,7 +11,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
     constructor() {
         super();
         this.innerHTML = `<button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
-    <button type="button" data-filesuffix=".pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
+    <button type="button" data-filesuffix=".pln">Download Microsoft FS 2020 <code>custom_missions.pln</code> flight plan</button>
     <details>
       <summary>More download options…</summary>
       <button type="button" data-filesuffix=".fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
@@ -67,7 +67,10 @@ export class ComponentsDownloadButtons extends HTMLElement {
                 this.download(filename, m.toString());
                 break;
         }
-        document.body.dispatchEvent(StatEvent.createEvent("Export", fileSuffix));
+        document.body.dispatchEvent(StatEvent.createEvent("Export", "Download " + fileSuffix + " file"));
+        document.body.dispatchEvent(StatEvent.createEvent("Mission", "Aircraft", this.mission.aircraft_name));
+        document.body.dispatchEvent(StatEvent.createEvent("Mission", "Airport", this.mission.origin_icao));
+        document.body.dispatchEvent(StatEvent.createEvent("Mission", "Airport", this.mission.destination_icao));
     }
     draw() {
         const filename = this.slug;

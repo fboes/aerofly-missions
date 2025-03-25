@@ -643,8 +643,13 @@ export class App {
                             this.mission.fromGarminFpl(fpl);
                             break;
                         case ".pln":
-                            const msfs = new MsfsPln(e.target.result);
-                            this.mission.fromGarminFpl(msfs);
+                            try {
+                                const msfs = new MsfsPln(e.target.result);
+                                this.mission.fromGarminFpl(msfs);
+                            }
+                            catch (e) {
+                                this.showError("Unsupported file version: " + file.name);
+                            }
                             break;
                         case ".fms":
                             const xplane = new XplaneFms(e.target.result);
@@ -666,7 +671,7 @@ export class App {
                             this.showError("Unsupported file: " + file.name);
                             break;
                     }
-                    document.body.dispatchEvent(StatEvent.createEvent("Import", fileEnding));
+                    document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
                     this.useIcao = this.mission.origin_country !== "US";
                     this.mission.magnetic_declination = undefined;
                     this.syncToForm();
