@@ -1,7 +1,7 @@
 {
   "name": "Aerofly Missionsgerät",
   "short_name": "Missionsgerät",
-  "description": "The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator, X-Plane, GeoFS, and Garmin / Infinte Flight flight plan files.",
+  "description": "The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator 2020, X-Plane, GeoFS, and Garmin / Infinte Flight flight plan files.",
   "icons": [
     {
       "src": "./favicon-180x180.png",

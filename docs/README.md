@@ -2,7 +2,7 @@
 
 The basic steps to work with the Missionsgerät are straightforward:
 
-1. The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`), X-Plane (`fms`), GeoFS (`json`), and Garmin / Infinte Flight flight plan files (`fpl`).
+1. The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator 2020 (`pln`), X-Plane (`fms`), GeoFS (`json`), and Garmin / Infinte Flight flight plan files (`fpl`).
 2. Upload the flight plan file to the Missionsgerät.
 3. You may want to add settings like the aircraft used, time and weather. Only Aerofly FS 4 flight plan files contain these information, so other flight plan files need to add these manually. You may also want to modify your starting position and heading by using the Missionsgerät's map.
 4. Download the converted flight plan files file from the Missionsgerät.

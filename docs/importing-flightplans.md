@@ -9,7 +9,7 @@ Flight planners:
 Flight plans:
 
 - [Flight Plan Database](https://flightplandatabase.com/): Select "MSFS2020" as download option
-- [Flight Plans for Microsoft Flight Simulator - Flightsim.to](https://flightsim.to/c/user-content/flight-plans/)
+- [Flight Plans for Microsoft Flight Simulator 2020 - Flightsim.to](https://flightsim.to/c/user-content/flight-plans/)
 - [CGAVIATORS's jet flight plans](https://cgaviator.uk/)
 
 ## SimBrief API

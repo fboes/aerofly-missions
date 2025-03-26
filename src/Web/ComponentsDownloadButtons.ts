@@ -68,7 +68,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
         this.download(filename, new XplaneFmsExport(this.mission).toString());
         break;
       case ".geofs.json":
-        this.download(filename, new GeoFsExport(this.mission).toString());
+        this.download(filename, new GeoFsExport(this.mission).toString(), "application/json");
         break;
       case ".fpl":
         this.download(filename, new GarminExport(this.mission).toString());
@@ -97,7 +97,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
     });
   }
 
-  protected download(filename: string, content: string, type = "text/plain") {
+  protected download(filename: string, content: string, type = "application/octet-stream") {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(
       new File([content], filename, {

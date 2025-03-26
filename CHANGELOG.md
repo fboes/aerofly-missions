@@ -4,6 +4,10 @@
 
 - [Add an elevated line to a map - Mapbox GL JS - Mapbox](https://docs.mapbox.com/mapbox-gl-js/example/elevated-line/), which requires an updated type definition and an updated Mapbox GL JS. Wait till it is stable.
 
+## 2.24.1
+
+- Fixed download MIME types
+
 ## 2.24.0
 
 - Fixed handling of ICAO regions
