@@ -54,6 +54,11 @@ export class ComponentSimBrief extends HTMLElement {
   connectedCallback() {
     this.checkDisabled();
     this.elements.usernameInput.addEventListener("input", this);
+    this.elements.usernameInput.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.code === "Enter") {
+        this.elements.fetchButton.dispatchEvent(new Event("click"));
+      }
+    });
     this.elements.fetchButton.addEventListener("click", this);
   }
 
@@ -68,7 +73,7 @@ export class ComponentSimBrief extends HTMLElement {
     }
   }
 
-  async handleEvent(e: Event): Promise<void> {
+  async handleEvent(e: Event | KeyboardEvent): Promise<void> {
     this.checkDisabled();
     if (this.elements.fetchButton.disabled) {
       return;

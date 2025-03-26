@@ -90,6 +90,7 @@ export class MsfsPln extends GarminFpl {
 
 /**
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
+ * @see https://docs.flightsimulator.com/msfs2024/html/5_Content_Configuration/Mission_XML_Files/Flight_Plan_XML_Properties.htm
  */
 export class MsfsPlnExport {
   constructor(protected mission: Mission) {}
@@ -215,7 +216,7 @@ export class MsfsPlnExport {
     }
   }
 
-  runwayXml(runway: string): string {
+  runwayXml(runway: string, hideNoneDesignator = false): string {
     const runwayParts = runway.match(/(\d+)([LRCSGHUW])?/);
     if (runwayParts) {
       let RunwayDesignatorFP: MsfsPlnRunwayDesignator = "NONE";
@@ -233,11 +234,100 @@ export class MsfsPlnExport {
           RunwayDesignatorFP = "WATER";
           break;
       }
-      return `\
+      let rw = `\
             <RunwayNumberFP>${Number(runwayParts[1])}</RunwayNumberFP>
+`;
+      if (!hideNoneDesignator || RunwayDesignatorFP !== "NONE") {
+        rw += `
             <RunwayDesignatorFP>${Quote.xml(RunwayDesignatorFP)}</RunwayDesignatorFP>
 `;
+      }
+      return rw;
     }
     return "";
+  }
+}
+
+/**
+ * @see https://docs.flightsimulator.com/msfs2024/html/5_Content_Configuration/Mission_XML_Files/EFB_Flight_Plan_XML_Properties.htm
+ */
+export class Msfs2024Export extends MsfsPlnExport {
+  toString(): string {
+    const m = this.mission;
+
+    const departureRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);
+    const departureRunway = departureRunwayCp ? departureRunwayCp.name : "";
+
+    const destinationRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
+    const destinationRunway = destinationRunwayCp ? destinationRunwayCp.name : "";
+
+    let pln = `\
+<?xml version="1.0" encoding="UTF-8"?>
+<SimBase.Document>
+    <!-- Exported by Aerofly Missionsgerät -->
+    <FlightPlan.FlightPlan>
+        <Title>${Quote.xml(m.origin_icao + " to " + m.destination_icao)}</Title>
+        <Descr>${Quote.xml(m.title)}</Descr>
+        <FPType>${Quote.xml(m.conditions.getFlightCategory(true))}</FPType>
+        <DepartureID>${Quote.xml(m.origin_icao)}</DepartureID>
+        <DestinationID>${Quote.xml(m.destination_icao)}</DestinationID>
+        <CruisingAlt>${Quote.xml(m.cruise_altitude_ft.toFixed())}</CruisingAlt>
+        <AppVersion>
+            <AppVersionMajor>12</AppVersionMajor>
+        </AppVersion>
+`;
+
+    if (departureRunway) {
+      pln += `\
+        <DepartureDetails>
+${this.runwayXml(departureRunway, true)}\
+        </DepartureDetails>
+`;
+    }
+
+    m.checkpoints
+      .filter((cp) => {
+        return ![
+          MissionCheckpoint.TYPE_ORIGIN,
+          MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
+          MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
+          MissionCheckpoint.TYPE_DESTINATION,
+        ].includes(cp.type);
+      })
+      .forEach((cp) => {
+        // ARINC-424 ICAO region code
+        const type = this.convertWaypointType(cp.type_extended);
+        pln += `\
+        <ATCWaypoint id="${Quote.xml(cp.name)}">
+            <ATCWaypointType>${Quote.xml(type)}</ATCWaypointType>
+            <ICAO>
+`;
+        if (type !== "User") {
+          pln += `\
+                <ICAORegion>${Quote.xml(cp.icao_region || "")}</ICAORegion>
+                <ICAOIdent>${Quote.xml(cp.name)}</ICAOIdent>
+`;
+        }
+        pln += `\
+                <WorldLocation>${this.getLla(cp.lon_lat)}</WorldLocation>
+            </ICAO>
+        </ATCWaypoint>
+`;
+      });
+
+    if (destinationRunway) {
+      pln += `\
+        <ArrivalDetails>
+${this.runwayXml(destinationRunway, true)}\
+        </ArrivalDetails>
+  `;
+    }
+
+    pln += `\
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
+`;
+
+    return pln;
   }
 }

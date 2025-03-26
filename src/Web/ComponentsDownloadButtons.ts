@@ -5,7 +5,7 @@ import { GeoJson } from "../Export/GeoJson.js";
 import { Markdown } from "../Export/Markdown.js";
 import { GarminExport } from "../Import/GarminFpl.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
-import { MsfsPlnExport } from "../Import/MsfsPln.js";
+import { Msfs2024Export, MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
 import { StatEvent } from "./StatEvent.js";
 
@@ -16,9 +16,10 @@ export class ComponentsDownloadButtons extends HTMLElement {
     super();
 
     this.innerHTML = `<button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
-    <button type="button" data-filesuffix=".pln">Download Microsoft FS 2020 <code>custom_missions.pln</code> flight plan</button>
+    <button type="button" data-filesuffix=".pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
     <details>
       <summary>More download options…</summary>
+      <button type="button" data-filesuffix=".2024.pln">Download Microsoft FS 2024 <code>custom_missions.2024.pln</code> flight plan</button>
       <button type="button" data-filesuffix=".fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
       <button type="button" data-filesuffix=".geofs.json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
       <button type="button" data-filesuffix=".fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
@@ -42,7 +43,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
       : "custom_missions";
   }
 
-  handleEvent(e: Event) {
+  handleEvent(e: PointerEvent | KeyboardEvent) {
     e.stopPropagation();
     if (!this.mission) {
       return;
@@ -63,6 +64,9 @@ export class ComponentsDownloadButtons extends HTMLElement {
         break;
       case ".pln":
         this.download(filename, new MsfsPlnExport(this.mission).toString());
+        break;
+      case ".2024.pln":
+        this.download(filename, new Msfs2024Export(this.mission).toString());
         break;
       case ".fms":
         this.download(filename, new XplaneFmsExport(this.mission).toString());

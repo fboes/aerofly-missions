@@ -9,7 +9,7 @@
   "name": "aerofly-missions",
   "author": "Frank Boës <info@3960.org> (https://3960.org/)",
   "license": "MIT",
-  "description": "The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator 2020, X-Plane, GeoFS, and Garmin / Infinte Flight flight plan files.",
+  "description": "The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator, X-Plane, GeoFS, and Garmin / Infinte Flight flight plan files.",
   "version": "2.24.0",
   "exports": "./dist/aerofly-missions.js",
   "bin": {

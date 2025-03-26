@@ -1,5 +1,5 @@
 import { Test } from "../Cli/Test.js";
-import { MsfsPlnExport, MsfsPln } from "../Import/MsfsPln.js";
+import { MsfsPlnExport, MsfsPln, Msfs2024Export } from "../Import/MsfsPln.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
@@ -38,10 +38,18 @@ export class MsfsPlnTest extends Test {
         }
         // Export Mission to XML
         const exportPln = new MsfsPlnExport(mission);
-        //console.log(exportPln.toString());
+        this.group(MsfsPlnExport.name + ": Mission conversion");
+        {
+            this.assert(exportPln.toString() !== "", "Not empty flight plan");
+        }
+        const exportPln2 = new Msfs2024Export(mission);
+        this.group(Msfs2024Export.name + ": Mission conversion");
+        {
+            this.assert(exportPln2.toString() !== "", "Not empty flight plan");
+        }
         // Reimport XML to PLN
         const secondPln = new MsfsPln(exportPln.toString());
-        this.group(MsfsPlnExport.name);
+        this.group(MsfsPln.name);
         {
             this.assertEquals(secondPln.waypoints.length, pln.waypoints.length);
             secondPln.waypoints.forEach((wp, index) => {
@@ -94,6 +102,17 @@ export class MsfsPlnTest extends Test {
             this.assertEquals(mission.checkpoints[9].type, MissionCheckpoint.TYPE_DESTINATION_RUNWAY);
             this.assertEquals(mission.checkpoints[10].type, MissionCheckpoint.TYPE_DESTINATION);
             this.assertEquals(mission.checkpoints[10].icao_region, "EF");
+        }
+        // Export Mission to XML
+        const exportPln = new MsfsPlnExport(mission);
+        this.group(MsfsPlnExport.name + ": Mission conversion");
+        {
+            this.assert(exportPln.toString() !== "", "Not empty flight plan");
+        }
+        const exportPln2 = new Msfs2024Export(mission);
+        this.group(Msfs2024Export.name + ": Mission conversion");
+        {
+            this.assert(exportPln2.toString() !== "", "Not empty flight plan");
         }
     }
     testRunway() {
