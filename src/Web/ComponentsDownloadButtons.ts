@@ -15,17 +15,19 @@ export class ComponentsDownloadButtons extends HTMLElement {
   constructor() {
     super();
 
-    this.innerHTML = `<button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
-    <button type="button" data-filesuffix=".pln">Download Microsoft FS <code>custom_missions.pln</code> flight plan</button>
-    <details>
-      <summary>More download options…</summary>
-      <button type="button" data-filesuffix=".2024.pln">Download Microsoft FS 2024 <code>custom_missions.2024.pln</code> flight plan</button>
-      <button type="button" data-filesuffix=".fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
-      <button type="button" data-filesuffix=".geofs.json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
-      <button type="button" data-filesuffix=".fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
-      <button type="button" class="expert-mode" data-filesuffix=".md">Download <code>custom_missions.md</code> documentation</button>
-      <button type="button" class="expert-mode" data-filesuffix=".geojson">Download <code>custom_missions.geojson</code></button>
-    </details>`;
+    this.innerHTML = `\
+<button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
+<button type="button" data-filesuffix=".pln">Download Microsoft FS 2020 <code>custom_missions.pln</code> flight plan</button>
+<details>
+  <summary>More download options…</summary>
+  <button type="button" data-filesuffix=".2024.pln">Download Microsoft FS 2024 <code>custom_missions.2024.pln</code> flight plan</button>
+  <button type="button" data-filesuffix=".fms">Download X-Plane <code>custom_missions.fms</code> flight plan</button>
+  <button type="button" data-filesuffix=".geofs.json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
+  <button type="button" data-filesuffix=".fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
+  <button type="button" class="expert-mode" data-filesuffix=".md">Download <code>custom_missions.md</code> documentation</button>
+  <button type="button" class="expert-mode" data-filesuffix=".geojson">Download <code>custom_missions.geojson</code></button>
+</details>
+`;
   }
 
   connectedCallback(): void {

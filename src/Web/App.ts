@@ -18,6 +18,7 @@ import { ComponentSimBrief } from "./ComponentSimbrief.js";
 import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
 import { GeoFs } from "../Import/GeoFs.js";
 import { StatEvent } from "./StatEvent.js";
+import { ComponentUploadField, ComponentUploadFieldDetail } from "./ComponentUploadField.js";
 
 type ApiResult = {
   data: {
@@ -52,7 +53,7 @@ export class App {
     wind_direction: <HTMLInputElement>document.getElementById("wind_direction"),
     visibility_sm: <HTMLOutputElement>document.getElementById("visibility_sm"),
     visibility: <HTMLInputElement>document.getElementById("visibility"),
-    upload: <HTMLInputElement>document.getElementById("upload"),
+    upload: <ComponentUploadField>document.querySelector("missionsgeraet-upload-field"),
     turn_time: <HTMLInputElement>document.getElementById("turn_time"),
     turn_radius: <HTMLOutputElement>document.getElementById("turn_radius"),
     turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
@@ -105,6 +106,14 @@ export class App {
 
   constructor() {
     this.mission = new Mission("", "");
+
+    customElements.define("missionsgeraet-upload-field", ComponentUploadField);
+    this.elements.upload.addEventListener("file-uploaded", (event: CustomEventInit<ComponentUploadFieldDetail>) => {
+      if (event.detail?.filename === undefined || event.detail?.filecontent === undefined) {
+        return;
+      }
+      this.uploadFile(event.detail.filename, event.detail.filecontent);
+    });
 
     customElements.define("missionsgeraet-simbrief", ComponentSimBrief);
     this.elements.simBrief.addEventListener(
@@ -401,10 +410,6 @@ export class App {
         this.mission.turn_time = target.valueAsNumber;
         this.syncToOutput();
         show |= App.SHOW_MAP;
-        break;
-      case "upload":
-        this.uploadFile();
-        this.syncToForm();
         break;
       case "visibility":
         this.mission.conditions.visibility = target.valueAsNumber;
@@ -703,73 +708,59 @@ export class App {
     }
   }
 
-  uploadFile() {
-    if (!this.elements.upload || !this.elements.upload.files) {
-      this.showError("No file given");
-      return;
-    }
-    for (const file of this.elements.upload.files) {
-      const reader = new FileReader();
-      const fileEnding = file.name.replace(/^.*(\.[^.]+)$/, "$1");
-
-      reader.onload = (e) => {
-        if (e.target) {
-          switch (fileEnding) {
-            case ".mcf":
-              const mainMcf = new MainMcfFactory().create(<string>e.target.result);
-              this.mission.fromMainMcf(mainMcf);
-              break;
-            case ".tmc":
-              const mlp = new MissionListParser(<string>e.target.result);
-              const missionNames = mlp.getMissionNames();
-              if (missionNames.length > 1) {
-                this.chooseMission(mlp);
-                return;
-              }
-              new MissionFactory().create(<string>e.target.result, this.mission);
-              break;
-            case ".fpl":
-              const fpl = new GarminFpl(<string>e.target.result);
-              this.mission.fromGarminFpl(fpl);
-              break;
-            case ".pln":
-              try {
-                const msfs = new MsfsPln(<string>e.target.result);
-                this.mission.fromGarminFpl(msfs);
-              } catch (e) {
-                this.showError("Unsupported file version: " + file.name);
-              }
-              break;
-            case ".fms":
-              const xplane = new XplaneFms(<string>e.target.result);
-              this.mission.fromGarminFpl(xplane);
-              break;
-            case ".json":
-              const geoFs = new GeoFs(<string>e.target.result);
-              this.mission.fromGarminFpl(geoFs);
-              break;
-            case ".gpx":
-              const gpx = new Gpx(<string>e.target.result);
-              this.mission.fromGarminFpl(gpx);
-              break;
-            case ".geojson":
-              const geojson = new GeoJsonImport(<string>e.target.result);
-              this.mission.fromGarminFpl(geojson);
-              break;
-            default:
-              this.showError("Unsupported file: " + file.name);
-              break;
-          }
-          document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
-          this.useIcao = this.mission.origin_country !== "US";
-          this.mission.magnetic_declination = undefined;
-          this.syncToForm();
-          this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
+  uploadFile(filename: string, filecontent: string) {
+    const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
+    switch (fileEnding) {
+      case ".mcf":
+        const mainMcf = new MainMcfFactory().create(filecontent);
+        this.mission.fromMainMcf(mainMcf);
+        break;
+      case ".tmc":
+        const mlp = new MissionListParser(filecontent);
+        const missionNames = mlp.getMissionNames();
+        if (missionNames.length > 1) {
+          this.chooseMission(mlp);
+          return;
         }
-      };
-
-      reader.readAsText(file);
+        new MissionFactory().create(filecontent, this.mission);
+        break;
+      case ".fpl":
+        const fpl = new GarminFpl(filecontent);
+        this.mission.fromGarminFpl(fpl);
+        break;
+      case ".pln":
+        try {
+          const msfs = new MsfsPln(filecontent);
+          this.mission.fromGarminFpl(msfs);
+        } catch (e) {
+          this.showError("Unsupported file version: " + filename);
+        }
+        break;
+      case ".fms":
+        const xplane = new XplaneFms(filecontent);
+        this.mission.fromGarminFpl(xplane);
+        break;
+      case ".json":
+        const geoFs = new GeoFs(filecontent);
+        this.mission.fromGarminFpl(geoFs);
+        break;
+      case ".gpx":
+        const gpx = new Gpx(filecontent);
+        this.mission.fromGarminFpl(gpx);
+        break;
+      case ".geojson":
+        const geojson = new GeoJsonImport(filecontent);
+        this.mission.fromGarminFpl(geojson);
+        break;
+      default:
+        this.showError("Unsupported file: " + filename);
+        break;
     }
+    document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
+    this.useIcao = this.mission.origin_country !== "US";
+    this.mission.magnetic_declination = undefined;
+    this.syncToForm();
+    this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
   }
 
   chooseMission(mlp: MissionListParser) {

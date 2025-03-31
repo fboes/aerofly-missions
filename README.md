@@ -1,6 +1,6 @@
 # ![](docs/favicon-64x64.png) Aerofly Missionsgerät
 
-The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`), X-Plane (`fms`), GeoFS ( `json`), and Garmin / Infinte Flight flight plan files (`fpl`).
+The Aerofly Missionsgerät converts simulator flight plan files for [Aerofly FS 4](https://www.aerofly.com/) (`main.mcf` and `tmc`), Microsoft Flight Simulator (`pln`), X-Plane (`fms`), GeoFS ( `json`), and Garmin / Infinite Flight flight plan files (`fpl`).
 
 Head over to [https://fboes.github.io/aerofly-missions/dist/](https://fboes.github.io/aerofly-missions/dist/) to get started.
 
