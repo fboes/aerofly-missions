@@ -4,6 +4,10 @@
 
 - [Add an elevated line to a map - Mapbox GL JS - Mapbox](https://docs.mapbox.com/mapbox-gl-js/example/elevated-line/), which requires an updated type definition and an updated Mapbox GL JS. Wait till it is stable.
 
+## 2.26.0
+
+- Added functionality to SimBrief to import origin _or_ destination weather.
+
 ## 2.25.1
 
 - Added Airbus A350

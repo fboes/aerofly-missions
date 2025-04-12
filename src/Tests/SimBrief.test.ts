@@ -9,7 +9,9 @@ export class SimBriefTest extends Test {
     super(process, dieOnError);
     this.testMsfsStatic();
     this.testAeroflyStatic();
+    this.testAeroflyStaticDestination();
     this.testAeroflyStatic2();
+    this.testAeroflyStaticDestination2();
   }
 
   static async init(process: NodeJS.Process, dieOnError = false): Promise<SimBriefTest> {
@@ -85,6 +87,20 @@ export class SimBriefTest extends Test {
     this.assertEquals(mission.conditions.cloud.height, 0);
   }
 
+  testAeroflyStaticDestination(): void {
+    this.group(SimBrief.name + ".testAeroflyStaticDestination()");
+    const simBrief = new SimBrief();
+    const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
+    const simbriefPayloadJson = JSON.parse(simbriefPayload);
+
+    const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
+    this.assertEquals(mission.conditions.wind_speed, 8);
+    this.assertEquals(mission.conditions.wind_gusts, 0);
+    this.assertEquals(mission.conditions.wind_direction, 190);
+    this.assertEquals(mission.conditions.cloud.cover, 0);
+    this.assertEquals(mission.conditions.cloud.height, 0);
+  }
+
   testAeroflyStatic2(): void {
     this.group(SimBrief.name + ".testAeroflyStatic2()");
     const simBrief = new SimBrief();
@@ -104,5 +120,19 @@ export class SimBriefTest extends Test {
     this.assertEquals(mission.conditions.wind_direction, 80);
     this.assertEquals(mission.conditions.cloud.cover, 0.125);
     this.assertEqualsRounded(mission.conditions.cloud.height, 1036, 0);
+  }
+
+  testAeroflyStaticDestination2(): void {
+    this.group(SimBrief.name + ".testAeroflyStaticDestination2()");
+    const simBrief = new SimBrief();
+    const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api2.json", "utf8");
+    const simbriefPayloadJson = JSON.parse(simbriefPayload);
+
+    const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
+    this.assertEquals(mission.conditions.wind_speed, 9);
+    this.assertEquals(mission.conditions.wind_gusts, 0);
+    this.assertEquals(mission.conditions.wind_direction, 100);
+    this.assertEquals(mission.conditions.cloud.cover, 0.125);
+    this.assertEqualsRounded(mission.conditions.cloud.height, 762, 0);
   }
 }

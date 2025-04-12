@@ -239,6 +239,7 @@ export class App {
     this.fetchMetar(icao, () => {
       this.syncToForm();
       this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
+      document.body.dispatchEvent(StatEvent.createEvent("Weather", "Fetched METAR via API"));
     });
   }
 
