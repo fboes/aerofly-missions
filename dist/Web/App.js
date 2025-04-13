@@ -31,7 +31,6 @@ export class App {
             turn_radius: document.getElementById("turn_radius"),
             turbulence_strength: document.getElementById("turbulence_strength"),
             expertMode: document.getElementById("expertMode"),
-            simBriefUseDestinationWeather: document.getElementById("simBriefUseDestinationWeather"),
             title: document.getElementById("title"),
             time: document.getElementById("time"),
             thermal_strength: document.getElementById("thermal_strength"),
@@ -64,6 +63,7 @@ export class App {
             callsign: document.getElementById("callsign"),
             aircraft_name: document.getElementById("aircraft_name"),
             simBrief: document.querySelector("missionsgeraet-simbrief"),
+            simBriefUseDestinationWeather: document.getElementById("simBriefUseDestinationWeather"),
         };
         this.useIcao = true;
         this.metarApiKey = "";
@@ -371,7 +371,6 @@ export class App {
                 break;
             case "simBriefUseDestinationWeather":
                 this.simBriefUseDestinationWeather = target.checked;
-                this.store();
                 break;
             default:
                 const prop = target.getAttribute("data-cp-prop");
@@ -798,6 +797,7 @@ export class App {
         this.elements.wind_gusts.value = this.mission.conditions.wind_gusts.toFixed();
         this.elements.wind_speed.value = this.mission.conditions.wind_speed.toFixed();
         this.elements.no_guides.checked = this.mission.no_guides;
+        this.elements.simBriefUseDestinationWeather.checked = this.simBriefUseDestinationWeather;
         if (this.mission.magnetic_declination !== undefined) {
             this.elements.magneticDeclination.valueAsNumber = this.mission.magnetic_declination;
         }

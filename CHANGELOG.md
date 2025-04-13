@@ -6,7 +6,7 @@
 
 ## 2.26.0
 
-- Added functionality to SimBrief to import origin _or_ destination weather.
+- Added functionality to SimBrief to import origin _or_ destination weather
 
 ## 2.25.1
 
