@@ -43,6 +43,7 @@ type ApiResult = {
 type AppStorable = {
   metarApiKey: string;
   simBriefUsername: string;
+  simBriefUseDestinationWeather: boolean;
   mission: Mission;
 };
 
@@ -57,6 +58,8 @@ export class App {
     turn_time: <HTMLInputElement>document.getElementById("turn_time"),
     turn_radius: <HTMLOutputElement>document.getElementById("turn_radius"),
     turbulence_strength: <HTMLInputElement>document.getElementById("turbulence_strength"),
+    expertMode: <HTMLInputElement>document.getElementById("expertMode"),
+    simBriefUseDestinationWeather: <HTMLInputElement>document.getElementById("simBriefUseDestinationWeather"),
     title: <HTMLInputElement>document.getElementById("title"),
     time: <HTMLInputElement>document.getElementById("time"),
     thermal_strength: <HTMLInputElement>document.getElementById("thermal_strength"),
@@ -93,6 +96,7 @@ export class App {
   mission: Mission;
   useIcao = true;
   metarApiKey = "";
+  protected simBriefUseDestinationWeather = false;
   protected mapboxMap?: Map;
   protected geoJson: GeoJson;
   static CLASS_SIMPLE_MODE = "is-simple-mode";
@@ -124,7 +128,7 @@ export class App {
         }
 
         const simBrief = new SimBrief();
-        simBrief.convertMission(event.detail, this.mission);
+        simBrief.convertMission(event.detail, this.mission, this.simBriefUseDestinationWeather);
         this.syncToForm();
         this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
       }
@@ -185,9 +189,6 @@ export class App {
             break;
           case "reverse-flightplan":
             this.handleEventClickReverseFlightplan(target);
-            break;
-          case "toggle-expert-mode":
-            this.handleEventClickToggleExpertMode(target);
             break;
           case "waypoint-edit":
             this.handleEventClickWaypointEdit(target);
@@ -307,12 +308,10 @@ export class App {
     this.showFlightplan(App.SHOW_ALL);
   }
 
-  handleEventClickToggleExpertMode(target: HTMLButtonElement) {
-    this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE);
-    localStorage.setItem(
-      App.CLASS_SIMPLE_MODE,
-      this.elements.main.classList.contains(App.CLASS_SIMPLE_MODE) ? "1" : "0"
-    );
+  handleEventClickToggleExpertMode(target: HTMLInputElement) {
+    const isChecked = target.checked;
+    this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, !isChecked);
+    localStorage.setItem(App.CLASS_SIMPLE_MODE, !isChecked ? "1" : "0");
   }
 
   handleEventInput(target: HTMLInputElement) {
@@ -431,6 +430,13 @@ export class App {
         break;
       case "no_guides":
         this.mission.no_guides = target.checked;
+        break;
+      case "expertMode":
+        this.handleEventClickToggleExpertMode(target);
+        break;
+      case "simBriefUseDestinationWeather":
+        this.simBriefUseDestinationWeather = target.checked;
+        this.store();
         break;
       default:
         const prop = target.getAttribute("data-cp-prop");
@@ -905,9 +911,9 @@ export class App {
   }
 
   restore() {
-    this.metarApiKey = localStorage.getItem("metarApiKey") || this.metarApiKey;
     const classSimpleMode = localStorage.getItem(App.CLASS_SIMPLE_MODE) || "1";
     this.elements.main.classList.toggle(App.CLASS_SIMPLE_MODE, classSimpleMode === "1");
+    this.elements.expertMode.checked = classSimpleMode !== "1";
 
     const appState = localStorage.getItem(this.constructor.name);
     if (appState) {
@@ -947,17 +953,17 @@ export class App {
     return {
       metarApiKey: this.metarApiKey,
       simBriefUsername: this.elements.simBrief.username,
+      simBriefUseDestinationWeather: this.simBriefUseDestinationWeather,
       mission: this.mission,
     };
   }
 
   hydrate(json: AppStorable) {
-    if (json.metarApiKey) {
-      this.metarApiKey = json.metarApiKey;
-    }
-    if (json.simBriefUsername) {
-      this.elements.simBrief.username = json.simBriefUsername;
-    }
+    this.metarApiKey = json.metarApiKey || this.metarApiKey;
+    this.elements.simBrief.username = json.simBriefUsername || this.elements.simBrief.username;
+    this.simBriefUseDestinationWeather = json.simBriefUseDestinationWeather === true;
+    this.elements.simBriefUseDestinationWeather.checked = this.simBriefUseDestinationWeather;
+
     if (json.mission) {
       this.mission.hydrate(json.mission);
     }

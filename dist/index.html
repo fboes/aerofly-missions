@@ -360,7 +360,17 @@
 
           <p>In expert mode additional controls will show up in this application. There will be more weather options and speed settings, as well as more export file formats.</p>
 
-          <button data-handler="toggle-expert-mode" id="expert-mode" class="primary">Toggle expert mode</button>
+          <label>
+            <input type="checkbox" id="expertMode" />
+            Enable expert mode
+          </label>
+
+          <p>On loading SimBrief flight plans, the origin weather gets automatically imported. You can change this behavior to fetch the destination weather instead.</p>
+
+          <label class="expert-mode">
+            <input type="checkbox" id="simBriefUseDestinationWeather" />
+            Use destination weather for SimBrief flight plans
+          </label>
 
           <p>Press <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>R</kbd> to check for updates.</p>
           <p>Press <kbd>CTRL</kbd>+<kbd>+</kbd> and <kbd>CTRL</kbd>+<kbd>-</kbd> to change text size.</p>
