@@ -19,26 +19,7 @@ import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
 import { GeoFs } from "../Import/GeoFs.js";
 import { StatEvent } from "./StatEvent.js";
 import { ComponentUploadField, ComponentUploadFieldDetail } from "./ComponentUploadField.js";
-
-type ApiResult = {
-  data: {
-    clouds?: {
-      code: string;
-      feet: number;
-    }[];
-    visibility?: {
-      meters_float?: number;
-    };
-    wind?: {
-      degrees?: number;
-      speed_kts?: number;
-      gust_kts?: number;
-    };
-    temperature?: {
-      celsius?: number;
-    };
-  }[];
-};
+import { CheckWx } from "../Import/CheckWx.js";
 
 type AppStorable = {
   metarApiKey: string;
@@ -235,13 +216,20 @@ export class App {
     this.showFlightplan(App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP);
   }
 
-  handleEventClickFetchMetar(target: HTMLButtonElement) {
+  async handleEventClickFetchMetar(target: HTMLButtonElement) {
     const icao = target.id === "make-metar-dept" ? this.mission.origin_icao : this.mission.destination_icao;
-    this.fetchMetar(icao, () => {
+
+    const checkWxApi = new CheckWx(this.metarApiKey);
+    try {
+      const result = await checkWxApi.fetch(icao);
+      checkWxApi.addToMission(result, this.mission);
       this.syncToForm();
       this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
       document.body.dispatchEvent(StatEvent.createEvent("Weather", "Fetched METAR via API"));
-    });
+    } catch (e) {
+      this.showError("Error fetching METAR: " + e);
+      return;
+    }
   }
 
   handleEventClickModalClose(target: HTMLButtonElement) {
@@ -822,51 +810,6 @@ export class App {
     this.mission.conditions.wind_speed = Math.floor(Math.random() * 20);
     this.mission.conditions.wind_gusts =
       this.mission.conditions.wind_speed * (1 + this.mission.conditions.turbulence_strength);
-  }
-
-  fetchMetar(icao: string, callback = () => {}) {
-    const url = "https://api.checkwx.com/metar/" + encodeURIComponent(icao) + "/decoded";
-    fetch(url, {
-      headers: {
-        "X-API-Key": this.metarApiKey,
-        Accept: "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          this.showError(`Error getting METAR data, got ${response.status} status code`);
-        }
-
-        return response.json();
-      })
-      .then((responseJson: ApiResult) => {
-        if (responseJson.data.length < 1) {
-          this.showError(`No data in METAR response`);
-        }
-        const metar = responseJson.data[0];
-
-        this.mission.conditions.wind_direction = metar.wind?.degrees ?? 0;
-        this.mission.conditions.wind_gusts = metar.wind?.gust_kts ?? 0;
-        this.mission.conditions.wind_speed = metar.wind?.speed_kts ?? 0;
-
-        let visibility = metar.visibility?.meters_float ?? 0;
-        if (visibility === 9999) {
-          visibility = 20000;
-        }
-        this.mission.conditions.visibility = Math.round(visibility / 500) * 500;
-        this.mission.conditions.clouds =
-          metar.clouds?.map((c) => {
-            const cloud = new MissionConditionsCloud();
-            cloud.cover_code = c.code;
-            cloud.height_feet = c.feet ?? 0;
-            return cloud;
-          }) ?? [];
-
-        // @see https://github.com/fboes/aerofly-wettergeraet/blob/main/src/WettergeraetLib/AeroflyWeather.cpp#L89
-        this.mission.conditions.thermal_strength = ((metar.temperature?.celsius ?? 14) - 5) / 25;
-        this.mission.conditions.makeTurbulence();
-        callback();
-      });
   }
 
   syncToForm() {

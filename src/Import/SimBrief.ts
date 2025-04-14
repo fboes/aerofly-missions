@@ -67,10 +67,9 @@ export type SimBriefApiPayload = {
 
 export class SimBrief {
   public async fetch(username: string): Promise<SimBriefApiPayload> {
-    const parameterName = username.match(/^\d+$/) ? "userid" : "username";
-    const url = `https://www.simbrief.com/api/xml.fetcher.php?${encodeURIComponent(parameterName)}=${encodeURIComponent(
-      username
-    )}&json=v2`;
+    const url = new URL("https://www.simbrief.com/api/xml.fetcher.php");
+    url.searchParams.append(username.match(/^\d+$/) ? "userid" : "username", username);
+    url.searchParams.append("json", "v2");
 
     const response = await fetch(url, {
       headers: {
@@ -87,7 +86,7 @@ export class SimBrief {
 
   public async fetchMsfs(username: string): Promise<string> {
     const simbriefPayload = await this.fetch(username);
-    const url = simbriefPayload.fms_downloads.directory + simbriefPayload.fms_downloads.mfs.link;
+    const url = new URL(simbriefPayload.fms_downloads.directory + simbriefPayload.fms_downloads.mfs.link);
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
