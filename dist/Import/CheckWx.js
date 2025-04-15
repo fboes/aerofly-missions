@@ -4,7 +4,7 @@ export class CheckWx {
         this.metarApiKey = metarApiKey;
     }
     async fetch(icao) {
-        const url = "https://api.checkwx.com/metar/" + encodeURIComponent(icao) + "/decoded";
+        const url = new URL(`https://api.checkwx.com/metar/${encodeURIComponent(icao)}/decoded`);
         const response = await fetch(url, {
             headers: {
                 "X-API-Key": this.metarApiKey,

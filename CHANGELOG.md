@@ -4,8 +4,9 @@
 
 - [Add an elevated line to a map - Mapbox GL JS - Mapbox](https://docs.mapbox.com/mapbox-gl-js/example/elevated-line/), which requires an updated type definition and an updated Mapbox GL JS. Wait till it is stable.
 
-## 2.26.1
+## 2.27.0
 
+- Added SeeYou `cup` file format for import
 - Refactored CheckWx API to separate component
 
 ## 2.26.0

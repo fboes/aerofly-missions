@@ -1,0 +1,14 @@
+name,code,country,lat,lon,elev,style,rwdir,rwlen,rwwidth,freq,desc,userdata,pics
+"Marcel Marchant B.",MARCELMA,,4127.459S,07255.115W,115.0m,1,,,,,,,""
+"Volcán Calbuco",VOLCÁNCA,,4119.790S,07236.591W,1905.0m,1,,,,,,,""
+"CUW_3",CUW_3,,4116.808S,07251.282W,55.0m,1,,,,,,,""
+"Puerto Montt",PUERTOMO,,4126.324S,07305.631W,85.0m,1,,,,,,,""
+"Marcel Marchant B.",MARCELMA,,4127.461S,07255.112W,115.0m,1,,,,,,,""
+-----Related Tasks-----
+"TSK 90.1 / 92.2 Triangle","???","Marcel Marchant B.","Volcán Calbuco","CUW_3","Puerto Montt","Marcel Marchant B.","???"
+Options,Short=false,MultiStart=false
+ObsZone=0,Style=2,R1=3000m,A1=45,SpeedStyle=1
+ObsZone=1,Style=1,R1=3000m,A1=45,SpeedStyle=1
+ObsZone=2,Style=1,R1=3000m,A1=45,SpeedStyle=1
+ObsZone=3,Style=1,R1=3000m,A1=45,SpeedStyle=1
+ObsZone=4,Style=3,R1=3000m,A1=45,SpeedStyle=1

@@ -20,6 +20,7 @@ import { GeoFs } from "../Import/GeoFs.js";
 import { StatEvent } from "./StatEvent.js";
 import { ComponentUploadField, ComponentUploadFieldDetail } from "./ComponentUploadField.js";
 import { CheckWx } from "../Import/CheckWx.js";
+import { SeeYouCup } from "../Import/SeeYouCup.js";
 
 type AppStorable = {
   metarApiKey: string;
@@ -745,6 +746,10 @@ export class App {
       case ".geojson":
         const geojson = new GeoJsonImport(filecontent);
         this.mission.fromGarminFpl(geojson);
+        break;
+      case ".cup":
+        const cup = new SeeYouCup(filecontent);
+        this.mission.fromGarminFpl(cup);
         break;
       default:
         this.showError("Unsupported file: " + filename);

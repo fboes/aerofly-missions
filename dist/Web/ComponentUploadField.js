@@ -4,7 +4,7 @@ export class ComponentUploadField extends HTMLElement {
         this.innerHTML = `\
 <div>
   <label for="upload">Import file</label>
-  <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms,.json,.gpx,.geojson" />
+  <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms,.json,.gpx,.geojson,.cup" />
 </div>
 `;
         this.input = this.querySelector("input");

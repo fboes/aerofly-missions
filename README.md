@@ -26,6 +26,7 @@ There is also a local Node.js CLI tool, if you want some automation for your wor
 | `gpx` GPS Route file                                                                                                                                |   ✅   |        |
 | [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
 | [SimBrief API](./docs/importing-flightplans.md)                                                                                                     |   ✅   |        |
+| SeeYou `cup` file format                                                                                                                            |   ✅   |        |
 
 ## Local Node.js CLI tool
 

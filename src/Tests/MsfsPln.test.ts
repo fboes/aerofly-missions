@@ -1,7 +1,7 @@
 import { Test } from "../Cli/Test.js";
 import { MsfsPlnExport, MsfsPln, Msfs2024Export } from "../Import/MsfsPln.js";
 import * as fs from "node:fs";
-import { Mission, MissionFactory } from "../Aerofly/Mission.js";
+import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class MsfsPlnTest extends Test {

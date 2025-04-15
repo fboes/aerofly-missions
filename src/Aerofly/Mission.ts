@@ -333,8 +333,8 @@ export class Mission {
       this.cruise_altitude_ft = gpl.cruisingAlt;
     }
 
-    // Assuming non AFS4 flight plans to start on the ground ;)
-    this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
+    this.flight_setting =
+      gpl.waypoints.at(0)?.type === "AIRPORT" ? Mission.FLIGHT_SETTING_TAXI : Mission.FLIGHT_SETTING_CRUISE;
 
     this.finish = null;
     this.checkpoints = gpl.waypoints.map((w, i) => {
