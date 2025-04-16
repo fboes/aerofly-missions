@@ -1,4 +1,5 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
 /**
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
@@ -21,14 +22,15 @@ export class XplaneFms extends GarminFpl {
         const wLines = Array.from(waypointLines);
         this.waypoints = wLines.map((m, index) => {
             if (index !== 0 && index !== wLines.length - 1) {
-                this.cruisingAlt = this.cruisingAlt !== undefined ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3]);
+                this.cruisingAltFt =
+                    this.cruisingAltFt !== undefined ? Math.max(this.cruisingAltFt, Number(m[3])) : Number(m[3]);
             }
             return {
                 identifier: m[2],
                 type: this.convertWaypointType(Number(m[1])),
                 lat: Number(m[4]),
                 lon: Number(m[5]),
-                alt: Number(m[3]),
+                elevationMeter: Number(m[3]) / Units.feetPerMeter,
             };
         });
     }

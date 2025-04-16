@@ -1,5 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import { Units } from "../World/Units.js";
 import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
@@ -36,7 +37,8 @@ export class XplaneFms extends GarminFpl {
     const wLines = Array.from(waypointLines);
     this.waypoints = wLines.map((m, index): GaminFplWaypoint => {
       if (index !== 0 && index !== wLines.length - 1) {
-        this.cruisingAlt = this.cruisingAlt !== undefined ? Math.max(this.cruisingAlt, Number(m[3])) : Number(m[3]);
+        this.cruisingAltFt =
+          this.cruisingAltFt !== undefined ? Math.max(this.cruisingAltFt, Number(m[3])) : Number(m[3]);
       }
 
       return {
@@ -44,7 +46,7 @@ export class XplaneFms extends GarminFpl {
         type: this.convertWaypointType(Number(m[1]) as XplaneFmsWaypointType),
         lat: Number(m[4]),
         lon: Number(m[5]),
-        alt: Number(m[3]),
+        elevationMeter: Number(m[3]) / Units.feetPerMeter,
       };
     });
   }

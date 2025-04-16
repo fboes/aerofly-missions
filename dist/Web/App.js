@@ -637,62 +637,66 @@ export class App {
     }
     uploadFile(filename, filecontent) {
         const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
-        switch (fileEnding) {
-            case ".mcf":
-                const mainMcf = new MainMcfFactory().create(filecontent);
-                this.mission.fromMainMcf(mainMcf);
-                break;
-            case ".tmc":
-                const mlp = new MissionListParser(filecontent);
-                const missionNames = mlp.getMissionNames();
-                if (missionNames.length > 1) {
-                    this.chooseMission(mlp);
-                    return;
-                }
-                new MissionFactory().create(filecontent, this.mission);
-                break;
-            case ".fpl":
-                const fpl = new GarminFpl(filecontent);
-                this.mission.fromGarminFpl(fpl);
-                break;
-            case ".pln":
-                try {
-                    const msfs = new MsfsPln(filecontent);
-                    this.mission.fromGarminFpl(msfs);
-                }
-                catch (e) {
-                    this.showError("Unsupported file version: " + filename);
-                }
-                break;
-            case ".fms":
-                const xplane = new XplaneFms(filecontent);
-                this.mission.fromGarminFpl(xplane);
-                break;
-            case ".json":
-                const geoFs = new GeoFs(filecontent);
-                this.mission.fromGarminFpl(geoFs);
-                break;
-            case ".gpx":
-                const gpx = new Gpx(filecontent);
-                this.mission.fromGarminFpl(gpx);
-                break;
-            case ".geojson":
-                const geojson = new GeoJsonImport(filecontent);
-                this.mission.fromGarminFpl(geojson);
-                break;
-            case ".cup":
-                const cup = new SeeYouCup(filecontent);
-                this.mission.fromGarminFpl(cup);
-                break;
-            default:
-                this.showError("Unsupported file: " + filename);
-                break;
+        try {
+            switch (fileEnding) {
+                case ".mcf":
+                    const mainMcf = new MainMcfFactory().create(filecontent);
+                    this.mission.fromMainMcf(mainMcf);
+                    break;
+                case ".tmc":
+                    const mlp = new MissionListParser(filecontent);
+                    const missionNames = mlp.getMissionNames();
+                    if (missionNames.length > 1) {
+                        this.chooseMission(mlp);
+                        return;
+                    }
+                    new MissionFactory().create(filecontent, this.mission);
+                    break;
+                case ".fpl":
+                    const fpl = new GarminFpl(filecontent);
+                    this.mission.fromGarminFpl(fpl);
+                    break;
+                case ".pln":
+                    try {
+                        const msfs = new MsfsPln(filecontent);
+                        this.mission.fromGarminFpl(msfs);
+                    }
+                    catch (e) {
+                        this.showError("Unsupported file version: " + filename);
+                    }
+                    break;
+                case ".fms":
+                    const xplane = new XplaneFms(filecontent);
+                    this.mission.fromGarminFpl(xplane);
+                    break;
+                case ".json":
+                    const geoFs = new GeoFs(filecontent);
+                    this.mission.fromGarminFpl(geoFs);
+                    break;
+                case ".gpx":
+                    const gpx = new Gpx(filecontent);
+                    this.mission.fromGarminFpl(gpx);
+                    break;
+                case ".geojson":
+                    const geojson = new GeoJsonImport(filecontent);
+                    this.mission.fromGarminFpl(geojson);
+                    break;
+                case ".cup":
+                    const cup = new SeeYouCup(filecontent);
+                    this.mission.fromGarminFpl(cup);
+                    break;
+                default:
+                    throw new Error("Unsupported file: " + fileEnding);
+            }
+            document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
+            this.useIcao = this.mission.origin_country !== "US";
+            this.mission.magnetic_declination = undefined;
+            this.syncToForm();
+            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
         }
-        document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
-        this.useIcao = this.mission.origin_country !== "US";
-        this.mission.magnetic_declination = undefined;
-        this.syncToForm();
-        this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
+        catch (e) {
+            this.showError(e.toString());
+        }
     }
     chooseMission(mlp) {
         const missionNames = mlp.getMissionNames();

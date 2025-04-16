@@ -16,7 +16,7 @@ export class GpxTest extends Test {
             this.assertEquals(gpl.waypoints[12].type, "AIRPORT");
             this.assertEquals(gpl.waypoints[1].lat, 52.716667);
             this.assertEquals(gpl.waypoints[4].lon, -3.883333);
-            this.assertEquals(gpl.cruisingAlt, undefined);
+            this.assertEquals(gpl.cruisingAltFt, undefined);
         }
     }
 }

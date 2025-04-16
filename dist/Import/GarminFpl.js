@@ -17,7 +17,7 @@ export class GarminFpl {
      * @param configFileContent
      */
     read(configFileContent) {
-        this.cruisingAlt = undefined;
+        this.cruisingAltFt = undefined;
         // Get waypoint definitions
         const waypointDefinitions = new Map();
         const waypointTableXml = this.getXmlNode(configFileContent, "waypoint-table") || this.getXmlNode(configFileContent, "waypoints");
@@ -28,7 +28,7 @@ export class GarminFpl {
                 type: this.getXmlNode(xml, "type"),
                 lat: Number(this.getXmlNode(xml, "lat")),
                 lon: Number(this.getXmlNode(xml, "lon")),
-                alt: elevation ? Number(elevation) : undefined,
+                elevationMeter: elevation ? Number(elevation) : undefined,
                 countryCode: this.getXmlNode(xml, "country-code") || undefined,
             });
         });
@@ -72,7 +72,7 @@ export class GarminExport {
                 type: this.convertWaypointType(cp.type_extended),
                 lat: cp.lon_lat.lat,
                 lon: cp.lon_lat.lon,
-                alt: cp.lon_lat.altitude_m,
+                elevationMeter: cp.lon_lat.altitude_m,
                 countryCode: (_a = cp.icao_region) !== null && _a !== void 0 ? _a : undefined,
             };
         });
@@ -118,8 +118,8 @@ ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRo
 }
 _GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function _GarminExport_geWaypointXml(routePoints) {
     const waypoints = routePoints.map((rp) => {
-        const elevation = rp.alt
-            ? `      <elevation>${Quote.xml(rp.alt.toString())}</elevation>
+        const elevation = rp.elevationMeter
+            ? `      <elevation>${Quote.xml(rp.elevationMeter.toString())}</elevation>
 `
             : ``;
         return `\

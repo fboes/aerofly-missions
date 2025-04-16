@@ -14,7 +14,7 @@ export type GaminFplWaypoint = {
   /**
    *  Elevation (in meters) of the waypoint.
    */
-  alt?: number;
+  elevationMeter?: number;
 
   /**
    * The country code should be the empty string for user waypoints.
@@ -27,7 +27,7 @@ export class GarminFpl {
   /**
    * In feet MSL
    */
-  cruisingAlt?: number;
+  cruisingAltFt?: number;
   departureRunway?: string;
   destinationRunway?: string;
 
@@ -40,7 +40,7 @@ export class GarminFpl {
    * @param configFileContent
    */
   read(configFileContent: string): void {
-    this.cruisingAlt = undefined;
+    this.cruisingAltFt = undefined;
 
     // Get waypoint definitions
     const waypointDefinitions: Map<string, GaminFplWaypoint> = new Map();
@@ -53,7 +53,7 @@ export class GarminFpl {
         type: <GarminFplWaypointType>this.getXmlNode(xml, "type"),
         lat: Number(this.getXmlNode(xml, "lat")),
         lon: Number(this.getXmlNode(xml, "lon")),
-        alt: elevation ? Number(elevation) : undefined,
+        elevationMeter: elevation ? Number(elevation) : undefined,
         countryCode: this.getXmlNode(xml, "country-code") || undefined,
       });
     });
@@ -100,7 +100,7 @@ export class GarminExport {
         type: this.convertWaypointType(cp.type_extended),
         lat: cp.lon_lat.lat,
         lon: cp.lon_lat.lon,
-        alt: cp.lon_lat.altitude_m,
+        elevationMeter: cp.lon_lat.altitude_m,
         countryCode: cp.icao_region ?? undefined,
       };
     });
@@ -136,8 +136,8 @@ ${this.#getRouteXml(routePoints)}
    */
   #geWaypointXml(routePoints: GaminFplWaypoint[]): string {
     const waypoints = routePoints.map((rp): string => {
-      const elevation = rp.alt
-        ? `      <elevation>${Quote.xml(rp.alt.toString())}</elevation>
+      const elevation = rp.elevationMeter
+        ? `      <elevation>${Quote.xml(rp.elevationMeter.toString())}</elevation>
 `
         : ``;
       return `\

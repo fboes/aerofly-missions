@@ -329,8 +329,12 @@ export class Mission {
   }
 
   fromGarminFpl(gpl: GarminFpl): Mission {
-    if (gpl.cruisingAlt) {
-      this.cruise_altitude_ft = gpl.cruisingAlt;
+    if (gpl.waypoints.length < 2) {
+      throw new Error("Not enough waypoints in flight plan");
+    }
+
+    if (gpl.cruisingAltFt) {
+      this.cruise_altitude_ft = gpl.cruisingAltFt;
     }
 
     this.flight_setting =
@@ -341,7 +345,7 @@ export class Mission {
       let cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
-      cp.lon_lat.altitude_ft = w.alt ?? 0;
+      cp.lon_lat.altitude_m = w.elevationMeter ?? 0;
       cp.name = w.identifier;
       if (w.type === "AIRPORT" && (i === 0 || i === gpl.waypoints.length - 1)) {
         cp.type = i === 0 ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
@@ -359,6 +363,11 @@ export class Mission {
 
       return cp;
     });
+
+    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
+    this.syncCruiseSpeed();
+    this.calculateCheckpoints();
+    this.setAutoTitleDescription(flight_category);
 
     // Find runways and runway directions
     const departureRunway: MissionCheckpoint | undefined = this.findCheckPointByType(
@@ -391,11 +400,6 @@ export class Mission {
     this.destination_lon_lat =
       destinationRunway?.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection ?? 0) ??
       checkpointDestination.lon_lat.clone();
-
-    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
-    this.syncCruiseSpeed();
-    this.calculateCheckpoints();
-    this.setAutoTitleDescription(flight_category);
 
     return this;
   }

@@ -3,6 +3,7 @@ import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Units } from "../World/Units.js";
 
 export class XplaneFmsTest extends Test {
   constructor(protected process: NodeJS.Process, protected dieOnError = false) {
@@ -23,9 +24,9 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(fms.waypoints[1].lat, 53.2064);
       this.assertEquals(fms.waypoints[1].lon, -0.861111);
-      this.assertEquals(fms.waypoints[1].alt, 18400);
-      this.assertEquals(fms.waypoints[2].alt, 35000);
-      this.assertEquals(fms.cruisingAlt, 35000);
+      this.assertEquals(fms.waypoints[1].elevationMeter, 18400 / Units.feetPerMeter);
+      this.assertEquals(fms.waypoints[2].elevationMeter, 35000 / Units.feetPerMeter);
+      this.assertEquals(fms.cruisingAltFt, 35000);
       this.assertEquals(fms.departureRunway, undefined);
       this.assertEquals(fms.destinationRunway, undefined);
     }
@@ -57,7 +58,7 @@ export class XplaneFmsTest extends Test {
         this.assertEquals(wp.lat, fms.waypoints[index].lat);
         this.assertEquals(wp.lon, fms.waypoints[index].lon);
       });
-      this.assertEquals(secondFms.cruisingAlt, fms.cruisingAlt);
+      this.assertEquals(secondFms.cruisingAltFt, fms.cruisingAltFt);
     }
   }
 
@@ -69,9 +70,9 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints[0].identifier, "EGOV");
       this.assertEquals(fms.waypoints[0].type, "AIRPORT");
       this.assertEquals(fms.waypoints[1].type, "USER WAYPOINT");
-      this.assertEquals(fms.waypoints[1].alt, 2500);
-      this.assertEquals(fms.waypoints[2].alt, 2500);
-      this.assertEquals(fms.cruisingAlt, 2500);
+      this.assertEqualsRounded(fms.waypoints[1].elevationMeter ?? 0, 762, 0);
+      this.assertEqualsRounded(fms.waypoints[2].elevationMeter ?? 0, 762, 0);
+      this.assertEquals(fms.cruisingAltFt, 2500);
     }
   }
 
@@ -85,8 +86,8 @@ export class XplaneFmsTest extends Test {
       this.assertEquals(fms.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(fms.waypoints[4].type, "VOR");
       this.assertEquals(fms.waypoints[5].type, "NDB");
-      this.assertEqualsRounded(fms.waypoints[1].alt ?? 0, 223.83, 2);
-      this.assertEquals(fms.cruisingAlt, 2500);
+      this.assertEqualsRounded(fms.waypoints[1].elevationMeter ?? 0, 68.22, 2);
+      this.assertEquals(fms.cruisingAltFt, 2500);
     }
 
     // Convert FMS to Mission

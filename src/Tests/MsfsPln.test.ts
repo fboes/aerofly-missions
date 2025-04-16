@@ -3,6 +3,7 @@ import { MsfsPlnExport, MsfsPln, Msfs2024Export } from "../Import/MsfsPln.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Units } from "../World/Units.js";
 
 export class MsfsPlnTest extends Test {
   constructor(protected process: NodeJS.Process, protected dieOnError = false) {
@@ -23,9 +24,9 @@ export class MsfsPlnTest extends Test {
       this.assertEquals(pln.waypoints[0].type, "AIRPORT");
       this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
       this.assertEquals(pln.waypoints[1].lat, 52.717475);
-      this.assertEquals(pln.waypoints[1].alt, 2500);
+      this.assertEquals(pln.waypoints[1].elevationMeter, 2500 / Units.feetPerMeter);
       this.assertEqualsRounded(pln.waypoints[1].lon, -4.05834167, 8);
-      this.assertEquals(pln.cruisingAlt, 2500);
+      this.assertEquals(pln.cruisingAltFt, 2500);
       this.assertEquals(pln.departureRunway, undefined);
       this.assertEquals(pln.destinationRunway, undefined);
     }
@@ -36,6 +37,7 @@ export class MsfsPlnTest extends Test {
     {
       this.assertEquals(mission.checkpoints.length, 16);
       this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
+      this.assertEqualsRounded(mission.origin_dir, 151.3, 1);
     }
 
     // Export Mission to XML
@@ -62,7 +64,7 @@ export class MsfsPlnTest extends Test {
         this.assertEquals(wp.lat, pln.waypoints[index].lat);
         this.assertEquals(wp.lon, pln.waypoints[index].lon);
       });
-      this.assertEquals(secondPln.cruisingAlt, pln.cruisingAlt);
+      this.assertEquals(secondPln.cruisingAltFt, pln.cruisingAltFt);
     }
   }
 
@@ -74,9 +76,9 @@ export class MsfsPlnTest extends Test {
       this.assertEquals(pln.waypoints[0].identifier, "EGOV");
       this.assertEquals(pln.waypoints[0].type, "AIRPORT");
       this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
-      this.assertEquals(pln.waypoints[1].alt, 2500);
-      this.assertEquals(pln.waypoints[2].alt, 2500);
-      this.assertEquals(pln.cruisingAlt, 2500);
+      this.assertEqualsRounded(pln.waypoints[1].elevationMeter ?? 0, 762, 0);
+      this.assertEqualsRounded(pln.waypoints[2].elevationMeter ?? 0, 762, 0);
+      this.assertEquals(pln.cruisingAltFt, 2500);
     }
   }
 
@@ -92,8 +94,8 @@ export class MsfsPlnTest extends Test {
       this.assertEquals(pln.waypoints[3].countryCode, "EF");
       this.assertEquals(pln.waypoints[4].type, "VOR");
       this.assertEquals(pln.waypoints[5].type, "NDB");
-      this.assertEqualsRounded(pln.waypoints[1].alt ?? 0, 223.83, 2);
-      this.assertEquals(pln.cruisingAlt, 2500);
+      this.assertEqualsRounded(pln.waypoints[1].elevationMeter ?? 0, 68.22, 2);
+      this.assertEquals(pln.cruisingAltFt, 2500);
     }
 
     // Convert FMS to Mission

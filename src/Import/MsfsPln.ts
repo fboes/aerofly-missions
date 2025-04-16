@@ -21,7 +21,7 @@ export class MsfsPln extends GarminFpl {
       throw Error("Unknown flight plan version ID");
     }
 
-    this.cruisingAlt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
+    this.cruisingAltFt = Number(this.getXmlNode(waypointTableXml, "CruisingAlt"));
     const waypointsXml = this.getXmlNodes(waypointTableXml, "ATCWaypoint");
     this.waypoints = waypointsXml.map((xml, index): GaminFplWaypoint => {
       // N52° 45' 7.51",W3° 53' 2.16",+002500.00
@@ -46,7 +46,7 @@ export class MsfsPln extends GarminFpl {
         type: this.convertWaypointType(this.getXmlNode(xml, "ATCWaypointType") as MsfsPlnWaypointType),
         lat: coords.lat,
         lon: coords.lon,
-        alt: coords.altitude_ft,
+        elevationMeter: coords.altitude_ft / Units.feetPerMeter,
         countryCode: this.getXmlNode(xml, "ICAORegion") || undefined,
       };
     });

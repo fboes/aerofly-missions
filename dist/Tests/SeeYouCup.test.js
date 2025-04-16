@@ -16,10 +16,12 @@ export class SeeYouCupTest extends Test {
             this.assertEquals(pln.waypoints.length, 5);
             this.assertEquals(pln.waypoints[0].identifier, "MARCELMA");
             this.assertEquals(pln.waypoints[0].type, "USER WAYPOINT");
-            this.assertEquals(pln.waypoints[0].lat, -41.5775);
-            this.assertEquals(pln.waypoints[0].lon, -72.94861111111112);
-            this.assertEquals(pln.waypoints[0].alt, 115);
-            this.assertEquals(pln.cruisingAlt, undefined);
+            this.assertEqualsRounded(pln.waypoints[0].lat, -41.4577, 4);
+            this.assertEqualsRounded(pln.waypoints[0].lon, -72.9186, 4);
+            this.assertEquals(pln.waypoints[0].elevationMeter, 115);
+            this.assertEquals(pln.waypoints[1].identifier, "VOLC_NCA");
+            this.assertEquals(pln.waypoints[1].type, "USER WAYPOINT");
+            this.assertEquals(pln.cruisingAltFt, undefined);
             this.assertEquals(pln.departureRunway, undefined);
             this.assertEquals(pln.destinationRunway, undefined);
         }
@@ -29,6 +31,7 @@ export class SeeYouCupTest extends Test {
         {
             this.assertEquals(mission.checkpoints.length, 5);
             this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_CRUISE, "Missions without airport start in cruise mode");
+            this.assertEqualsRounded(mission.origin_dir, 61.2, 1);
         }
     }
 }

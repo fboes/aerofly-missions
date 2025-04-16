@@ -24,8 +24,8 @@ export class GarminFplTest extends Test {
             this.assertEquals(gpl.waypoints[3].type, "NDB");
             this.assertEquals(gpl.waypoints[1].lat, 48.26409);
             this.assertEquals(gpl.waypoints[4].lon, -122.537528);
-            this.assertEquals(gpl.waypoints[4].alt, undefined);
-            this.assertEquals(gpl.cruisingAlt, undefined);
+            this.assertEquals(gpl.waypoints[4].elevationMeter, undefined);
+            this.assertEquals(gpl.cruisingAltFt, undefined);
             this.assertEquals(gpl.departureRunway, undefined);
             this.assertEquals(gpl.destinationRunway, undefined);
         }
@@ -35,6 +35,7 @@ export class GarminFplTest extends Test {
         {
             this.assertEquals(mission.checkpoints.length, 5);
             this.assertEquals(mission.flight_setting, Mission.FLIGHT_SETTING_TAXI);
+            this.assertEqualsRounded(mission.origin_dir, 62.5, 1);
         }
         // Export Mission to XMl
         const exportPln = new GarminExport(mission);

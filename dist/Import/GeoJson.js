@@ -2,7 +2,7 @@ import { Units } from "../World/Units.js";
 import { GarminFpl } from "./GarminFpl.js";
 export class GeoJsonImport extends GarminFpl {
     read(configFileContent) {
-        this.cruisingAlt = undefined;
+        this.cruisingAltFt = undefined;
         const json = JSON.parse(configFileContent);
         const lineFeatures = json.features.filter((f) => {
             return f.geometry.type && f.geometry.type === "LineString";
@@ -13,8 +13,10 @@ export class GeoJsonImport extends GarminFpl {
         if (pointFeatures.length > 0) {
             this.waypoints = pointFeatures.map((f, index) => {
                 if (f.properties.altitude !== undefined && index !== 0 && index !== pointFeatures.length - 1) {
-                    this.cruisingAlt =
-                        this.cruisingAlt !== undefined ? Math.max(this.cruisingAlt, f.properties.altitude) : f.properties.altitude;
+                    this.cruisingAltFt =
+                        this.cruisingAltFt !== undefined
+                            ? Math.max(this.cruisingAltFt, f.properties.altitude * Units.feetPerMeter)
+                            : f.properties.altitude;
                 }
                 let type = index === 0 || index === pointFeatures.length - 1 ? "AIRPORT" : "USER WAYPOINT";
                 if (type === "USER WAYPOINT" && f.properties.frequency) {
@@ -25,7 +27,7 @@ export class GeoJsonImport extends GarminFpl {
                     type: type,
                     lon: f.geometry.coordinates[0],
                     lat: f.geometry.coordinates[1],
-                    alt: f.properties.altitude ? f.properties.altitude * Units.feetPerMeter : undefined,
+                    elevationMeter: f.properties.altitude ? f.properties.altitude : undefined,
                 };
             });
         }
@@ -37,7 +39,7 @@ export class GeoJsonImport extends GarminFpl {
                     type: index === 0 || index === coordinates.length - 1 ? "AIRPORT" : "USER WAYPOINT",
                     lon: coords[0],
                     lat: coords[1],
-                    alt: 0,
+                    elevationMeter: 0,
                 };
             });
             if (json.features[0].properties.origin) {

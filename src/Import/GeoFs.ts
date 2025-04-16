@@ -1,5 +1,6 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { Units } from "../World/Units.js";
 import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 /**
@@ -80,13 +81,13 @@ export class GeoFs extends GarminFpl {
           type: this.convertType(geoFsNode.type),
           lat: geoFsNode.lat,
           lon: geoFsNode.lon,
-          alt: this.convertAltitude(geoFsNode.alt),
+          elevationMeter: this.convertAltitude(geoFsNode.alt),
         };
       });
 
-    this.cruisingAlt =
+    this.cruisingAltFt =
       this.waypoints.reduce((accumulator: number, waypoint: GaminFplWaypoint): number => {
-        return Math.max(accumulator, waypoint.alt ?? 0);
+        return Math.max(accumulator, waypoint.elevationMeter ?? 0);
       }, 0) || undefined;
   }
 
@@ -100,7 +101,7 @@ export class GeoFs extends GarminFpl {
       return undefined;
     }
     if (typeof alt === "string") {
-      alt = Number(alt.replace(/^FL(\d+)$/, "$100"));
+      alt = Number(alt.replace(/^FL(\d+)$/, "$100")) / Units.feetPerMeter;
     }
 
     return alt ?? undefined;
