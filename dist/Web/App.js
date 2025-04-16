@@ -1,12 +1,5 @@
-import { MainMcfFactory } from "../Aerofly/MainMcf.js";
-import { Mission, MissionFactory } from "../Aerofly/Mission.js";
-import { MissionListParser } from "../Aerofly/MissionsList.js";
+import { Mission } from "../Aerofly/Mission.js";
 import { GeoJson } from "../Export/GeoJson.js";
-import { GeoJsonImport } from "../Import/GeoJson.js";
-import { GarminFpl } from "../Import/GarminFpl.js";
-import { Gpx } from "../Import/Gpx.js";
-import { MsfsPln } from "../Import/MsfsPln.js";
-import { XplaneFms } from "../Import/XplaneFms.js";
 import { LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Outputtable } from "../Export/Outputtable.js";
@@ -14,11 +7,9 @@ import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./
 import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 import { ComponentSimBrief } from "./ComponentSimbrief.js";
 import { SimBrief } from "../Import/SimBrief.js";
-import { GeoFs } from "../Import/GeoFs.js";
 import { StatEvent } from "./StatEvent.js";
 import { ComponentUploadField } from "./ComponentUploadField.js";
 import { CheckWx } from "../Import/CheckWx.js";
-import { SeeYouCup } from "../Import/SeeYouCup.js";
 export class App {
     constructor() {
         this.elements = {
@@ -71,12 +62,17 @@ export class App {
         this.simBriefUseDestinationWeather = false;
         this.mission = new Mission("", "");
         customElements.define("missionsgeraet-upload-field", ComponentUploadField);
+        this.elements.upload.mission = this.mission;
         this.elements.upload.addEventListener("file-uploaded", (event) => {
             var _a, _b;
-            if (((_a = event.detail) === null || _a === void 0 ? void 0 : _a.filename) === undefined || ((_b = event.detail) === null || _b === void 0 ? void 0 : _b.filecontent) === undefined) {
+            if (((_a = event.detail) === null || _a === void 0 ? void 0 : _a.filename) === undefined || ((_b = event.detail) === null || _b === void 0 ? void 0 : _b.fileEnding) === undefined) {
                 return;
             }
-            this.uploadFile(event.detail.filename, event.detail.filecontent);
+            document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file"));
+            this.useIcao = this.mission.origin_country !== "US";
+            this.mission.magnetic_declination = undefined;
+            this.syncToForm();
+            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
         });
         customElements.define("missionsgeraet-simbrief", ComponentSimBrief);
         this.elements.simBrief.addEventListener("simbrief-payload-fetched", (event) => {
@@ -634,91 +630,6 @@ export class App {
             const geoJsonData = this.geoJson.fromMission(this.mission);
             source.setData(geoJsonData);
         }
-    }
-    uploadFile(filename, filecontent) {
-        const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
-        try {
-            switch (fileEnding) {
-                case ".mcf":
-                    const mainMcf = new MainMcfFactory().create(filecontent);
-                    this.mission.fromMainMcf(mainMcf);
-                    break;
-                case ".tmc":
-                    const mlp = new MissionListParser(filecontent);
-                    const missionNames = mlp.getMissionNames();
-                    if (missionNames.length > 1) {
-                        this.chooseMission(mlp);
-                        return;
-                    }
-                    new MissionFactory().create(filecontent, this.mission);
-                    break;
-                case ".fpl":
-                    const fpl = new GarminFpl(filecontent);
-                    this.mission.fromGarminFpl(fpl);
-                    break;
-                case ".pln":
-                    try {
-                        const msfs = new MsfsPln(filecontent);
-                        this.mission.fromGarminFpl(msfs);
-                    }
-                    catch (e) {
-                        this.showError("Unsupported file version: " + filename);
-                    }
-                    break;
-                case ".fms":
-                    const xplane = new XplaneFms(filecontent);
-                    this.mission.fromGarminFpl(xplane);
-                    break;
-                case ".json":
-                    const geoFs = new GeoFs(filecontent);
-                    this.mission.fromGarminFpl(geoFs);
-                    break;
-                case ".gpx":
-                    const gpx = new Gpx(filecontent);
-                    this.mission.fromGarminFpl(gpx);
-                    break;
-                case ".geojson":
-                    const geojson = new GeoJsonImport(filecontent);
-                    this.mission.fromGarminFpl(geojson);
-                    break;
-                case ".cup":
-                    const cup = new SeeYouCup(filecontent);
-                    this.mission.fromGarminFpl(cup);
-                    break;
-                default:
-                    throw new Error("Unsupported file: " + fileEnding);
-            }
-            document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + fileEnding + " file"));
-            this.useIcao = this.mission.origin_country !== "US";
-            this.mission.magnetic_declination = undefined;
-            this.syncToForm();
-            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
-        }
-        catch (e) {
-            this.showError(e.toString());
-        }
-    }
-    chooseMission(mlp) {
-        const missionNames = mlp.getMissionNames();
-        const modal = document.getElementById("select-mission-modal");
-        const select = modal.querySelector("select");
-        select.innerHTML = "";
-        missionNames.forEach((m, i) => {
-            const opt = document.createElement("option");
-            opt.value = String(i);
-            opt.innerText = m;
-            select.appendChild(opt);
-        });
-        modal.showModal();
-        modal.querySelector("button").addEventListener("click", (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
-            this.useIcao = this.mission.origin_country !== "US";
-            this.syncToForm();
-            this.showFlightplan(App.SHOW_ALL | App.SHOW_MAP_CENTER);
-            modal.close();
-        }, { once: true });
     }
     makeWeather() {
         const lastHeading = this.mission.checkpoints.length

@@ -9,6 +9,7 @@
 - Added SeeYou `cup` file format for import
 - Improved initial aircraft heading
 - Refactored CheckWx API to separate component
+- Refactored upload field
 - Fixed handling of altitudes while importing
 
 ## 2.26.0
