@@ -1,6 +1,7 @@
 {
   "name": "Aerofly Missionsgerät",
   "short_name": "Missionsgerät",
+  "id": "aerofly-missionsgeraet",
   "description": "The Aerofly Missionsgerät converts simulator flight plan files for Aerofly FS 4, Microsoft Flight Simulator, X-Plane, GeoFS, and Garmin / Infinite Flight flight plan files.",
   "icons": [
     {
@@ -25,8 +26,14 @@
   "display": "standalone",
   "orientation": "any",
   "start_url": "./",
+  "dir": "ltr",
   "theme_color": "#1f6ed6",
   "background_color": "#1f6ed6",
   "lang": "en",
-  "categories": ["aerofly-fs4", "x-plane", "msfs", "geofs", "flight", "simulator", "weather", "flightplan"]
+  "categories": ["simulation", "aviation", "weather", "tools", "utilities", "flight plan", "converter"],
+  "version": "2.27.1",
+  "screenshots": [],
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  }
 }

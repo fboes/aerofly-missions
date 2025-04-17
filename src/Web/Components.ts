@@ -197,7 +197,9 @@ export class ComponentsAirports extends ComponentsOutputtable {
 
     html += this.outputLine([
       "Departure",
-      `<a target="airport" href="${SkyVector.airportLink(m.origin_icao)}">${Quote.html(m.origin_icao)}</a>`,
+      m.origin_icao
+        ? `<a target="airport" href="${SkyVector.airportLink(m.origin_icao)}">${Quote.html(m.origin_icao)}</a>`
+        : "",
       m.origin_country,
       this.outputDateTime(m.conditions.time.dateTime),
       sunStateOrigin.localSolarTime,
@@ -205,7 +207,11 @@ export class ComponentsAirports extends ComponentsOutputtable {
     ]);
     html += this.outputLine([
       "Destination",
-      `<a target="airport" href="${SkyVector.airportLink(m.destination_icao)}">${Quote.html(m.destination_icao)}</a>`,
+      m.destination_icao
+        ? `<a target="airport" href="${SkyVector.airportLink(m.destination_icao)}">${Quote.html(
+            m.destination_icao
+          )}</a>`
+        : "",
       m.destination_country,
       this.outputDateTime(time),
       sunStateDestination.localSolarTime,

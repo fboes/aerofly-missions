@@ -467,8 +467,13 @@
       }
     </script>
     <script>
-      if (window.isSecureContext && "serviceWorker" in navigator && !navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("./sw.js");
+      if (window.isSecureContext && "serviceWorker" in navigator) {
+        if (!navigator.serviceWorker.controller) {
+          navigator.serviceWorker.register("./sw.js");
+        }
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          alert("A new version is available. Please refresh the page.");
+        });
       }
     </script>
     <!-- Matomo -->

@@ -2,7 +2,7 @@
 // @see https://pwabuilder.com
 'use strict';
 
-const CACHE = 'aerofly-missions';
+const CACHE = 'aerofly-missions-v2.27.1'; // Increment version when resources change
 
 const offlineFallbackPage = [
   './index.html',
@@ -13,7 +13,8 @@ const offlineFallbackPage = [
   './Web/App.js',
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', (event) => {
+  self.skipWaiting(); // Activate the new service worker immediately
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
       return cache.addAll(offlineFallbackPage);
@@ -21,12 +22,26 @@ self.addEventListener('install', function (event) {
   );
 });
 
+self.addEventListener('activate', function (event) {
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames
+          .filter((cacheName) => cacheName !== CACHE) // Keep only the current cache
+          .map((cacheName) => caches.delete(cacheName))
+      );
+    })
+  );
+  self.clients.claim(); // Take control of all clients immediately
+});
+
 self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') {
     return;
   }
-  if (event.request.url.match(/mapbox/)) {
-    return false;
+
+  if (event.request.url.includes('mapbox')) {
+    return fetch(event.request); // Bypass caching for Mapbox requests
   }
 
   event.respondWith(
@@ -35,8 +50,12 @@ self.addEventListener('fetch', function (event) {
         event.waitUntil(updateCache(event.request, response.clone()));
         return response;
       })
-      .catch(function () {
-        return fromCache(event.request);
+      .catch(async function () {
+        try {
+          return await fromCache(event.request);
+        } catch {
+          return await caches.match('./index.html');
+        } // Serve offline page as fallback
       })
   );
 });
