@@ -299,13 +299,14 @@ export class Mission {
             : undefined;
         // TODO: If no runways exist, check for gpl.departureRunway / gpl.destinationRunway
         // Set origin to runway if exists
-        this.origin_icao = this.checkpoints[0].name;
+        this.origin_icao = this.checkpoints[0].type === MissionCheckpoint.TYPE_ORIGIN ? this.checkpoints[0].name : "";
         this.origin_dir = departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : this.checkpoints[1].direction;
         this.origin_lon_lat =
             (_b = departureRunway === null || departureRunway === void 0 ? void 0 : departureRunway.lon_lat.getRelativeCoordinates(0.002, (departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : 0) + 180)) !== null && _b !== void 0 ? _b : this.checkpoints[0].lon_lat.clone();
         // Set destination to runway if exists
         const checkpointDestination = (_c = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _c !== void 0 ? _c : this.checkpoints[this.checkpoints.length - 1];
-        this.destination_icao = checkpointDestination.name;
+        this.destination_icao =
+            checkpointDestination.type === MissionCheckpoint.TYPE_DESTINATION ? checkpointDestination.name : "";
         this.destination_dir = destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : checkpointDestination.direction;
         this.destination_lon_lat =
             (_d = destinationRunway === null || destinationRunway === void 0 ? void 0 : destinationRunway.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : 0)) !== null && _d !== void 0 ? _d : checkpointDestination.lon_lat.clone();
@@ -703,10 +704,10 @@ export class Mission {
                 //<[string8u][aircraft_livery]    []>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this._aircraft_icao)}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
-                <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
+                ${!this.origin_icao ? "//" : ""}<[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
                 <[tmvector2d][origin_lon_lat]     [${this.origin_lon_lat}]>
                 <[float64]   [origin_dir]         [${this.origin_dir}]>
-                <[stringt8c] [destination_icao]   [${Quote.tmc(this.destination_icao)}]>
+                ${!this.destination_icao ? "//" : ""}<[stringt8c] [destination_icao]   [${Quote.tmc(this.destination_icao)}]>
                 <[tmvector2d][destination_lon_lat][${this.destination_lon_lat}]>
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>

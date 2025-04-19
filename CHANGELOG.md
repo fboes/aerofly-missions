@@ -6,6 +6,7 @@
 
 ## 2.27.1
 
+- Fixed behavior on broken airport codes for origin / destination
 - Improved cache update
 
 ## 2.27.0
