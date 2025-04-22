@@ -831,12 +831,10 @@ export class Mission {
                 //<[string8u][aircraft_livery]    []>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this._aircraft_icao)}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
-                ${!this.origin_icao ? "//" : ""}<[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
+                <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
                 <[tmvector2d][origin_lon_lat]     [${this.origin_lon_lat}]>
                 <[float64]   [origin_dir]         [${this.origin_dir}]>
-                ${!this.destination_icao ? "//" : ""}<[stringt8c] [destination_icao]   [${Quote.tmc(
-      this.destination_icao
-    )}]>
+                <[stringt8c] [destination_icao]   [${Quote.tmc(this.destination_icao)}]>
                 <[tmvector2d][destination_lon_lat][${this.destination_lon_lat}]>
                 <[float64]   [destination_dir]    [${this.destination_dir}]>
                 //<[float64]   [cruise_altitude]    [${this.cruise_altitude}]>
