@@ -1,9 +1,8 @@
-import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { GaminFplWaypoint, GarminExportAbstract, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 type MsfsPlnWaypointType = "none" | "Airport" | "Intersection" | "VOR" | "NDB" | "User" | "ATC";
 type MsfsPlnRunwayDesignator = "NONE" | "CENTER" | "LEFT" | "RIGHT" | "WATER" | "A" | "B";
@@ -92,9 +91,7 @@ export class MsfsPln extends GarminFpl {
  * @see https://docs.flightsimulator.com/html/Content_Configuration/Flights_And_Missions/Flight_Plan_Definitions.htm
  * @see https://docs.flightsimulator.com/msfs2024/html/5_Content_Configuration/Mission_XML_Files/Flight_Plan_XML_Properties.htm
  */
-export class MsfsPlnExport {
-  constructor(protected mission: Mission) {}
-
+export class MsfsPlnExport extends GarminExportAbstract {
   getLla(lon_lat: LonLat): string {
     // N53° 14' 48.24",W4° 32' 7.71",+000025.00
     // N53° 14' 48.24",W4° 32' 7.71",+000025.00

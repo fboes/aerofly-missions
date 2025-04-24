@@ -1,6 +1,6 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
-import { GarminFpl } from "./GarminFpl.js";
+import { GarminExportAbstract, GarminFpl } from "./GarminFpl.js";
 /**
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
@@ -56,10 +56,7 @@ XplaneFms.TYPE_USER = 28;
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
  */
-export class XplaneFmsExport {
-    constructor(mission) {
-        this.mission = mission;
-    }
+export class XplaneFmsExport extends GarminExportAbstract {
     toString() {
         const m = this.mission;
         const departureRunwayCp = m.findCheckPointByType(MissionCheckpoint.TYPE_DEPARTURE_RUNWAY);

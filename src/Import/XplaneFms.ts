@@ -1,7 +1,6 @@
-import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { GaminFplWaypoint, GarminExportAbstract, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
 
 // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
 type XplaneFmsWaypointType = 1 | 2 | 3 | 11 | 28;
@@ -69,9 +68,7 @@ export class XplaneFms extends GarminFpl {
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
  */
-export class XplaneFmsExport {
-  constructor(protected mission: Mission) {}
-
+export class XplaneFmsExport extends GarminExportAbstract {
   toString(): string {
     const m = this.mission;
 

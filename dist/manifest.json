@@ -31,9 +31,19 @@
   "background_color": "#1f6ed6",
   "lang": "en",
   "categories": ["simulation", "aviation", "weather", "tools", "utilities", "flight plan", "converter"],
-  "version": "2.27.1",
+  "version": "2.27.2",
   "screenshots": [],
   "launch_handler": {
     "client_mode": ["navigate-existing", "auto"]
-  }
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "accept": {
+        "application/octet-stream": [".mcf,.tmc,.fpl,.pln,.fms,.gpx,.cup"],
+        "application/geo+json": [".geojson"],
+        "application/json": [".json"]
+      }
+    }
+  ]
 }

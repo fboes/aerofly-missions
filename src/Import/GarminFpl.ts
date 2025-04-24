@@ -87,12 +87,16 @@ export class GarminFpl {
   }
 }
 
+export abstract class GarminExportAbstract {
+  constructor(protected mission: Mission) {}
+
+  abstract toString(): string;
+}
+
 /**
  * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
  */
-export class GarminExport {
-  constructor(protected mission: Mission) {}
-
+export class GarminExport extends GarminExportAbstract {
   toString(): string {
     const routePoints = this.mission.checkpoints.map((cp): GaminFplWaypoint => {
       return {

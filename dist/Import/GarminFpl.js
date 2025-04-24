@@ -56,12 +56,17 @@ export class GarminFpl {
         return match ? Quote.unXml(match[1]) : "";
     }
 }
+export class GarminExportAbstract {
+    constructor(mission) {
+        this.mission = mission;
+    }
+}
 /**
  * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
  */
-export class GarminExport {
-    constructor(mission) {
-        this.mission = mission;
+export class GarminExport extends GarminExportAbstract {
+    constructor() {
+        super(...arguments);
         _GarminExport_instances.add(this);
     }
     toString() {

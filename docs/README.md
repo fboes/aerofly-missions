@@ -19,6 +19,7 @@ If you want to use the flight plan file in Aerofly FS 4, check the [generic `cus
 On a more theoretical level:
 
 1. [How to build a flight plan](./build-flightplan.md)
+1. [Development information](./development.md)
 
 ## Included mission files
 

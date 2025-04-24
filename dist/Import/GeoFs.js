@@ -1,6 +1,6 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
-import { GarminFpl } from "./GarminFpl.js";
+import { GarminExportAbstract, GarminFpl } from "./GarminFpl.js";
 export class GeoFs extends GarminFpl {
     read(configFileContent) {
         const geoFsJson = JSON.parse(configFileContent);
@@ -66,10 +66,7 @@ export class GeoFs extends GarminFpl {
         return ["RNW", "ILS"].includes(type !== null && type !== void 0 ? type : "");
     }
 }
-export class GeoFsExport {
-    constructor(mission) {
-        this.mission = mission;
-    }
+export class GeoFsExport extends GarminExportAbstract {
     toJSON() {
         const m = this.mission;
         const lastIndex = m.checkpoints.length - 1;

@@ -1,0 +1,36 @@
+# ![](favicon-64x64.png) Development
+
+## Version numbering
+
+Before publishing a new version, be sure to change the version numbers in the following files:
+
+1. [`CHANGELOG.md`](../CHANGELOG.md)
+2. [`dist/manifest.json`](../dist/manifest.json)
+3. [`dist/sw.js`](../dist/sw.js) (this is required to reset the caching of the app)
+
+The version number in the `package.json` will be automatically incremented by calling `npm version ${VERSION`.
+
+## Adding a new importer
+
+1. Add a new file to `src/Import/${YOURCLASSNAME}.ts`
+2. Add a new class `${YOURCLASSNAME}` and extend it from `GarminFpl`
+3. Add a test import file to `src/Tests/fixtures`
+4. Add a new file to `src/Tests/${YOURCLASSNAME}.test.ts` (see instructions below)
+5. Add the upload file extension to the `<input type="file" />` in `src/Web/ComponentUploadField.ts`, and add the import case for `${YOURCLASSNAME}`
+6. Add the file extension to `dist/manifest.json`
+
+## Adding a new exporter
+
+1. Add a new file to `src/Import/${YOURCLASSNAME}.ts`
+2. Add a new class `${YOURCLASSNAME}Export` and extend it from ` GarminExportAbstract`
+3. Add a new file to `src/Tests/${YOURCLASSNAME}.test.ts` (see instructions below)
+4. Add the download button to `src/Web/ComponentsDownloadButtons.ts`, and add the export case for `${YOURCLASSNAME}`
+
+## Tests
+
+1. Tests need to be created in `src/Tests/${YOURCLASSNAME}.test.ts` and extend from `Test` (`src/Cli/Test.ts`)
+2. New tests need to be added to `src/test.ts` via `tests.add(new ${YOURCLASSNAME}(process, dieOnError))` to be executed by `npm test`
+
+---
+
+Back to [top](./README.md)

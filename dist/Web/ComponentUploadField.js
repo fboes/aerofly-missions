@@ -34,6 +34,14 @@ export class ComponentUploadField extends HTMLElement {
     }
     connectedCallback() {
         this.addEventListener("input", this);
+        // TODO: Not yet valid in all browsers
+        /*if ('launchQueue' in window && 'files' in LaunchParams.prototype) {
+          launchQueue.setConsumer(async (launchParams) => {
+            for (const file of launchParams.files as FileSystemHandle[]) {
+              await file.getFile();
+            }
+          });
+        }*/
     }
     disconnectedCallback() {
         this.removeEventListener("input", this);
