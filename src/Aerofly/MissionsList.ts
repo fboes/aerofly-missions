@@ -1,5 +1,5 @@
 import { FileParser } from "./FileParser.js";
-import { Mission, MissionFactory } from "./Mission.js";
+import { Mission } from "./Mission.js";
 
 export class MissionsList {
   missions: Mission[] = [];

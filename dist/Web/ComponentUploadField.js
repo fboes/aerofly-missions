@@ -38,7 +38,7 @@ export class ComponentUploadField extends HTMLElement {
     disconnectedCallback() {
         this.removeEventListener("input", this);
     }
-    async handleEvent(e) {
+    async handleEvent() {
         var _a;
         for (const file of (_a = this.input.files) !== null && _a !== void 0 ? _a : []) {
             const reader = new FileReader();
@@ -103,7 +103,12 @@ export class ComponentUploadField extends HTMLElement {
             this.dispatchUploadEvent(filename, fileEnding);
         }
         catch (e) {
-            alert(e.toString());
+            if (e instanceof Error) {
+                alert(e.message);
+            }
+            else {
+                alert("Error: " + e);
+            }
         }
     }
     chooseMission(mlp, filename, fileEnding) {

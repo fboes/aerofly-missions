@@ -55,7 +55,7 @@ export class ComponentSimBrief extends HTMLElement {
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "username") {
-            this.username = String(newValue);
+            this.username = newValue;
         }
     }
     async handleEvent(e) {

@@ -252,8 +252,8 @@ export class MissionCheckpoint {
     this.distance = lastLonLat.getDistanceTo(this.lon_lat);
 
     if (changeHeight && this.type === MissionCheckpoint.TYPE_WAYPOINT) {
-      let altitude_ft = this.lon_lat.altitude_ft;
-      let direction_magnetic = this.direction_magnetic;
+      const altitude_ft = this.lon_lat.altitude_ft;
+      const direction_magnetic = this.direction_magnetic;
       if (changeHeight === MissionConditions.CONDITION_VFR || changeHeight === MissionConditions.CONDITION_MVFR) {
         // Separation above 3000ft MSL
         if (altitude_ft > 3000 && altitude_ft < 20000) {

@@ -27,8 +27,10 @@
     "test": "node ./dist/test.js",
     "prettier": "npx prettier --cache --write .",
     "prettier-check": "npx prettier --cache --check .",
+    "eslint": "npx eslint ./src/",
+    "eslint-fix": "npx eslint ./src/ --fix",
     "serve": "npx http-server ./dist -o -c-1",
-    "build": "npm run prettier && tsc --build"
+    "build": "npm run eslint-fix && npm run prettier && tsc --build"
   },
   "main": "index.js",
   "repository": {

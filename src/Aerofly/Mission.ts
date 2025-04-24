@@ -259,7 +259,7 @@ export class Mission {
         ].includes(w.type);
         // Filtering departure, approach and arrival - these points have no coordinates
       }).map((w) => {
-        let cp = new MissionCheckpoint();
+        const cp = new MissionCheckpoint();
         cp.fromMainMcf(w);
 
         if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
@@ -342,7 +342,7 @@ export class Mission {
 
     this.finish = null;
     this.checkpoints = gpl.waypoints.map((w, i) => {
-      let cp = new MissionCheckpoint();
+      const cp = new MissionCheckpoint();
       cp.lon_lat.lat = w.lat;
       cp.lon_lat.lon = w.lon;
       cp.lon_lat.altitude_m = w.elevationMeter ?? 0;
@@ -786,7 +786,7 @@ export class Mission {
     if (index < 1) {
       throw new RangeError("Cannot add waypoint at start of flight plan");
     }
-    let cpTo = this.checkpoints[index];
+    const cpTo = this.checkpoints[index];
 
     const cp = new MissionCheckpoint();
     cp.lon_lat = cpTo.lon_lat.getRelativeCoordinates(distance, (cpTo.direction + 180) % 360);
@@ -801,8 +801,8 @@ export class Mission {
     if (index > this.checkpoints.length - 2) {
       throw new RangeError("Cannot add waypoint at end of flight plan");
     }
-    let cpFrom = this.checkpoints[index];
-    let cpTo = this.checkpoints[index + 1];
+    const cpFrom = this.checkpoints[index];
+    const cpTo = this.checkpoints[index + 1];
 
     const cp = new MissionCheckpoint();
     cp.lon_lat = cpFrom.lon_lat.getRelativeCoordinates(distance, cpTo.direction);

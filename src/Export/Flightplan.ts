@@ -1,4 +1,3 @@
-import { LonLat } from "../World/LonLat.js";
 import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";

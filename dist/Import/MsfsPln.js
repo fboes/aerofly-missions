@@ -22,7 +22,7 @@ export class MsfsPln extends GarminFpl {
             const coords = this.convertCoordinate(worldPosition);
             if (index === 0 || index === waypointsXml.length - 1) {
                 const runwayNumberFP = this.getXmlNode(xml, "RunwayNumberFP");
-                let runwayDesignatorFP = this.getXmlNode(xml, "RunwayDesignatorFP");
+                const runwayDesignatorFP = this.getXmlNode(xml, "RunwayDesignatorFP");
                 const rw = runwayNumberFP + (runwayDesignatorFP === "NONE" ? "" : runwayDesignatorFP.substring(0, 1));
                 if (runwayNumberFP) {
                     if (index === 0) {

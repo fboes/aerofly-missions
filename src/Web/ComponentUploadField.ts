@@ -50,7 +50,7 @@ export class ComponentUploadField extends HTMLElement {
     this.removeEventListener("input", this);
   }
 
-  async handleEvent(e: InputEvent): Promise<void> {
+  async handleEvent(): Promise<void> {
     for (const file of this.input.files ?? []) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -113,8 +113,12 @@ export class ComponentUploadField extends HTMLElement {
           throw new Error("Unsupported file: " + fileEnding);
       }
       this.dispatchUploadEvent(filename, fileEnding);
-    } catch (e: any) {
-      alert(e.toString());
+    } catch (e) {
+      if (e instanceof Error) {
+        alert(e.message);
+      } else {
+        alert("Error: " + e);
+      }
     }
   }
 

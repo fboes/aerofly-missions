@@ -110,7 +110,7 @@ export class GarminExport {
       .replace(/[^A-Z0-9 ]+/g, "")
       .substring(0, 25);
 
-    let pln = `\
+    const pln = `\
 <?xml version="1.0" encoding="utf-8"?>
 <flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

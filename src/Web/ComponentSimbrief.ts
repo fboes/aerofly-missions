@@ -67,9 +67,9 @@ export class ComponentSimBrief extends HTMLElement {
     this.elements.fetchButton.removeEventListener("click", this);
   }
 
-  attributeChangedCallback(name: string, oldValue: any, newValue: any) {
+  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if (name === "username") {
-      this.username = String(newValue);
+      this.username = newValue;
     }
   }
 

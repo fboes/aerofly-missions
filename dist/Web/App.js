@@ -125,13 +125,13 @@ export class App {
                         this.handleEventClickModalOpen(target);
                         break;
                     case "random-weather":
-                        this.handleEventClickRandomWeather(target);
+                        this.handleEventClickRandomWeather();
                         break;
                     case "reset":
                         this.handleEventClickReset(target);
                         break;
                     case "reverse-flightplan":
-                        this.handleEventClickReverseFlightplan(target);
+                        this.handleEventClickReverseFlightplan();
                         break;
                     case "waypoint-edit":
                         this.handleEventClickWaypointEdit(target);
@@ -199,7 +199,7 @@ export class App {
             document.getElementById(tgt).showModal();
         }
     }
-    handleEventClickRandomWeather(target) {
+    handleEventClickRandomWeather() {
         this.makeWeather();
         this.syncToForm();
         this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
@@ -243,7 +243,7 @@ export class App {
         this.syncToForm();
         this.showFlightplan(show);
     }
-    handleEventClickReverseFlightplan(target) {
+    handleEventClickReverseFlightplan() {
         this.mission.reverseWaypoints();
         this.syncToForm();
         this.showFlightplan(App.SHOW_ALL);
@@ -572,7 +572,7 @@ export class App {
                 document.getElementById("wp-lon").value = currentCheckpoint.lon_lat.lon.toFixed(5);
                 document.getElementById("wp-lat").value = currentCheckpoint.lon_lat.lat.toFixed(5);
                 document.getElementById("wp-name").value = currentCheckpoint.name;
-                modal.addEventListener("close", (e) => {
+                modal.addEventListener("close", () => {
                     this.showFlightplan(App.SHOW_ALL);
                 }, { once: true });
                 modal.showModal();
@@ -605,7 +605,7 @@ export class App {
                     onClick();
                 }
             });
-            this.mapboxMap.on("touchstart", "waypoints", (e) => {
+            this.mapboxMap.on("touchstart", "waypoints", () => {
                 onClick();
             });
         });

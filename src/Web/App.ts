@@ -160,13 +160,13 @@ export class App {
             this.handleEventClickModalOpen(target);
             break;
           case "random-weather":
-            this.handleEventClickRandomWeather(target);
+            this.handleEventClickRandomWeather();
             break;
           case "reset":
             this.handleEventClickReset(target);
             break;
           case "reverse-flightplan":
-            this.handleEventClickReverseFlightplan(target);
+            this.handleEventClickReverseFlightplan();
             break;
           case "waypoint-edit":
             this.handleEventClickWaypointEdit(target);
@@ -240,7 +240,7 @@ export class App {
     }
   }
 
-  handleEventClickRandomWeather(target: HTMLButtonElement) {
+  handleEventClickRandomWeather() {
     this.makeWeather();
     this.syncToForm();
     this.showFlightplan(App.SHOW_WEATHER | App.SHOW_CHECKPOINTS);
@@ -287,7 +287,7 @@ export class App {
     this.showFlightplan(show);
   }
 
-  handleEventClickReverseFlightplan(target: HTMLButtonElement) {
+  handleEventClickReverseFlightplan() {
     this.mission.reverseWaypoints();
     this.syncToForm();
     this.showFlightplan(App.SHOW_ALL);
@@ -631,7 +631,7 @@ export class App {
         (document.getElementById("wp-name") as HTMLInputElement).value = currentCheckpoint.name;
         modal.addEventListener(
           "close",
-          (e) => {
+          () => {
             this.showFlightplan(App.SHOW_ALL);
           },
           { once: true }
@@ -670,7 +670,7 @@ export class App {
         }
       });
 
-      this.mapboxMap.on("touchstart", "waypoints", (e) => {
+      this.mapboxMap.on("touchstart", "waypoints", () => {
         onClick();
       });
     });

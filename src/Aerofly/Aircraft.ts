@@ -19,16 +19,6 @@ export type Aircraft = AircraftBasic & {
   turnTime: number;
 };
 
-type SelectOptionGroup = {
-  label: string;
-  options: SelectOption[];
-};
-
-type SelectOption = {
-  value: string;
-  label: string;
-};
-
 /**
  * @see https://www.icao.int/publications/doc8643/pages/search.aspx
  */
@@ -763,7 +753,19 @@ export class AircraftFinder {
     return code;
   }
 
-  /*   static getSelectOptions() {
+  /*
+
+  type SelectOptionGroup = {
+    label: string;
+    options: SelectOption[];
+  };
+
+  type SelectOption = {
+    value: string;
+    label: string;
+  };
+
+  static getSelectOptions() {
     const options = {
       airliner: {
         label: "Airliner",

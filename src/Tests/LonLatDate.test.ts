@@ -64,8 +64,8 @@ export class LonLatDateTest extends Test {
     {
       const lonLat = new LonLat(-75, 40);
 
-      let date = new Date(Date.UTC(2022, 6, 4, 2 + 5, 0));
-      let lonLatDate = new LonLatDate(lonLat, date);
+      const date = new Date(Date.UTC(2022, 6, 4, 2 + 5, 0));
+      const lonLatDate = new LonLatDate(lonLat, date);
       this.assertEquals(lonLatDate.sunState.sunState, "Night");
       this.assertEquals(lonLatDate.sunState.localSolarTime, "01:55");
       this.assertEquals(lonLatDate.sunState.localTime, "02:00");

@@ -139,7 +139,7 @@ export class MissionConditionsTime {
 
   set time_hours(time_hours: number) {
     this.dateTime.setUTCHours(Math.ceil(time_hours));
-    this.dateTime.setUTCMinutes(time_hours % 1) * 60;
+    this.dateTime.setUTCMinutes((time_hours % 1) * 60);
   }
 }
 
@@ -187,7 +187,6 @@ export class MissionConditions {
    */
   get cloud2(): MissionConditionsCloud {
     if (this.clouds.length < 2) {
-      this.cloud;
       this.clouds.push(new MissionConditionsCloud());
     }
     return this.clouds[1];
@@ -198,7 +197,6 @@ export class MissionConditions {
    */
   get cloud3(): MissionConditionsCloud {
     if (this.clouds.length < 3) {
-      this.cloud2;
       this.clouds.push(new MissionConditionsCloud());
     }
     return this.clouds[2];

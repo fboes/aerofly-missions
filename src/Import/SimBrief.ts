@@ -1,6 +1,5 @@
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { LonLat } from "../World/LonLat.js";
 
 export type SimBriefApiPayloadAirport = {

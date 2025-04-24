@@ -177,7 +177,7 @@ export class GeoJson {
         this.features.push(...paths);
     }
     getLineCoordinates(mission, segmentsPerCircle = 12) {
-        let lineCoordinates = [];
+        const lineCoordinates = [];
         mission.checkpoints.forEach((c, index) => {
             const turnRadius = this.getTurnRadius(c.ground_speed, mission.turn_time);
             const nextCheckpoint = mission.checkpoints[index + 1];

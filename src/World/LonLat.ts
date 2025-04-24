@@ -44,7 +44,7 @@ export class LonLat {
   }
 
   protected convertMinute(lonOrLat: number): LonLatMinute {
-    let l = {
+    const l = {
       degree: lonOrLat > 0 ? Math.floor(lonOrLat) : Math.ceil(lonOrLat),
       minutes: 0,
       minutesDecimal: (Math.abs(lonOrLat) % 1) * 60,
@@ -253,7 +253,7 @@ export class LonLatArea {
   }
 
   getZoomLevel(aspectRatio = 2 / 1, factor = 1, fraction = false): number {
-    let zoom = 3 + Math.pow(360 / this.getMaxRange(aspectRatio), 0.3) * factor;
+    const zoom = 3 + Math.pow(360 / this.getMaxRange(aspectRatio), 0.3) * factor;
 
     return fraction ? zoom : Math.ceil(zoom);
   }

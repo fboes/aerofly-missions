@@ -17,7 +17,7 @@ export class SkyVector {
      * @returns string like 'https://skyvector.com/?ll=58.64732108,16.32458497&chart=301&zoom=4&fpl=N0122A025%20ESSL%205831N01558E%20ESVE%20ESKN'
      */
     toString(filterRunway = true) {
-        let parameters = [
+        const parameters = [
             "ll=" + this.mission.origin_lon_lat.lat.toString() + "," + this.mission.origin_lon_lat.lon.toString(),
             "chart=301",
             "zoom=3",

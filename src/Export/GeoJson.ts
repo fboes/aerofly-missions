@@ -1,12 +1,12 @@
 import { LonLat } from "../World/LonLat.js";
 import { MainMcf } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint, MissionCheckpointType } from "../Aerofly/MissionCheckpoint.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Position } from "geojson";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
-  id: number;
   geometry: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     coordinates: any[];
   };
   properties: {
@@ -20,7 +20,7 @@ export type GeoJsonFeature = GeoJSON.Feature & {
 };
 
 export class GeoJson implements GeoJSON.FeatureCollection {
-  type: "FeatureCollection" = "FeatureCollection";
+  type = "FeatureCollection" as const;
   features: GeoJsonFeature[] = [];
 
   fromMainMcf(mainMcf: MainMcf) {
@@ -209,7 +209,7 @@ export class GeoJson implements GeoJSON.FeatureCollection {
   }
 
   protected getLineCoordinates(mission: Mission, segmentsPerCircle = 12): Position[] {
-    let lineCoordinates: Position[] = [];
+    const lineCoordinates: Position[] = [];
     mission.checkpoints.forEach((c, index) => {
       const turnRadius = this.getTurnRadius(c.ground_speed, mission.turn_time);
       const nextCheckpoint = mission.checkpoints[index + 1];
