@@ -24,9 +24,10 @@ There is also a local Node.js CLI tool, if you want some automation for your wor
 | [GeoFS `json` flight plan file](https://www.geo-fs.com/pages/documentation.php)                                                                     |   ✅   |   ✅   |
 | Garmin / Infinite Flight `fpl` flight plan file                                                                                                     |   ✅   |   ✅   |
 | `gpx` GPS Route file                                                                                                                                |   ✅   |        |
-| [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
 | [SimBrief API](./docs/importing-flightplans.md)                                                                                                     |   ✅   |        |
 | SeeYou `cup` file format                                                                                                                            |   ✅   |        |
+| [GeoJSON](https://geojson.org/)                                                                                                                     |  (✅)  |   ✅   |
+| Keyhole Markup Language (KML)                                                                                                                       |        |   ✅   |
 
 ## Local Node.js CLI tool
 

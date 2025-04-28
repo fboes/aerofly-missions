@@ -10,10 +10,10 @@
                 <[stringt8c] [aircraft_icao]      [C172]>
                 <[stringt8c] [callsign]           [N51911]>
                 <[stringt8c] [origin_icao]        [KCLM]>
-                <[tmvector2d][origin_lon_lat]     [-123.499694 48.120194]>
+                <[tmvector2d][origin_lon_lat]     [-123.499694 48.121194]>
                 <[float64]   [origin_dir]         [62.46030074053124]>
                 <[stringt8c] [destination_icao]   [KBLI]>
-                <[tmvector2d][destination_lon_lat][-122.537528 48.792694]>
+                <[tmvector2d][destination_lon_lat][-122.537528 48.793694]>
                 <[float64]   [destination_dir]    [346.39184541530057]>
                 //<[float64]   [cruise_altitude]    [1523.9999512320016]>
                 //<[float64]   [cruise_speed]       [122]>

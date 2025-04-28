@@ -69,7 +69,7 @@ export class ComponentUploadField extends HTMLElement {
     }
   }
 
-  private uploadFile(filename: string, filecontent: string) {
+  protected uploadFile(filename: string, filecontent: string) {
     const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
     try {
       if (this.mission === null) {
@@ -131,7 +131,7 @@ export class ComponentUploadField extends HTMLElement {
     }
   }
 
-  private chooseMission(mlp: MissionListParser, filename: string, fileEnding: string) {
+  protected chooseMission(mlp: MissionListParser, filename: string, fileEnding: string) {
     const missionNames = mlp.getMissionNames();
 
     const modal = document.querySelector("dialog") as HTMLDialogElement;
@@ -163,7 +163,7 @@ export class ComponentUploadField extends HTMLElement {
     );
   }
 
-  private dispatchUploadEvent(filename: string, fileEnding: string) {
+  protected dispatchUploadEvent(filename: string, fileEnding: string) {
     this.dispatchEvent(
       new CustomEvent("file-uploaded", {
         detail: {

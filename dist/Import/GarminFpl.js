@@ -1,9 +1,3 @@
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var _GarminExport_instances, _GarminExport_geWaypointXml, _GarminExport_getRouteXml;
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { asciify } from "../Cli/Arguments.js";
 import { Quote } from "../Export/Quote.js";
@@ -65,10 +59,6 @@ export class GarminExportAbstract {
  * @see https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd
  */
 export class GarminExport extends GarminExportAbstract {
-    constructor() {
-        super(...arguments);
-        _GarminExport_instances.add(this);
-    }
     toString() {
         const routePoints = this.mission.checkpoints.map((cp) => {
             var _a;
@@ -92,17 +82,53 @@ export class GarminExport extends GarminExportAbstract {
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www8.garmin.com/xmlschemas/FlightPlan/v1 https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd">
   <waypoint-table>
-${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_geWaypointXml).call(this, routePoints)}
+${this.geWaypointXml(routePoints)}
   </waypoint-table>
   <route>
     <route-name>${Quote.xml(routeName)}</route-name>
     <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
-${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRouteXml).call(this, routePoints)}
+${this.getRouteXml(routePoints)}
   </route>
 </flight-plan>
 `;
         return pln;
+    }
+    /**
+     * @param routePoints
+     * @returns  An unordered list of unique waypoints referenced by a flight plan. This table may also contain waypoints not referenced by the route of a flight plan.
+     */
+    geWaypointXml(routePoints) {
+        const waypoints = routePoints.map((rp) => {
+            const elevation = rp.elevationMeter
+                ? `      <elevation>${Quote.xml(rp.elevationMeter.toString())}</elevation>
+`
+                : ``;
+            return `\
+    <waypoint>
+      <identifier>${Quote.xml(rp.identifier)}</identifier>
+      <type>${Quote.xml(rp.type)}</type>
+      <country-code>${Quote.xml(rp.countryCode || "")}</country-code>
+      <lat>${Quote.xml(rp.lat.toString())}</lat>
+      <lon>${Quote.xml(rp.lon.toString())}</lon>
+      <comment />
+${elevation}\
+    </waypoint>`;
+        });
+        return [...new Set(waypoints)].join("\n");
+    }
+    getRouteXml(routePoints) {
+        return routePoints
+            .map((rp) => {
+            var _a;
+            return `\
+    <route-point>
+      <waypoint-identifier>${Quote.xml(rp.identifier)}</waypoint-identifier>
+      <waypoint-type>${Quote.xml(rp.type)}</waypoint-type>
+      <waypoint-country-code>${Quote.xml((_a = rp.countryCode) !== null && _a !== void 0 ? _a : "")}</waypoint-country-code>
+    </route-point>`;
+        })
+            .join("\n");
     }
     convertWaypointType(type) {
         switch (type) {
@@ -121,34 +147,3 @@ ${__classPrivateFieldGet(this, _GarminExport_instances, "m", _GarminExport_getRo
         }
     }
 }
-_GarminExport_instances = new WeakSet(), _GarminExport_geWaypointXml = function _GarminExport_geWaypointXml(routePoints) {
-    const waypoints = routePoints.map((rp) => {
-        const elevation = rp.elevationMeter
-            ? `      <elevation>${Quote.xml(rp.elevationMeter.toString())}</elevation>
-`
-            : ``;
-        return `\
-    <waypoint>
-      <identifier>${Quote.xml(rp.identifier)}</identifier>
-      <type>${Quote.xml(rp.type)}</type>
-      <country-code>${Quote.xml(rp.countryCode || "")}</country-code>
-      <lat>${Quote.xml(rp.lat.toString())}</lat>
-      <lon>${Quote.xml(rp.lon.toString())}</lon>
-      <comment />
-${elevation}\
-    </waypoint>`;
-    });
-    return [...new Set(waypoints)].join("\n");
-}, _GarminExport_getRouteXml = function _GarminExport_getRouteXml(routePoints) {
-    return routePoints
-        .map((rp) => {
-        var _a;
-        return `\
-    <route-point>
-      <waypoint-identifier>${Quote.xml(rp.identifier)}</waypoint-identifier>
-      <waypoint-type>${Quote.xml(rp.type)}</waypoint-type>
-      <waypoint-country-code>${Quote.xml((_a = rp.countryCode) !== null && _a !== void 0 ? _a : "")}</waypoint-country-code>
-    </route-point>`;
-    })
-        .join("\n");
-};

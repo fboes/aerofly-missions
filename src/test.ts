@@ -15,6 +15,7 @@ import { MissionListTest } from "./Tests/MissionList.test.js";
 import { SimBriefTest } from "./Tests/SimBrief.test.js";
 import { GeoFsTest } from "./Tests/GeoFs.test.js";
 import { SeeYouCupTest } from "./Tests/SeeYouCup.test.js";
+import { KeyholeMarkupLanguageTest } from "./Tests/KeyholeMarkupLanguage.test.js";
 
 const dieOnError = false;
 const tests = new Tests(process);
@@ -36,4 +37,5 @@ tests.add(new SimBriefTest(process, dieOnError));
 // tests.add(await SimBriefTest.init(process, dieOnError));
 tests.add(new GeoFsTest(process, dieOnError));
 tests.add(new SeeYouCupTest(process, dieOnError));
+tests.add(new KeyholeMarkupLanguageTest(process, dieOnError));
 tests.exit();

@@ -60,7 +60,7 @@ export class MissionCheckpoint {
    */
   heading: number = -1;
 
-  #icao_region: string | null = null;
+  protected _icao_region: string | null = null;
 
   static TYPE_ORIGIN: MissionCheckpointType = "origin";
   static TYPE_DEPARTURE_RUNWAY: MissionCheckpointType = "departure_runway";
@@ -121,15 +121,15 @@ export class MissionCheckpoint {
   }
 
   set icao_region(icao_region: string | null) {
-    this.#icao_region = icao_region;
+    this._icao_region = icao_region;
   }
 
   /**
    * @see https://en.m.wikipedia.org/wiki/ICAO_airport_code
    */
   get icao_region(): string | null {
-    if (this.#icao_region) {
-      return this.#icao_region;
+    if (this._icao_region) {
+      return this._icao_region;
     }
 
     const airportMatch = this.name.match(/^([A-Z]{2})[A-Z]{2}$/);

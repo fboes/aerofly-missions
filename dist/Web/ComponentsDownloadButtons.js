@@ -1,6 +1,7 @@
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
+import { KeyholeMarkupLanguage } from "../Export/KeyholeMarkupLanguage.js";
 import { Markdown } from "../Export/Markdown.js";
 import { GarminExport } from "../Import/GarminFpl.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
@@ -20,6 +21,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
   <button type="button" data-filesuffix=".geofs.json">Download GeoFS <code>custom_missions.geofs.json</code> flight plan</button>
   <button type="button" data-filesuffix=".fpl">Download Garmin / Infinite Flight <code>custom_missions.fpl</code> flight plan</button>
   <button type="button" class="expert-mode" data-filesuffix=".md">Download <code>custom_missions.md</code> documentation</button>
+  <button type="button" class="expert-mode" data-filesuffix=".kml">Download <code>custom_missions.kml</code></button>
   <button type="button" class="expert-mode" data-filesuffix=".geojson">Download <code>custom_missions.geojson</code></button>
 </details>
 `;
@@ -48,6 +50,9 @@ export class ComponentsDownloadButtons extends HTMLElement {
         switch (fileSuffix) {
             case ".geojson":
                 this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
+                break;
+            case ".kml":
+                this.download(filename, new KeyholeMarkupLanguage().fromMission(this.mission).toString(), "application/vnd.google-earth.kml+xml");
                 break;
             case ".md":
                 this.download(filename, new Markdown(this.mission).toString(filename), "text/markdown");

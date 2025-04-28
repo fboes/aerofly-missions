@@ -120,13 +120,13 @@ export class GarminExport extends GarminExportAbstract {
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www8.garmin.com/xmlschemas/FlightPlan/v1 https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd">
   <waypoint-table>
-${this.#geWaypointXml(routePoints)}
+${this.geWaypointXml(routePoints)}
   </waypoint-table>
   <route>
     <route-name>${Quote.xml(routeName)}</route-name>
     <route-description>${Quote.xml(this.mission.description)}</route-description>
     <flight-plan-index>1</flight-plan-index>
-${this.#getRouteXml(routePoints)}
+${this.getRouteXml(routePoints)}
   </route>
 </flight-plan>
 `;
@@ -138,7 +138,7 @@ ${this.#getRouteXml(routePoints)}
    * @param routePoints
    * @returns  An unordered list of unique waypoints referenced by a flight plan. This table may also contain waypoints not referenced by the route of a flight plan.
    */
-  #geWaypointXml(routePoints: GaminFplWaypoint[]): string {
+  protected geWaypointXml(routePoints: GaminFplWaypoint[]): string {
     const waypoints = routePoints.map((rp): string => {
       const elevation = rp.elevationMeter
         ? `      <elevation>${Quote.xml(rp.elevationMeter.toString())}</elevation>
@@ -159,7 +159,7 @@ ${elevation}\
     return [...new Set(waypoints)].join("\n");
   }
 
-  #getRouteXml(routePoints: GaminFplWaypoint[]): string {
+  protected getRouteXml(routePoints: GaminFplWaypoint[]): string {
     return routePoints
       .map((rp): string => {
         return `\

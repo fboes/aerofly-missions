@@ -19,56 +19,68 @@ export type GeoJsonFeature = GeoJSON.Feature & {
   };
 };
 
+export const GeoJsonTypes: { [key: string]: string } = {
+  ORIGIN_DESINTATION: "af-large_airport",
+  AIRPORT: "af-medium_airport",
+  VOR: "navaid-vor",
+  NDB: "navaid-ndb",
+  FIX: "navaid-fix",
+  WAYPOINT: "navaid-waypoint",
+  FINISH: "af-large_airbase",
+};
+
 export class GeoJson implements GeoJSON.FeatureCollection {
   type = "FeatureCollection" as const;
   features: GeoJsonFeature[] = [];
 
   fromMainMcf(mainMcf: MainMcf) {
-    this.features = mainMcf.navigation.Route.Ways.map((waypoint, index): GeoJsonFeature => {
-      const lon_lat = LonLat.fromMainMcf(waypoint.Position);
+    const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
 
-      return {
+    this.features = [
+      {
         type: "Feature",
-        id: index + 1,
+        id: 0,
         geometry: {
           type: "Point",
-          coordinates: [lon_lat.lon, lon_lat.lat, waypoint.Elevation],
+          coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
         },
         properties: {
-          title: waypoint.Identifier,
-          type: waypoint.type,
-          altitude: waypoint.Elevation,
+          title: "Departure",
+          type: "plane",
+          altitude: undefined,
           direction: undefined,
           frequency: undefined,
-          "marker-symbol":
-            waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
-              ? "airport"
-              : "dot-10",
-          "marker-color":
-            waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
-              ? "#5e6eba"
-              : "#555555",
+          "marker-symbol": "airport",
         },
-      };
-    });
+      },
+      ...mainMcf.navigation.Route.Ways.map((waypoint, index): GeoJsonFeature => {
+        const lon_lat = LonLat.fromMainMcf(waypoint.Position);
 
-    const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-    this.features.unshift({
-      type: "Feature",
-      id: 0,
-      geometry: {
-        type: "Point",
-        coordinates: [origin_lon_lat.lon, origin_lon_lat.lat],
-      },
-      properties: {
-        title: "Departure",
-        type: "plane",
-        altitude: undefined,
-        direction: undefined,
-        frequency: undefined,
-        "marker-symbol": "airport",
-      },
-    });
+        return {
+          type: "Feature",
+          id: index + 1,
+          geometry: {
+            type: "Point",
+            coordinates: [lon_lat.lon, lon_lat.lat, waypoint.Elevation],
+          },
+          properties: {
+            title: waypoint.Identifier,
+            type: waypoint.type,
+            altitude: waypoint.Elevation,
+            direction: undefined,
+            frequency: undefined,
+            "marker-symbol":
+              waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
+                ? "airport"
+                : "dot-10",
+            "marker-color":
+              waypoint.type === MissionCheckpoint.TYPE_ORIGIN || waypoint.type === MissionCheckpoint.TYPE_DESTINATION
+                ? "#5e6eba"
+                : "#555555",
+          },
+        };
+      }),
+    ];
 
     this.drawLine(
       this.features
@@ -83,71 +95,71 @@ export class GeoJson implements GeoJSON.FeatureCollection {
   }
 
   fromMission(mission: Mission, forExport = false) {
-    this.features = mission.checkpoints.map((c, index): GeoJsonFeature => {
-      return {
+    this.features = [
+      {
         type: "Feature",
-        id: index + 1,
+        id: 0,
         geometry: {
           type: "Point",
-          coordinates: [c.lon_lat.lon, c.lon_lat.lat, c.lon_lat.altitude_m],
+          coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
         },
         properties: {
-          title: c.name,
-          type: forExport ? c.type_extended : c.type,
-          altitude: c.lon_lat.altitude_m,
-          direction: c.direction,
-          frequency: c.frequency_string,
-          "marker-symbol": this.getGeoJsonIcon(c, mission.finish),
-          "marker-color":
-            c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
-              ? "#5e6eba"
-              : "#555555",
-          "symbol-sort-key": 0,
+          title: mission.aircraft_icao + " ORIGIN",
+          type: "plane",
+          altitude: undefined,
+          direction: mission.origin_dir,
+          frequency: undefined,
+          "marker-symbol": "af-large_airport",
+          "symbol-sort-key": 1,
         },
-      };
-    });
-
-    this.features.unshift({
-      type: "Feature",
-      id: 0,
-      geometry: {
-        type: "Point",
-        coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
       },
-      properties: {
-        title: mission.aircraft_icao + " ORIGIN",
-        type: "plane",
-        altitude: undefined,
-        direction: mission.origin_dir,
-        frequency: undefined,
-        "marker-symbol": "af-large_airport",
-        "symbol-sort-key": 1,
+      ...mission.checkpoints.map((c, index): GeoJsonFeature => {
+        return {
+          type: "Feature",
+          id: index + 1,
+          geometry: {
+            type: "Point",
+            coordinates: [c.lon_lat.lon, c.lon_lat.lat, c.lon_lat.altitude_m],
+          },
+          properties: {
+            title: c.name,
+            type: forExport ? c.type_extended : c.type,
+            altitude: c.lon_lat.altitude_m,
+            direction: c.direction,
+            frequency: c.frequency_string,
+            "marker-symbol": this.getGeoJsonIcon(c, mission.finish),
+            "marker-color":
+              c.type === MissionCheckpoint.TYPE_ORIGIN || c.type === MissionCheckpoint.TYPE_DESTINATION
+                ? "#5e6eba"
+                : "#555555",
+            "symbol-sort-key": 0,
+          },
+        };
+      }),
+      {
+        type: "Feature",
+        id: this.features.length,
+        geometry: {
+          type: "Point",
+          coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
+        },
+        properties: {
+          title: mission.aircraft_icao + " DESTINATION",
+          type: "plane",
+          altitude: undefined,
+          direction: mission.destination_dir,
+          frequency: undefined,
+          "marker-symbol": "af-large_airport",
+          "symbol-sort-key": 1,
+        },
       },
-    });
-
-    this.features.push({
-      type: "Feature",
-      id: this.features.length,
-      geometry: {
-        type: "Point",
-        coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
-      },
-      properties: {
-        title: mission.aircraft_icao + " DESTINATION",
-        type: "plane",
-        altitude: undefined,
-        direction: mission.destination_dir,
-        frequency: undefined,
-        "marker-symbol": "af-large_airport",
-        "symbol-sort-key": 1,
-      },
-    });
+    ];
 
     this.drawLine(this.getLineCoordinates(mission));
     return this;
   }
 
-  drawLine(coordinates: Position[]) {
+  protected drawLine(coordinates: Position[]) {
     const paths: GeoJsonFeature[] = [
       {
         type: "Feature",
@@ -214,24 +226,10 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       const turnRadius = this.getTurnRadius(c.ground_speed, mission.turn_time);
       const nextCheckpoint = mission.checkpoints[index + 1];
 
-      if (
-        !nextCheckpoint ||
-        turnRadius < 0.01 ||
-        c.type !== MissionCheckpoint.TYPE_WAYPOINT ||
-        nextCheckpoint.direction === undefined ||
-        c.direction === undefined ||
-        nextCheckpoint.distance === undefined ||
-        c.distance === undefined
-      ) {
+      if (this.isHardTurnCheckpoint(c, nextCheckpoint, turnRadius)) {
         lineCoordinates.push(this.getGeoJsonPosition(c.lon_lat));
       } else {
-        let turnDegrees = c.direction - nextCheckpoint.direction;
-        while (turnDegrees > 180) {
-          turnDegrees -= 360;
-        }
-        while (turnDegrees < -180) {
-          turnDegrees += 360;
-        }
+        let turnDegrees = this.getTurnDegreesForCheckpoint(c, nextCheckpoint);
         const turnAnticipationDistance = Math.tan(((Math.abs(turnDegrees) / 180) * Math.PI) / 2) * turnRadius;
 
         if (
@@ -295,6 +293,29 @@ export class GeoJson implements GeoJSON.FeatureCollection {
     return lineCoordinates;
   }
 
+  protected getTurnDegreesForCheckpoint(checkpoint: MissionCheckpoint, nextCheckpoint: MissionCheckpoint) {
+    let turnDegrees = checkpoint.direction - nextCheckpoint.direction;
+    while (turnDegrees > 180) {
+      turnDegrees -= 360;
+    }
+    while (turnDegrees < -180) {
+      turnDegrees += 360;
+    }
+    return turnDegrees;
+  }
+
+  protected isHardTurnCheckpoint(checkpoint: MissionCheckpoint, nextCheckpoint: MissionCheckpoint, turnRadius: number) {
+    return (
+      !nextCheckpoint ||
+      turnRadius < 0.01 ||
+      checkpoint.type !== MissionCheckpoint.TYPE_WAYPOINT ||
+      nextCheckpoint.direction === undefined ||
+      checkpoint.direction === undefined ||
+      nextCheckpoint.distance === undefined ||
+      checkpoint.distance === undefined
+    );
+  }
+
   /**
    * @param speedKts    number Kts
    * @param turnTimeMin number Minutes
@@ -311,24 +332,22 @@ export class GeoJson implements GeoJSON.FeatureCollection {
 
   protected getGeoJsonIcon(cp: MissionCheckpoint, finishCp: MissionCheckpoint | null): string {
     if (finishCp && finishCp === cp) {
-      return "af-large_airbase";
+      return GeoJsonTypes.FINISH;
     }
     switch (cp.type_extended) {
-      case MissionCheckpoint.TYPE_DESTINATION:
-        return "af-large_airport";
       case MissionCheckpoint.TYPE_ORIGIN:
       case MissionCheckpoint.TYPE_DESTINATION:
-        return "af-large_airport";
+        return GeoJsonTypes.ORIGIN_DESINTATION;
       case MissionCheckpoint.TYPE_VOR:
-        return "navaid-vor";
+        return GeoJsonTypes.VOR;
       case MissionCheckpoint.TYPE_NDB:
-        return "navaid-ndb";
+        return GeoJsonTypes.NDB;
       case MissionCheckpoint.TYPE_FIX:
-        return "navaid-fix";
+        return GeoJsonTypes.FIX;
       case MissionCheckpoint.TYPE_AIRPORT:
-        return "af-medium_airport";
+        return GeoJsonTypes.AIRPORT;
       default:
-        return "navaid-waypoint";
+        return GeoJsonTypes.WAYPOINT;
     }
   }
 }

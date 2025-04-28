@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
     "target": "es2017",
-    "module": "es2022",
+    "module": "ES2015",
     "rootDir": "./src",
     "outDir": "./dist",
     "moduleResolution": "node",

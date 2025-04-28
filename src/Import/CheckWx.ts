@@ -24,7 +24,7 @@ type CheckWxApiPayloadItem = {
 };
 
 export class CheckWx {
-  constructor(private metarApiKey: string) {}
+  constructor(protected metarApiKey: string) {}
 
   public async fetch(icao: string): Promise<CheckWxApiPayload> {
     const url = new URL(`https://api.checkwx.com/metar/${encodeURIComponent(icao)}/decoded`);

@@ -8,6 +8,7 @@
 
 - Added development documentation
 - Added `eslint` and fixed reported warnings
+- Added KML export
 
 ## 2.27.1
 

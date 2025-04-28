@@ -194,7 +194,7 @@ export class SimBrief {
     return mission;
   }
 
-  private convertWeather(mission: Mission, origin: SimBriefApiPayloadAirport) {
+  protected convertWeather(mission: Mission, origin: SimBriefApiPayloadAirport) {
     mission.conditions.visibility = Number(origin.metar_visibility != "9999" ? origin.metar_visibility : 20000);
 
     const clouds = [...origin.metar.matchAll(/\b(FEW|SCT|BKN|OVC":)(\d{3})\b/g)];

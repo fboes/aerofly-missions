@@ -46,7 +46,7 @@ export class MissionTest extends Test {
       this.assertEquals(mission.title, "From KCLM to KBLI");
       this.assertEquals(mission.flight_setting, "taxi");
       this.assertEquals(mission.origin_lon_lat.lon, -123.499694);
-      this.assertEquals(mission.origin_lon_lat.lat, 48.120194);
+      this.assertEquals(mission.origin_lon_lat.lat, 48.121194);
       this.assertEquals(mission.conditions.time.time_year, 2022);
       this.assertEquals(mission.conditions.turbulence_strength, 0.6595469187953649);
       this.assertEquals(mission.checkpoints.length, 5);

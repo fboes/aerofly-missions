@@ -5,13 +5,13 @@ import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
 
 export class Markdown extends Outputtable {
-  protected lonLatArea: LonLatArea;
+  protected _lonLatArea: LonLatArea;
 
   constructor(protected mission: Mission) {
     super();
-    this.lonLatArea = new LonLatArea(mission.origin_lon_lat);
+    this._lonLatArea = new LonLatArea(mission.origin_lon_lat);
     this.mission.checkpoints.forEach((c) => {
-      this.lonLatArea.push(c.lon_lat);
+      this._lonLatArea.push(c.lon_lat);
     });
   }
 
@@ -36,8 +36,8 @@ export class Markdown extends Outputtable {
     const sunStateOrigin = new LonLatDate(m.origin_lon_lat, time).sunState;
     time.setSeconds(time.getSeconds() + total_time_enroute * 3600);
     const sunStateDestination = new LonLatDate(m.destination_lon_lat, time).sunState;
-    const zoomLevel = this.lonLatArea.getZoomLevel();
-    const center = this.lonLatArea.center;
+    const zoomLevel = this._lonLatArea.getZoomLevel();
+    const center = this._lonLatArea.center;
     const hasFrequencies = m.hasFrequencies;
     let markdown = `\
 # ${m.title}
