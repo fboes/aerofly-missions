@@ -69,6 +69,7 @@ export class SimBrief {
             return navlogItem.type !== "ltlg";
         })
             .map((navlogItem) => {
+            var _a;
             const m = new MissionCheckpoint();
             m.name = navlogItem.ident;
             m.lon_lat = new LonLat(Number(navlogItem.pos_long), Number(navlogItem.pos_lat));
@@ -80,7 +81,7 @@ export class SimBrief {
                 frequency /= 1000;
             }
             m.frequency_mhz = frequency;
-            mission.cruise_altitude = Math.max(mission.cruise_altitude, m.lon_lat.altitude_m);
+            mission.cruise_altitude = Math.max(mission.cruise_altitude, (_a = m.lon_lat.altitude_m) !== null && _a !== void 0 ? _a : 0);
             return m;
         }));
         mission.checkpoints.pop();

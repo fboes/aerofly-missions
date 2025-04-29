@@ -45,7 +45,11 @@ export class ComponentsDownloadButtons extends HTMLElement {
         if (!this.mission) {
             return;
         }
-        const fileSuffix = (_a = e.target.closest("button").dataset.filesuffix) !== null && _a !== void 0 ? _a : ".tmc";
+        const button = e.target.closest("button");
+        if (!button) {
+            return;
+        }
+        const fileSuffix = (_a = button.dataset.filesuffix) !== null && _a !== void 0 ? _a : ".tmc";
         const filename = this.slug + fileSuffix;
         switch (fileSuffix) {
             case ".geojson":

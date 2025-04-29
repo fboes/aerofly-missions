@@ -27,7 +27,7 @@ export class KeyholeMarkupLanguage extends GeoJson {
         <width>6</width>
       </LineStyle>
       <PolyStyle>
-        <color>dd${routeColor}</color>
+        <color>44${routeColor}</color>
       </PolyStyle>
     </Style>
     <Style id="taxi">
@@ -36,7 +36,7 @@ export class KeyholeMarkupLanguage extends GeoJson {
         <width>2</width>
       </LineStyle>
       <PolyStyle>
-        <color>ee${routeColor}</color>
+        <color>22${routeColor}</color>
       </PolyStyle>
     </Style>
 ${styles
@@ -51,16 +51,19 @@ ${styles
       <color>ffffffff</color>
     </Style>`;
         })
-            .join("\n")}\
+            .join("\n")}
 ${this.features
             .map((feature) => {
+            var _a;
             return `\
     <Placemark>
       <name>${feature.properties.title}</name>
+      <description>${(_a = feature.properties.frequency) !== null && _a !== void 0 ? _a : ""}</description>
       <styleUrl>#${this.getStyleUrl(feature)}</styleUrl>
-      <altitudeMode>absolute</altitudeMode>
+${this.getPlacemarkFeatures(feature)}\
       <${feature.geometry.type}>
 ${this.getGeometryFeatures(feature)}\
+        <altitudeMode>${feature.geometry.coordinates[2] !== undefined ? "absolute" : "relativeToGround"}</altitudeMode>
         <coordinates>${this.coordinatesToString(feature)}</coordinates>
       </${feature.geometry.type}>
     </Placemark>`;
@@ -69,6 +72,22 @@ ${this.getGeometryFeatures(feature)}\
   </Document>
 </kml>
 `;
+    }
+    getPlacemarkFeatures(feature) {
+        var _a;
+        return feature.geometry.type === "Point"
+            ? `\
+        <LookAt>
+          <longitude>${feature.geometry.coordinates[0]}</longitude>
+          <latitude>${feature.geometry.coordinates[1]}</latitude>
+          <altitude>${feature.geometry.coordinates[2]}</altitude>
+          <range>10000</range>
+          <tilt>70</tilt>
+          <heading>${(((_a = feature.properties.direction) !== null && _a !== void 0 ? _a : 0) + 15) % 360}</heading>
+          <altitudeMode>${feature.geometry.coordinates[2] !== 0 ? "absolute" : "relativeToGround"}</altitudeMode>
+        </LookAt>
+`
+            : "";
     }
     getGeometryFeatures(feature) {
         return feature.geometry.type === "LineString"

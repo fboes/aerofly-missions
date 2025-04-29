@@ -101,12 +101,12 @@ export class GeoJson implements GeoJSON.FeatureCollection {
         id: 0,
         geometry: {
           type: "Point",
-          coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat],
+          coordinates: [mission.origin_lon_lat.lon, mission.origin_lon_lat.lat, mission.origin_lon_lat.altitude_m],
         },
         properties: {
           title: mission.aircraft_icao + " ORIGIN",
           type: "plane",
-          altitude: undefined,
+          altitude: mission.origin_lon_lat.altitude_m,
           direction: mission.origin_dir,
           frequency: undefined,
           "marker-symbol": "af-large_airport",
@@ -138,15 +138,19 @@ export class GeoJson implements GeoJSON.FeatureCollection {
       }),
       {
         type: "Feature",
-        id: this.features.length,
+        id: mission.checkpoints.length + 1,
         geometry: {
           type: "Point",
-          coordinates: [mission.destination_lon_lat.lon, mission.destination_lon_lat.lat],
+          coordinates: [
+            mission.destination_lon_lat.lon,
+            mission.destination_lon_lat.lat,
+            mission.destination_lon_lat.altitude_m,
+          ],
         },
         properties: {
           title: mission.aircraft_icao + " DESTINATION",
           type: "plane",
-          altitude: undefined,
+          altitude: mission.destination_lon_lat.altitude_m,
           direction: mission.destination_dir,
           frequency: undefined,
           "marker-symbol": "af-large_airport",

@@ -176,7 +176,7 @@ export class SimBrief {
           }
           m.frequency_mhz = frequency;
 
-          mission.cruise_altitude = Math.max(mission.cruise_altitude, m.lon_lat.altitude_m);
+          mission.cruise_altitude = Math.max(mission.cruise_altitude, m.lon_lat.altitude_m ?? 0);
 
           return m;
         })
