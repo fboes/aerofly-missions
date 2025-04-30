@@ -26,7 +26,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: "Departure",
-                    type: "plane",
+                    type: "aircraft",
                     altitude: undefined,
                     direction: undefined,
                     frequency: undefined,
@@ -60,7 +60,7 @@ export class GeoJson {
         ];
         this.drawLine(this.features
             .filter((feature) => {
-            return feature.properties.type !== "plane";
+            return feature.properties.type !== "aircraft";
         })
             .map((feature) => {
             return feature.geometry.coordinates;
@@ -78,7 +78,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: mission.aircraft_icao + " ORIGIN",
-                    type: "plane",
+                    type: "aircraft",
                     altitude: mission.origin_lon_lat.altitude_m,
                     direction: mission.origin_dir,
                     frequency: undefined,
@@ -121,7 +121,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: mission.aircraft_icao + " DESTINATION",
-                    type: "plane",
+                    type: "aircraft",
                     altitude: mission.destination_lon_lat.altitude_m,
                     direction: mission.destination_dir,
                     frequency: undefined,
@@ -144,7 +144,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: "Taxi",
-                    type: "Taxi",
+                    type: "taxi",
                     altitude: undefined,
                     direction: undefined,
                     frequency: undefined,
@@ -161,7 +161,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: "Flightplan",
-                    type: "Flightplan",
+                    type: "flightplan",
                     altitude: undefined,
                     direction: undefined,
                     frequency: undefined,
@@ -182,7 +182,7 @@ export class GeoJson {
                 },
                 properties: {
                     title: "Taxi",
-                    type: "Taxi",
+                    type: "taxi",
                     altitude: undefined,
                     direction: undefined,
                     frequency: undefined,

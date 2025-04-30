@@ -71,7 +71,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
       case ".kml":
         this.download(
           filename,
-          new KeyholeMarkupLanguage().fromMission(this.mission).toString(),
+          new KeyholeMarkupLanguage().fromMission(this.mission, true).toString(),
           "application/vnd.google-earth.kml+xml"
         );
         break;

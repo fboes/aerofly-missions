@@ -12,7 +12,7 @@ export class KeyholeMarkupLanguageTest extends Test {
       new Mission("", "")
     );
 
-    const kml = new KeyholeMarkupLanguage().fromMission(mission);
+    const kml = new KeyholeMarkupLanguage().fromMission(mission, true);
     this.group(KeyholeMarkupLanguage.name + ": Import mission");
     {
       this.assert(kml.toString() !== "", "Not empty KML");

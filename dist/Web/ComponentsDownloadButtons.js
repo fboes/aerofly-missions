@@ -56,7 +56,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
                 this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
                 break;
             case ".kml":
-                this.download(filename, new KeyholeMarkupLanguage().fromMission(this.mission).toString(), "application/vnd.google-earth.kml+xml");
+                this.download(filename, new KeyholeMarkupLanguage().fromMission(this.mission, true).toString(), "application/vnd.google-earth.kml+xml");
                 break;
             case ".md":
                 this.download(filename, new Markdown(this.mission).toString(filename), "text/markdown");

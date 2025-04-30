@@ -8,7 +8,7 @@ export class GeoJsonImport extends GarminFpl {
             return f.geometry.type && f.geometry.type === "LineString";
         });
         const pointFeatures = json.features.filter((f) => {
-            return f.geometry.type && f.geometry.type === "Point" && f.properties.type !== "plane";
+            return f.geometry.type && f.geometry.type === "Point" && f.properties.type !== "aircraft";
         });
         if (pointFeatures.length > 0) {
             this.waypoints = pointFeatures.map((f, index) => {

@@ -43,7 +43,7 @@ export class ComponentUploadField extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener("input", this);
+    this.input.addEventListener("input", this);
 
     // TODO: Not yet valid in all browsers
     /*if ('launchQueue' in window && 'files' in LaunchParams.prototype) {
@@ -56,7 +56,7 @@ export class ComponentUploadField extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.removeEventListener("input", this);
+    this.input.removeEventListener("input", this);
   }
 
   async handleEvent(): Promise<void> {

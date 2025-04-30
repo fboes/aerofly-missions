@@ -10,7 +10,7 @@
       },
       "properties": {
         "title": "EGOV",
-        "type": "plane",
+        "type": "aircraft",
         "altitude": -1,
         "direction": 151.3175528541571,
         "frequency": "",
@@ -282,7 +282,7 @@
       },
       "properties": {
         "title": "EGOV",
-        "type": "plane",
+        "type": "aircraft",
         "altitude": -1,
         "direction": 313.1611865541867,
         "frequency": "",
@@ -301,7 +301,7 @@
       },
       "properties": {
         "title": "Taxi",
-        "type": "Taxi",
+        "type": "taxi",
         "altitude": -1,
         "direction": 0,
         "frequency": "",
@@ -334,7 +334,7 @@
       },
       "properties": {
         "title": "Flightplan",
-        "type": "Flightplan",
+        "type": "flightplan",
         "altitude": -1,
         "direction": 0,
         "frequency": "",
@@ -353,7 +353,7 @@
       },
       "properties": {
         "title": "Taxi",
-        "type": "Taxi",
+        "type": "taxi",
         "altitude": -1,
         "direction": 0,
         "frequency": "",

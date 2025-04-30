@@ -1,4 +1,5 @@
-import { GeoJson, GeoJsonTypes } from "./GeoJson.js";
+import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
+import { GeoJson } from "./GeoJson.js";
 export class KeyholeMarkupLanguage extends GeoJson {
     fromMission(mission, forExport) {
         this._mission = mission;
@@ -8,13 +9,26 @@ export class KeyholeMarkupLanguage extends GeoJson {
         var _a, _b, _c, _d;
         const routeColor = "9314ff";
         const styles = [
-            { id: GeoJsonTypes.ORIGIN_DESINTATION, iconHref: "https://maps.google.com/mapfiles/kml/shapes/airports.png" },
-            { id: GeoJsonTypes.AIRPORT, iconHref: "https://maps.google.com/mapfiles/kml/shapes/star.png" },
-            { id: GeoJsonTypes.VOR, iconHref: "https://maps.google.com/mapfiles/kml/shapes/polygon.png" },
-            { id: GeoJsonTypes.NDB, iconHref: "https://maps.google.com/mapfiles/kml/shapes/donut.png" },
-            { id: GeoJsonTypes.FIX, iconHref: "http://maps.google.com/mapfiles/kml/shapes/triangle.png" },
-            { id: GeoJsonTypes.WAYPOINT, iconHref: "http://maps.google.com/mapfiles/kml/shapes/triangle.png" },
-            { id: GeoJsonTypes.FINISH, iconHref: "https://maps.google.com/mapfiles/kml/shapes/target.png" },
+            { id: MissionCheckpoint.TYPE_ORIGIN, iconHref: "https://maps.google.com/mapfiles/kml/shapes/airports.png" },
+            {
+                id: MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
+                iconHref: "https://maps.google.com/mapfiles/kml/shapes/target.png",
+            },
+            { id: MissionCheckpoint.TYPE_DEPARTURE, iconHref: "https://maps.google.com/mapfiles/kml/shapes/square.png" },
+            { id: MissionCheckpoint.TYPE_WAYPOINT, iconHref: "http://maps.google.com/mapfiles/kml/shapes/triangle.png" },
+            { id: MissionCheckpoint.TYPE_ARRIVAL, iconHref: "https://maps.google.com/mapfiles/kml/shapes/square.png" },
+            { id: MissionCheckpoint.TYPE_APPROACH, iconHref: "https://maps.google.com/mapfiles/kml/shapes/square.png" },
+            {
+                id: MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
+                iconHref: "https://maps.google.com/mapfiles/kml/shapes/target.png",
+            },
+            { id: MissionCheckpoint.TYPE_DESTINATION, iconHref: "https://maps.google.com/mapfiles/kml/shapes/airports.png" },
+            { id: MissionCheckpoint.TYPE_VOR, iconHref: "https://maps.google.com/mapfiles/kml/shapes/polygon.png" },
+            { id: MissionCheckpoint.TYPE_NDB, iconHref: "https://maps.google.com/mapfiles/kml/shapes/donut.png" },
+            { id: MissionCheckpoint.TYPE_FIX, iconHref: "http://maps.google.com/mapfiles/kml/shapes/triangle.png" },
+            { id: MissionCheckpoint.TYPE_INTERSECTION, iconHref: "https://maps.google.com/mapfiles/kml/shapes/diamond.png" },
+            { id: MissionCheckpoint.TYPE_AIRPORT, iconHref: "https://maps.google.com/mapfiles/kml/shapes/star.png" },
+            { id: "aircraft", iconHref: "https://maps.google.com/mapfiles/kml/shapes/airports.png" },
         ];
         return `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -59,7 +73,7 @@ ${this.features
     <Placemark>
       <name>${feature.properties.title}</name>
       <description>${(_a = feature.properties.frequency) !== null && _a !== void 0 ? _a : ""}</description>
-      <styleUrl>#${this.getStyleUrl(feature)}</styleUrl>
+      <styleUrl>#${feature.properties.type}</styleUrl>
 ${this.getPlacemarkFeatures(feature)}\
       <${feature.geometry.type}>
 ${this.getGeometryFeatures(feature)}\
@@ -96,11 +110,6 @@ ${this.getGeometryFeatures(feature)}\
         <extrude>1</extrude>
 `
             : "";
-    }
-    getStyleUrl(feature) {
-        return feature.geometry.type === "LineString"
-            ? feature.properties.title.toLowerCase()
-            : feature.properties["marker-symbol"];
     }
     coordinatesToString(feature) {
         if (feature.geometry.type === "LineString") {
