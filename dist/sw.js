@@ -2,7 +2,7 @@
 // @see https://pwabuilder.com
 'use strict';
 
-const CACHE = 'aerofly-missions-v2.27.2'; // Increment version when resources change
+const CACHE = 'aerofly-missions-v2.28.1'; // Increment version when resources change
 
 const offlineFallbackPage = [
   './index.html',

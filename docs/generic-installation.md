@@ -10,10 +10,13 @@ To install a custom missions file in Aerofly FS 4:
 4. On starting Aerofly FS 4, your custom missions will be loaded from the new
    `custom_missions_user.tmc`.  
    The custom missions can be found in Aerofly FS 4 in
-   ["Main Menu" > "Missions" > "Challenges"](https://www.aerofly.com/tutorials/missions/).
+   ["Main Menu" > "Challenges"](https://www.aerofly.com/tutorials/missions/) at the very end of the challenges list.  
+   (Alternatively you will find you flights via "Main Menu" > "Flights" > "Aircraft list".)
 
 Be aware that there is only one `custom_missions_user.tmc` at any given time.
 If you have multiple mission files, rename them accordingly and keep backups of the original files.
+
+In case your custom missions cannot be found, you may want to take a look at `C:\Users\%USERNAME%\Documents\Aerofly FS 4\tm.log` for additional details.
 
 In case your Aerofly FS 4 installation gets unusable by this process, just delete the `custom_missions_user.tmc`.
 

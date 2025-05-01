@@ -16,6 +16,6 @@ max_line_length = 720
 
 [*.{tmc,mcf,pln}]
 indent_size = 4
-m
+
 [*.{md,svg}]
 trim_trailing_whitespace = false
