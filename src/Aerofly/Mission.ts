@@ -72,7 +72,7 @@ export class Mission {
   turn_time: number = 2;
 
   /**
-   * Hide guides in missio
+   * Hide guides in mission
    */
   no_guides: boolean = false;
 
