@@ -51,7 +51,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
             return;
         }
         const fileSuffix = (_a = button.dataset.filesuffix) !== null && _a !== void 0 ? _a : ".tmc";
-        const filename = button.classList.contains("primary") ? "custom_missions_user" : this.slug + fileSuffix;
+        const filename = (button.classList.contains("primary") ? "custom_missions_user" : this.slug) + fileSuffix;
         switch (fileSuffix) {
             case ".geojson":
                 this.download(filename, JSON.stringify(new GeoJson().fromMission(this.mission, true), null, 2), "application/geo+json");
