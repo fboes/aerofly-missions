@@ -56,7 +56,7 @@ export class Mission {
          */
         this.turn_time = 2;
         /**
-         * Hide guides in missio
+         * Hide guides in mission
          */
         this.no_guides = false;
         this.warnings = [];

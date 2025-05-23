@@ -1,26 +1,15 @@
 :root {
-  --color-text: black;
-  --color-background: white;
-  --color-highlight: #1f6ed6;
+  color-scheme: light dark;
+  --color-text: light-dark(black, white);
+  --color-background: light-dark(white, #0c1019);
+  --color-highlight: light-dark(#1f6ed6, #3681e4);
   --color-highlight-contra: #ffffff;
-  --color-note: #666666;
-  --color-darken-less: rgba(0, 0, 0, 0.01);
-  --color-darken: rgba(0, 0, 0, 0.1);
-  --color-darken-more: rgba(0, 0, 0, 0.2);
+  --color-note: light-dark(#666666, #999999);
+  --color-darken-less: light-dark(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.5));
+  --color-darken: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2));
+  --color-darken-more: light-dark(rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.3));
   --color--warning: #e6007a;
   --fontweight-bold: 600;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-text: white;
-    --color-background: #0c1019;
-    --color-highlight: #3681e4;
-    --color-note: #999999;
-    --color-darken-less: rgba(0, 0, 0, 0.5);
-    --color-darken: rgba(255, 255, 255, 0.2);
-    --color-darken-more: rgba(255, 255, 255, 0.3);
-  }
 }
 
 * {

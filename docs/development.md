@@ -4,11 +4,11 @@
 
 Before publishing a new version, be sure to change the version numbers in the following files:
 
-1. [`CHANGELOG.md`](../CHANGELOG.md)
+1. [`CHANGELOG.md`](../CHANGELOG.md) (please also add a date)
 2. [`dist/manifest.json`](../dist/manifest.json)
 3. [`dist/sw.js`](../dist/sw.js) (this is required to reset the caching of the app)
 
-The version number in the `package.json` will be automatically incremented by calling `npm version ${VERSION`.
+The version number in the `package.json` will be automatically incremented by calling `npm version ${VERSION}`.
 
 ## Adding a new importer
 

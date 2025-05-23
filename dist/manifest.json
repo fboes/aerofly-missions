@@ -40,7 +40,7 @@
     {
       "action": "/",
       "accept": {
-        "application/octet-stream": [".mcf,.tmc,.fpl,.pln,.fms,.gpx,.cup"],
+        "application/octet-stream": [".mcf", ".tmc", ".fpl", ".pln", ".fms", ".gpx", ".cup"],
         "application/geo+json": [".geojson"],
         "application/json": [".json"]
       }

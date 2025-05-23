@@ -628,6 +628,7 @@ export class App {
         const source = this.mapboxMap.getSource("waypoints");
         if (source && source.type === "geojson") {
             const geoJsonData = this.geoJson.fromMission(this.mission);
+            // TODO: Needs altitude information as well. Check MapBox features
             source.setData(geoJsonData);
         }
     }

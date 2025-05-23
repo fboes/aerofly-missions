@@ -18,6 +18,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
 
     this.innerHTML = `\
 <button type="button" class="primary" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions_user.tmc</code> flight plan</button>
+<button type="button" data-filesuffix=".tmc">Download Aerofly FS <code>custom_missions.tmc</code> flight plan</button>
 <button type="button" data-filesuffix=".pln">Download Microsoft FS 2020 <code>custom_missions.pln</code> flight plan</button>
 <details>
   <summary>More download options…</summary>
@@ -59,7 +60,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
     }
 
     const fileSuffix = (button as HTMLButtonElement).dataset.filesuffix ?? ".tmc";
-    const filename = this.slug + fileSuffix;
+    const filename = button.classList.contains("primary") ? "custom_missions_user" : this.slug + fileSuffix;
     switch (fileSuffix) {
       case ".geojson":
         this.download(
@@ -115,9 +116,9 @@ export class ComponentsDownloadButtons extends HTMLElement {
     this.querySelectorAll("button").forEach((b) => {
       (b as HTMLButtonElement).disabled = !this.mission || this.mission.checkpoints.length <= 0;
     });
-    this.querySelectorAll("code").forEach((el) => {
+    this.querySelectorAll("button:not(.primary) code").forEach((el) => {
       const fileSuffix = (el.closest("button") as HTMLButtonElement).dataset.filesuffix;
-      el.innerText = filename + fileSuffix;
+      (el as HTMLElement).innerText = filename + fileSuffix;
     });
   }
 

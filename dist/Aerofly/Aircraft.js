@@ -716,4 +716,3 @@ export class AircraftFinder {
         return code;
     }
 }
-// console.log(AircraftFinder.getSelectOptions());
