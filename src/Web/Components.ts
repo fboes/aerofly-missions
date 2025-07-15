@@ -41,13 +41,14 @@ class ComponentsOutputtable extends HTMLElement {
    */
   protected outputLine(fields: string[], join = "td"): string {
     const tag = join === "ttd" ? "td" : join;
+    const attribute = join === "th" ? ' scope="col"' : "";
     return join === "td"
       ? `<tr><th scope="row">` +
           fields[0] +
           `</th><${tag}>` +
           fields.slice(1).join(`</${tag}><${tag}>`) +
           `</${tag}></tr>`
-      : `<tr><${tag}>` + fields.join(`</${tag}><${tag}>`) + `</${tag}></tr>`;
+      : `<tr><${tag + attribute}>` + fields.join(`</${tag}><${tag + attribute}>`) + `</${tag}></tr>`;
   }
 
   protected outputDateTime(date: Date) {

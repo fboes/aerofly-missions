@@ -42,9 +42,19 @@ export class SkyVector {
    * @returns URL to airport procedures and information
    */
   static airportLink(icaoCode: string): string {
-    return (
-      (icaoCode.at(0) === "K" ? "https://skyvector.com/airport/" : "https://opennav.com/airport/") +
-      encodeURIComponent(icaoCode)
-    );
+    switch (icaoCode.slice(0, 2)) {
+      case "ED":
+        return "https://aip.aero/de/en/vfr/?" + encodeURIComponent(icaoCode); // ifr
+      case "EG":
+        return "https://aip.aero/uk/vfr/?" + encodeURIComponent(icaoCode);
+      case "EH":
+        return "https://aip.aero/nl/en/vfr/?" + encodeURIComponent(icaoCode);
+      case "LF":
+        return "https://aip.aero/fr/vfr/?" + encodeURIComponent(icaoCode); // ifr
+      case "LO":
+        return "https://aip.aero/at/en/vfr/?" + encodeURIComponent(icaoCode);
+      default:
+        return "https://skyvector.com/airport/" + encodeURIComponent(icaoCode);
+    }
   }
 }
