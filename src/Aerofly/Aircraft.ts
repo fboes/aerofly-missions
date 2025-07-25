@@ -8,10 +8,6 @@ export type AircraftBasic = {
   cruiseAltitudeFt: number;
   maximumRangeNm: number;
   tags: string[];
-  liveries: {
-    aeroflyCode: string;
-    name: string;
-  }[];
 };
 
 export type Aircraft = AircraftBasic & {
@@ -44,7 +40,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 453,
     maximumRangeNm: 3747,
     aeroflyCode: "a319",
-    liveries: [],
   },
   {
     name: "A320",
@@ -67,11 +62,10 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 453,
     maximumRangeNm: 3321,
     aeroflyCode: "a320",
-    liveries: [],
   },
   {
     name: "A321",
-    nameFull: "Airbus A321-213",
+    nameFull: "Airbus A321-211",
     icaoCode: "A321",
     tags: [
       "airplane",
@@ -90,7 +84,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 453,
     maximumRangeNm: 3186,
     aeroflyCode: "a321",
-    liveries: [],
   },
   {
     name: "A350-1000",
@@ -114,7 +107,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 488,
     maximumRangeNm: 8909,
     aeroflyCode: "a350_1000",
-    liveries: [],
   },
   {
     name: "A380",
@@ -137,7 +129,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 517,
     maximumRangeNm: 8207,
     aeroflyCode: "a380",
-    liveries: [],
   },
   {
     name: "Antares 21E",
@@ -161,7 +152,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 81,
     maximumRangeNm: 313,
     aeroflyCode: "antares",
-    liveries: [],
   },
   {
     name: "ASG 29",
@@ -173,7 +163,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 76,
     maximumRangeNm: 0,
     aeroflyCode: "asg29",
-    liveries: [],
   },
   {
     name: "ASK 21",
@@ -185,7 +174,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 59,
     maximumRangeNm: 0,
     aeroflyCode: "ask21",
-    liveries: [],
   },
   {
     name: "Baron 58",
@@ -197,7 +185,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 202,
     maximumRangeNm: 1229,
     aeroflyCode: "b58",
-    liveries: [],
   },
   {
     name: "B737-500",
@@ -219,7 +206,27 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 490,
     maximumRangeNm: 2808,
     aeroflyCode: "b737",
-    liveries: [],
+  },
+  {
+    name: "B737-800",
+    nameFull: "Boeing 737-800",
+    icaoCode: "B738",
+    tags: [
+      "airplane",
+      "airliner",
+      "jet",
+      "flaps",
+      "retractable_gear",
+      "thrust_reverse",
+      "autopilot",
+      "autothrottle",
+      "pushback",
+    ],
+    approachAirspeedKts: 140,
+    cruiseAltitudeFt: 37000,
+    cruiseSpeedKts: 453,
+    maximumRangeNm: 2935,
+    aeroflyCode: "b737_800",
   },
   {
     name: "B737-900ER",
@@ -241,7 +248,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 453,
     maximumRangeNm: 2948,
     aeroflyCode: "b737_900",
-    liveries: [],
   },
   {
     name: "B737 MAX 9",
@@ -263,7 +269,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 453,
     maximumRangeNm: 3548,
     aeroflyCode: "b737_max9",
-    liveries: [],
   },
   {
     name: "B747-400",
@@ -287,7 +292,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 492,
     maximumRangeNm: 7262,
     aeroflyCode: "b747",
-    liveries: [],
   },
   {
     name: "B777F",
@@ -310,7 +314,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 482,
     maximumRangeNm: 9750,
     aeroflyCode: "b777f",
-    liveries: [],
   },
   {
     name: "B777-300ER",
@@ -333,7 +336,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 482,
     maximumRangeNm: 7370,
     aeroflyCode: "b777_300er",
-    liveries: [],
   },
   {
     name: "B787-10",
@@ -356,7 +358,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 482,
     maximumRangeNm: 6425,
     aeroflyCode: "b787",
-    liveries: [],
   },
   {
     name: "Bf 109E",
@@ -368,7 +369,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 309,
     maximumRangeNm: 432,
     aeroflyCode: "bf109e",
-    liveries: [],
   },
   {
     name: "Cessna 172",
@@ -380,7 +380,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 130,
     maximumRangeNm: 1031,
     aeroflyCode: "c172",
-    liveries: [],
   },
   {
     name: "King Air",
@@ -392,7 +391,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 272,
     maximumRangeNm: 1192,
     aeroflyCode: "c90gtx",
-    liveries: [],
   },
   {
     name: "Camel",
@@ -404,7 +402,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 100,
     maximumRangeNm: 124,
     aeroflyCode: "camel",
-    liveries: [],
   },
   {
     name: "Concorde",
@@ -427,7 +424,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 1177,
     maximumRangeNm: 3900,
     aeroflyCode: "concorde",
-    liveries: [],
   },
   {
     name: "CRJ-900LR",
@@ -450,7 +446,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 470,
     maximumRangeNm: 1550,
     aeroflyCode: "crj900",
-    liveries: [],
   },
   {
     name: "Dr.I",
@@ -462,7 +457,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 100,
     maximumRangeNm: 162,
     aeroflyCode: "dr1",
-    liveries: [],
   },
   {
     name: "DR400",
@@ -474,7 +468,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 167,
     maximumRangeNm: 586,
     aeroflyCode: "dr400",
-    liveries: [],
   },
   {
     name: "EC135",
@@ -486,7 +479,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 135,
     maximumRangeNm: 343,
     aeroflyCode: "ec135",
-    liveries: [],
   },
   {
     name: "Extra 330",
@@ -498,7 +490,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 220,
     maximumRangeNm: 459,
     aeroflyCode: "extra330",
-    liveries: [],
   },
   {
     name: "F-15E",
@@ -510,7 +501,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 1458,
     maximumRangeNm: 3100,
     aeroflyCode: "f15e",
-    liveries: [],
   },
   {
     name: "F/A-18C",
@@ -534,7 +524,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 1034,
     maximumRangeNm: 1080,
     aeroflyCode: "f18",
-    liveries: [],
   },
   {
     name: "Corsair",
@@ -557,7 +546,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 389,
     maximumRangeNm: 930,
     aeroflyCode: "f4u",
-    liveries: [],
   },
   {
     name: "Ju 52",
@@ -569,7 +557,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 136,
     maximumRangeNm: 1080,
     aeroflyCode: "ju52",
-    liveries: [],
   },
   {
     name: "Jungmeister",
@@ -581,7 +568,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 119,
     maximumRangeNm: 270,
     aeroflyCode: "jungmeister",
-    liveries: [],
   },
   {
     name: "Learjet 45",
@@ -602,7 +588,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 486,
     maximumRangeNm: 1710,
     aeroflyCode: "lj45",
-    liveries: [],
   },
   {
     name: "MB-339",
@@ -614,7 +599,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 486,
     maximumRangeNm: 1188,
     aeroflyCode: "mb339",
-    liveries: [],
   },
   {
     name: "P-38",
@@ -626,7 +610,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 315,
     maximumRangeNm: 1031,
     aeroflyCode: "p38",
-    liveries: [],
   },
   {
     name: "Pitts",
@@ -638,7 +621,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 132,
     maximumRangeNm: 216,
     aeroflyCode: "pitts",
-    liveries: [],
   },
   {
     name: "Q400",
@@ -660,7 +642,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 286,
     maximumRangeNm: 2808,
     aeroflyCode: "q400",
-    liveries: [],
   },
   {
     name: "R22",
@@ -672,7 +653,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 105,
     maximumRangeNm: 208,
     aeroflyCode: "r22",
-    liveries: [],
   },
   {
     name: "Swift",
@@ -684,7 +664,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 65,
     maximumRangeNm: 0,
     aeroflyCode: "swift",
-    liveries: [],
   },
   {
     name: "UH-60M",
@@ -696,7 +675,6 @@ export const AircraftCollection: AircraftBasic[] = [
     cruiseSpeedKts: 160,
     maximumRangeNm: 252,
     aeroflyCode: "uh60",
-    liveries: [],
   },
 ];
 
