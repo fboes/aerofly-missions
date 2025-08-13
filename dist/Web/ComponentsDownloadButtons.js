@@ -87,6 +87,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
         document.body.dispatchEvent(StatEvent.createEvent("Mission", "Aircraft", this.mission.aircraft_name));
         document.body.dispatchEvent(StatEvent.createEvent("Mission", "Airport", this.mission.origin_icao.substring(0, 2) + ".."));
         document.body.dispatchEvent(StatEvent.createEvent("Mission", "Airport", this.mission.destination_icao.substring(0, 2) + ".."));
+        document.body.dispatchEvent(StatEvent.createEvent("Mission", "Guides", this.mission.no_guides ? "No" : "Yes"));
     }
     draw() {
         const filename = this.slug;
