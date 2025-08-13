@@ -18,7 +18,7 @@ export class ComponentUploadField extends HTMLElement {
   <input type="file" id="upload" accept=".mcf,.tmc,.fpl,.pln,.fms,.json,.gpx,.geojson,.cup" />
 </div>
 
-<dialog>
+<dialog closedby="any">
   <h3>Choose mission</h3>
   <p>The file you have selected contains multiple missions. Please choose one.</p>
   <div>

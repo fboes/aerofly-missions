@@ -14,7 +14,7 @@ export class ComponentSimBrief extends HTMLElement {
     <div class="label">SimBrief API Call</div>
     <button data-handler="simbrief-fetch" type="button" id="simbrief-fetch" class="secondary">Fetch SimBrief flight plan</button>
   </div>
-  <dialog class="success">
+  <dialog class="success" closedby="any">
     <h3>Flight plan has been imported</h3>
     <p>You flight plan has been successfully imported from SimBrief. Things left to do:</p>
     <ul>
@@ -25,7 +25,7 @@ export class ComponentSimBrief extends HTMLElement {
     <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
     <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
-  <dialog class="error">
+  <dialog class="error" closedby="any">
     <h3>Error</h3>
     <p>There was an error loading your flight plan. Please check your SimBrief username, and if there is an active flight plan in SimBrief.</p>
     <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>

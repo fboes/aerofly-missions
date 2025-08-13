@@ -351,7 +351,7 @@
           <missionsgeraet-buttons id="download-buttons"></missionsgeraet-buttons>
         </section>
 
-        <dialog id="settings-modal">
+        <dialog id="settings-modal" closedby="any">
           <h3>Settings</h3>
           <p>If you get yourself a (free) <a href="https://www.checkwxapi.com/" target="metar">CheckWX API key</a>, the Missionsgerät can fetch the current weather for you.</p>
           <div>
@@ -378,7 +378,7 @@
 
           <button data-handler="modal-close" class="icon" id="settings-close" title="Close settings">✕ <span>Close settings</span></button>
         </dialog>
-        <dialog id="help-flightplan-modal">
+        <dialog id="help-flightplan-modal" closedby="any">
           <h3>Fligh plan help</h3>
           <ul>
             <li>Naming a waypoint with two digits and an optional <code>R</code>, <code>L</code> or <code>C</code> converts it into a runway.</li>
@@ -390,14 +390,14 @@
           <p>Use <kbd>Shift</kbd> + <kbd>Click</kbd> on the map to move waypoints.</p>
           <button data-handler="modal-close" class="icon" title="Close flight plan help">✕ <span>Close flight plan help</span></button>
         </dialog>
-        <dialog id="help-navigation-modal">
+        <dialog id="help-navigation-modal" closedby="any">
           <h3>Navigation help</h3>
           <p>Using flight level separation will convert all altitudes in your flight plan to the <a href="https://en.wikipedia.org/wiki/Flight_level" target="help">correct altitudes needed for separation</a>.</p>
           <p>Switching between separations repeatedly will increase the altitude, because separation will always round up to prevent a flight plan hitting terrain.</p>
           <p>You may want to set the magnetic declination manually by subtracting the magnetic heading from the true heading to get the magnetic declination.</p>
           <button data-handler="modal-close" class="icon" title="Close navigation help">✕ <span>Close navigation help</span></button>
         </dialog>
-        <dialog id="edit-waypoint-modal">
+        <dialog id="edit-waypoint-modal" closedby="any">
           <h3>Edit waypoint</h3>
           <div>
             <label for="wp-name">Waypoint name</label>
