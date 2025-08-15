@@ -692,6 +692,7 @@ export class Mission {
             // Create finish target plane 1m in front of aircraft origin position
             this.finish = new MissionCheckpoint();
             this.finish.lon_lat = this.origin_lon_lat.getRelativeCoordinates(1 / Units.meterPerNauticalMile, this.origin_dir);
+            this.finish.direction = this.origin_dir;
         }
         const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane("finish")) !== null && _b !== void 0 ? _b : "";
         let string = `\
