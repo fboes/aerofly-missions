@@ -601,6 +601,17 @@ export const AircraftCollection: AircraftBasic[] = [
     aeroflyCode: "mb339",
   },
   {
+    name: "Me 262",
+    nameFull: "Messerschmitt Me 262 A-1",
+    icaoCode: "ME62",
+    tags: ["airplane", "military", "fighter", "jet", "flaps", "retractable_gear"],
+    approachAirspeedKts: 119,
+    cruiseAltitudeFt: 19685,
+    cruiseSpeedKts: 432,
+    maximumRangeNm: 57,
+    aeroflyCode: "me262",
+  },
+  {
     name: "P-38",
     nameFull: "Lockheed P-38 Lightning",
     icaoCode: "P38",

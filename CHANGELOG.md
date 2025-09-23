@@ -5,12 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.6] - 2025-09-23
+## [2.8.8] - 2025-09-23
+
+- Added new aircraft
+
+## [2.8.7] - 2025-09-23
 
 - Added test for removing guides from flight plan properly
 - Added improved error message for SimBrief API errors
 
-## [2.8.5] - 2025-08-15
+## [2.8.6] - 2025-08-15
+## [2.8.5] - 2025-08-13
 
 - Fixed "no guides" functionality to use correct direction value
 
