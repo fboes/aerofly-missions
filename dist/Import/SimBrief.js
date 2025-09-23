@@ -2,6 +2,7 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { LonLat } from "../World/LonLat.js";
 export class SimBrief {
     async fetch(username) {
+        var _a, _b;
         const url = new URL("https://www.simbrief.com/api/xml.fetcher.php");
         url.searchParams.append(username.match(/^\d+$/) ? "userid" : "username", username);
         url.searchParams.append("json", "v2");
@@ -11,7 +12,8 @@ export class SimBrief {
             },
         });
         if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+            const errorResponse = (await response.json());
+            throw new Error((_b = (_a = errorResponse === null || errorResponse === void 0 ? void 0 : errorResponse.fetch) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : `Response status: ${response.status}`);
         }
         return await response.json();
     }

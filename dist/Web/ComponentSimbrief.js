@@ -27,7 +27,8 @@ export class ComponentSimBrief extends HTMLElement {
   </dialog>
   <dialog class="error" closedby="any">
     <h3>Error</h3>
-    <p>There was an error loading your flight plan. Please check your SimBrief username, and if there is an active flight plan in SimBrief.</p>
+    <p>There was an error loading your flight plan. <em class="error-details">Could not load flight plan from SimBrief.</em></p>
+    <p>Please check your SimBrief username, and if there is a recently generated flight plan present in SimBrief.</p>
     <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
     <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
@@ -37,6 +38,7 @@ export class ComponentSimBrief extends HTMLElement {
             fetchButton: this.querySelector("#simbrief-fetch"),
             successDialog: this.querySelector("dialog.success"),
             errorDialog: this.querySelector("dialog.error"),
+            errorDetails: this.querySelector("dialog.error .error-details"),
         };
     }
     connectedCallback() {
@@ -76,9 +78,10 @@ export class ComponentSimBrief extends HTMLElement {
                     detail: simbriefPayload,
                 }));
             })
-                .catch(() => {
-                var _a;
-                (_a = this.elements.errorDialog) === null || _a === void 0 ? void 0 : _a.showModal();
+                .catch((e) => {
+                var _a, _b;
+                this.elements.errorDetails.textContent = (_a = e.message) !== null && _a !== void 0 ? _a : "Could not load flight plan from SimBrief.";
+                (_b = this.elements.errorDialog) === null || _b === void 0 ? void 0 : _b.showModal();
             })
                 .finally(() => {
                 this.elements.fetchButton.classList.remove("is-loading");

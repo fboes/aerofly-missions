@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.8.6] - 2025-09-23
 
 - Added test for removing guides from flight plan properly
+- Added improved error message for SimBrief API errors
 
 ## [2.8.5] - 2025-08-15
 

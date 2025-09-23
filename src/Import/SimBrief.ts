@@ -63,6 +63,14 @@ export type SimBriefApiPayload = {
     mfn: SimBriefApiPayloadFmsDownload;
   };
 };
+export type SimBriefApiError = {
+  fetch: {
+    userid: string;
+    static_id: string;
+    status: string;
+    time: string;
+  };
+};
 
 export class SimBrief {
   public async fetch(username: string): Promise<SimBriefApiPayload> {
@@ -77,7 +85,8 @@ export class SimBrief {
     });
 
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      const errorResponse = (await response.json()) as SimBriefApiError;
+      throw new Error(errorResponse?.fetch?.status ?? `Response status: ${response.status}`);
     }
 
     return await (<Promise<SimBriefApiPayload>>response.json());

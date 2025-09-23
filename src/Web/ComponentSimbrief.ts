@@ -9,6 +9,7 @@ export class ComponentSimBrief extends HTMLElement {
     fetchButton: HTMLButtonElement;
     successDialog: HTMLDialogElement;
     errorDialog: HTMLDialogElement;
+    errorDetails: HTMLSpanElement;
   };
 
   constructor() {
@@ -37,7 +38,8 @@ export class ComponentSimBrief extends HTMLElement {
   </dialog>
   <dialog class="error" closedby="any">
     <h3>Error</h3>
-    <p>There was an error loading your flight plan. Please check your SimBrief username, and if there is an active flight plan in SimBrief.</p>
+    <p>There was an error loading your flight plan. <em class="error-details">Could not load flight plan from SimBrief.</em></p>
+    <p>Please check your SimBrief username, and if there is a recently generated flight plan present in SimBrief.</p>
     <p><button onclick="this.closest('dialog').close();" class="secondary">OK</button></p>
     <button onclick="this.closest('dialog').close();" class="icon">✕ <span>Close</span></button>
   </dialog>
@@ -48,6 +50,7 @@ export class ComponentSimBrief extends HTMLElement {
       fetchButton: this.querySelector("#simbrief-fetch") as HTMLButtonElement,
       successDialog: this.querySelector("dialog.success") as HTMLDialogElement,
       errorDialog: this.querySelector("dialog.error") as HTMLDialogElement,
+      errorDetails: this.querySelector("dialog.error .error-details") as HTMLSpanElement,
     };
   }
 
@@ -93,7 +96,8 @@ export class ComponentSimBrief extends HTMLElement {
             })
           );
         })
-        .catch(() => {
+        .catch((e: Error) => {
+          this.elements.errorDetails.textContent = e.message ?? "Could not load flight plan from SimBrief.";
           this.elements.errorDialog?.showModal();
         })
         .finally(() => {
