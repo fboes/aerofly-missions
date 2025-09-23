@@ -36,6 +36,18 @@ export class MissionTest extends Test {
       this.assertEquals(mission3.warnings.length, 1, "Not throwing warnings");
     }
 
+    this.group(Mission.name + ": No guides");
+    {
+      const mission = new Mission("a", "b");
+      mission.no_guides = true;
+      mission.origin_dir = 100;
+      this.assert(mission.no_guides, "no_guides is set to true");
+
+      const missionsString = mission.toString();
+      this.assert(missionsString.includes("finish"), "finish is included in toString output");
+      this.assert(missionsString.includes("tmmission_target_plane"), "finish is included in toString output");
+    }
+
     this.group(MissionFactory.name);
     {
       const mission = new MissionFactory().create(

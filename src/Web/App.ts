@@ -69,6 +69,7 @@ export class App {
   mission: Mission;
   useIcao = true;
   metarApiKey = "";
+
   protected simBriefUseDestinationWeather = false;
   protected mapboxMap?: Map;
   protected geoJson: GeoJson;
