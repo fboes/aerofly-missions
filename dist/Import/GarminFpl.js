@@ -4,6 +4,8 @@ import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
     constructor(configFileContent) {
         this.waypoints = [];
+        const sourceMatch = configFileContent.match(/created by ([A-Za-z ]+)/i);
+        this.source = sourceMatch && sourceMatch[1] ? sourceMatch[1] : null;
         this.read(configFileContent);
     }
     /**

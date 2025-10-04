@@ -60,6 +60,7 @@ export class Mission {
          */
         this.no_guides = false;
         this.warnings = [];
+        this.source = null;
         this.title = title;
         this.description = description;
     }
@@ -166,6 +167,7 @@ export class Mission {
     }
     fromMainMcf(mainMcf, ils = 0, withoutCheckpoints = false) {
         var _a, _b;
+        this.source = "Aerofly";
         this.aircraft_name = mainMcf.aircraft.name;
         this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
         if (!withoutCheckpoints) {
@@ -254,6 +256,7 @@ export class Mission {
     }
     fromGarminFpl(gpl) {
         var _a, _b, _c, _d;
+        this.source = gpl.source;
         if (gpl.waypoints.length < 2) {
             throw new Error("Not enough waypoints in flight plan");
         }

@@ -91,6 +91,8 @@ export class Mission {
   static MAX_LINES_DESCRIPTION = 8;
 
   warnings: string[] = [];
+  
+  source: string | null = null;
 
   constructor(title: string, description: string) {
     this.title = title;
@@ -218,6 +220,7 @@ export class Mission {
   }
 
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, withoutCheckpoints = false): Mission {
+      this.source = "Aerofly";
     this.aircraft_name = mainMcf.aircraft.name;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
@@ -329,6 +332,7 @@ export class Mission {
   }
 
   fromGarminFpl(gpl: GarminFpl): Mission {
+    this.source = gpl.source;
     if (gpl.waypoints.length < 2) {
       throw new Error("Not enough waypoints in flight plan");
     }

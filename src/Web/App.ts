@@ -91,7 +91,9 @@ export class App {
       if (event.detail?.filename === undefined || event.detail?.fileEnding === undefined) {
         return;
       }
-      document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file"));
+      document.body.dispatchEvent(
+        StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file", event.detail.source)
+      );
       this.useIcao = this.mission.origin_country !== "US";
       this.mission.magnetic_declination = undefined;
       this.syncToForm();

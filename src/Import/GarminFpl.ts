@@ -31,7 +31,14 @@ export class GarminFpl {
   departureRunway?: string;
   destinationRunway?: string;
 
+  /**
+   * Original application which created the imported file
+   */
+  source: string | null;
+
   constructor(configFileContent: string) {
+    const sourceMatch = configFileContent.match(/created by ([A-Za-z ]+)/i);
+    this.source = sourceMatch && sourceMatch[1] ? sourceMatch[1] : null;
     this.read(configFileContent);
   }
 

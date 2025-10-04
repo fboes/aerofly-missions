@@ -25,8 +25,9 @@ Here's how to set it up:
 Here's how to convert your flight plan:
 
 1. **Create** a flight plan in SimBrief.
-2. Hit the button labelled "Fetch SimBrief flight plan" to **fetch the flight plan** and automatically **convert** it into a Missionsgerät mission.
-3. **Download** the Aerofly FS custom user mission and [install the mission file in Aerofly FS](./generic-installation.md) as usual.
+2. Use the **"Generate"** button in SimBrief to generate the flight plan.
+3. In the Missionsgerät hit the button labelled "Fetch SimBrief flight plan" to **fetch the flight plan** and automatically **convert** it into a Missionsgerät mission. (Be aware that you might need to manually set your initial aircraft position if you want your flight to start at the gate.)
+4. **Download** the Aerofly FS custom user mission and [install the mission file in Aerofly FS](./generic-installation.md) as usual.
 
 This method not only saves a lot of time, but also receives extra information from SimBrief like basic weather, navigational aid frequencies and aircraft data.
 

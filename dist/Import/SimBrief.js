@@ -31,6 +31,7 @@ export class SimBrief {
         return this.convertMission(simbriefPayload, mission);
     }
     convertMission(simbriefPayload, mission, useDestinationWeather = false) {
+        mission.source = "SimBrief";
         mission.conditions.time.dateTime = new Date(simbriefPayload.times.sched_out);
         this.convertWeather(mission, !useDestinationWeather ? simbriefPayload.origin : simbriefPayload.destination);
         const departureRunwayOrientation = Number(simbriefPayload.origin.plan_rwy.replace(/\D+/, "")) * 10;

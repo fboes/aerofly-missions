@@ -109,6 +109,7 @@ export class SimBrief {
   }
 
   public convertMission(simbriefPayload: SimBriefApiPayload, mission: Mission, useDestinationWeather = false): Mission {
+    mission.source = "SimBrief";
     mission.conditions.time.dateTime = new Date(simbriefPayload.times.sched_out);
 
     this.convertWeather(mission, !useDestinationWeather ? simbriefPayload.origin : simbriefPayload.destination);

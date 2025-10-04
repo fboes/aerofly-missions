@@ -58,6 +58,7 @@ export class ComponentUploadField extends HTMLElement {
         }
     }
     uploadFile(filename, filecontent) {
+        var _a;
         const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
         try {
             if (this.mission === null) {
@@ -108,7 +109,7 @@ export class ComponentUploadField extends HTMLElement {
                 default:
                     throw new Error("Unsupported file: " + fileEnding);
             }
-            this.dispatchUploadEvent(filename, fileEnding);
+            this.dispatchUploadEvent(filename, fileEnding, (_a = this.mission.source) !== null && _a !== void 0 ? _a : null);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -132,6 +133,7 @@ export class ComponentUploadField extends HTMLElement {
         });
         modal.showModal();
         modal.querySelector("button").addEventListener("click", (e) => {
+            var _a;
             if (this.mission === null) {
                 throw new Error("Mission is not set");
             }
@@ -139,14 +141,15 @@ export class ComponentUploadField extends HTMLElement {
             e.preventDefault();
             new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
             modal.close();
-            this.dispatchUploadEvent(filename, fileEnding);
+            this.dispatchUploadEvent(filename, fileEnding, (_a = this.mission.source) !== null && _a !== void 0 ? _a : null);
         }, { once: true });
     }
-    dispatchUploadEvent(filename, fileEnding) {
+    dispatchUploadEvent(filename, fileEnding, source = null) {
         this.dispatchEvent(new CustomEvent("file-uploaded", {
             detail: {
                 filename,
                 fileEnding,
+                source,
             },
         }));
     }

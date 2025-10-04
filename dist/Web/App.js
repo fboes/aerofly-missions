@@ -68,7 +68,7 @@ export class App {
             if (((_a = event.detail) === null || _a === void 0 ? void 0 : _a.filename) === undefined || ((_b = event.detail) === null || _b === void 0 ? void 0 : _b.fileEnding) === undefined) {
                 return;
             }
-            document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file"));
+            document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file", event.detail.source));
             this.useIcao = this.mission.origin_country !== "US";
             this.mission.magnetic_declination = undefined;
             this.syncToForm();

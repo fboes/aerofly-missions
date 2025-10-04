@@ -12,6 +12,7 @@ import { XplaneFms } from "../Import/XplaneFms.js";
 export type ComponentUploadFieldDetail = {
   filename: string;
   fileEnding: string;
+  source: string | null;
 };
 
 export class ComponentUploadField extends HTMLElement {
@@ -121,7 +122,7 @@ export class ComponentUploadField extends HTMLElement {
         default:
           throw new Error("Unsupported file: " + fileEnding);
       }
-      this.dispatchUploadEvent(filename, fileEnding);
+      this.dispatchUploadEvent(filename, fileEnding, this.mission.source ?? null);
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
@@ -157,18 +158,19 @@ export class ComponentUploadField extends HTMLElement {
         new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
 
         modal.close();
-        this.dispatchUploadEvent(filename, fileEnding);
+        this.dispatchUploadEvent(filename, fileEnding, this.mission.source ?? null);
       },
       { once: true }
     );
   }
 
-  protected dispatchUploadEvent(filename: string, fileEnding: string) {
+  protected dispatchUploadEvent(filename: string, fileEnding: string, source: string | null = null) {
     this.dispatchEvent(
       new CustomEvent("file-uploaded", {
         detail: {
           filename,
           fileEnding,
+          source,
         } as ComponentUploadFieldDetail,
       })
     );

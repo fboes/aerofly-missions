@@ -85,7 +85,7 @@ export class ComponentSimBrief extends HTMLElement {
     if ((e.target as HTMLElement) === this.elements.fetchButton) {
       const simBrief = new SimBrief();
       this.elements.fetchButton.classList.add("is-loading");
-      this.dispatchEvent(StatEvent.createEvent("Import", "Import from SimBrief API"));
+      this.dispatchEvent(StatEvent.createEvent("Import", "Import from API", "SimBrief"));
       simBrief
         .fetch(this.username)
         .then((simbriefPayload: SimBriefApiPayload) => {
