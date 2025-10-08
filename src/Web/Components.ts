@@ -306,7 +306,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
             c.frequency ? c.frequency_mhz : ""
           }" />&nbsp;MHz`,
           `<input aria-label="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${
-            !isAirportOrRunway ? -1000 : 0
+            isAirportOrRunway ? -1500 : 0
           }" step="${!isAirportOrRunway ? 100 : 1}" value="${
             c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""
           }" />&nbsp;ft`,

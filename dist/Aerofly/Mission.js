@@ -58,7 +58,7 @@ export class Mission {
         /**
          * Hide guides in mission
          */
-        this.no_guides = false;
+        this.no_guides = true;
         this.warnings = [];
         this.source = null;
         this.title = title;

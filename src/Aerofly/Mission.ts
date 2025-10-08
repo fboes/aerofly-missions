@@ -74,7 +74,7 @@ export class Mission {
   /**
    * Hide guides in mission
    */
-  no_guides: boolean = false;
+  no_guides: boolean = true;
 
   protected _magnetic_declination?: number;
 
@@ -91,7 +91,7 @@ export class Mission {
   static MAX_LINES_DESCRIPTION = 8;
 
   warnings: string[] = [];
-  
+
   source: string | null = null;
 
   constructor(title: string, description: string) {

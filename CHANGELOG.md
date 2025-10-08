@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.8.9] - 2025-10-04
 
+- Show SimBrief import field by default
+- Removed flight plan guides by default
+- Fixed altitude input field allowing for real low airfields
+
+## [2.8.9] - 2025-10-04
+
 - Added logging of import source
 
 ## [2.8.8] - 2025-09-23

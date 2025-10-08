@@ -240,7 +240,7 @@ export class ComponentsCheckpoints extends ComponentsOutputtable {
                         ? `<input aria-label="Waypoint #${i + 1}" data-cp-id="${i}" data-cp-prop="name" type="text" value="${c.name}" pattern="[A-Z0-9._+\\-]+" maxlength="8" autocapitalize="characters" required="required" />`
                         : c.name,
                     `<input aria-label="Frequency #${i + 1}" data-cp-id="${i}" data-cp-prop="frequency_mhz" type="number" min="0.190" step="0.001" max="118" value="${c.frequency ? c.frequency_mhz : ""}" />&nbsp;MHz`,
-                    `<input aria-label="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${!isAirportOrRunway ? -1000 : 0}" step="${!isAirportOrRunway ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""}" />&nbsp;ft`,
+                    `<input aria-label="Altitude #${i + 1}" data-cp-id="${i}" data-cp-prop="altitude_ft" type="number" min="${isAirportOrRunway ? -1500 : 0}" step="${!isAirportOrRunway ? 100 : 1}" value="${c.lon_lat.altitude_m ? Math.round(c.lon_lat.altitude_ft) : ""}" />&nbsp;ft`,
                     i !== 0
                         ? `<input aria-label="True Air Speed #${i + 1}" data-cp-id="${i}" data-cp-prop="speed" type="number" min="0" value="${c.speed >= 0 ? Math.round(c.speed) : ""}" />&nbsp;kts`
                         : "",
