@@ -5,43 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0] - 2025-10-22
+## [2.29.0] - 2025-10-22
 
 - Show SimBrief import field by default
 - Removed flight plan guides by default
 - Fixed altitude input field allowing for real low airfields
 - Fixed service worker message showing up the first time PWA is loaded
 
-## [2.8.9] - 2025-10-04
+## [2.28.9] - 2025-10-04
 
 - Added logging of import source
 
-## [2.8.8] - 2025-09-23
+## [2.28.8] - 2025-09-23
 
 - Added new aircraft
 
-## [2.8.7] - 2025-09-23
+## [2.28.7] - 2025-09-23
 
 - Added test for removing guides from flight plan properly
 - Added improved error message for SimBrief API errors
 
-## [2.8.6] - 2025-08-15
-## [2.8.5] - 2025-08-13
+## [2.28.6] - 2025-08-15
+## [2.28.5] - 2025-08-13
 
 - Fixed "no guides" functionality to use correct direction value
 
-## [2.8.4] - 2025-08-13
+## [2.28.4] - 2025-08-13
 
 - Added "no guides" tracking
 - Improved GPX import
 - Added Boeing 737-800
 - Improved closing of dialogs
 
-## [2.8.3] - 2025-05-23
+## [2.28.3] - 2025-05-23
 
 - Quick fix for download
 
-## [2.8.2] - 2025-05-23
+## [2.28.2] - 2025-05-23
 
 - Added new download button `custom_missions_user.tmc`
 - Refactored CSS dark mode styling
