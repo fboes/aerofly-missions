@@ -473,8 +473,12 @@
         if (!navigator.serviceWorker.controller) {
           navigator.serviceWorker.register("./sw.js");
         }
+        let hadController = !!navigator.serviceWorker.controller;
         navigator.serviceWorker.addEventListener("controllerchange", () => {
-          alert("A new version is available. Please refresh the page.");
+          if (hadController) {
+            alert("A new version is available. Please refresh the page.");
+          }
+          hadController = true;
         });
       }
     </script>
