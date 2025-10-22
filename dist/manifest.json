@@ -31,7 +31,7 @@
   "background_color": "#1f6ed6",
   "lang": "en",
   "categories": ["simulation", "aviation", "weather", "tools", "utilities", "flight plan", "converter"],
-  "version": "2.8.9",
+  "version": "2.9.0",
   "screenshots": [],
   "launch_handler": {
     "client_mode": ["navigate-existing", "auto"]
