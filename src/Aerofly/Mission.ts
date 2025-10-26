@@ -220,7 +220,7 @@ export class Mission {
   }
 
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, withoutCheckpoints = false): Mission {
-      this.source = "Aerofly";
+    this.source = "Aerofly";
     this.aircraft_name = mainMcf.aircraft.name;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 

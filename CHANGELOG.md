@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added improved error message for SimBrief API errors
 
 ## [2.28.6] - 2025-08-15
+
 ## [2.28.5] - 2025-08-13
 
 - Fixed "no guides" functionality to use correct direction value
