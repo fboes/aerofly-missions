@@ -131,7 +131,7 @@ export class MsfsPlnExport extends GarminExportAbstract {
     let pln = `\
 <?xml version="1.0" encoding="UTF-8"?>
 <SimBase.Document Type="AceXML" version="1,0">
-    <!-- Exported by Aerofly Missionsgerät -->
+    <!-- Created by Aerofly Missionsgerät -->
     <Descr>AceXML Document</Descr>
     <FlightPlan.FlightPlan>
         <Title>${Quote.xml(m.origin_icao + " to " + m.destination_icao)}</Title>
@@ -261,7 +261,7 @@ export class Msfs2024Export extends MsfsPlnExport {
     let pln = `\
 <?xml version="1.0" encoding="UTF-8"?>
 <SimBase.Document>
-    <!-- Exported by Aerofly Missionsgerät -->
+    <!-- Created by Aerofly Missionsgerät -->
     <FlightPlan.FlightPlan>
         <Title>${Quote.xml(m.origin_icao + " to " + m.destination_icao)}</Title>
         <Descr>${Quote.xml(m.title)}</Descr>

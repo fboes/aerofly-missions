@@ -827,7 +827,7 @@ export class Mission {
     }
     const finish = this.finish?.toStringTargetPlane("finish") ?? "";
     let string = `\
-            // Exported by Aerofly Missionsgerät
+            // Created by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
                 <[string8][description][${Quote.tmc(this.description)}]>

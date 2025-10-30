@@ -126,6 +126,7 @@ export class GarminExport extends GarminExportAbstract {
 <flight-plan xmlns="http://www8.garmin.com/xmlschemas/FlightPlan/v1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www8.garmin.com/xmlschemas/FlightPlan/v1 https://www8.garmin.com/xmlschemas/FlightPlanv1.xsd">
+  <!-- Created by Aerofly Missionsgerät -->
   <waypoint-table>
 ${this.geWaypointXml(routePoints)}
   </waypoint-table>

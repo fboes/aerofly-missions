@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SimBase.Document Type="AceXML" version="1,0">
-    <!-- Exported by Aerofly Missionsgerät -->
+    <!-- Created by Aerofly Missionsgerät -->
     <Descr>AceXML Document</Descr>
     <FlightPlan.FlightPlan>
         <Title>ENHD local flight</Title>

@@ -699,7 +699,7 @@ export class Mission {
         }
         const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane("finish")) !== null && _b !== void 0 ? _b : "";
         let string = `\
-            // Exported by Aerofly Missionsgerät
+            // Created by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
                 <[string8][title][${Quote.tmc(this.title)}]>
                 <[string8][description][${Quote.tmc(this.description)}]>

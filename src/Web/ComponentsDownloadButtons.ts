@@ -3,6 +3,7 @@ import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { KeyholeMarkupLanguage } from "../Export/KeyholeMarkupLanguage.js";
+import { MainMcfExport } from "../Export/MainMcfExport.js";
 import { Markdown } from "../Export/Markdown.js";
 import { GarminExport } from "../Import/GarminFpl.js";
 import { GeoFsExport } from "../Import/GeoFs.js";
@@ -29,6 +30,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
   <button type="button" class="expert-mode" data-filesuffix=".md">Download <code>custom_missions.md</code> documentation</button>
   <button type="button" class="expert-mode" data-filesuffix=".kml">Download <code>custom_missions.kml</code></button>
   <button type="button" class="expert-mode" data-filesuffix=".geojson">Download <code>custom_missions.geojson</code></button>
+  <button type="button" data-filesuffix=".mcf.txt">Download Aerofly FS <code>main.mcf</code> flight plan snippet</button>
 </details>
 `;
   }
@@ -98,6 +100,9 @@ export class ComponentsDownloadButtons extends HTMLElement {
         const m = new MissionsList("");
         m.missions.push(this.mission);
         this.download(filename, m.toString());
+        break;
+      case ".mcf.txt":
+        this.download(filename, new MainMcfExport(this.mission).toString(), "text/plain");
         break;
     }
     document.body.dispatchEvent(StatEvent.createEvent("Export", "Download " + fileSuffix + " file"));
