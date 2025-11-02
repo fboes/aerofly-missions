@@ -1,5 +1,5 @@
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
-import { Mission, } from "../Aerofly/Mission.js";
+import { Mission } from "../Aerofly/Mission.js";
 import { Test } from "../Cli/Test.js";
 import { MainMcfExport } from "../Export/MainMcfExport.js";
 import * as fs from "node:fs";
@@ -21,6 +21,7 @@ export class MainMcfExportTest extends Test {
             this.assert(mcfString.includes("<[float64][CruiseAltitude][304.8]>"), "Cruise altitude is present");
             this.assert(mcfString.includes("<[tmnav_route_origin][EGGP][0]"), "Origin is present");
             this.assert(mcfString.includes("<[vector3_float64][Position][3812258.1479555396 -189766.92490388086 5092820.672905484]>"), "Origin position is correct");
+            //console.log(mcfString);
         }
     }
 }

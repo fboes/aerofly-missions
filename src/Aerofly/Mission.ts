@@ -224,109 +224,106 @@ export class Mission {
     this.aircraft_name = mainMcf.aircraft.name;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
-    if (!withoutCheckpoints) {
-      switch (mainMcf.flight_setting.configuration) {
-        case "ShortFinal":
-          this.flight_setting = Mission.FLIGHT_SETTING_LANDING;
-          break;
-        case "Takeoff":
-          this.flight_setting = Mission.FLIGHT_SETTING_TAKEOFF;
-          break;
-        case "Final":
-          this.flight_setting = Mission.FLIGHT_SETTING_APPROACH;
-          break;
-        case "Parking":
-          this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
-          break;
-        default:
-          this.flight_setting = mainMcf.flight_setting.on_ground
-            ? Mission.FLIGHT_SETTING_TAXI
-            : Mission.FLIGHT_SETTING_CRUISE;
-          break;
-      }
-      this.conditions.fromMainMcf(mainMcf);
-
-      this.finish = null;
-      let lastPosition: LonLat | null = null;
-      this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
-        // Please not that procedure waypoints cannot be restored as of now
-        return [
-          MissionCheckpoint.TYPE_ORIGIN,
-          MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
-          //MissionCheckpoint.TYPE_DEPARTURE,
-          MissionCheckpoint.TYPE_WAYPOINT,
-          //MissionCheckpoint.TYPE_ARRIVAL,
-          //MissionCheckpoint.TYPE_APPROACH,
-          MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
-          MissionCheckpoint.TYPE_DESTINATION,
-        ].includes(w.type);
-        // Filtering departure, approach and arrival - these points have no coordinates
-      }).map((w) => {
-        const cp = new MissionCheckpoint();
-        cp.fromMainMcf(w);
-
-        if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
-          cp.lon_lat = lastPosition.getRelativeCoordinates(3, 45);
-        }
-
-        lastPosition = cp.lon_lat;
-        return cp;
-      });
-
-      const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
-      this.syncCruiseSpeed();
-      this.calculateCheckpoints();
-
-      this.origin_icao = this.checkpoints[0].name;
-      this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
-
-      const checkpointDepartureRunway = this.checkpoints.find((c) => {
-        return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
-      });
-
-      const distanceOriginAircraft = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
-      if (distanceOriginAircraft > 2) {
-        this.warnings.push(
-          `Position of aircraft too far away from origin of flight plan: ${distanceOriginAircraft.toFixed(2)} NM`
-        );
-        if (checkpointDepartureRunway) {
-          this.origin_lon_lat = new LonLat(
-            checkpointDepartureRunway.lon_lat.lon,
-            checkpointDepartureRunway.lon_lat.lat,
-            checkpointDepartureRunway.lon_lat.altitude_m
-          );
-          this.warnings.push(`Setting positon of aircraft to departure runway: ${this.origin_lon_lat}`);
-          this.origin_dir = (checkpointDepartureRunway.direction + 180) % 360;
-          this.warnings.push(`Setting orientation of aircraft to departure runway: ${this.origin_dir.toFixed()}°`);
-        }
-      }
-
-      if (this.origin_dir < 0) {
-        this.origin_dir =
-          ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
-            (180 / Math.PI) +
-            26 +
-            360) %
-          360;
-        this.warnings.push(
-          `Aircraft orientation inferred from mainMcf.flight_setting.orientation: ${this.origin_dir.toFixed()}°`
-        );
-      }
-
-      const checkpointDestination =
-        this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
-      this.destination_icao = structuredClone(checkpointDestination.name);
-      this.destination_dir = structuredClone(checkpointDestination.direction);
-      this.destination_lon_lat = checkpointDestination.lon_lat.clone();
-
-      const checkpointDestinationRunway =
-        this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY) ?? checkpointDestination;
-      if (ils) {
-        checkpointDestinationRunway.frequency_mhz = ils;
-      }
-
-      this.setAutoTitleDescription(flight_category);
+    if (withoutCheckpoints) {
+      return this;
     }
+
+    switch (mainMcf.flight_setting.configuration) {
+      case "ShortFinal":
+        this.flight_setting = Mission.FLIGHT_SETTING_LANDING;
+        break;
+      case "Takeoff":
+        this.flight_setting = Mission.FLIGHT_SETTING_TAKEOFF;
+        break;
+      case "Final":
+        this.flight_setting = Mission.FLIGHT_SETTING_APPROACH;
+        break;
+      case "Parking":
+        this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
+        break;
+      default:
+        this.flight_setting = mainMcf.flight_setting.on_ground
+          ? Mission.FLIGHT_SETTING_TAXI
+          : Mission.FLIGHT_SETTING_CRUISE;
+        break;
+    }
+    this.conditions.fromMainMcf(mainMcf);
+
+    this.finish = null;
+    let lastPosition: LonLat | null = null;
+    this.checkpoints = mainMcf.navigation.Route.Ways.filter((w) => {
+      // Please not that procedure waypoints cannot be restored as of now
+      return [
+        MissionCheckpoint.TYPE_ORIGIN,
+        MissionCheckpoint.TYPE_DEPARTURE_RUNWAY,
+        //MissionCheckpoint.TYPE_DEPARTURE,
+        MissionCheckpoint.TYPE_WAYPOINT,
+        //MissionCheckpoint.TYPE_ARRIVAL,
+        //MissionCheckpoint.TYPE_APPROACH,
+        MissionCheckpoint.TYPE_DESTINATION_RUNWAY,
+        MissionCheckpoint.TYPE_DESTINATION,
+      ].includes(w.type);
+      // Filtering departure, approach and arrival - these points have no coordinates
+    }).map((w) => {
+      const cp = new MissionCheckpoint();
+      cp.fromMainMcf(w);
+
+      if (lastPosition && (isNaN(cp.lon_lat.lon) || isNaN(cp.lon_lat.lat))) {
+        cp.lon_lat = lastPosition.getRelativeCoordinates(3, 45);
+      }
+
+      lastPosition = cp.lon_lat;
+      return cp;
+    });
+
+    const flight_category = this.conditions.getFlightCategory(this.origin_country !== "US");
+    this.syncCruiseSpeed();
+    this.calculateCheckpoints();
+
+    this.origin_icao = this.checkpoints[0].name;
+    this.origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
+
+    const checkpointDepartureRunway = this.checkpoints.find((c) => {
+      return c.type === MissionCheckpoint.TYPE_DEPARTURE_RUNWAY;
+    });
+
+    const distanceOriginAircraft = this.origin_lon_lat.getDistanceTo(this.checkpoints[0].lon_lat);
+    if (distanceOriginAircraft > 2) {
+      this.warnings.push(
+        `Position of aircraft too far away from origin of flight plan: ${distanceOriginAircraft.toFixed(2)} NM`
+      );
+      if (checkpointDepartureRunway) {
+        this.origin_lon_lat = new LonLat(
+          checkpointDepartureRunway.lon_lat.lon,
+          checkpointDepartureRunway.lon_lat.lat,
+          checkpointDepartureRunway.lon_lat.altitude_m
+        );
+        this.warnings.push(`Setting position of aircraft to departure runway: ${this.origin_lon_lat}`);
+        this.origin_dir = (checkpointDepartureRunway.direction + 180) % 360;
+        this.warnings.push(`Setting orientation of aircraft to departure runway: ${this.origin_dir.toFixed()}°`);
+      }
+    }
+
+    this.origin_dir =
+      ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
+        (180 / Math.PI) +
+        26 +
+        360) %
+      360;
+
+    const checkpointDestination =
+      this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
+    this.destination_icao = structuredClone(checkpointDestination.name);
+    this.destination_dir = structuredClone(checkpointDestination.direction);
+    this.destination_lon_lat = checkpointDestination.lon_lat.clone();
+
+    const checkpointDestinationRunway =
+      this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY) ?? checkpointDestination;
+    if (ils) {
+      checkpointDestinationRunway.frequency_mhz = ils;
+    }
+
+    this.setAutoTitleDescription(flight_category);
 
     return this;
   }
