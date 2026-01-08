@@ -1,19 +1,16 @@
-import { Test } from "../Cli/Test.js";
+import { strict as assert } from "node:assert";
+import { describe, it } from "node:test";
+
 import { Quote } from "../Export/Quote.js";
 
-export class QuoteTest extends Test {
-  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
-    super(process, dieOnError);
+describe("QuoteTest test", () => {
+  it("should quote html and xml correctly", () => {
+    const test = '<a href="#abc">ABC</a>';
+    const testAsXml = "&lt;a href=&quot;#abc&quot;&gt;ABC&lt;/a&gt;";
+    assert.equal(Quote.html(test), testAsXml);
+    assert.equal(Quote.unXml(testAsXml), test);
 
-    this.group("Quote");
-    {
-      const test = '<a href="#abc">ABC</a>';
-      const testAsXml = "&lt;a href=&quot;#abc&quot;&gt;ABC&lt;/a&gt;";
-      this.assertEquals(Quote.html(test), testAsXml);
-      this.assertEquals(Quote.unXml(testAsXml), test);
-
-      this.assertEquals(Quote.unXml("<![CDATA[" + test + "]]>"), test);
-      this.assertEquals(Quote.unXml("<![CDATA[" + testAsXml + "]]>"), testAsXml);
-    }
-  }
-}
+    assert.equal(Quote.unXml("<![CDATA[" + test + "]]>"), test);
+    assert.equal(Quote.unXml("<![CDATA[" + testAsXml + "]]>"), testAsXml);
+  });
+});

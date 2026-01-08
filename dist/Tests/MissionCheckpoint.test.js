@@ -1,29 +1,26 @@
+import { strict as assert } from "node:assert";
+import { describe, it } from "node:test";
 import { LonLat } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { Test } from "../Cli/Test.js";
-export class MissionCheckpointTest extends Test {
-    constructor(process, dieOnError = false) {
-        super(process, dieOnError);
-        this.process = process;
-        this.dieOnError = dieOnError;
-        this.group(MissionCheckpoint.name);
+describe("MissionCheckpointTest test", () => {
+    it("should handle properties correctly", () => {
         const missionCheckpoint = new MissionCheckpoint();
-        this.assertEquals(missionCheckpoint.lon_lat.altitude_m, 0, "Altitude present");
-        this.assertEquals(missionCheckpoint.direction, -1, "Direction present");
-        this.assertEquals(missionCheckpoint.frequency, 0, "Frequency present");
-        this.assert(missionCheckpoint.lon_lat instanceof LonLat, "lon_lat has correct type");
-        this.assertEquals(missionCheckpoint.slope, 0, "Slope present");
+        assert.equal(missionCheckpoint.lon_lat.altitude_m, 0, "Altitude present");
+        assert.equal(missionCheckpoint.direction, -1, "Direction present");
+        assert.equal(missionCheckpoint.frequency, 0, "Frequency present");
+        assert.ok(missionCheckpoint.lon_lat instanceof LonLat, "lon_lat has correct type");
+        assert.equal(missionCheckpoint.slope, 0, "Slope present");
         missionCheckpoint.frequency_mhz = 108.2;
-        this.assertEquals(missionCheckpoint.frequency_unit, "M");
-        this.assertEquals(missionCheckpoint.frequency_mhz, 108.2);
-        this.assertEquals(missionCheckpoint.frequency, 108200000);
+        assert.equal(missionCheckpoint.frequency_unit, "M");
+        assert.equal(missionCheckpoint.frequency_mhz, 108.2);
+        assert.equal(missionCheckpoint.frequency, 108200000);
         missionCheckpoint.frequency_khz = 260;
-        this.assertEquals(missionCheckpoint.frequency_unit, "k");
-        this.assertEquals(missionCheckpoint.frequency_khz, 260);
-        this.assertEquals(missionCheckpoint.frequency, 260000);
+        assert.equal(missionCheckpoint.frequency_unit, "k");
+        assert.equal(missionCheckpoint.frequency_khz, 260);
+        assert.equal(missionCheckpoint.frequency, 260000);
         missionCheckpoint.frequency_khz = 1260;
-        this.assertEquals(missionCheckpoint.frequency_unit, "k");
-        this.assertEquals(missionCheckpoint.frequency_khz, 1260);
-        this.assertEquals(missionCheckpoint.frequency, 1260000);
-    }
-}
+        assert.equal(missionCheckpoint.frequency_unit, "k");
+        assert.equal(missionCheckpoint.frequency_khz, 1260);
+        assert.equal(missionCheckpoint.frequency, 1260000);
+    });
+});

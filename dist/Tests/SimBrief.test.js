@@ -1,119 +1,100 @@
+import { strict as assert } from "node:assert";
+import { describe, it } from "node:test";
+import { assertEqualsRounded } from "../Cli/Test.js";
 import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
-import { Test } from "../Cli/Test.js";
 import { MsfsPln } from "../Import/MsfsPln.js";
 import { SimBrief } from "../Import/SimBrief.js";
-export class SimBriefTest extends Test {
-    constructor(process, dieOnError = false) {
-        super(process, dieOnError);
-        this.process = process;
-        this.dieOnError = dieOnError;
-        this.testMsfsStatic();
-        this.testAeroflyStatic();
-        this.testAeroflyStaticDestination();
-        this.testAeroflyStatic2();
-        this.testAeroflyStaticDestination2();
-    }
-    static async init(process, dieOnError = false) {
-        const self = new SimBriefTest(process, dieOnError);
-        await self.testMsfsLive("fjboes");
-        await self.testMsfsLive("746243");
-        await self.testAeroflyLive("fjboes");
-        await self.testAeroflyLive("746243");
-        return self;
-    }
-    async testMsfsLive(username) {
-        this.group(SimBrief.name + ".testMsfsLive(" + username + ")");
-        const simBrief = new SimBrief();
-        const msfsPln = await simBrief.fetchMsfs(username);
-        this.assert(msfsPln !== "", "Response not empty");
-        const pln = new MsfsPln(msfsPln);
-        this.assert(pln !== null, "is valid MSFS PLN");
-    }
-    testMsfsStatic() {
-        this.group(SimBrief.name + ".testMsfsStatic()");
+describe("SimBriefTest test", () => {
+    it("should fetch MSFS PLN", { skip: "Can only be executed after filing a flight plan" }, async () => {
+        for (const username of ["fjboes", "746243"]) {
+            const simBrief = new SimBrief();
+            const msfsPln = await simBrief.fetchMsfs(username);
+            assert.notEqual(msfsPln, "", "Response not empty");
+            const pln = new MsfsPln(msfsPln);
+            assert.notEqual(pln, null, "is valid MSFS PLN");
+        }
+    });
+    it("should fetch JSON", { skip: "Can only be executed after filing a flight plan" }, async () => {
+        for (const username of ["fjboes", "746243"]) {
+            const simBrief = new SimBrief();
+            const mission = await simBrief.fetchMission(username, new Mission("TEST", "TEST"));
+            assert.notEqual(mission, null, "Response not empty");
+        }
+    });
+    it("should parse MSFS PLN correctly", () => {
         const msfsPln = fs.readFileSync("./src/Tests/fixtures/simbrief-mfs.pln", "utf8");
-        this.assert(msfsPln !== "", "Response not empty");
+        assert.notEqual(msfsPln, "", "Response not empty");
         const pln = new MsfsPln(msfsPln);
-        this.assert(pln !== null, "is valid MSFS PLN");
+        assert.notEqual(pln, null, "is valid MSFS PLN");
         const mission = new Mission("TEST", "TEST");
         mission.fromGarminFpl(pln);
-        this.assertEquals(mission.checkpoints.length, 11);
-        this.assertEquals(mission.origin_icao, "KEYW");
-        this.assertEquals(mission.destination_icao, "KMIA");
-        this.assertEquals(mission.checkpoints[0].name, mission.origin_icao);
-        this.assertEquals(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
-    }
-    async testAeroflyLive(username) {
-        this.group(SimBrief.name + ".testAeroflyLive(" + username + ")");
-        const simBrief = new SimBrief();
-        const mission = await simBrief.fetchMission(username, new Mission("TEST", "TEST"));
-        this.assert(mission !== null, "Response not empty");
-    }
-    testAeroflyStatic() {
-        this.group(SimBrief.name + ".testAeroflyStatic()");
+        assert.equal(mission.checkpoints.length, 11);
+        assert.equal(mission.origin_icao, "KEYW");
+        assert.equal(mission.destination_icao, "KMIA");
+        assert.equal(mission.checkpoints[0].name, mission.origin_icao);
+        assert.equal(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
+    });
+    it("should parse Aerofly static mission correctly", () => {
         const simBrief = new SimBrief();
         const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"));
-        this.assert(mission !== null, "Response not empty");
+        assert.notEqual(mission, null, "Response not empty");
         //console.log(mission);
-        this.assertEquals(mission.checkpoints.length, 13);
-        this.assertEquals(mission.origin_icao, "KEYW");
-        this.assertEquals(mission.destination_icao, "KMIA");
-        this.assertEquals(mission.checkpoints[0].name, mission.origin_icao);
-        this.assertEquals(mission.checkpoints[0].icao_region, "K7");
-        this.assertEquals(mission.checkpoints[2].name, "CARNU");
-        this.assertEquals(mission.checkpoints[2].icao_region, "K7");
-        this.assertEquals(mission.checkpoints[3].name, "SNDBR");
-        this.assertEquals(mission.checkpoints[3].icao_region, "K7");
-        this.assertEquals(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
-        this.assertEquals(mission.conditions.wind_speed, 5);
-        this.assertEquals(mission.conditions.wind_gusts, 0);
-        this.assertEquals(mission.conditions.wind_direction, 190);
-        this.assertEquals(mission.conditions.cloud.cover, 0);
-        this.assertEquals(mission.conditions.cloud.height, 0);
-    }
-    testAeroflyStaticDestination() {
-        this.group(SimBrief.name + ".testAeroflyStaticDestination()");
+        assert.equal(mission.checkpoints.length, 13);
+        assert.equal(mission.origin_icao, "KEYW");
+        assert.equal(mission.destination_icao, "KMIA");
+        assert.equal(mission.checkpoints[0].name, mission.origin_icao);
+        assert.equal(mission.checkpoints[0].icao_region, "K7");
+        assert.equal(mission.checkpoints[2].name, "CARNU");
+        assert.equal(mission.checkpoints[2].icao_region, "K7");
+        assert.equal(mission.checkpoints[3].name, "SNDBR");
+        assert.equal(mission.checkpoints[3].icao_region, "K7");
+        assert.equal(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
+        assert.equal(mission.conditions.wind_speed, 5);
+        assert.equal(mission.conditions.wind_gusts, 0);
+        assert.equal(mission.conditions.wind_direction, 190);
+        assert.equal(mission.conditions.cloud.cover, 0);
+        assert.equal(mission.conditions.cloud.height, 0);
+    });
+    it("should parse Aerofly static mission with destination override correctly", () => {
         const simBrief = new SimBrief();
         const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
-        this.assertEquals(mission.conditions.wind_speed, 8);
-        this.assertEquals(mission.conditions.wind_gusts, 0);
-        this.assertEquals(mission.conditions.wind_direction, 190);
-        this.assertEquals(mission.conditions.cloud.cover, 0);
-        this.assertEquals(mission.conditions.cloud.height, 0);
-    }
-    testAeroflyStatic2() {
-        this.group(SimBrief.name + ".testAeroflyStatic2()");
+        assert.equal(mission.conditions.wind_speed, 8);
+        assert.equal(mission.conditions.wind_gusts, 0);
+        assert.equal(mission.conditions.wind_direction, 190);
+        assert.equal(mission.conditions.cloud.cover, 0);
+        assert.equal(mission.conditions.cloud.height, 0);
+    });
+    it("should parse Aerofly static mission 2 correctly", () => {
         const simBrief = new SimBrief();
         const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api2.json", "utf8");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"));
-        this.assert(mission !== null, "Response not empty");
-        this.assertEquals(mission.checkpoints.length, 9);
-        this.assertEquals(mission.origin_icao, "KEYW");
-        this.assertEquals(mission.destination_icao, "KMIA");
-        this.assertEquals(mission.checkpoints[0].name, mission.origin_icao);
-        this.assertEquals(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
-        this.assertEquals(mission.conditions.wind_speed, 10);
-        this.assertEquals(mission.conditions.wind_gusts, 20);
-        this.assertEquals(mission.conditions.wind_direction, 80);
-        this.assertEquals(mission.conditions.cloud.cover, 0.125);
-        this.assertEqualsRounded(mission.conditions.cloud.height, 1036, 0);
-    }
-    testAeroflyStaticDestination2() {
-        this.group(SimBrief.name + ".testAeroflyStaticDestination2()");
+        assert.notEqual(mission, null, "Response not empty");
+        assert.equal(mission.checkpoints.length, 9);
+        assert.equal(mission.origin_icao, "KEYW");
+        assert.equal(mission.destination_icao, "KMIA");
+        assert.equal(mission.checkpoints[0].name, mission.origin_icao);
+        assert.equal(mission.checkpoints[mission.checkpoints.length - 1].name, mission.destination_icao);
+        assert.equal(mission.conditions.wind_speed, 10);
+        assert.equal(mission.conditions.wind_gusts, 20);
+        assert.equal(mission.conditions.wind_direction, 80);
+        assert.equal(mission.conditions.cloud.cover, 0.125);
+        assertEqualsRounded(mission.conditions.cloud.height, 1036, 0);
+    });
+    it("should parse Aerofly static mission 2 with destination override correctly", () => {
         const simBrief = new SimBrief();
         const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api2.json", "utf8");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
-        this.assertEquals(mission.conditions.wind_speed, 9);
-        this.assertEquals(mission.conditions.wind_gusts, 0);
-        this.assertEquals(mission.conditions.wind_direction, 100);
-        this.assertEquals(mission.conditions.cloud.cover, 0.125);
-        this.assertEqualsRounded(mission.conditions.cloud.height, 762, 0);
-    }
-}
+        assert.equal(mission.conditions.wind_speed, 9);
+        assert.equal(mission.conditions.wind_gusts, 0);
+        assert.equal(mission.conditions.wind_direction, 100);
+        assert.equal(mission.conditions.cloud.cover, 0.125);
+        assertEqualsRounded(mission.conditions.cloud.height, 762, 0);
+    });
+});

@@ -17,7 +17,9 @@
   },
   "scripts": {
     "start": "./dist/aerofly-missions.js",
-    "test": "node ./dist/test.js",
+    "test": "node --test 'dist/**/*.test.js'",
+    "test:coverage": "node --test --experimental-test-coverage 'dist/**/*.test.js'",
+    "test:watch": "node --test --watch 'dist/**/*.test.js'",
     "prettier": "npx prettier --cache --write .",
     "prettier-check": "npx prettier --cache --check .",
     "eslint": "npx eslint ./src/",

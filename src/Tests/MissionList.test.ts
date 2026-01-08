@@ -1,33 +1,30 @@
+import { strict as assert } from "node:assert";
+import { describe, it } from "node:test";
+
 import { MissionListParser } from "../Aerofly/MissionsList.js";
-import { Test } from "../Cli/Test.js";
 import * as fs from "node:fs";
 
-export class MissionListTest extends Test {
-  constructor(protected process: NodeJS.Process, protected dieOnError = false) {
-    super(process, dieOnError);
+describe("MissionListTest test", () => {
+  it("should parse mission list correctly", () => {
+    const fileContent = fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8");
+    const missionListParser = new MissionListParser(fileContent);
 
-    this.group(MissionListParser.name);
-    {
-      const fileContent = fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8");
-      const missionListParser = new MissionListParser(fileContent);
+    const missionNames = missionListParser.getMissionNames();
 
-      const missionNames = missionListParser.getMissionNames();
+    assert.equal(missionNames.length, 2);
+    assert.equal(missionNames[0], "From KCLM to KBLI");
+    assert.equal(missionNames[1], "Mount Teide awaits");
 
-      this.assertEquals(missionNames.length, 2);
-      this.assertEquals(missionNames[0], "From KCLM to KBLI");
-      this.assertEquals(missionNames[1], "Mount Teide awaits");
+    const missons = missionListParser.getMissions();
+    assert.equal(missons.length, 2);
 
-      const missons = missionListParser.getMissions();
-      this.assertEquals(missons.length, 2);
+    let mission = missionListParser.getMissionString(0);
+    assert.notEqual(mission, "", "Mission not empty");
 
-      let mission = missionListParser.getMissionString(0);
-      this.assert(mission !== "", "Mission not empty");
+    mission = missionListParser.getMissionString(1);
+    assert.notEqual(mission, "", "Mission not empty");
 
-      mission = missionListParser.getMissionString(1);
-      this.assert(mission !== "", "Mission not empty");
-
-      mission = missionListParser.getMissionString(2);
-      this.assert(mission === "", "Mission empty");
-    }
-  }
-}
+    mission = missionListParser.getMissionString(2);
+    assert.equal(mission, "", "Mission empty");
+  });
+});
