@@ -55,8 +55,14 @@ export type SimBriefApiPayload = {
     icaocode: string;
     reg: string;
   };
+  fuel: {
+    plan_ramp: string; // kg
+  };
   times: {
     sched_out: string;
+  };
+  weights: {
+    payload: string; // kg
   };
   fms_downloads: {
     directory: string;
