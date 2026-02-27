@@ -36,7 +36,7 @@ export class MainMcfExport extends GarminExportAbstract {
             <[string8u][runway][]>
         >
         <[tmsettings_fuel_load][fuel_load_setting][]
-            <[fuel_load_configuration][configuration][Keep]> // or "Invalid"
+            <[fuel_load_configuration][configuration][${this.mission.fuel_mass > 0 ? "Keep" : "Invalid"}]>
             <[string8u][aircraft][${this.mission.aircraft_name}]>
             <[float64][fuel_mass][${this.mission.fuel_mass}]>
             <[float64][payload_mass][${this.mission.payload_mass}]>
