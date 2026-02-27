@@ -45,6 +45,7 @@ export class SimBrief {
         mission.destination_lon_lat = destinationPosition.getRelativeCoordinates(0.25, destinationRunwayOrientation);
         mission.destination_dir = destinationRunwayOrientation;
         mission.aircraft_icao = simbriefPayload.aircraft.icaocode;
+        mission.aircraft_livery_icao = simbriefPayload.general.icao_airline;
         mission.cruise_speed = Number(simbriefPayload.general.cruise_tas);
         mission.cruise_altitude = 0;
         mission.callsign = simbriefPayload.atc.callsign;

@@ -785,4 +785,56 @@ export class AircraftFinder {
     }
     return code;
   }
+
+  /**
+   * Maps an ICAO airline designator (e.g. "AAL", "DLH") to an Aerofly livery id.
+   */
+  static getLiveryByIcaoCode(icao_airline: string): string {
+    switch (icao_airline.toUpperCase()) {
+      case "ANA":
+        return "ana";
+      case "AAL":
+        return "american";
+      case "DLH":
+        return "lufthansa";
+      case "UAL":
+        return "united";
+      case "DAL":
+        return "delta";
+      case "AFR":
+        return "air_france";
+      case "BAW":
+        return "british_airways";
+      case "CSN":
+        return "china_southern";
+      case "THY":
+        return "turkish";
+      case "ACA":
+        return "air_canada";
+      case "ETD":
+        return "etihad";
+      case "LAN":
+      case "TAM":
+        return "latam";
+      case "JBU":
+      case "AZU":
+        return "blue";
+      case "CES":
+        return "china_eastern";
+      case "ETH":
+        return "ethiopian";
+      case "KLM":
+        return "klm";
+      case "KAL":
+        return "korean";
+      case "QTR":
+        return "qatar";
+      case "SWR":
+        return "swiss";
+      case "HVN":
+        return "vietnam";
+      default:
+        return "";
+    }
+  }
 }

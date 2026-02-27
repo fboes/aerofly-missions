@@ -8,6 +8,7 @@ describe("MainMcfTest test", () => {
   it("should load main.mcf correctly", () => {
     const mainMcf = new MainMcfFactory().create(fs.readFileSync("./src/Tests/fixtures/main.mcf", "utf8"));
     assert.equal(mainMcf.aircraft.name, "q400");
+    assert.equal(mainMcf.aircraft.paintscheme, "icelandair");
     assert.equal(mainMcf.navigation.Route.CruiseAltitude, 304.8);
     assert.equal(mainMcf.navigation.Route.Ways.length, 8);
     assert.equal(mainMcf.navigation.Route.Ways[0].type, "origin");

@@ -87,10 +87,10 @@ describe("GarminFpl Tests", () => {
             const string = exportPln.toString();
             //console.log(string);
             assert.notEqual(string, "", "XML not empty");
-            assert.equal((_a = (string.match(/<identifier>/g))) === null || _a === void 0 ? void 0 : _a.length, 5);
-            assert.equal((_b = (string.match(/<country-code>K2<\/country-code>/g))) === null || _b === void 0 ? void 0 : _b.length, 4);
-            assert.equal((_c = (string.match(/<waypoint-identifier>/g))) === null || _c === void 0 ? void 0 : _c.length, 6);
-            assert.equal((_d = (string.match(/<waypoint-country-code>K2<\/waypoint-country-code>/g))) === null || _d === void 0 ? void 0 : _d.length, 5);
+            assert.equal((_a = string.match(/<identifier>/g)) === null || _a === void 0 ? void 0 : _a.length, 5);
+            assert.equal((_b = string.match(/<country-code>K2<\/country-code>/g)) === null || _b === void 0 ? void 0 : _b.length, 4);
+            assert.equal((_c = string.match(/<waypoint-identifier>/g)) === null || _c === void 0 ? void 0 : _c.length, 6);
+            assert.equal((_d = string.match(/<waypoint-country-code>K2<\/waypoint-country-code>/g)) === null || _d === void 0 ? void 0 : _d.length, 5);
         }
     });
 });

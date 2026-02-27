@@ -11,7 +11,7 @@
         >
         <[tmsettings_aircraft][aircraft][]
             <[string8u][name][q400]>
-            <[string8][paintscheme][]>
+            <[string8][paintscheme][icelandair]>
             <[list_string8][options][]>
             <[bool][profi][false]>
         >

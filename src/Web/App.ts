@@ -63,6 +63,7 @@ export class App {
     cloud2_base_feet: <HTMLInputElement>document.getElementById("cloud2_base_feet"),
     callsign: <HTMLInputElement>document.getElementById("callsign"),
     aircraft_name: <HTMLSelectElement>document.getElementById("aircraft_name"),
+    aircraft_livery: <HTMLInputElement>document.getElementById("aircraft_livery"),
     simBrief: <ComponentSimBrief>document.querySelector("missionsgeraet-simbrief"),
     simBriefUseDestinationWeather: <HTMLInputElement>document.getElementById("simBriefUseDestinationWeather"),
   };
@@ -259,6 +260,7 @@ export class App {
         break;
       case "reset-aircraft":
         this.mission.aircraft_name = "c172";
+        this.mission.aircraft_livery = "";
         this.mission.cruise_altitude = 0;
         this.mission.flight_setting = Mission.FLIGHT_SETTING_TAXI;
         show = App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
@@ -309,6 +311,9 @@ export class App {
         this.mission.aircraft_name = target.value;
         show |= App.SHOW_MAP | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS;
         this.syncToForm();
+        break;
+      case "aircraft_livery":
+        this.mission.aircraft_livery = target.value;
         break;
       case "callsign":
         this.mission.callsign = target.value;
@@ -730,6 +735,7 @@ export class App {
 
   syncToForm() {
     this.elements.aircraft_name.value = this.mission.aircraft_name;
+    this.elements.aircraft_livery.value = this.mission.aircraft_livery;
     this.elements.callsign.value = this.mission.callsign;
     this.elements.cloud_base_feet.value = this.mission.conditions.cloud.height_feet.toFixed();
     this.elements.cloud_cover.value = (this.mission.conditions.cloud.cover * 100).toFixed();

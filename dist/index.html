@@ -164,20 +164,48 @@
               </div>
             </div>
 
-            <div class="expert-mode">
-              <label for="flight_setting">Flight setting</label>
-              <select id="flight_setting">
-                <option value="cold_and_dark">Cold &amp; dark</option>
-                <option value="before_start">Before engine start</option>
-                <option value="taxi">Ready to taxi</option>
-                <option value="takeoff">Ready to take-off</option>
-                <option value="cruise">Cruise (in-flight)</option>
-                <option value="approach">Approach configuration (in-flight)</option>
-                <option value="landing">Landing configuration (in-flight)</option>
-                <option value="winch_launch">Winch launch (glider)</option>
-                <option value="aerotow">Linked to tow plane (glider)</option>
-                <option value="pushback">Ready for pushback</option>
-              </select>
+            <div class="expert-mode col-2">
+              <div>
+                <label for="flight_setting">Flight setting</label>
+                <select id="flight_setting">
+                  <option value="cold_and_dark">Cold &amp; dark</option>
+                  <option value="before_start">Before engine start</option>
+                  <option value="taxi">Ready to taxi</option>
+                  <option value="takeoff">Ready to take-off</option>
+                  <option value="cruise">Cruise (in-flight)</option>
+                  <option value="approach">Approach configuration (in-flight)</option>
+                  <option value="landing">Landing configuration (in-flight)</option>
+                  <option value="winch_launch">Winch launch (glider)</option>
+                  <option value="aerotow">Linked to tow plane (glider)</option>
+                  <option value="pushback">Ready for pushback</option>
+                </select>
+              </div>
+              <div>
+                <label for="aircraft_livery">Livery</label>
+                <input type="text" id="aircraft_livery" list="aircraft_livery-dl" pattern="[a-z0-9_]*" />
+                <datalist id="aircraft_livery-dl">
+                  <option value="ana">All Nippon Airways</option>
+                  <option value="lufthansa">Lufthansa</option>
+                  <option value="air_france">Air France</option>
+                  <option value="british_airways">British Airways</option>
+                  <option value="united">United Airlines</option>
+                  <option value="delta">Delta</option>
+                  <option value="american">American</option>
+                  <option value="china_southern">China Southern</option>
+                  <option value="turkish">Turkish Airlines</option>
+                  <option value="air_canada">Air Canada</option>
+                  <option value="etihad">Etihad</option>
+                  <option value="latam">LATAM</option>
+                  <option value="blue">Blue</option>
+                  <option value="china_eastern">China Eastern</option>
+                  <option value="ethiopian">Ethiopian</option>
+                  <option value="klm">KLM</option>
+                  <option value="korean">Korean Air</option>
+                  <option value="qatar">Qatar</option>
+                  <option value="swiss">Swiss</option>
+                  <option value="vietnam">Vietnam Airlines</option>
+                </datalist>
+              </div>
             </div>
 
             <button data-handler="reset" type="button" class="icon reset" id="reset-aircraft" title="Reset aircraft &amp; cruise settings">↺ <span>Reset aircraft &amp; cruise settings</span></button>

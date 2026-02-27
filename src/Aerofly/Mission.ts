@@ -35,6 +35,7 @@ export class Mission {
    */
   protected _aircraft_name: string = "c172";
   protected _aircraft_icao: string = "C172";
+  protected _aircraft_livery: string = "";
 
   /**
    * @see https://en.wikipedia.org/wiki/Aviation_call_signs
@@ -165,6 +166,7 @@ export class Mission {
   setAircraft(aircraft: Aircraft) {
     this._aircraft_name = aircraft.aeroflyCode;
     this._aircraft_icao = aircraft.icaoCode;
+    this.aircraft_livery = "";
     this.callsign = aircraft.callsign;
     this.cruise_speed = aircraft.cruiseSpeedKts;
     this.cruise_altitude_ft = aircraft.cruiseAltitudeFt;
@@ -178,6 +180,21 @@ export class Mission {
    */
   get aircraft_icao() {
     return this._aircraft_icao;
+  }
+
+  set aircraft_livery(aircraft_livery: string) {
+    this._aircraft_livery = aircraft_livery.toLowerCase();
+  }
+
+  get aircraft_livery() {
+    return this._aircraft_livery;
+  }
+
+  /**
+   * @param icao_airline will set the livery from the given airline code
+   */
+  set aircraft_livery_icao(icao_airline: string) {
+    this.aircraft_livery = AircraftFinder.getLiveryByIcaoCode(icao_airline.toUpperCase());
   }
 
   get origin_country() {
@@ -222,6 +239,7 @@ export class Mission {
   fromMainMcf(mainMcf: MainMcf, ils: number = 0, withoutCheckpoints = false): Mission {
     this.source = "Aerofly";
     this.aircraft_name = mainMcf.aircraft.name;
+    this.aircraft_livery = mainMcf.aircraft.paintscheme;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
     if (withoutCheckpoints) {
@@ -830,7 +848,7 @@ export class Mission {
                 <[string8][description][${Quote.tmc(this.description)}]>
                 <[string8]   [flight_setting]     [${Quote.tmc(this.flight_setting)}]>
                 <[string8u]  [aircraft_name]      [${Quote.tmc(this.aircraft_name)}]>
-                //<[string8u][aircraft_livery]    []>
+                //<[string8u][aircraft_livery]    [${Quote.tmc(this.aircraft_livery)}]>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this._aircraft_icao)}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
                 <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
@@ -861,6 +879,7 @@ ${this.conditions + finish}\
     this.flight_setting = json.flight_setting ?? this.flight_setting;
     this._aircraft_name = json._aircraft_name ?? this._aircraft_name;
     this._aircraft_icao = json._aircraft_icao ?? this._aircraft_icao;
+    this.aircraft_livery = json.aircraft_livery ?? this.aircraft_livery;
     this._magnetic_declination = json._magnetic_declination ?? this._magnetic_declination;
     this.callsign = json.callsign ?? this.callsign;
     this.origin_icao = json.origin_icao ?? this.origin_icao;
@@ -904,6 +923,7 @@ export class MissionFactory extends FileParser {
     mission.flight_setting = this.convertFlightSetting(this.getValue(tmmission_definition, "flight_setting"));
     mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
     mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
+    mission.aircraft_livery = this.getValue(tmmission_definition, "aircraft_livery");
     mission.callsign = this.getValue(tmmission_definition, "callsign");
     mission.origin_icao = this.getValue(tmmission_definition, "origin_icao");
 

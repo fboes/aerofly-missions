@@ -8,6 +8,7 @@ describe("MainMcfExportTest test", () => {
     it("should export main.mcf correctly", () => {
         const mainMcf = new MainMcfFactory().create(fs.readFileSync("./src/Tests/fixtures/main.mcf", "utf8"));
         const mission = new Mission("", "").fromMainMcf(mainMcf);
+        assert.equal(mission.aircraft_livery, "icelandair");
         const exportMcf = new MainMcfExport(mission);
         {
             const mcfString = exportMcf.toString();
@@ -15,6 +16,7 @@ describe("MainMcfExportTest test", () => {
             assert.ok(mcfString.includes("<[float64][CruiseAltitude][304.8]>"), "Cruise altitude is present");
             assert.ok(mcfString.includes("<[tmnav_route_origin][EGGP][0]"), "Origin is present");
             assert.ok(mcfString.includes("<[vector3_float64][Position][3812258.1479555396 -189766.92490388086 5092820.672905484]>"), "Origin position is correct");
+            assert.ok(mcfString.includes("icelandair"));
             //console.log(mcfString);
         }
     });

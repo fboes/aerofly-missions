@@ -3,6 +3,7 @@ export class MainMcf {
     constructor() {
         this.aircraft = {
             name: "",
+            paintscheme: "",
         };
         this.flight_setting = {
             position: [0, 0, 0],
@@ -73,6 +74,7 @@ export class MainMcfFactory extends FileParser {
         }
         m.aircraft = {
             name: this.getValue(tmsettings_aircraft, "name", "c172"),
+            paintscheme: this.getValue(tmsettings_aircraft, "paintscheme", ""),
         };
         m.flight_setting = {
             position: this.getNumberArray(tmsettings_flight, "position"),

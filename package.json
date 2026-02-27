@@ -25,7 +25,7 @@
     "eslint": "npx eslint ./src/",
     "eslint-fix": "npx eslint ./src/ --fix",
     "serve": "npx http-server ./dist -o -c-1",
-    "build": "npm run eslint-fix && npm run prettier && tsc --build"
+    "build": "npm run eslint-fix && npm run prettier && npx tsc --build -v"
   },
   "main": "index.js",
   "repository": {

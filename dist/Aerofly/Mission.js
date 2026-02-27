@@ -21,6 +21,7 @@ export class Mission {
          */
         this._aircraft_name = "c172";
         this._aircraft_icao = "C172";
+        this._aircraft_livery = "";
         /**
          * @see https://en.wikipedia.org/wiki/Aviation_call_signs
          * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
@@ -118,6 +119,7 @@ export class Mission {
     setAircraft(aircraft) {
         this._aircraft_name = aircraft.aeroflyCode;
         this._aircraft_icao = aircraft.icaoCode;
+        this.aircraft_livery = "";
         this.callsign = aircraft.callsign;
         this.cruise_speed = aircraft.cruiseSpeedKts;
         this.cruise_altitude_ft = aircraft.cruiseAltitudeFt;
@@ -130,6 +132,18 @@ export class Mission {
      */
     get aircraft_icao() {
         return this._aircraft_icao;
+    }
+    set aircraft_livery(aircraft_livery) {
+        this._aircraft_livery = aircraft_livery.toLowerCase();
+    }
+    get aircraft_livery() {
+        return this._aircraft_livery;
+    }
+    /**
+     * @param icao_airline will set the livery from the given airline code
+     */
+    set aircraft_livery_icao(icao_airline) {
+        this.aircraft_livery = AircraftFinder.getLiveryByIcaoCode(icao_airline.toUpperCase());
     }
     get origin_country() {
         return this.icaoAirportToIsoCountry(this.origin_icao);
@@ -169,6 +183,7 @@ export class Mission {
         var _a, _b;
         this.source = "Aerofly";
         this.aircraft_name = mainMcf.aircraft.name;
+        this.aircraft_livery = mainMcf.aircraft.paintscheme;
         this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
         if (withoutCheckpoints) {
             return this;
@@ -703,7 +718,7 @@ export class Mission {
                 <[string8][description][${Quote.tmc(this.description)}]>
                 <[string8]   [flight_setting]     [${Quote.tmc(this.flight_setting)}]>
                 <[string8u]  [aircraft_name]      [${Quote.tmc(this.aircraft_name)}]>
-                //<[string8u][aircraft_livery]    []>
+                //<[string8u][aircraft_livery]    [${Quote.tmc(this.aircraft_livery)}]>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this._aircraft_icao)}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
                 <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
@@ -728,34 +743,35 @@ ${this.conditions + finish}\
         return string;
     }
     hydrate(json) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
         this._title = (_a = json._title) !== null && _a !== void 0 ? _a : this._title;
         this._description = (_b = json._description) !== null && _b !== void 0 ? _b : this._description;
         this.flight_setting = (_c = json.flight_setting) !== null && _c !== void 0 ? _c : this.flight_setting;
         this._aircraft_name = (_d = json._aircraft_name) !== null && _d !== void 0 ? _d : this._aircraft_name;
         this._aircraft_icao = (_e = json._aircraft_icao) !== null && _e !== void 0 ? _e : this._aircraft_icao;
-        this._magnetic_declination = (_f = json._magnetic_declination) !== null && _f !== void 0 ? _f : this._magnetic_declination;
-        this.callsign = (_g = json.callsign) !== null && _g !== void 0 ? _g : this.callsign;
-        this.origin_icao = (_h = json.origin_icao) !== null && _h !== void 0 ? _h : this.origin_icao;
+        this.aircraft_livery = (_f = json.aircraft_livery) !== null && _f !== void 0 ? _f : this.aircraft_livery;
+        this._magnetic_declination = (_g = json._magnetic_declination) !== null && _g !== void 0 ? _g : this._magnetic_declination;
+        this.callsign = (_h = json.callsign) !== null && _h !== void 0 ? _h : this.callsign;
+        this.origin_icao = (_j = json.origin_icao) !== null && _j !== void 0 ? _j : this.origin_icao;
         this.origin_lon_lat.magnetic_declination =
-            (_j = json.origin_lon_lat.magnetic_declination) !== null && _j !== void 0 ? _j : this.origin_lon_lat.magnetic_declination;
-        this.origin_lon_lat.lon = (_k = json.origin_lon_lat.lon) !== null && _k !== void 0 ? _k : this.origin_lon_lat.lon;
-        this.origin_lon_lat.lat = (_l = json.origin_lon_lat.lat) !== null && _l !== void 0 ? _l : this.origin_lon_lat.lat;
-        this.origin_lon_lat.altitude_m = (_m = json.origin_lon_lat.altitude_m) !== null && _m !== void 0 ? _m : this.origin_lon_lat.altitude_m;
-        this.origin_dir = (_o = json.origin_dir) !== null && _o !== void 0 ? _o : this.origin_dir;
-        this.destination_icao = (_p = json.destination_icao) !== null && _p !== void 0 ? _p : this.destination_icao;
+            (_k = json.origin_lon_lat.magnetic_declination) !== null && _k !== void 0 ? _k : this.origin_lon_lat.magnetic_declination;
+        this.origin_lon_lat.lon = (_l = json.origin_lon_lat.lon) !== null && _l !== void 0 ? _l : this.origin_lon_lat.lon;
+        this.origin_lon_lat.lat = (_m = json.origin_lon_lat.lat) !== null && _m !== void 0 ? _m : this.origin_lon_lat.lat;
+        this.origin_lon_lat.altitude_m = (_o = json.origin_lon_lat.altitude_m) !== null && _o !== void 0 ? _o : this.origin_lon_lat.altitude_m;
+        this.origin_dir = (_p = json.origin_dir) !== null && _p !== void 0 ? _p : this.origin_dir;
+        this.destination_icao = (_q = json.destination_icao) !== null && _q !== void 0 ? _q : this.destination_icao;
         this.destination_lon_lat.magnetic_declination =
-            (_q = json.destination_lon_lat.magnetic_declination) !== null && _q !== void 0 ? _q : this.destination_lon_lat.magnetic_declination;
-        this.destination_lon_lat.lon = (_r = json.destination_lon_lat.lon) !== null && _r !== void 0 ? _r : this.destination_lon_lat.lon;
-        this.destination_lon_lat.lat = (_s = json.destination_lon_lat.lat) !== null && _s !== void 0 ? _s : this.destination_lon_lat.lat;
-        this.destination_lon_lat.altitude_m = (_t = json.destination_lon_lat.altitude_m) !== null && _t !== void 0 ? _t : this.destination_lon_lat.altitude_m;
-        this.destination_dir = (_u = json.destination_dir) !== null && _u !== void 0 ? _u : this.destination_dir;
-        this.cruise_speed = (_v = json.cruise_speed) !== null && _v !== void 0 ? _v : this.cruise_speed;
-        this.cruise_altitude = (_w = json.cruise_altitude) !== null && _w !== void 0 ? _w : this.cruise_altitude;
-        this.turn_time = (_x = json.turn_time) !== null && _x !== void 0 ? _x : this.turn_time;
-        this.no_guides = (_y = json.no_guides) !== null && _y !== void 0 ? _y : this.no_guides;
+            (_r = json.destination_lon_lat.magnetic_declination) !== null && _r !== void 0 ? _r : this.destination_lon_lat.magnetic_declination;
+        this.destination_lon_lat.lon = (_s = json.destination_lon_lat.lon) !== null && _s !== void 0 ? _s : this.destination_lon_lat.lon;
+        this.destination_lon_lat.lat = (_t = json.destination_lon_lat.lat) !== null && _t !== void 0 ? _t : this.destination_lon_lat.lat;
+        this.destination_lon_lat.altitude_m = (_u = json.destination_lon_lat.altitude_m) !== null && _u !== void 0 ? _u : this.destination_lon_lat.altitude_m;
+        this.destination_dir = (_v = json.destination_dir) !== null && _v !== void 0 ? _v : this.destination_dir;
+        this.cruise_speed = (_w = json.cruise_speed) !== null && _w !== void 0 ? _w : this.cruise_speed;
+        this.cruise_altitude = (_x = json.cruise_altitude) !== null && _x !== void 0 ? _x : this.cruise_altitude;
+        this.turn_time = (_y = json.turn_time) !== null && _y !== void 0 ? _y : this.turn_time;
+        this.no_guides = (_z = json.no_guides) !== null && _z !== void 0 ? _z : this.no_guides;
         this.conditions.hydrate(json.conditions);
-        this.finish = (_z = json.finish) !== null && _z !== void 0 ? _z : this.finish;
+        this.finish = (_0 = json.finish) !== null && _0 !== void 0 ? _0 : this.finish;
         this.checkpoints = json.checkpoints.map((c) => {
             const cx = new MissionCheckpoint();
             cx.hydrate(c);
@@ -783,6 +799,7 @@ export class MissionFactory extends FileParser {
         mission.flight_setting = this.convertFlightSetting(this.getValue(tmmission_definition, "flight_setting"));
         mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
         mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
+        mission.aircraft_livery = this.getValue(tmmission_definition, "aircraft_livery");
         mission.callsign = this.getValue(tmmission_definition, "callsign");
         mission.origin_icao = this.getValue(tmmission_definition, "origin_icao");
         const origin_lon_lat = this.getNumberArray(tmmission_definition, "origin_lon_lat");
