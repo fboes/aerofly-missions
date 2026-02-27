@@ -11,6 +11,10 @@ export class MainMcf {
             configuration: "",
             on_ground: true,
         };
+        this.fuel_load_setting = {
+            fuel_mass: 0,
+            payload_mass: 0,
+        };
         this.time_utc = {
             time_year: 0,
             time_month: 0,
@@ -47,6 +51,7 @@ export class MainMcfFactory extends FileParser {
     create(configFileContent) {
         const m = new MainMcf();
         const tmsettings_aircraft = this.getGroup(configFileContent, "tmsettings_aircraft");
+        const tmsettings_fuel_load = this.getGroup(configFileContent, "tmsettings_fuel_load");
         const tmsettings_flight = this.getGroup(configFileContent, "tmsettings_flight");
         const tm_time_utc = this.getGroup(configFileContent, "tm_time_utc");
         const tmsettings_wind = this.getGroup(configFileContent, "tmsettings_wind");
@@ -81,6 +86,10 @@ export class MainMcfFactory extends FileParser {
             orientation: this.getNumberArray(tmsettings_flight, "orientation"),
             configuration: this.getValue(tmsettings_flight, "configuration"),
             on_ground: this.getValue(tmsettings_flight, "on_ground") === "true",
+        };
+        m.fuel_load_setting = {
+            fuel_mass: this.getNumber(tmsettings_fuel_load, "fuel_mass"),
+            payload_mass: this.getNumber(tmsettings_fuel_load, "payload_mass"),
         };
         m.time_utc = {
             time_year: this.getNumber(tm_time_utc, "time_year"),

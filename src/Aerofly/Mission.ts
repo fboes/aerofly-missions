@@ -77,6 +77,9 @@ export class Mission {
    */
   no_guides: boolean = true;
 
+  fuel_mass: number = 0;
+  payload_mass: number = 0;
+
   protected _magnetic_declination?: number;
 
   static FLIGHT_SETTING_COLD_AND_DARK: MissionFlightSetting = "cold_and_dark";
@@ -167,6 +170,8 @@ export class Mission {
     this._aircraft_name = aircraft.aeroflyCode;
     this._aircraft_icao = aircraft.icaoCode;
     this.aircraft_livery = "";
+    this.fuel_mass = 0;
+    this.payload_mass = 0;
     this.callsign = aircraft.callsign;
     this.cruise_speed = aircraft.cruiseSpeedKts;
     this.cruise_altitude_ft = aircraft.cruiseAltitudeFt;
@@ -240,6 +245,8 @@ export class Mission {
     this.source = "Aerofly";
     this.aircraft_name = mainMcf.aircraft.name;
     this.aircraft_livery = mainMcf.aircraft.paintscheme;
+    this.fuel_mass = mainMcf.fuel_load_setting.fuel_mass;
+    this.payload_mass = mainMcf.fuel_load_setting.payload_mass;
     this.cruise_altitude = mainMcf.navigation.Route.CruiseAltitude;
 
     if (withoutCheckpoints) {
@@ -850,6 +857,8 @@ export class Mission {
                 <[string8u]  [aircraft_name]      [${Quote.tmc(this.aircraft_name)}]>
                 //<[string8u][aircraft_livery]    [${Quote.tmc(this.aircraft_livery)}]>
                 <[stringt8c] [aircraft_icao]      [${Quote.tmc(this._aircraft_icao)}]>
+                //<[float64] [fuel_mass]          [${this.fuel_mass}]>
+                //<[float64] [payload_mass]       [${this.payload_mass}]>
                 <[stringt8c] [callsign]           [${Quote.tmc(this.callsign)}]>
                 <[stringt8c] [origin_icao]        [${Quote.tmc(this.origin_icao)}]>
                 <[tmvector2d][origin_lon_lat]     [${this.origin_lon_lat}]>
@@ -880,6 +889,8 @@ ${this.conditions + finish}\
     this._aircraft_name = json._aircraft_name ?? this._aircraft_name;
     this._aircraft_icao = json._aircraft_icao ?? this._aircraft_icao;
     this.aircraft_livery = json.aircraft_livery ?? this.aircraft_livery;
+    this.fuel_mass = json.fuel_mass ?? this.fuel_mass;
+    this.payload_mass = json.payload_mass ?? this.payload_mass;
     this._magnetic_declination = json._magnetic_declination ?? this._magnetic_declination;
     this.callsign = json.callsign ?? this.callsign;
     this.origin_icao = json.origin_icao ?? this.origin_icao;
@@ -924,6 +935,8 @@ export class MissionFactory extends FileParser {
     mission.aircraft_name = this.getValue(tmmission_definition, "aircraft_name");
     mission.aircraft_icao = this.getValue(tmmission_definition, "aircraft_icao");
     mission.aircraft_livery = this.getValue(tmmission_definition, "aircraft_livery");
+    mission.fuel_mass = this.getNumber(tmmission_definition, "fuel_mass");
+    mission.payload_mass = this.getNumber(tmmission_definition, "payload_mass");
     mission.callsign = this.getValue(tmmission_definition, "callsign");
     mission.origin_icao = this.getValue(tmmission_definition, "origin_icao");
 

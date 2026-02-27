@@ -50,6 +50,8 @@ export class SimBrief {
         mission.cruise_altitude = 0;
         mission.callsign = simbriefPayload.atc.callsign;
         mission.flight_setting = "taxi";
+        mission.fuel_mass = Number(simbriefPayload.fuel.plan_ramp);
+        mission.payload_mass = Number(simbriefPayload.weights.payload);
         const originCheckpoint = new MissionCheckpoint();
         originCheckpoint.name = simbriefPayload.origin.icao_code;
         originCheckpoint.lon_lat = originPosition;

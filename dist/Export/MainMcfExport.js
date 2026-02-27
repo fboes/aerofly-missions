@@ -29,14 +29,14 @@ export class MainMcfExport extends GarminExportAbstract {
             <[float64][flaps][0]>
             <[flight_configuration][configuration][Keep]>
             <[bool][on_ground][true]>
-            <[string8u][airport][]>
+            <[string8u][airport][${this.mission.origin_icao}]>
             <[string8u][runway][]>
         >
         <[tmsettings_fuel_load][fuel_load_setting][]
             <[fuel_load_configuration][configuration][Keep]> // or "Invalid"
             <[string8u][aircraft][${this.mission.aircraft_name}]>
-            <[float64][fuel_mass][0]>
-            <[float64][payload_mass][0]>
+            <[float64][fuel_mass][${this.mission.fuel_mass}]>
+            <[float64][payload_mass][${this.mission.payload_mass}]>
         >
 // -----------------------------------------------------------------------------
         <[tm_time_utc][time_utc][]
