@@ -6,6 +6,7 @@ To install a custom missions file in Aerofly FS 4:
    - `C:\Users\%USERNAME%\Documents\Aerofly FS 4` (Microsoft Windows)
    - `~/Library/Containers/com.aerofly.aerofly-fs-4-mac/Data/Library/Application Support/Aerofly FS 4` (Apple Mac OSX, App Store Version)
    - `~/Library/Application Support/Aerofly FS 4` (Apple Mac OSX, Steam Version)
+   - `~/.config/Aerofly FS 4` (Linux, hidden folder)
 2. Open up the `missions` folder. If this folder does not exists, create it.
 3. Put the new `.tmc` file into the `missions` folder,  
    and rename it to `custom_missions_user.tmc`.

@@ -4,7 +4,7 @@ import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { Aircraft, AircraftFinder } from "./Aircraft.js";
 import { FileParser } from "./FileParser.js";
-import { MainMcf } from "./MainMcf.js";
+import { MainMcf, MainMcfMatrix } from "./MainMcf.js";
 import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
 import { MissionConditions, MissionConditionsFlightRules } from "./MissionConditions.js";
 
@@ -329,12 +329,17 @@ export class Mission {
       }
     }
 
-    this.origin_dir =
-      ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
-        (180 / Math.PI) +
-        26 +
-        360) %
-      360;
+    const convertMatrixToDegree = (orientation: MainMcfMatrix): number => {
+      const headingRad = Math.atan2(orientation[3], orientation[0]);
+      let headingDeg = headingRad * (180 / Math.PI);
+      // Normalize to [0, 360)
+      if (headingDeg < 0) {
+        headingDeg += 360;
+      }
+      return headingDeg;
+    };
+
+    this.origin_dir = convertMatrixToDegree(mainMcf.flight_setting.orientation);
 
     const checkpointDestination =
       this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];

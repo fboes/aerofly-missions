@@ -7,7 +7,7 @@ export class MainMcf {
         };
         this.flight_setting = {
             position: [0, 0, 0],
-            orientation: [0, 0, 0],
+            orientation: [0, 0, 0, 0, 0, 0, 0, 0, 0],
             configuration: "",
             on_ground: true,
         };

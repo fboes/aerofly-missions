@@ -1,3 +1,4 @@
+import { MainMcfVector3 } from "../Aerofly/MainMcf.js";
 import { Units } from "./Units.js";
 
 type LonLatMinute = {
@@ -169,7 +170,7 @@ export class LonLat {
   /**
    * @see https://www.aerofly.com/community/forum/index.php?thread/19105-custom-missions-converting-coordinates/
    */
-  static fromMainMcf(coordinates: number[], altitude_m: number = 0): LonLat {
+  static fromMainMcf(coordinates: MainMcfVector3, altitude_m: number = 0): LonLat {
     const f = 1.0 / 298.257223563; // WGS84
     const e2 = 2 * f - f * f;
 

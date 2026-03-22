@@ -14,6 +14,8 @@ export class ComponentSimBrief extends HTMLElement {
 
   constructor() {
     super();
+
+    //this.setHTML();
     this.innerHTML = `\
 <p>Optionally you can download <a href="https://dispatch.simbrief.com/home" target="simbrief">your last flight briefing from SimBrief</a> by supplying your <a href="https://dispatch.simbrief.com/account#settings" target="simbrief">SimBrief username</a>.</p>
 <div class="col-2">

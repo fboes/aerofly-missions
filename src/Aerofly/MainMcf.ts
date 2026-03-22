@@ -4,13 +4,17 @@ import { MissionCheckpointType } from "./MissionCheckpoint.js";
 export interface MainMcfWaypointInterface {
   type: MissionCheckpointType;
   Identifier: string;
-  Position: number[];
+  Position: MainMcfVector3;
   NavaidFrequency: number;
   Elevation: number;
-  Altitude: number[];
+  Altitude: MainMcfVector2;
   Length: number;
   FlyOver: boolean;
 }
+
+export type MainMcfVector2 = [number, number];
+export type MainMcfVector3 = [number, number, number];
+export type MainMcfMatrix = [number, number, number, number, number, number, number, number, number];
 
 export class MainMcf {
   aircraft = {
@@ -18,8 +22,8 @@ export class MainMcf {
     paintscheme: "",
   };
   flight_setting = {
-    position: <number[]>[0, 0, 0],
-    orientation: <number[]>[0, 0, 0],
+    position: <MainMcfVector3>[0, 0, 0],
+    orientation: <MainMcfMatrix>[0, 0, 0, 0, 0, 0, 0, 0, 0],
     configuration: "",
     on_ground: true,
   };
@@ -81,10 +85,10 @@ export class MainMcfFactory extends FileParser {
           return {
             type: <MissionCheckpointType>(typeMatch ? String(typeMatch[0]) : "waypoint"),
             Identifier: this.getValue(wp, "Identifier"),
-            Position: this.getNumberArray(wp, "Position"),
+            Position: this.getNumberArray(wp, "Position") as MainMcfVector3,
             NavaidFrequency: this.getNumber(wp, "NavaidFrequency"),
             Elevation: this.getNumber(wp, "Elevation"),
-            Altitude: this.getNumberArray(wp, "Altitude"),
+            Altitude: this.getNumberArray(wp, "Altitude") as MainMcfVector2,
             Length: this.getNumber(wp, "RunwayLength"),
             FlyOver: this.getValue(wp, "FlyOver", "false") !== "false",
           };
@@ -96,8 +100,8 @@ export class MainMcfFactory extends FileParser {
       paintscheme: this.getValue(tmsettings_aircraft, "paintscheme", ""),
     };
     m.flight_setting = {
-      position: this.getNumberArray(tmsettings_flight, "position"),
-      orientation: this.getNumberArray(tmsettings_flight, "orientation"),
+      position: this.getNumberArray(tmsettings_flight, "position") as MainMcfVector3,
+      orientation: this.getNumberArray(tmsettings_flight, "orientation") as MainMcfMatrix,
       configuration: this.getValue(tmsettings_flight, "configuration"),
       on_ground: this.getValue(tmsettings_flight, "on_ground") === "true",
     };

@@ -256,12 +256,16 @@ export class Mission {
                 this.warnings.push(`Setting orientation of aircraft to departure runway: ${this.origin_dir.toFixed()}°`);
             }
         }
-        this.origin_dir =
-            ((Math.atan2(mainMcf.flight_setting.orientation[1], mainMcf.flight_setting.orientation[0]) - 1) *
-                (180 / Math.PI) +
-                26 +
-                360) %
-                360;
+        const convertMatrixToDegree = (orientation) => {
+            const headingRad = Math.atan2(orientation[3], orientation[0]);
+            let headingDeg = headingRad * (180 / Math.PI);
+            // Normalize to [0, 360)
+            if (headingDeg < 0) {
+                headingDeg += 360;
+            }
+            return headingDeg;
+        };
+        this.origin_dir = convertMatrixToDegree(mainMcf.flight_setting.orientation);
         const checkpointDestination = (_a = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = structuredClone(checkpointDestination.name);
         this.destination_dir = structuredClone(checkpointDestination.direction);
