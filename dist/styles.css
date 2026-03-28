@@ -413,7 +413,7 @@ footer {
       "buttons map";
     column-gap: 3em;
 
-    > p {
+    > .intro {
       grid-area: p;
     }
 
