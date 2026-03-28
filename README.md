@@ -8,6 +8,9 @@ There is also a local Node.js CLI tool, if you want some automation for your wor
 
 ![Flight plan as text briefing](docs/flightplan.png)
 
+> [!NOTE]
+> If you want an even quicker workflow for importing flight plans (e.g. from SimBrief), check out the [Aerofly Startgerät](https://github.com/fboes/aerofly-startgeraet), which skips multiple manual steps required by the Aerofly Missionsgerät.
+
 ## Features
 
 - Modify weather settings with live METAR information.
