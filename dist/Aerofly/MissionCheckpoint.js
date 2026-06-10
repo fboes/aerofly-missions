@@ -3,61 +3,72 @@ import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
 import { MissionConditions } from "./MissionConditions.js";
 export class MissionCheckpoint {
-    constructor() {
-        this.type = "waypoint";
-        this.name = "";
-        this.lon_lat = new LonLat(0, 0);
-        /**
-         * True course in degrees to fly from last point to this point.
-         * -1 on first, but seems rather unrelevant
-         */
-        this.direction = -1;
-        /**
-         *  Not official: Distance in nautical miles to fly from last point to this point.
-         * -1 on first
-         */
-        this.distance = -1;
-        /**
-         * Only set on waypoint, function unknown
-         * Given in percentage, -1..1
-         */
-        this.slope = 0;
-        /**
-         * Set on departure_runway, destination_runway
-         */
-        this.length = 0;
-        /**
-         * In Hz, `111400000` is 111.4 MHz
-         * @see MissionCheckpoint.rawFreqency
-         */
-        this.frequency = 0;
-        /**
-         * If waypoint is meant to be flown over. Else turn anticipation will be used.
-         */
-        this.flyOver = false;
-        /**
-         * Not official: In kts TAS
-         */
-        this.speed = -1;
-        /**
-         * Not official: In knots
-         */
-        this.ground_speed = -1;
-        /**
-         * Not official: True heading to fly to correct for wind drift
-         */
-        this.heading = -1;
-        this._icao_region = null;
-    }
+    type = "waypoint";
+    name = "";
+    lon_lat = new LonLat(0, 0);
+    /**
+     * True course in degrees to fly from last point to this point.
+     * -1 on first, but seems rather unrelevant
+     */
+    direction = -1;
+    /**
+     *  Not official: Distance in nautical miles to fly from last point to this point.
+     * -1 on first
+     */
+    distance = -1;
+    /**
+     * Only set on waypoint, function unknown
+     * Given in percentage, -1..1
+     */
+    slope = 0;
+    /**
+     * Set on departure_runway, destination_runway
+     */
+    length = 0;
+    /**
+     * In Hz, `111400000` is 111.4 MHz
+     * @see MissionCheckpoint.rawFreqency
+     */
+    frequency = 0;
+    /**
+     * If waypoint is meant to be flown over. Else turn anticipation will be used.
+     */
+    flyOver = false;
+    /**
+     * Not official: In kts TAS
+     */
+    speed = -1;
+    /**
+     * Not official: In knots
+     */
+    ground_speed = -1;
+    /**
+     * Not official: True heading to fly to correct for wind drift
+     */
+    heading = -1;
+    _icao_region = null;
+    static TYPE_ORIGIN = "origin";
+    static TYPE_DEPARTURE_RUNWAY = "departure_runway";
+    static TYPE_DEPARTURE = "departure";
+    static TYPE_WAYPOINT = "waypoint";
+    static TYPE_ARRIVAL = "arrival";
+    static TYPE_APPROACH = "approach";
+    static TYPE_DESTINATION_RUNWAY = "destination_runway";
+    static TYPE_DESTINATION = "destination";
+    static TYPE_VOR = "vor";
+    static TYPE_NDB = "ndb";
+    static TYPE_FIX = "fix";
+    static TYPE_INTERSECTION = "intersection";
+    static TYPE_AIRPORT = "airport";
     /**
      * Aerofly represents frequencies in Hz.
      * If you want to set a frequency in MHz, use this setter.
      */
     set frequency_mhz(frequency_mhz) {
-        this.frequency = frequency_mhz * 1000000;
+        this.frequency = frequency_mhz * 1_000_000;
     }
     get frequency_mhz() {
-        return this.frequency / 1000000;
+        return this.frequency / 1_000_000;
     }
     /**
      * Aerofly represents frequencies in Hz.
@@ -73,7 +84,7 @@ export class MissionCheckpoint {
      * @returns "k" for all frequencies up to 1,000 kHz
      */
     get frequency_unit() {
-        return this.frequency > 10000000 ? "M" : "k";
+        return this.frequency > 10_000_000 ? "M" : "k";
     }
     get frequency_string() {
         if (!this.frequency) {
@@ -257,34 +268,20 @@ ${additional}\
 `;
     }
     hydrate(cp) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-        this.type = (_a = cp.type) !== null && _a !== void 0 ? _a : this.type;
-        this.name = (_b = cp.name) !== null && _b !== void 0 ? _b : this.name;
-        this.lon_lat.magnetic_declination = (_c = cp.lon_lat.magnetic_declination) !== null && _c !== void 0 ? _c : this.lon_lat.magnetic_declination;
-        this.lon_lat.lon = (_d = cp.lon_lat.lon) !== null && _d !== void 0 ? _d : this.lon_lat.lon;
-        this.lon_lat.lat = (_e = cp.lon_lat.lat) !== null && _e !== void 0 ? _e : this.lon_lat.lat;
-        this.lon_lat.altitude_m = (_f = cp.lon_lat.altitude_m) !== null && _f !== void 0 ? _f : this.lon_lat.altitude_m;
-        this.direction = (_g = cp.direction) !== null && _g !== void 0 ? _g : this.direction;
-        this.distance = (_h = cp.distance) !== null && _h !== void 0 ? _h : this.direction;
-        this.slope = (_j = cp.slope) !== null && _j !== void 0 ? _j : this.slope;
-        this.length = (_k = cp.length) !== null && _k !== void 0 ? _k : this.length;
-        this.frequency = (_l = cp.frequency) !== null && _l !== void 0 ? _l : this.frequency;
-        this.speed = (_m = cp.speed) !== null && _m !== void 0 ? _m : this.speed;
-        this.ground_speed = (_o = cp.ground_speed) !== null && _o !== void 0 ? _o : this.ground_speed;
-        this.heading = (_p = cp.heading) !== null && _p !== void 0 ? _p : this.heading;
-        this.flyOver = (_q = cp.flyOver) !== null && _q !== void 0 ? _q : this.flyOver;
+        this.type = cp.type ?? this.type;
+        this.name = cp.name ?? this.name;
+        this.lon_lat.magnetic_declination = cp.lon_lat.magnetic_declination ?? this.lon_lat.magnetic_declination;
+        this.lon_lat.lon = cp.lon_lat.lon ?? this.lon_lat.lon;
+        this.lon_lat.lat = cp.lon_lat.lat ?? this.lon_lat.lat;
+        this.lon_lat.altitude_m = cp.lon_lat.altitude_m ?? this.lon_lat.altitude_m;
+        this.direction = cp.direction ?? this.direction;
+        this.distance = cp.distance ?? this.direction;
+        this.slope = cp.slope ?? this.slope;
+        this.length = cp.length ?? this.length;
+        this.frequency = cp.frequency ?? this.frequency;
+        this.speed = cp.speed ?? this.speed;
+        this.ground_speed = cp.ground_speed ?? this.ground_speed;
+        this.heading = cp.heading ?? this.heading;
+        this.flyOver = cp.flyOver ?? this.flyOver;
     }
 }
-MissionCheckpoint.TYPE_ORIGIN = "origin";
-MissionCheckpoint.TYPE_DEPARTURE_RUNWAY = "departure_runway";
-MissionCheckpoint.TYPE_DEPARTURE = "departure";
-MissionCheckpoint.TYPE_WAYPOINT = "waypoint";
-MissionCheckpoint.TYPE_ARRIVAL = "arrival";
-MissionCheckpoint.TYPE_APPROACH = "approach";
-MissionCheckpoint.TYPE_DESTINATION_RUNWAY = "destination_runway";
-MissionCheckpoint.TYPE_DESTINATION = "destination";
-MissionCheckpoint.TYPE_VOR = "vor";
-MissionCheckpoint.TYPE_NDB = "ndb";
-MissionCheckpoint.TYPE_FIX = "fix";
-MissionCheckpoint.TYPE_INTERSECTION = "intersection";
-MissionCheckpoint.TYPE_AIRPORT = "airport";

@@ -1,5 +1,5 @@
-import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import type { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint, type MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
 import { asciify } from "../Cli/Arguments.js";
 import { Quote } from "../Export/Quote.js";
 

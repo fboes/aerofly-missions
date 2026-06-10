@@ -1,8 +1,8 @@
 import { Quote } from "../Export/Quote.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { MainMcfWaypointInterface } from "./MainMcf.js";
-import { MissionConditions, MissionConditionsFlightRules } from "./MissionConditions.js";
+import type { MainMcfWaypointInterface } from "./MainMcf.js";
+import { MissionConditions, type MissionConditionsFlightRules } from "./MissionConditions.js";
 
 export type MissionCheckpointType =
   | "origin"

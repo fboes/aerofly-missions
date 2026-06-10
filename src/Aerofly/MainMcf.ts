@@ -1,5 +1,5 @@
 import { FileParser } from "./FileParser.js";
-import { MissionCheckpointType } from "./MissionCheckpoint.js";
+import type { MissionCheckpointType } from "./MissionCheckpoint.js";
 
 export interface MainMcfWaypointInterface {
   type: MissionCheckpointType;

@@ -1,16 +1,16 @@
 import { Mission } from "../Aerofly/Mission.js";
-import { MissionConditionsFlightRules } from "../Aerofly/MissionConditions.js";
+import type { MissionConditionsFlightRules } from "../Aerofly/MissionConditions.js";
 import { GeoJson } from "../Export/GeoJson.js";
 import { LonLatArea } from "../World/LonLat.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import mapboxgl, { Map, MapMouseEvent, MapTouchEvent } from "mapbox-gl";
+import type mapboxgl from "mapbox-gl";
 import { Outputtable } from "../Export/Outputtable.js";
 import { ComponentsAirports, ComponentsCheckpoints, ComponentsWeather } from "./Components.js";
 import { ComponentsDownloadButtons } from "./ComponentsDownloadButtons.js";
 import { ComponentSimBrief } from "./ComponentSimbrief.js";
-import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
+import { SimBrief, type SimBriefApiPayload } from "../Import/SimBrief.js";
 import { StatEvent } from "./StatEvent.js";
-import { ComponentUploadField, ComponentUploadFieldDetail } from "./ComponentUploadField.js";
+import { ComponentUploadField, type ComponentUploadFieldDetail } from "./ComponentUploadField.js";
 import { CheckWx } from "../Import/CheckWx.js";
 
 type AppStorable = {
@@ -72,7 +72,7 @@ export class App {
   metarApiKey = "";
 
   protected simBriefUseDestinationWeather = false;
-  protected mapboxMap?: Map;
+  protected mapboxMap?: mapboxgl.Map;
   protected geoJson: GeoJson;
   static CLASS_SIMPLE_MODE = "is-simple-mode";
 
@@ -510,7 +510,7 @@ export class App {
     this.store();
   }
 
-  addMapbox(mapboxMap: Map) {
+  addMapbox(mapboxMap: mapboxgl.Map) {
     this.mapboxMap = mapboxMap;
     if (this.mission.origin_lon_lat) {
       this.mapboxMap.setZoom(5);
@@ -573,7 +573,7 @@ export class App {
       let currentFeature: mapboxgl.MapboxGeoJSONFeature | null = null;
       const source = this.mapboxMap.getSource("waypoints");
 
-      const onDown = (e: MapMouseEvent | MapTouchEvent) => {
+      const onDown = (e: mapboxgl.MapMouseEvent | mapboxgl.MapTouchEvent) => {
         if (this.mapboxMap === undefined) {
           return;
         }
@@ -584,7 +584,7 @@ export class App {
         currentFeature = features[0];
       };
 
-      const onMove = (e: MapMouseEvent | MapTouchEvent) => {
+      const onMove = (e: mapboxgl.MapMouseEvent | mapboxgl.MapTouchEvent) => {
         if (this.mapboxMap === undefined) {
           return;
         }

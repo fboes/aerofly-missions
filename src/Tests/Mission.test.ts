@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 
 import { LonLat } from "../World/LonLat.js";
 import { Mission, MissionFactory } from "../Aerofly/Mission.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe("MissionTest test", () => {
   it("should handle properties correctly", () => {
@@ -46,7 +46,7 @@ describe("MissionTest test", () => {
 
   it("should load from TMC file correctly", () => {
     const mission = new MissionFactory().create(
-      fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8"),
+      readFileFromRoot("./src/Tests/fixtures/kclm_kbli.tmc"),
       new Mission("", "")
     );
 

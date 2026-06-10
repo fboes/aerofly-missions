@@ -1,4 +1,5 @@
-export class StatEvent {
+export const StatEvent = {
+    eventName: "stat-event",
     /**
      *
      * @param eventCategory This describes the type of events you want to track. For example, Link Clicks, Videos, Outbound Links, and Form Events.
@@ -7,12 +8,11 @@ export class StatEvent {
      * @param eventValue This is a numeric value and is often added dynamically. It could be the cost of a product that is added to a cart, or the completion percentage of a video.
      * @returns
      */
-    static createEvent(eventCategory, eventAction, eventName = null, eventValue = null) {
+    createEvent: (eventCategory, eventAction, eventName = null, eventValue = null) => {
         return new CustomEvent(StatEvent.eventName, {
             detail: eventValue !== null
                 ? ["trackEvent", eventCategory, eventAction, eventName, eventValue]
                 : ["trackEvent", eventCategory, eventAction, eventName].filter((c) => c !== null),
         });
-    }
-}
-StatEvent.eventName = "stat-event";
+    },
+};

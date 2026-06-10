@@ -1,8 +1,9 @@
 import { FileParser } from "./FileParser.js";
 export class MissionsList {
+    title;
+    missions = [];
     constructor(title) {
         this.title = title;
-        this.missions = [];
     }
     toString() {
         return `\
@@ -18,6 +19,7 @@ ${this.missions.join("")}\
     }
 }
 export class MissionListParser extends FileParser {
+    configFileContent;
     constructor(configFileContent) {
         super();
         this.configFileContent = configFileContent;
@@ -29,8 +31,7 @@ export class MissionListParser extends FileParser {
         return this.getGroups(this.configFileContent, "tmmission_definition", 3);
     }
     getMissionString(index) {
-        var _a;
         const missions = this.getMissions();
-        return (_a = missions[index]) !== null && _a !== void 0 ? _a : "";
+        return missions[index] ?? "";
     }
 }

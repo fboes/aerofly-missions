@@ -5,6 +5,6 @@ import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 export default defineConfig([
   { files: ["**/*.{ts}"], languageOptions: { globals: globals.browser } },
-  tseslint.configs.recommended,
+  tseslint.configs.strict,
   eslintConfigPrettier,
 ]);

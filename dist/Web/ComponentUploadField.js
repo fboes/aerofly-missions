@@ -9,9 +9,10 @@ import { MsfsPln } from "../Import/MsfsPln.js";
 import { SeeYouCup } from "../Import/SeeYouCup.js";
 import { XplaneFms } from "../Import/XplaneFms.js";
 export class ComponentUploadField extends HTMLElement {
+    input;
+    mission = null;
     constructor() {
         super();
-        this.mission = null;
         this.innerHTML = `\
 <div>
   <label for="upload">Import file</label>
@@ -47,18 +48,15 @@ export class ComponentUploadField extends HTMLElement {
         this.input.removeEventListener("input", this);
     }
     async handleEvent() {
-        var _a;
-        for (const file of (_a = this.input.files) !== null && _a !== void 0 ? _a : []) {
+        for (const file of this.input.files ?? []) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                var _a;
-                this.uploadFile(file.name, (_a = e.target) === null || _a === void 0 ? void 0 : _a.result);
+                this.uploadFile(file.name, e.target?.result);
             };
             reader.readAsText(file);
         }
     }
     uploadFile(filename, filecontent) {
-        var _a;
         const fileEnding = filename.replace(/^.*(\.[^.]+)$/, "$1");
         try {
             if (this.mission === null) {
@@ -109,7 +107,7 @@ export class ComponentUploadField extends HTMLElement {
                 default:
                     throw new Error("Unsupported file: " + fileEnding);
             }
-            this.dispatchUploadEvent(filename, fileEnding, (_a = this.mission.source) !== null && _a !== void 0 ? _a : null);
+            this.dispatchUploadEvent(filename, fileEnding, this.mission.source ?? null);
         }
         catch (e) {
             if (e instanceof Error) {
@@ -133,7 +131,6 @@ export class ComponentUploadField extends HTMLElement {
         });
         modal.showModal();
         modal.querySelector("button").addEventListener("click", (e) => {
-            var _a;
             if (this.mission === null) {
                 throw new Error("Mission is not set");
             }
@@ -141,7 +138,7 @@ export class ComponentUploadField extends HTMLElement {
             e.preventDefault();
             new MissionFactory().create(mlp.getMissionString(Number(select.value)), this.mission);
             modal.close();
-            this.dispatchUploadEvent(filename, fileEnding, (_a = this.mission.source) !== null && _a !== void 0 ? _a : null);
+            this.dispatchUploadEvent(filename, fileEnding, this.mission.source ?? null);
         }, { once: true });
     }
     dispatchUploadEvent(filename, fileEnding, source = null) {

@@ -1,5 +1,5 @@
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { type GaminFplWaypoint, GarminFpl, type GarminFplWaypointType } from "./GarminFpl.js";
 
 export class Gpx extends GarminFpl {
   read(configFileContent: string): void {

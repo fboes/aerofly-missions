@@ -1,10 +1,10 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { MissionListParser } from "../Aerofly/MissionsList.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("MissionListTest test", () => {
     it("should parse mission list correctly", () => {
-        const fileContent = fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8");
+        const fileContent = readFileFromRoot("./src/Tests/fixtures/kclm_kbli.tmc");
         const missionListParser = new MissionListParser(fileContent);
         const missionNames = missionListParser.getMissionNames();
         assert.equal(missionNames.length, 2);

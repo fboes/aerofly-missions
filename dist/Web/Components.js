@@ -5,14 +5,15 @@ import { SkyVector } from "../Export/SkyVector.js";
 import { LonLatArea } from "../World/LonLat.js";
 import { LonLatDate } from "../World/LonLatDate.js";
 class ComponentsOutputtable extends HTMLElement {
+    mission;
+    elements = {
+        table: document.createElement("table"),
+        caption: document.createElement("caption"),
+        thead: document.createElement("thead"),
+        tbody: document.createElement("tbody"),
+    };
     constructor() {
         super();
-        this.elements = {
-            table: document.createElement("table"),
-            caption: document.createElement("caption"),
-            thead: document.createElement("thead"),
-            tbody: document.createElement("tbody"),
-        };
         this.elements.table.appendChild(this.elements.caption);
         this.elements.table.appendChild(this.elements.thead);
         this.elements.table.appendChild(this.elements.tbody);
@@ -181,12 +182,12 @@ export class ComponentsAirports extends ComponentsOutputtable {
     }
 }
 export class ComponentsCheckpoints extends ComponentsOutputtable {
+    moreElements = {
+        tfoot: document.createElement("tfoot"),
+        p: document.createElement("p"),
+    };
     constructor() {
         super();
-        this.moreElements = {
-            tfoot: document.createElement("tfoot"),
-            p: document.createElement("p"),
-        };
         // this.elements.table.appendChild(this.elements.caption);
         // this.elements.table.appendChild(this.elements.thead);
         // this.elements.table.appendChild(this.elements.tbody);

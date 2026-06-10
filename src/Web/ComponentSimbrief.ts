@@ -1,4 +1,4 @@
-import { SimBrief, SimBriefApiPayload } from "../Import/SimBrief.js";
+import { SimBrief, type SimBriefApiPayload } from "../Import/SimBrief.js";
 import { StatEvent } from "./StatEvent.js";
 
 export class ComponentSimBrief extends HTMLElement {

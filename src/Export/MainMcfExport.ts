@@ -1,6 +1,6 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { GarminExportAbstract } from "../Import/GarminFpl.js";
-import { LonLat } from "../World/LonLat.js";
+import type { LonLat } from "../World/LonLat.js";
 
 export class MainMcfExport extends GarminExportAbstract {
   toString(): string {

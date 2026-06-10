@@ -2,7 +2,7 @@ import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { LonLat } from "../World/LonLat.js";
 import { Mission, MissionFactory } from "../Aerofly/Mission.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("MissionTest test", () => {
     it("should handle properties correctly", () => {
         const mission = new Mission("a", "b");
@@ -34,7 +34,7 @@ describe("MissionTest test", () => {
         assert.ok(missionsString.includes("tmmission_target_plane"), "finish is included in toString output");
     });
     it("should load from TMC file correctly", () => {
-        const mission = new MissionFactory().create(fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8"), new Mission("", ""));
+        const mission = new MissionFactory().create(readFileFromRoot("./src/Tests/fixtures/kclm_kbli.tmc"), new Mission("", ""));
         assert.equal(mission.title, "From KCLM to KBLI");
         assert.equal(mission.flight_setting, "taxi");
         assert.equal(mission.origin_lon_lat.lon, -123.499694);

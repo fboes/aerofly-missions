@@ -2,6 +2,8 @@ import { LonLatDate } from "../World/LonLatDate.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
 import { Outputtable } from "./Outputtable.js";
 export class Flightplan extends Outputtable {
+    mission;
+    clr;
     constructor(mission, clr) {
         super();
         this.mission = mission;
@@ -68,13 +70,13 @@ export class Flightplan extends Outputtable {
         output += this.outputFourColumn([
             "ORIG",
             m.origin_icao,
-            "DEP",
+            "DEP", // Departure date & time
             this.outputDateTime(m.conditions.time.dateTime),
         ]);
         output += this.outputFourColumn([
             "DSUN",
             this.outputSunState(sunStateOrigin),
-            "DLST",
+            "DLST", // Local Solar Time
             sunStateOrigin.localSolarTime,
         ]);
         output += this.outputDashes(lineLength);
@@ -82,21 +84,21 @@ export class Flightplan extends Outputtable {
         output += this.outputFourColumn([
             "DEST",
             m.destination_icao,
-            "ARR",
+            "ARR", // Arrival date & time
             this.outputDateTime(time),
         ]);
         output += this.outputFourColumn([
             "ASUN",
             this.outputSunState(sunStateDestination),
-            "ALST",
+            "ALST", // Local Solar Time
             sunStateDestination.localSolarTime,
         ]);
         // Weather table
         output += this.outputDashes(lineLength);
         output += this.outputFourColumn([
-            "WIND",
+            "WIND", // Wind
             this.getWind(m.conditions),
-            "CLD",
+            "CLD", // Clouds
             m.conditions.cloud.cover_symbol +
                 " " +
                 m.conditions.cloud.cover_code +
@@ -105,20 +107,20 @@ export class Flightplan extends Outputtable {
                 "FT",
         ]);
         output += this.outputFourColumn([
-            "VIS",
+            "VIS", // Visbility
             m.conditions.visibility.toLocaleString("en") + "M / " + Math.round(m.conditions.visibility_sm) + "SM",
-            "FR",
+            "FR", // Flight rules
             this.getConditionColored(m.conditions, m),
         ]);
         output += this.outputDashes(lineLength);
         output += this.outputFourColumn([
-            "ARCT",
+            "ARCT", // Aircraft type
             m.aircraft_icao,
             "TAIL",
             m.callsign,
         ]);
         output += this.outputFourColumn([
-            "TAS",
+            "TAS", // True Air Speed
             Outputtable.padThree(m.cruise_speed) + "KTS",
             "ALT",
             m.cruise_altitude_ft.toLocaleString("en") + "FT",

@@ -3,12 +3,12 @@ import { describe, it } from "node:test";
 
 import { MissionFactory, Mission } from "../Aerofly/Mission.js";
 import { KeyholeMarkupLanguage } from "../Export/KeyholeMarkupLanguage.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe("KeyholeMarkupLanguageTest test", () => {
   it("should export to KML correctly", () => {
     const mission = new MissionFactory().create(
-      fs.readFileSync("./src/Tests/fixtures/kclm_kbli.tmc", "utf8"),
+      readFileFromRoot("./src/Tests/fixtures/kclm_kbli.tmc"),
       new Mission("", "")
     );
 

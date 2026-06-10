@@ -6,64 +6,75 @@ import { FileParser } from "./FileParser.js";
 import { MissionCheckpoint } from "./MissionCheckpoint.js";
 import { MissionConditions } from "./MissionConditions.js";
 export class Mission {
+    static FLIGHT_SETTING_COLD_AND_DARK = "cold_and_dark";
+    static FLIGHT_SETTING_BEFORE_START = "before_start";
+    static FLIGHT_SETTING_LANDING = "landing";
+    static FLIGHT_SETTING_TAKEOFF = "takeoff";
+    static FLIGHT_SETTING_APPROACH = "approach";
+    static FLIGHT_SETTING_TAXI = "taxi";
+    static FLIGHT_SETTING_CRUISE = "cruise";
+    static MAX_LENGTH_TITLE = 32;
+    static MAX_LENGTH_DESCRIPTION = 50;
+    static MAX_LINES_DESCRIPTION = 8;
+    /**
+     * This string should not be longer than MAX_LENGTH_TITLE characters to fit on the screen.
+     */
+    _title = "";
+    /**
+     * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
+     */
+    _description = "";
+    flight_setting = Mission.FLIGHT_SETTING_TAXI;
+    /**
+     * Internal Aerofly name of aircraft type.
+     */
+    _aircraft_name = "c172";
+    _aircraft_icao = "C172";
+    _aircraft_livery = "";
+    /**
+     * @see https://en.wikipedia.org/wiki/Aviation_call_signs
+     * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
+     * @see https://en.wikipedia.org/wiki/List_of_airline_codes
+     * @see http://c-aviation.net/military-callsigns/
+     */
+    callsign = "N5472R";
+    origin_icao = "";
+    origin_lon_lat = new LonLat(0, 0);
+    /**
+     * True heading of aircraft in Degrees on startup
+     */
+    origin_dir = 0;
+    destination_icao = "";
+    destination_lon_lat = new LonLat(0, 0);
+    /**
+     * True heading of aircraft in Degrees on exit
+     */
+    destination_dir = 0;
+    finish = null;
+    conditions = new MissionConditions();
+    checkpoints = [];
+    /**
+     * Not official: In kts TAS
+     */
+    cruise_speed = 122;
+    /**
+     * Not official: In meters
+     */
+    cruise_altitude = 0;
+    /**
+     * How many minutes does it take to make a full circle
+     */
+    turn_time = 2;
+    /**
+     * Hide guides in mission
+     */
+    no_guides = true;
+    fuel_mass = 0;
+    payload_mass = 0;
+    _magnetic_declination;
+    warnings = [];
+    source = null;
     constructor(title, description) {
-        /**
-         * This string should not be longer than MAX_LENGTH_TITLE characters to fit on the screen.
-         */
-        this._title = "";
-        /**
-         * This string should not be longer than MAX_LENGTH_DESCRIPTION characters to fit on the screen.
-         */
-        this._description = "";
-        this.flight_setting = Mission.FLIGHT_SETTING_TAXI;
-        /**
-         * Internal Aerofly name of aircraft type.
-         */
-        this._aircraft_name = "c172";
-        this._aircraft_icao = "C172";
-        this._aircraft_livery = "";
-        /**
-         * @see https://en.wikipedia.org/wiki/Aviation_call_signs
-         * @see https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
-         * @see https://en.wikipedia.org/wiki/List_of_airline_codes
-         * @see http://c-aviation.net/military-callsigns/
-         */
-        this.callsign = "N5472R";
-        this.origin_icao = "";
-        this.origin_lon_lat = new LonLat(0, 0);
-        /**
-         * True heading of aircraft in Degrees on startup
-         */
-        this.origin_dir = 0;
-        this.destination_icao = "";
-        this.destination_lon_lat = new LonLat(0, 0);
-        /**
-         * True heading of aircraft in Degrees on exit
-         */
-        this.destination_dir = 0;
-        this.finish = null;
-        this.conditions = new MissionConditions();
-        this.checkpoints = [];
-        /**
-         * Not official: In kts TAS
-         */
-        this.cruise_speed = 122;
-        /**
-         * Not official: In meters
-         */
-        this.cruise_altitude = 0;
-        /**
-         * How many minutes does it take to make a full circle
-         */
-        this.turn_time = 2;
-        /**
-         * Hide guides in mission
-         */
-        this.no_guides = true;
-        this.fuel_mass = 0;
-        this.payload_mass = 0;
-        this.warnings = [];
-        this.source = null;
         this.title = title;
         this.description = description;
     }
@@ -184,7 +195,6 @@ export class Mission {
         return false;
     }
     fromMainMcf(mainMcf, ils = 0, withoutCheckpoints = false) {
-        var _a, _b;
         this.source = "Aerofly";
         this.aircraft_name = mainMcf.aircraft.name;
         this.aircraft_livery = mainMcf.aircraft.paintscheme;
@@ -266,11 +276,11 @@ export class Mission {
             return headingDeg;
         };
         this.origin_dir = convertMatrixToDegree(mainMcf.flight_setting.orientation);
-        const checkpointDestination = (_a = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _a !== void 0 ? _a : this.checkpoints[this.checkpoints.length - 1];
+        const checkpointDestination = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao = structuredClone(checkpointDestination.name);
         this.destination_dir = structuredClone(checkpointDestination.direction);
         this.destination_lon_lat = checkpointDestination.lon_lat.clone();
-        const checkpointDestinationRunway = (_b = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY)) !== null && _b !== void 0 ? _b : checkpointDestination;
+        const checkpointDestinationRunway = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION_RUNWAY) ?? checkpointDestination;
         if (ils) {
             checkpointDestinationRunway.frequency_mhz = ils;
         }
@@ -278,7 +288,6 @@ export class Mission {
         return this;
     }
     fromGarminFpl(gpl) {
-        var _a, _b, _c, _d;
         this.source = gpl.source;
         if (gpl.waypoints.length < 2) {
             throw new Error("Not enough waypoints in flight plan");
@@ -287,14 +296,13 @@ export class Mission {
             this.cruise_altitude_ft = gpl.cruisingAltFt;
         }
         this.flight_setting =
-            ((_a = gpl.waypoints.at(0)) === null || _a === void 0 ? void 0 : _a.type) === "AIRPORT" ? Mission.FLIGHT_SETTING_TAXI : Mission.FLIGHT_SETTING_CRUISE;
+            gpl.waypoints.at(0)?.type === "AIRPORT" ? Mission.FLIGHT_SETTING_TAXI : Mission.FLIGHT_SETTING_CRUISE;
         this.finish = null;
         this.checkpoints = gpl.waypoints.map((w, i) => {
-            var _a;
             const cp = new MissionCheckpoint();
             cp.lon_lat.lat = w.lat;
             cp.lon_lat.lon = w.lon;
-            cp.lon_lat.altitude_m = (_a = w.elevationMeter) !== null && _a !== void 0 ? _a : 0;
+            cp.lon_lat.altitude_m = w.elevationMeter ?? 0;
             cp.name = w.identifier;
             if (w.type === "AIRPORT" && (i === 0 || i === gpl.waypoints.length - 1)) {
                 cp.type = i === 0 ? MissionCheckpoint.TYPE_ORIGIN : MissionCheckpoint.TYPE_DESTINATION;
@@ -326,16 +334,18 @@ export class Mission {
         // TODO: If no runways exist, check for gpl.departureRunway / gpl.destinationRunway
         // Set origin to runway if exists
         this.origin_icao = this.checkpoints[0].type === MissionCheckpoint.TYPE_ORIGIN ? this.checkpoints[0].name : "";
-        this.origin_dir = departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : this.checkpoints[1].direction;
+        this.origin_dir = departureRunwayDirection ?? this.checkpoints[1].direction;
         this.origin_lon_lat =
-            (_b = departureRunway === null || departureRunway === void 0 ? void 0 : departureRunway.lon_lat.getRelativeCoordinates(0.002, (departureRunwayDirection !== null && departureRunwayDirection !== void 0 ? departureRunwayDirection : 0) + 180)) !== null && _b !== void 0 ? _b : this.checkpoints[0].lon_lat.clone();
+            departureRunway?.lon_lat.getRelativeCoordinates(0.002, (departureRunwayDirection ?? 0) + 180) ??
+                this.checkpoints[0].lon_lat.clone();
         // Set destination to runway if exists
-        const checkpointDestination = (_c = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION)) !== null && _c !== void 0 ? _c : this.checkpoints[this.checkpoints.length - 1];
+        const checkpointDestination = this.findCheckPointByType(MissionCheckpoint.TYPE_DESTINATION) ?? this.checkpoints[this.checkpoints.length - 1];
         this.destination_icao =
             checkpointDestination.type === MissionCheckpoint.TYPE_DESTINATION ? checkpointDestination.name : "";
-        this.destination_dir = destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : checkpointDestination.direction;
+        this.destination_dir = destinationRunwayDirection ?? checkpointDestination.direction;
         this.destination_lon_lat =
-            (_d = destinationRunway === null || destinationRunway === void 0 ? void 0 : destinationRunway.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection !== null && destinationRunwayDirection !== void 0 ? destinationRunwayDirection : 0)) !== null && _d !== void 0 ? _d : checkpointDestination.lon_lat.clone();
+            destinationRunway?.lon_lat.getRelativeCoordinates(0.5, destinationRunwayDirection ?? 0) ??
+                checkpointDestination.lon_lat.clone();
         return this;
     }
     reverseWaypoints() {
@@ -713,14 +723,13 @@ export class Mission {
         this.calculateCheckpoints();
     }
     toString() {
-        var _a, _b;
         if (this.no_guides) {
             // Create finish target plane 1m in front of aircraft origin position
             this.finish = new MissionCheckpoint();
             this.finish.lon_lat = this.origin_lon_lat.getRelativeCoordinates(1 / Units.meterPerNauticalMile, this.origin_dir);
             this.finish.direction = this.origin_dir;
         }
-        const finish = (_b = (_a = this.finish) === null || _a === void 0 ? void 0 : _a.toStringTargetPlane("finish")) !== null && _b !== void 0 ? _b : "";
+        const finish = this.finish?.toStringTargetPlane("finish") ?? "";
         let string = `\
             // Created by Aerofly Missionsgerät
             <[tmmission_definition][mission][]
@@ -755,37 +764,36 @@ ${this.conditions + finish}\
         return string;
     }
     hydrate(json) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
-        this._title = (_a = json._title) !== null && _a !== void 0 ? _a : this._title;
-        this._description = (_b = json._description) !== null && _b !== void 0 ? _b : this._description;
-        this.flight_setting = (_c = json.flight_setting) !== null && _c !== void 0 ? _c : this.flight_setting;
-        this._aircraft_name = (_d = json._aircraft_name) !== null && _d !== void 0 ? _d : this._aircraft_name;
-        this._aircraft_icao = (_e = json._aircraft_icao) !== null && _e !== void 0 ? _e : this._aircraft_icao;
-        this.aircraft_livery = (_f = json.aircraft_livery) !== null && _f !== void 0 ? _f : this.aircraft_livery;
-        this.fuel_mass = (_g = json.fuel_mass) !== null && _g !== void 0 ? _g : this.fuel_mass;
-        this.payload_mass = (_h = json.payload_mass) !== null && _h !== void 0 ? _h : this.payload_mass;
-        this._magnetic_declination = (_j = json._magnetic_declination) !== null && _j !== void 0 ? _j : this._magnetic_declination;
-        this.callsign = (_k = json.callsign) !== null && _k !== void 0 ? _k : this.callsign;
-        this.origin_icao = (_l = json.origin_icao) !== null && _l !== void 0 ? _l : this.origin_icao;
+        this._title = json._title ?? this._title;
+        this._description = json._description ?? this._description;
+        this.flight_setting = json.flight_setting ?? this.flight_setting;
+        this._aircraft_name = json._aircraft_name ?? this._aircraft_name;
+        this._aircraft_icao = json._aircraft_icao ?? this._aircraft_icao;
+        this.aircraft_livery = json.aircraft_livery ?? this.aircraft_livery;
+        this.fuel_mass = json.fuel_mass ?? this.fuel_mass;
+        this.payload_mass = json.payload_mass ?? this.payload_mass;
+        this._magnetic_declination = json._magnetic_declination ?? this._magnetic_declination;
+        this.callsign = json.callsign ?? this.callsign;
+        this.origin_icao = json.origin_icao ?? this.origin_icao;
         this.origin_lon_lat.magnetic_declination =
-            (_m = json.origin_lon_lat.magnetic_declination) !== null && _m !== void 0 ? _m : this.origin_lon_lat.magnetic_declination;
-        this.origin_lon_lat.lon = (_o = json.origin_lon_lat.lon) !== null && _o !== void 0 ? _o : this.origin_lon_lat.lon;
-        this.origin_lon_lat.lat = (_p = json.origin_lon_lat.lat) !== null && _p !== void 0 ? _p : this.origin_lon_lat.lat;
-        this.origin_lon_lat.altitude_m = (_q = json.origin_lon_lat.altitude_m) !== null && _q !== void 0 ? _q : this.origin_lon_lat.altitude_m;
-        this.origin_dir = (_r = json.origin_dir) !== null && _r !== void 0 ? _r : this.origin_dir;
-        this.destination_icao = (_s = json.destination_icao) !== null && _s !== void 0 ? _s : this.destination_icao;
+            json.origin_lon_lat.magnetic_declination ?? this.origin_lon_lat.magnetic_declination;
+        this.origin_lon_lat.lon = json.origin_lon_lat.lon ?? this.origin_lon_lat.lon;
+        this.origin_lon_lat.lat = json.origin_lon_lat.lat ?? this.origin_lon_lat.lat;
+        this.origin_lon_lat.altitude_m = json.origin_lon_lat.altitude_m ?? this.origin_lon_lat.altitude_m;
+        this.origin_dir = json.origin_dir ?? this.origin_dir;
+        this.destination_icao = json.destination_icao ?? this.destination_icao;
         this.destination_lon_lat.magnetic_declination =
-            (_t = json.destination_lon_lat.magnetic_declination) !== null && _t !== void 0 ? _t : this.destination_lon_lat.magnetic_declination;
-        this.destination_lon_lat.lon = (_u = json.destination_lon_lat.lon) !== null && _u !== void 0 ? _u : this.destination_lon_lat.lon;
-        this.destination_lon_lat.lat = (_v = json.destination_lon_lat.lat) !== null && _v !== void 0 ? _v : this.destination_lon_lat.lat;
-        this.destination_lon_lat.altitude_m = (_w = json.destination_lon_lat.altitude_m) !== null && _w !== void 0 ? _w : this.destination_lon_lat.altitude_m;
-        this.destination_dir = (_x = json.destination_dir) !== null && _x !== void 0 ? _x : this.destination_dir;
-        this.cruise_speed = (_y = json.cruise_speed) !== null && _y !== void 0 ? _y : this.cruise_speed;
-        this.cruise_altitude = (_z = json.cruise_altitude) !== null && _z !== void 0 ? _z : this.cruise_altitude;
-        this.turn_time = (_0 = json.turn_time) !== null && _0 !== void 0 ? _0 : this.turn_time;
-        this.no_guides = (_1 = json.no_guides) !== null && _1 !== void 0 ? _1 : this.no_guides;
+            json.destination_lon_lat.magnetic_declination ?? this.destination_lon_lat.magnetic_declination;
+        this.destination_lon_lat.lon = json.destination_lon_lat.lon ?? this.destination_lon_lat.lon;
+        this.destination_lon_lat.lat = json.destination_lon_lat.lat ?? this.destination_lon_lat.lat;
+        this.destination_lon_lat.altitude_m = json.destination_lon_lat.altitude_m ?? this.destination_lon_lat.altitude_m;
+        this.destination_dir = json.destination_dir ?? this.destination_dir;
+        this.cruise_speed = json.cruise_speed ?? this.cruise_speed;
+        this.cruise_altitude = json.cruise_altitude ?? this.cruise_altitude;
+        this.turn_time = json.turn_time ?? this.turn_time;
+        this.no_guides = json.no_guides ?? this.no_guides;
         this.conditions.hydrate(json.conditions);
-        this.finish = (_2 = json.finish) !== null && _2 !== void 0 ? _2 : this.finish;
+        this.finish = json.finish ?? this.finish;
         this.checkpoints = json.checkpoints.map((c) => {
             const cx = new MissionCheckpoint();
             cx.hydrate(c);
@@ -793,16 +801,6 @@ ${this.conditions + finish}\
         });
     }
 }
-Mission.FLIGHT_SETTING_COLD_AND_DARK = "cold_and_dark";
-Mission.FLIGHT_SETTING_BEFORE_START = "before_start";
-Mission.FLIGHT_SETTING_LANDING = "landing";
-Mission.FLIGHT_SETTING_TAKEOFF = "takeoff";
-Mission.FLIGHT_SETTING_APPROACH = "approach";
-Mission.FLIGHT_SETTING_TAXI = "taxi";
-Mission.FLIGHT_SETTING_CRUISE = "cruise";
-Mission.MAX_LENGTH_TITLE = 32;
-Mission.MAX_LENGTH_DESCRIPTION = 50;
-Mission.MAX_LINES_DESCRIPTION = 8;
 export class MissionFactory extends FileParser {
     create(configFileContent, mission) {
         const tmmission_definition = this.getGroup(configFileContent, "tmmission_definition", 3);

@@ -4,11 +4,11 @@ import { assertEqualsRounded } from "../Cli/Test.js";
 
 import { Mission } from "../Aerofly/Mission.js";
 import { SeeYouCup } from "../Import/SeeYouCup.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe("SeeYouCupTest test", () => {
   it("should parse SeeYouCup file correctly", () => {
-    const pln = new SeeYouCup(fs.readFileSync("./src/Tests/fixtures/seeyou-tasks.cup", "utf8"));
+    const pln = new SeeYouCup(readFileFromRoot("./src/Tests/fixtures/seeyou-tasks.cup"));
     assert.equal(pln.waypoints.length, 5);
     assert.equal(pln.waypoints[0].identifier, "MARCELMA");
     assert.equal(pln.waypoints[0].type, "USER WAYPOINT");

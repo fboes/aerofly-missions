@@ -1,6 +1,6 @@
-import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import { MissionCheckpoint, type MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminExportAbstract, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { type GaminFplWaypoint, GarminExportAbstract, GarminFpl, type GarminFplWaypointType } from "./GarminFpl.js";
 
 // It is 1 for airport, 2 for NDB, 3 for VOR, 11 for named fix and 28 for unnamed lat/lon waypoints.
 type XplaneFmsWaypointType = 1 | 2 | 3 | 11 | 28;

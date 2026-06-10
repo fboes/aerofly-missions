@@ -28,8 +28,7 @@ export class GeoFs extends GarminFpl {
         });
         this.cruisingAltFt =
             this.waypoints.reduce((accumulator, waypoint) => {
-                var _a;
-                return Math.max(accumulator, (_a = waypoint.elevationMeter) !== null && _a !== void 0 ? _a : 0);
+                return Math.max(accumulator, waypoint.elevationMeter ?? 0);
             }, 0) || undefined;
     }
     /**
@@ -44,7 +43,7 @@ export class GeoFs extends GarminFpl {
         if (typeof alt === "string") {
             alt = Number(alt.replace(/^FL(\d+)$/, "$100")) / Units.feetPerMeter;
         }
-        return alt !== null && alt !== void 0 ? alt : undefined;
+        return alt ?? undefined;
     }
     convertType(type) {
         switch (type) {
@@ -63,7 +62,7 @@ export class GeoFs extends GarminFpl {
         }
     }
     isRunway(type) {
-        return ["RNW", "ILS"].includes(type !== null && type !== void 0 ? type : "");
+        return ["RNW", "ILS"].includes(type ?? "");
     }
 }
 export class GeoFsExport extends GarminExportAbstract {

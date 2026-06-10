@@ -1,12 +1,12 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { GeoFsExport, GeoFs } from "../Import/GeoFs.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("GeoFsTest test", () => {
     it("should import GeoFs correctly", () => {
-        const geoFs = new GeoFs(fs.readFileSync("./src/Tests/fixtures/geofs-KSFO-KLAX.json", "utf8"));
+        const geoFs = new GeoFs(readFileFromRoot("./src/Tests/fixtures/geofs-KSFO-KLAX.json"));
         {
             assert.equal(geoFs.waypoints.length, 5);
             assert.equal(geoFs.waypoints[0].identifier, "KSFO");
@@ -33,7 +33,7 @@ describe("GeoFsTest test", () => {
         }
     });
     it("should import GeoFs from SimBrief correctly", () => {
-        const geoFs = new GeoFs(fs.readFileSync("./src/Tests/fixtures/geofs-simbrief.json", "utf8"));
+        const geoFs = new GeoFs(readFileFromRoot("./src/Tests/fixtures/geofs-simbrief.json"));
         {
             assert.equal(geoFs.waypoints.length, 20);
             assert.equal(geoFs.waypoints[0].identifier, "EDDH");
@@ -68,7 +68,7 @@ describe("GeoFsTest test", () => {
     });
     it("should import GeoFs from MainMcf correctly", () => {
         {
-            const mainMcf = new MainMcfFactory().create(fs.readFileSync("./src/Tests/fixtures/main.mcf", "utf8"));
+            const mainMcf = new MainMcfFactory().create(readFileFromRoot("./src/Tests/fixtures/main.mcf"));
             const mission = new Mission("", "");
             mission.fromMainMcf(mainMcf);
             mission.origin_dir = 270;

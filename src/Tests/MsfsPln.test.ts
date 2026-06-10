@@ -3,15 +3,15 @@ import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
 
 import { MsfsPlnExport, MsfsPln, Msfs2024Export } from "../Import/MsfsPln.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe("MsfsPlnTest test", () => {
   it("should parse EGOV.pln correctly", () => {
     // Parse PLN
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EGOV.pln", "utf8"));
+    const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/EGOV.pln"));
     assert.equal(pln.waypoints.length, 16);
     assert.equal(pln.waypoints[0].identifier, "EGOV");
     assert.equal(pln.waypoints[0].type, "AIRPORT");
@@ -49,7 +49,7 @@ describe("MsfsPlnTest test", () => {
   });
 
   it("should parse egov-lnavmap.pln correctly", () => {
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.pln", "utf8"));
+    const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/egov-lnavmap.pln"));
     assert.equal(pln.waypoints.length, 16);
     assert.equal(pln.waypoints[0].identifier, "EGOV");
     assert.equal(pln.waypoints[0].type, "AIRPORT");
@@ -60,7 +60,7 @@ describe("MsfsPlnTest test", () => {
   });
 
   it("should parse EFMA-lnavmap.pln correctly", () => {
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.pln", "utf8"));
+    const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/EFMA-lnavmap.pln"));
     assert.equal(pln.waypoints.length, 11);
     assert.equal(pln.waypoints[0].identifier, "EFMA");
     assert.equal(pln.waypoints[0].type, "AIRPORT");
@@ -92,7 +92,7 @@ describe("MsfsPlnTest test", () => {
   });
 
   it("should parse ENHD_local_flight.pln correctly", () => {
-    const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.pln", "utf8"));
+    const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/ENHD_local_flight.pln"));
 
     assert.equal(pln.departureRunway, "13");
     assert.equal(pln.destinationRunway, "31");

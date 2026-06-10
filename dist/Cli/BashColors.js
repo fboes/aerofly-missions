@@ -2,19 +2,23 @@
  * @see https://talyian.github.io/ansicolors/
  */
 export class BashColors {
+    colorType;
+    reset = `\x1b[0m`;
+    red = `\x1b[31m`;
+    green = `\x1b[32m`;
+    lightGray = `\x1b[90m`;
+    lightRed = `\x1b[91m`;
+    lightGreen = `\x1b[92m`;
+    lightYellow = `\x1b[93m`;
+    lightBlue = `\x1b[94m`;
+    lightMagenta = `\x1b[95m`;
+    lightCyan = `\x1b[96m`;
+    lightWhite = `\x1b[97m`;
+    static COLOR_NONE = 0;
+    static COLOR_BASH = 1;
+    static COLOR_HTML = 2;
     constructor(colorType = BashColors.COLOR_BASH) {
         this.colorType = colorType;
-        this.reset = `\x1b[0m`;
-        this.red = `\x1b[31m`;
-        this.green = `\x1b[32m`;
-        this.lightGray = `\x1b[90m`;
-        this.lightRed = `\x1b[91m`;
-        this.lightGreen = `\x1b[92m`;
-        this.lightYellow = `\x1b[93m`;
-        this.lightBlue = `\x1b[94m`;
-        this.lightMagenta = `\x1b[95m`;
-        this.lightCyan = `\x1b[96m`;
-        this.lightWhite = `\x1b[97m`;
         switch (colorType) {
             case BashColors.COLOR_NONE:
                 this.reset = ``;
@@ -64,6 +68,3 @@ export class BashColors {
         return length;
     }
 }
-BashColors.COLOR_NONE = 0;
-BashColors.COLOR_BASH = 1;
-BashColors.COLOR_HTML = 2;

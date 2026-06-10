@@ -1,4 +1,10 @@
 export class LonLatDate {
+    lonLat;
+    date;
+    static SUN_STATE_DAY = "Day";
+    static SUN_STATE_NIGHT = "Night";
+    static SUN_STATE_DUSK = "Dusk";
+    static SUN_STATE_DAWN = "Dawn";
     constructor(lonLat, date) {
         this.lonLat = lonLat;
         this.date = date;
@@ -103,7 +109,3 @@ export class LonLatDate {
         };
     }
 }
-LonLatDate.SUN_STATE_DAY = "Day";
-LonLatDate.SUN_STATE_NIGHT = "Night";
-LonLatDate.SUN_STATE_DUSK = "Dusk";
-LonLatDate.SUN_STATE_DAWN = "Dawn";

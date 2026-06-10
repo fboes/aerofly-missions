@@ -10,10 +10,8 @@ export const GeoJsonTypes = {
     FINISH: "af-large_airbase",
 };
 export class GeoJson {
-    constructor() {
-        this.type = "FeatureCollection";
-        this.features = [];
-    }
+    type = "FeatureCollection";
+    features = [];
     fromMainMcf(mainMcf) {
         const origin_lon_lat = LonLat.fromMainMcf(mainMcf.flight_setting.position);
         this.features = [

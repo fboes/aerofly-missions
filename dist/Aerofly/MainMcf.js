@@ -1,48 +1,46 @@
 import { FileParser } from "./FileParser.js";
 export class MainMcf {
-    constructor() {
-        this.aircraft = {
-            name: "",
-            paintscheme: "",
-        };
-        this.flight_setting = {
-            position: [0, 0, 0],
-            orientation: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            configuration: "",
-            on_ground: true,
-        };
-        this.fuel_load_setting = {
-            fuel_mass: 0,
-            payload_mass: 0,
-        };
-        this.time_utc = {
-            time_year: 0,
-            time_month: 0,
-            time_day: 0,
-            time_hours: 0,
-        };
-        this.visibility = 0;
-        this.wind = {
-            strength: 0,
-            direction_in_degree: 0,
-            turbulence: 0,
-            thermal_activity: 0,
-        };
-        this.clouds = {
-            cumulus_density: 0,
-            cumulus_height: 0,
-            cumulus_mediocris_density: 0,
-            cumulus_mediocris_height: 0,
-            cirrus_height: 0,
-            cirrus_density: 0,
-        };
-        this.navigation = {
-            Route: {
-                CruiseAltitude: -1,
-                Ways: [],
-            },
-        };
-    }
+    aircraft = {
+        name: "",
+        paintscheme: "",
+    };
+    flight_setting = {
+        position: [0, 0, 0],
+        orientation: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        configuration: "",
+        on_ground: true,
+    };
+    fuel_load_setting = {
+        fuel_mass: 0,
+        payload_mass: 0,
+    };
+    time_utc = {
+        time_year: 0,
+        time_month: 0,
+        time_day: 0,
+        time_hours: 0,
+    };
+    visibility = 0;
+    wind = {
+        strength: 0,
+        direction_in_degree: 0,
+        turbulence: 0,
+        thermal_activity: 0,
+    };
+    clouds = {
+        cumulus_density: 0,
+        cumulus_height: 0,
+        cumulus_mediocris_density: 0,
+        cumulus_mediocris_height: 0,
+        cirrus_height: 0,
+        cirrus_density: 0,
+    };
+    navigation = {
+        Route: {
+            CruiseAltitude: -1,
+            Ways: [],
+        },
+    };
 }
 /**
  * The reader is actually junk and would benefit from some serious refactoring.

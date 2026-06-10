@@ -3,10 +3,10 @@ import { describe, it } from "node:test";
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { MainMcfExport } from "../Export/MainMcfExport.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("MainMcfExportTest test", () => {
     it("should export main.mcf correctly", () => {
-        const mainMcf = new MainMcfFactory().create(fs.readFileSync("./src/Tests/fixtures/main.mcf", "utf8"));
+        const mainMcf = new MainMcfFactory().create(readFileFromRoot("./src/Tests/fixtures/main.mcf"));
         const mission = new Mission("", "").fromMainMcf(mainMcf);
         assert.equal(mission.aircraft_livery, "icelandair");
         const exportMcf = new MainMcfExport(mission);

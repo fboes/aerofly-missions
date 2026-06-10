@@ -1,6 +1,6 @@
-import { Mission } from "../Aerofly/Mission.js";
-import { MissionConditions } from "../Aerofly/MissionConditions.js";
-import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
+import type { Mission } from "../Aerofly/Mission.js";
+import type { MissionConditions } from "../Aerofly/MissionConditions.js";
+import { LonLatDate, type LonLateDateSunState } from "../World/LonLatDate.js";
 
 export class Outputtable {
   /**

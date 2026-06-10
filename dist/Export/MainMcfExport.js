@@ -2,7 +2,6 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { GarminExportAbstract } from "../Import/GarminFpl.js";
 export class MainMcfExport extends GarminExportAbstract {
     toString() {
-        var _a;
         let mcf = `\
 // This is not a complete main.mcf file. It only contains the aircraft, time &
 // date, weather and route settings.
@@ -63,7 +62,7 @@ export class MainMcfExport extends GarminExportAbstract {
 // -----------------------------------------------------------------------------
         <[tmnavigation_config][navigation][]
             <[tmnav_route][Route][]
-                <[float64][CruiseAltitude][${(_a = this.mission.cruise_altitude) !== null && _a !== void 0 ? _a : -1}]>
+                <[float64][CruiseAltitude][${this.mission.cruise_altitude ?? -1}]>
                 <[pointer_list_tmnav_route_way][Ways][]
 `;
         mcf += this.mission.checkpoints

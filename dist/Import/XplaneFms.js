@@ -6,6 +6,11 @@ import { GarminExportAbstract, GarminFpl } from "./GarminFpl.js";
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html
  */
 export class XplaneFms extends GarminFpl {
+    static TYPE_AIRPORT = 1;
+    static TYPE_NDB = 2;
+    static TYPE_VOR = 3;
+    static TYPE_FIX = 11;
+    static TYPE_USER = 28;
     read(configFileContent) {
         const waypointLines = configFileContent.matchAll(/(?:^|\n)(\d+) (\S+).*? ([0-9.+-]+) ([0-9.+-]+) ([0-9.+-]+)(?:\n|$)/gm);
         if (!waypointLines) {
@@ -47,11 +52,6 @@ export class XplaneFms extends GarminFpl {
         }
     }
 }
-XplaneFms.TYPE_AIRPORT = 1;
-XplaneFms.TYPE_NDB = 2;
-XplaneFms.TYPE_VOR = 3;
-XplaneFms.TYPE_FIX = 11;
-XplaneFms.TYPE_USER = 28;
 /**
  * @see https://developer.x-plane.com/article/flightplan-files-v11-fms-file-format/
  * @see https://xp-soaring.github.io/tasks/x-plane_fms_format.html

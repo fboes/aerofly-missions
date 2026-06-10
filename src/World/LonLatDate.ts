@@ -1,4 +1,4 @@
-import { LonLat } from "./LonLat.js";
+import type { LonLat } from "./LonLat.js";
 
 export type LonLateDateSunState = {
   solarElevationAngleDeg: number;

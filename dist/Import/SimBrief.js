@@ -2,7 +2,6 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { LonLat } from "../World/LonLat.js";
 export class SimBrief {
     async fetch(username) {
-        var _a, _b;
         const url = new URL("https://www.simbrief.com/api/xml.fetcher.php");
         url.searchParams.append(username.match(/^\d+$/) ? "userid" : "username", username);
         url.searchParams.append("json", "v2");
@@ -13,7 +12,7 @@ export class SimBrief {
         });
         if (!response.ok) {
             const errorResponse = (await response.json());
-            throw new Error((_b = (_a = errorResponse === null || errorResponse === void 0 ? void 0 : errorResponse.fetch) === null || _a === void 0 ? void 0 : _a.status) !== null && _b !== void 0 ? _b : `Response status: ${response.status}`);
+            throw new Error(errorResponse?.fetch?.status ?? `Response status: ${response.status}`);
         }
         return await response.json();
     }
@@ -75,7 +74,6 @@ export class SimBrief {
             return navlogItem.type !== "ltlg";
         })
             .map((navlogItem) => {
-            var _a;
             const m = new MissionCheckpoint();
             m.name = navlogItem.ident;
             m.lon_lat = new LonLat(Number(navlogItem.pos_long), Number(navlogItem.pos_lat));
@@ -87,7 +85,7 @@ export class SimBrief {
                 frequency /= 1000;
             }
             m.frequency_mhz = frequency;
-            mission.cruise_altitude = Math.max(mission.cruise_altitude, (_a = m.lon_lat.altitude_m) !== null && _a !== void 0 ? _a : 0);
+            mission.cruise_altitude = Math.max(mission.cruise_altitude, m.lon_lat.altitude_m ?? 0);
             return m;
         }));
         mission.checkpoints.pop();

@@ -1,12 +1,12 @@
 import { Quote } from "../Export/Quote.js";
-import { GarminFpl } from "../Import/GarminFpl.js";
+import type { GarminFpl } from "../Import/GarminFpl.js";
 import { LonLat } from "../World/LonLat.js";
 import { Units } from "../World/Units.js";
-import { Aircraft, AircraftFinder } from "./Aircraft.js";
+import { type Aircraft, AircraftFinder } from "./Aircraft.js";
 import { FileParser } from "./FileParser.js";
-import { MainMcf, MainMcfMatrix } from "./MainMcf.js";
-import { MissionCheckpoint, MissionCheckpointType } from "./MissionCheckpoint.js";
-import { MissionConditions, MissionConditionsFlightRules } from "./MissionConditions.js";
+import type { MainMcf, MainMcfMatrix } from "./MainMcf.js";
+import { MissionCheckpoint, type MissionCheckpointType } from "./MissionCheckpoint.js";
+import { MissionConditions, type MissionConditionsFlightRules } from "./MissionConditions.js";
 
 export type MissionFlightSetting =
   | "cold_and_dark"
@@ -21,6 +21,18 @@ export type MissionFlightSetting =
   | "pushback";
 
 export class Mission {
+  static FLIGHT_SETTING_COLD_AND_DARK: MissionFlightSetting = "cold_and_dark";
+  static FLIGHT_SETTING_BEFORE_START: MissionFlightSetting = "before_start";
+  static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
+  static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";
+  static FLIGHT_SETTING_APPROACH: MissionFlightSetting = "approach";
+  static FLIGHT_SETTING_TAXI: MissionFlightSetting = "taxi";
+  static FLIGHT_SETTING_CRUISE: MissionFlightSetting = "cruise";
+
+  static MAX_LENGTH_TITLE = 32;
+  static MAX_LENGTH_DESCRIPTION = 50;
+  static MAX_LINES_DESCRIPTION = 8;
+
   /**
    * This string should not be longer than MAX_LENGTH_TITLE characters to fit on the screen.
    */
@@ -81,18 +93,6 @@ export class Mission {
   payload_mass: number = 0;
 
   protected _magnetic_declination?: number;
-
-  static FLIGHT_SETTING_COLD_AND_DARK: MissionFlightSetting = "cold_and_dark";
-  static FLIGHT_SETTING_BEFORE_START: MissionFlightSetting = "before_start";
-  static FLIGHT_SETTING_LANDING: MissionFlightSetting = "landing";
-  static FLIGHT_SETTING_TAKEOFF: MissionFlightSetting = "takeoff";
-  static FLIGHT_SETTING_APPROACH: MissionFlightSetting = "approach";
-  static FLIGHT_SETTING_TAXI: MissionFlightSetting = "taxi";
-  static FLIGHT_SETTING_CRUISE: MissionFlightSetting = "cruise";
-
-  static MAX_LENGTH_TITLE = 32;
-  static MAX_LENGTH_DESCRIPTION = 50;
-  static MAX_LINES_DESCRIPTION = 8;
 
   warnings: string[] = [];
 

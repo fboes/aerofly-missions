@@ -3,14 +3,14 @@ import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
 
 import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe(XplaneFms.name, () => {
   it("should parse EGCC-EDDF.fms", () => {
-    const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EGCC-EDDF.fms", "utf8"));
+    const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/EGCC-EDDF.fms"));
     {
       assert.equal(fms.waypoints.length, 17);
       assert.equal(fms.waypoints[0].identifier, "EGCC");
@@ -56,7 +56,7 @@ describe(XplaneFms.name, () => {
 
   it("should parse egov-lnavmap.fms", () => {
     {
-      const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.fms", "utf8"));
+      const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/egov-lnavmap.fms"));
       assert.equal(fms.waypoints.length, 16);
       assert.equal(fms.waypoints[0].identifier, "EGOV");
       assert.equal(fms.waypoints[0].type, "AIRPORT");
@@ -68,7 +68,7 @@ describe(XplaneFms.name, () => {
   });
 
   it("should parse EFMA-lnavmap.fms", () => {
-    const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.fms", "utf8"));
+    const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/EFMA-lnavmap.fms"));
     {
       assert.equal(fms.waypoints.length, 11);
       assert.equal(fms.waypoints[0].identifier, "EFMA");
@@ -93,7 +93,7 @@ describe(XplaneFms.name, () => {
   });
 
   it("should parse ENHD_local_flight.fms and check runways", () => {
-    const pln = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.fms", "utf8"));
+    const pln = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/ENHD_local_flight.fms"));
     {
       assert.equal(pln.departureRunway, "13");
       assert.equal(pln.destinationRunway, "31");

@@ -2,8 +2,18 @@ import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { asciify } from "../Cli/Arguments.js";
 import { Quote } from "../Export/Quote.js";
 export class GarminFpl {
+    waypoints = [];
+    /**
+     * In feet MSL
+     */
+    cruisingAltFt;
+    departureRunway;
+    destinationRunway;
+    /**
+     * Original application which created the imported file
+     */
+    source;
     constructor(configFileContent) {
-        this.waypoints = [];
         const sourceMatch = configFileContent.match(/created by ([A-Za-z ]+)/i);
         this.source = sourceMatch && sourceMatch[1] ? sourceMatch[1] : null;
         this.read(configFileContent);
@@ -53,6 +63,7 @@ export class GarminFpl {
     }
 }
 export class GarminExportAbstract {
+    mission;
     constructor(mission) {
         this.mission = mission;
     }
@@ -63,14 +74,13 @@ export class GarminExportAbstract {
 export class GarminExport extends GarminExportAbstract {
     toString() {
         const routePoints = this.mission.checkpoints.map((cp) => {
-            var _a;
             return {
                 identifier: cp.name,
                 type: this.convertWaypointType(cp.type_extended),
                 lat: cp.lon_lat.lat,
                 lon: cp.lon_lat.lon,
                 elevationMeter: cp.lon_lat.altitude_m,
-                countryCode: (_a = cp.icao_region) !== null && _a !== void 0 ? _a : undefined,
+                countryCode: cp.icao_region ?? undefined,
             };
         });
         const routeName = asciify(this.mission.title)
@@ -123,12 +133,11 @@ ${elevation}\
     getRouteXml(routePoints) {
         return routePoints
             .map((rp) => {
-            var _a;
             return `\
     <route-point>
       <waypoint-identifier>${Quote.xml(rp.identifier)}</waypoint-identifier>
       <waypoint-type>${Quote.xml(rp.type)}</waypoint-type>
-      <waypoint-country-code>${Quote.xml((_a = rp.countryCode) !== null && _a !== void 0 ? _a : "")}</waypoint-country-code>
+      <waypoint-country-code>${Quote.xml(rp.countryCode ?? "")}</waypoint-country-code>
     </route-point>`;
         })
             .join("\n");

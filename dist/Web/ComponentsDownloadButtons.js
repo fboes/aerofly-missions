@@ -10,6 +10,7 @@ import { Msfs2024Export, MsfsPlnExport } from "../Import/MsfsPln.js";
 import { XplaneFmsExport } from "../Import/XplaneFms.js";
 import { StatEvent } from "./StatEvent.js";
 export class ComponentsDownloadButtons extends HTMLElement {
+    mission;
     constructor() {
         super();
         this.innerHTML = `\
@@ -37,13 +38,11 @@ export class ComponentsDownloadButtons extends HTMLElement {
         this.removeEventListener("click", this);
     }
     get slug() {
-        var _a;
-        return ((_a = this.mission) === null || _a === void 0 ? void 0 : _a.title)
+        return this.mission?.title
             ? asciify(this.mission.title.replace(/^(?:From )?(\S+) to (\S+)$/i, "$1-$2"))
             : "custom_missions";
     }
     handleEvent(e) {
-        var _a;
         e.stopPropagation();
         if (!this.mission) {
             return;
@@ -52,7 +51,7 @@ export class ComponentsDownloadButtons extends HTMLElement {
         if (!button) {
             return;
         }
-        const fileSuffix = (_a = button.dataset.filesuffix) !== null && _a !== void 0 ? _a : ".tmc";
+        const fileSuffix = button.dataset.filesuffix ?? ".tmc";
         const filename = (button.classList.contains("primary") ? "custom_missions_user" : this.slug) + fileSuffix;
         switch (fileSuffix) {
             case ".geojson":

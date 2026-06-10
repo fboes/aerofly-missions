@@ -1,4 +1,4 @@
-import { Mission } from "../Aerofly/Mission.js";
+import type { Mission } from "../Aerofly/Mission.js";
 import { MissionsList } from "../Aerofly/MissionsList.js";
 import { asciify } from "../Cli/Arguments.js";
 import { GeoJson } from "../Export/GeoJson.js";

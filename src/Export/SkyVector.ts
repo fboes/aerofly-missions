@@ -1,4 +1,4 @@
-import { Mission } from "../Aerofly/Mission.js";
+import type { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 
 export class SkyVector {

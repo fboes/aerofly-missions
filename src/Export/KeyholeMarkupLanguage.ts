@@ -1,6 +1,6 @@
-import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
-import { GeoJson, GeoJsonFeature } from "./GeoJson.js";
+import type { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint, type MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import { GeoJson, type GeoJsonFeature } from "./GeoJson.js";
 
 type KeyholeMarkupLanguageRouteStyle = {
   id: MissionCheckpointTypeExtended | "aircraft" | "flightplan" | "taxi";

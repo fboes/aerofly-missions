@@ -1,4 +1,4 @@
-import { MainMcfVector3 } from "../Aerofly/MainMcf.js";
+import type { MainMcfVector3 } from "../Aerofly/MainMcf.js";
 import { Units } from "./Units.js";
 
 type LonLatMinute = {

@@ -2,14 +2,14 @@ import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
 import { MsfsPlnExport, MsfsPln, Msfs2024Export } from "../Import/MsfsPln.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("MsfsPlnTest test", () => {
     it("should parse EGOV.pln correctly", () => {
         // Parse PLN
-        const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EGOV.pln", "utf8"));
+        const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/EGOV.pln"));
         assert.equal(pln.waypoints.length, 16);
         assert.equal(pln.waypoints[0].identifier, "EGOV");
         assert.equal(pln.waypoints[0].type, "AIRPORT");
@@ -42,19 +42,17 @@ describe("MsfsPlnTest test", () => {
         assert.equal(secondPln.cruisingAltFt, pln.cruisingAltFt);
     });
     it("should parse egov-lnavmap.pln correctly", () => {
-        var _a, _b;
-        const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.pln", "utf8"));
+        const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/egov-lnavmap.pln"));
         assert.equal(pln.waypoints.length, 16);
         assert.equal(pln.waypoints[0].identifier, "EGOV");
         assert.equal(pln.waypoints[0].type, "AIRPORT");
         assert.equal(pln.waypoints[1].type, "USER WAYPOINT");
-        assertEqualsRounded((_a = pln.waypoints[1].elevationMeter) !== null && _a !== void 0 ? _a : 0, 762, 0);
-        assertEqualsRounded((_b = pln.waypoints[2].elevationMeter) !== null && _b !== void 0 ? _b : 0, 762, 0);
+        assertEqualsRounded(pln.waypoints[1].elevationMeter ?? 0, 762, 0);
+        assertEqualsRounded(pln.waypoints[2].elevationMeter ?? 0, 762, 0);
         assert.equal(pln.cruisingAltFt, 2500);
     });
     it("should parse EFMA-lnavmap.pln correctly", () => {
-        var _a;
-        const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.pln", "utf8"));
+        const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/EFMA-lnavmap.pln"));
         assert.equal(pln.waypoints.length, 11);
         assert.equal(pln.waypoints[0].identifier, "EFMA");
         assert.equal(pln.waypoints[0].type, "AIRPORT");
@@ -63,7 +61,7 @@ describe("MsfsPlnTest test", () => {
         assert.equal(pln.waypoints[3].countryCode, "EF");
         assert.equal(pln.waypoints[4].type, "VOR");
         assert.equal(pln.waypoints[5].type, "NDB");
-        assertEqualsRounded((_a = pln.waypoints[1].elevationMeter) !== null && _a !== void 0 ? _a : 0, 68.22, 2);
+        assertEqualsRounded(pln.waypoints[1].elevationMeter ?? 0, 68.22, 2);
         assert.equal(pln.cruisingAltFt, 2500);
         // Convert FMS to Mission
         const mission = new Mission("", "").fromGarminFpl(pln);
@@ -82,7 +80,7 @@ describe("MsfsPlnTest test", () => {
         assert.notEqual(exportPln2.toString(), "", "Not empty flight plan");
     });
     it("should parse ENHD_local_flight.pln correctly", () => {
-        const pln = new MsfsPln(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.pln", "utf8"));
+        const pln = new MsfsPln(readFileFromRoot("./src/Tests/fixtures/ENHD_local_flight.pln"));
         assert.equal(pln.departureRunway, "13");
         assert.equal(pln.destinationRunway, "31");
         const mission = new Mission("", "").fromGarminFpl(pln);

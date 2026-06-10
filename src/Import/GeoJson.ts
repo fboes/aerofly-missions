@@ -1,6 +1,6 @@
-import { GeoJsonFeature } from "../Export/GeoJson.js";
+import type { GeoJsonFeature } from "../Export/GeoJson.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { type GaminFplWaypoint, GarminFpl, type GarminFplWaypointType } from "./GarminFpl.js";
 
 export class GeoJsonImport extends GarminFpl {
   read(configFileContent: string): void {

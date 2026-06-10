@@ -1,8 +1,8 @@
 import { LonLat } from "../World/LonLat.js";
-import { MainMcf } from "../Aerofly/MainMcf.js";
-import { Mission } from "../Aerofly/Mission.js";
-import { MissionCheckpoint, MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
-import { Position } from "geojson";
+import type { MainMcf } from "../Aerofly/MainMcf.js";
+import type { Mission } from "../Aerofly/Mission.js";
+import { MissionCheckpoint, type MissionCheckpointTypeExtended } from "../Aerofly/MissionCheckpoint.js";
+import type { Position } from "geojson";
 
 export type GeoJsonFeature = GeoJSON.Feature & {
   geometry: {

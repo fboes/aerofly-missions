@@ -1,12 +1,23 @@
 import { Units } from "./Units.js";
 export class LonLat {
+    altitude_m;
+    /**
+     * In degrees, -180..180. Positive for East, negative for West
+     */
+    lon;
+    /**
+     * In degrees, -90..90. Positive for North, negative for South
+     */
+    lat;
+    // In Nautical Miles
+    static EARTH_MEAN_RADIUS = 3441.037;
+    /**
+     * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
+     * @see https://en.wikipedia.org/wiki/Magnetic_declination
+     */
+    magnetic_declination = 0;
     constructor(lon, lat, altitude_m = 0) {
         this.altitude_m = altitude_m;
-        /**
-         * Magnetic declination at this coordinate in degrees. "+" is to the East, "-" is to the West
-         * @see https://en.wikipedia.org/wiki/Magnetic_declination
-         */
-        this.magnetic_declination = 0;
         this.lon = lon % 360;
         if (lon > 180) {
             this.lon -= 360;
@@ -152,11 +163,11 @@ export class LonLat {
         return l;
     }
 }
-// In Nautical Miles
-LonLat.EARTH_MEAN_RADIUS = 3441.037;
 export class LonLatArea {
+    coordinates = [];
+    min;
+    max;
     constructor(lonLat) {
-        this.coordinates = [];
         this.min = new LonLat(lonLat.lon, lonLat.lat);
         this.max = new LonLat(lonLat.lon, lonLat.lat);
     }

@@ -4,11 +4,11 @@ import { assertEqualsRounded } from "../Cli/Test.js";
 
 import { Mission } from "../Aerofly/Mission.js";
 import { GarminExport, GarminFpl } from "../Import/GarminFpl.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 
 describe("GarminFpl Tests", () => {
   it("should parse KBLI.fpl correctly", () => {
-    const gpl = new GarminFpl(fs.readFileSync("./src/Tests/fixtures/KBLI.fpl", "utf8"));
+    const gpl = new GarminFpl(readFileFromRoot("./src/Tests/fixtures/KBLI.fpl"));
 
     assert.equal(gpl.waypoints.length, 5);
     assert.equal(gpl.waypoints[0].identifier, "KCLM");
@@ -40,7 +40,7 @@ describe("GarminFpl Tests", () => {
   });
 
   it("should parse KLAS.fpl correctly", () => {
-    const gpl = new GarminFpl(fs.readFileSync("./src/Tests/fixtures/KLAS.fpl", "utf8"));
+    const gpl = new GarminFpl(readFileFromRoot("./src/Tests/fixtures/KLAS.fpl"));
 
     {
       assert.equal(gpl.waypoints.length, 6);

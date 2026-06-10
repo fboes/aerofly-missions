@@ -1,10 +1,10 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { GeoJsonImport } from "../Import/GeoJson.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("GeoJsonImportTest test", () => {
     it("should import GeoJSON correctly", () => {
-        const gpl = new GeoJsonImport(fs.readFileSync("./src/Tests/fixtures/reno-airrace.geojson", "utf8"));
+        const gpl = new GeoJsonImport(readFileFromRoot("./src/Tests/fixtures/reno-airrace.geojson"));
         assert.equal(gpl.waypoints.length, 15);
         assert.equal(gpl.waypoints[0].identifier, "KRTS");
         assert.equal(gpl.waypoints[0].type, "AIRPORT");
@@ -15,7 +15,7 @@ describe("GeoJsonImportTest test", () => {
         assert.equal(gpl.cruisingAltFt, undefined);
     });
     it("should import GeoJSON with altitudes correctly", () => {
-        const gpl = new GeoJsonImport(fs.readFileSync("./src/Tests/fixtures/EGOV-EGOV.geojson", "utf8"));
+        const gpl = new GeoJsonImport(readFileFromRoot("./src/Tests/fixtures/EGOV-EGOV.geojson"));
         assert.equal(gpl.waypoints.length, 16);
         assert.equal(gpl.waypoints[0].identifier, "EGOV");
         assert.equal(gpl.waypoints[15].identifier, "EGOV");

@@ -35,14 +35,26 @@ export const asciify = (string) => {
         .replace(/(_)_+/g, "$1");
 };
 export class Arguments {
+    source;
+    target;
+    garmin;
+    msfs;
+    xplane;
+    gpx;
+    tmc;
+    title;
+    description;
+    ils;
+    direction;
+    help = false;
+    missionOnly = false;
+    geoJson = false;
+    flightplan = false;
+    useColors = BashColors.COLOR_BASH;
+    skyVector = true;
+    markdown = false;
+    magneticDeclination;
     constructor(process) {
-        this.help = false;
-        this.missionOnly = false;
-        this.geoJson = false;
-        this.flightplan = false;
-        this.useColors = BashColors.COLOR_BASH;
-        this.skyVector = true;
-        this.markdown = false;
         const args = process.argv.slice(2);
         //const cwd = process.cwd();
         this.source = "./main.mcf";

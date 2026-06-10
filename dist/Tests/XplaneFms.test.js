@@ -2,13 +2,13 @@ import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
 import { XplaneFms, XplaneFmsExport } from "../Import/XplaneFms.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
+import { readFileFromRoot } from "./getRootDir.js";
 describe(XplaneFms.name, () => {
     it("should parse EGCC-EDDF.fms", () => {
-        const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EGCC-EDDF.fms", "utf8"));
+        const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/EGCC-EDDF.fms"));
         {
             assert.equal(fms.waypoints.length, 17);
             assert.equal(fms.waypoints[0].identifier, "EGCC");
@@ -48,21 +48,19 @@ describe(XplaneFms.name, () => {
         }
     });
     it("should parse egov-lnavmap.fms", () => {
-        var _a, _b;
         {
-            const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/egov-lnavmap.fms", "utf8"));
+            const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/egov-lnavmap.fms"));
             assert.equal(fms.waypoints.length, 16);
             assert.equal(fms.waypoints[0].identifier, "EGOV");
             assert.equal(fms.waypoints[0].type, "AIRPORT");
             assert.equal(fms.waypoints[1].type, "USER WAYPOINT");
-            assertEqualsRounded((_a = fms.waypoints[1].elevationMeter) !== null && _a !== void 0 ? _a : 0, 762, 0);
-            assertEqualsRounded((_b = fms.waypoints[2].elevationMeter) !== null && _b !== void 0 ? _b : 0, 762, 0);
+            assertEqualsRounded(fms.waypoints[1].elevationMeter ?? 0, 762, 0);
+            assertEqualsRounded(fms.waypoints[2].elevationMeter ?? 0, 762, 0);
             assert.equal(fms.cruisingAltFt, 2500);
         }
     });
     it("should parse EFMA-lnavmap.fms", () => {
-        var _a;
-        const fms = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/EFMA-lnavmap.fms", "utf8"));
+        const fms = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/EFMA-lnavmap.fms"));
         {
             assert.equal(fms.waypoints.length, 11);
             assert.equal(fms.waypoints[0].identifier, "EFMA");
@@ -70,7 +68,7 @@ describe(XplaneFms.name, () => {
             assert.equal(fms.waypoints[1].type, "USER WAYPOINT");
             assert.equal(fms.waypoints[4].type, "VOR");
             assert.equal(fms.waypoints[5].type, "NDB");
-            assertEqualsRounded((_a = fms.waypoints[1].elevationMeter) !== null && _a !== void 0 ? _a : 0, 68.22, 2);
+            assertEqualsRounded(fms.waypoints[1].elevationMeter ?? 0, 68.22, 2);
             assert.equal(fms.cruisingAltFt, 2500);
         }
         // Convert FMS to Mission
@@ -85,7 +83,7 @@ describe(XplaneFms.name, () => {
         }
     });
     it("should parse ENHD_local_flight.fms and check runways", () => {
-        const pln = new XplaneFms(fs.readFileSync("./src/Tests/fixtures/ENHD_local_flight.fms", "utf8"));
+        const pln = new XplaneFms(readFileFromRoot("./src/Tests/fixtures/ENHD_local_flight.fms"));
         {
             assert.equal(pln.departureRunway, "13");
             assert.equal(pln.destinationRunway, "31");

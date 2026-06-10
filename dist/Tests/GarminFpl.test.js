@@ -3,10 +3,10 @@ import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
 import { Mission } from "../Aerofly/Mission.js";
 import { GarminExport, GarminFpl } from "../Import/GarminFpl.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("GarminFpl Tests", () => {
     it("should parse KBLI.fpl correctly", () => {
-        const gpl = new GarminFpl(fs.readFileSync("./src/Tests/fixtures/KBLI.fpl", "utf8"));
+        const gpl = new GarminFpl(readFileFromRoot("./src/Tests/fixtures/KBLI.fpl"));
         assert.equal(gpl.waypoints.length, 5);
         assert.equal(gpl.waypoints[0].identifier, "KCLM");
         assert.equal(gpl.waypoints[0].type, "AIRPORT");
@@ -32,8 +32,7 @@ describe("GarminFpl Tests", () => {
         assert.notEqual(string, "", "XML not empty");
     });
     it("should parse KLAS.fpl correctly", () => {
-        var _a, _b, _c, _d;
-        const gpl = new GarminFpl(fs.readFileSync("./src/Tests/fixtures/KLAS.fpl", "utf8"));
+        const gpl = new GarminFpl(readFileFromRoot("./src/Tests/fixtures/KLAS.fpl"));
         {
             assert.equal(gpl.waypoints.length, 6);
             assert.equal(gpl.waypoints[0].identifier, "KLAS");
@@ -87,10 +86,10 @@ describe("GarminFpl Tests", () => {
             const string = exportPln.toString();
             //console.log(string);
             assert.notEqual(string, "", "XML not empty");
-            assert.equal((_a = string.match(/<identifier>/g)) === null || _a === void 0 ? void 0 : _a.length, 5);
-            assert.equal((_b = string.match(/<country-code>K2<\/country-code>/g)) === null || _b === void 0 ? void 0 : _b.length, 4);
-            assert.equal((_c = string.match(/<waypoint-identifier>/g)) === null || _c === void 0 ? void 0 : _c.length, 6);
-            assert.equal((_d = string.match(/<waypoint-country-code>K2<\/waypoint-country-code>/g)) === null || _d === void 0 ? void 0 : _d.length, 5);
+            assert.equal(string.match(/<identifier>/g)?.length, 5);
+            assert.equal(string.match(/<country-code>K2<\/country-code>/g)?.length, 4);
+            assert.equal(string.match(/<waypoint-identifier>/g)?.length, 6);
+            assert.equal(string.match(/<waypoint-country-code>K2<\/waypoint-country-code>/g)?.length, 5);
         }
     });
 });

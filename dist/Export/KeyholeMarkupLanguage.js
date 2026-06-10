@@ -1,12 +1,12 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { GeoJson } from "./GeoJson.js";
 export class KeyholeMarkupLanguage extends GeoJson {
+    _mission;
     fromMission(mission, forExport) {
         this._mission = mission;
         return super.fromMission(mission, forExport);
     }
     toString() {
-        var _a, _b, _c, _d;
         const routeColor = "9314ff";
         const styles = [
             { id: MissionCheckpoint.TYPE_ORIGIN, iconHref: "https://maps.google.com/mapfiles/kml/shapes/airports.png" },
@@ -33,8 +33,8 @@ export class KeyholeMarkupLanguage extends GeoJson {
         return `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>${(_b = (_a = this._mission) === null || _a === void 0 ? void 0 : _a.title) !== null && _b !== void 0 ? _b : "Route"}</name>
-    <description>${(_d = (_c = this._mission) === null || _c === void 0 ? void 0 : _c.description) !== null && _d !== void 0 ? _d : ""}</description>
+    <name>${this._mission?.title ?? "Route"}</name>
+    <description>${this._mission?.description ?? ""}</description>
     <Style id="flightplan">
       <LineStyle>
         <color>ff${routeColor}</color>
@@ -68,11 +68,10 @@ ${styles
             .join("\n")}
 ${this.features
             .map((feature) => {
-            var _a;
             return `\
     <Placemark>
       <name>${feature.properties.title}</name>
-      <description>${(_a = feature.properties.frequency) !== null && _a !== void 0 ? _a : ""}</description>
+      <description>${feature.properties.frequency ?? ""}</description>
       <styleUrl>#${feature.properties.type}</styleUrl>
 ${this.getPlacemarkFeatures(feature)}\
       <${feature.geometry.type}>
@@ -88,7 +87,6 @@ ${this.getGeometryFeatures(feature)}\
 `;
     }
     getPlacemarkFeatures(feature) {
-        var _a;
         return feature.geometry.type === "Point"
             ? `\
         <LookAt>
@@ -97,7 +95,7 @@ ${this.getGeometryFeatures(feature)}\
           <altitude>${feature.geometry.coordinates[2]}</altitude>
           <range>10000</range>
           <tilt>70</tilt>
-          <heading>${(((_a = feature.properties.direction) !== null && _a !== void 0 ? _a : 0) + 15) % 360}</heading>
+          <heading>${((feature.properties.direction ?? 0) + 15) % 360}</heading>
           <altitudeMode>${feature.geometry.coordinates[2] !== 0 ? "absolute" : "relativeToGround"}</altitudeMode>
         </LookAt>
 `

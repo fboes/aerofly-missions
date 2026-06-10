@@ -1,5 +1,6 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 export class SkyVector {
+    mission;
     constructor(mission) {
         this.mission = mission;
     }

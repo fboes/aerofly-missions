@@ -1,5 +1,5 @@
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
-import { Mission, MissionFactory } from "../Aerofly/Mission.js";
+import { type Mission, MissionFactory } from "../Aerofly/Mission.js";
 import { MissionListParser } from "../Aerofly/MissionsList.js";
 import { GarminFpl } from "../Import/GarminFpl.js";
 import { GeoFs } from "../Import/GeoFs.js";

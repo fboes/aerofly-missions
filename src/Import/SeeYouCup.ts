@@ -1,5 +1,5 @@
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { type GaminFplWaypoint, GarminFpl, type GarminFplWaypointType } from "./GarminFpl.js";
 
 type SeeYouCupWaypointType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17;
 

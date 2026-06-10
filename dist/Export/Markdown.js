@@ -3,6 +3,8 @@ import { LonLatDate } from "../World/LonLatDate.js";
 import { Outputtable } from "./Outputtable.js";
 import { SkyVector } from "./SkyVector.js";
 export class Markdown extends Outputtable {
+    mission;
+    _lonLatArea;
     constructor(mission) {
         super();
         this.mission = mission;

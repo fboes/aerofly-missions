@@ -900,26 +900,26 @@ export const AircraftCollection: AircraftBasic[] = [
   },
 ];
 
-export class AircraftFinder {
-  static getByAeroflyCode(aeroflyAircraftCode: string): Aircraft {
+export const AircraftFinder = {
+  getByAeroflyCode: (aeroflyAircraftCode: string): Aircraft => {
     const aircraft =
       AircraftCollection.find((a) => {
         return a.aeroflyCode === aeroflyAircraftCode;
       }) ?? AircraftCollection[0];
 
     return AircraftFinder.convertToAircraft(aircraft);
-  }
+  },
 
-  static getByIcaoCode(icaoCode: string): Aircraft {
+  getByIcaoCode: (icaoCode: string): Aircraft => {
     const aircraft =
       AircraftCollection.find((a) => {
         return a.icaoCode === icaoCode;
       }) ?? AircraftCollection[0];
 
     return AircraftFinder.convertToAircraft(aircraft);
-  }
+  },
 
-  static convertToAircraft(aircraft: AircraftBasic): Aircraft {
+  convertToAircraft: (aircraft: AircraftBasic): Aircraft => {
     const callsign = aircraft.icaoCode
       ? "N" +
         String.fromCharCode(
@@ -938,12 +938,12 @@ export class AircraftFinder {
       callsign,
       turnTime,
     };
-  }
+  },
 
   /**
    * Letterchar code, without I and O
    */
-  static randomizedLetter(seed: number): number {
+  randomizedLetter: (seed: number): number => {
     let code = ((Number.isNaN(seed) ? 0 : seed) % 26) + 65;
 
     // Skip I and O
@@ -951,12 +951,12 @@ export class AircraftFinder {
       code += 1;
     }
     return code;
-  }
+  },
 
   /**
    * Maps an ICAO airline designator (e.g. "AAL", "DLH") to an Aerofly livery id.
    */
-  static getLiveryByIcaoCode(icao_airline: string): string {
+  getLiveryByIcaoCode: (icao_airline: string): string => {
     switch (icao_airline.toUpperCase()) {
       case "ANA":
         return "ana";
@@ -1003,5 +1003,5 @@ export class AircraftFinder {
       default:
         return "";
     }
-  }
-}
+  },
+};

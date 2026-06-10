@@ -1,11 +1,11 @@
-import { Mission } from "../Aerofly/Mission.js";
+import type { Mission } from "../Aerofly/Mission.js";
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
-import { MissionConditions, MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
+import type { MissionConditions, MissionConditionsCloud } from "../Aerofly/MissionConditions.js";
 import { Outputtable } from "../Export/Outputtable.js";
 import { Quote } from "../Export/Quote.js";
 import { SkyVector } from "../Export/SkyVector.js";
 import { LonLatArea } from "../World/LonLat.js";
-import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
+import { LonLatDate, type LonLateDateSunState } from "../World/LonLatDate.js";
 
 class ComponentsOutputtable extends HTMLElement {
   mission?: Mission;
@@ -224,8 +224,6 @@ export class ComponentsAirports extends ComponentsOutputtable {
 }
 
 export class ComponentsCheckpoints extends ComponentsOutputtable {
-  mission?: Mission;
-
   moreElements = {
     tfoot: <HTMLTableSectionElement>document.createElement("tfoot"),
     p: <HTMLParagraphElement>document.createElement("p"),

@@ -878,22 +878,20 @@ export const AircraftCollection = [
         operatingEmptyMassKg: 5675,
     },
 ];
-export class AircraftFinder {
-    static getByAeroflyCode(aeroflyAircraftCode) {
-        var _a;
-        const aircraft = (_a = AircraftCollection.find((a) => {
+export const AircraftFinder = {
+    getByAeroflyCode: (aeroflyAircraftCode) => {
+        const aircraft = AircraftCollection.find((a) => {
             return a.aeroflyCode === aeroflyAircraftCode;
-        })) !== null && _a !== void 0 ? _a : AircraftCollection[0];
+        }) ?? AircraftCollection[0];
         return AircraftFinder.convertToAircraft(aircraft);
-    }
-    static getByIcaoCode(icaoCode) {
-        var _a;
-        const aircraft = (_a = AircraftCollection.find((a) => {
+    },
+    getByIcaoCode: (icaoCode) => {
+        const aircraft = AircraftCollection.find((a) => {
             return a.icaoCode === icaoCode;
-        })) !== null && _a !== void 0 ? _a : AircraftCollection[0];
+        }) ?? AircraftCollection[0];
         return AircraftFinder.convertToAircraft(aircraft);
-    }
-    static convertToAircraft(aircraft) {
+    },
+    convertToAircraft: (aircraft) => {
         const callsign = aircraft.icaoCode
             ? "N" +
                 String.fromCharCode((aircraft.icaoCode.charCodeAt(1) % 9) + 49, // Numeric 1..9
@@ -901,24 +899,27 @@ export class AircraftFinder {
             : "N0XXX";
         const turnTime = aircraft.tags.includes("military") || aircraft.tags.includes("aerobatics") ? 1 : 2;
         aircraft.cruiseAltitudeFt = Math.floor(aircraft.cruiseAltitudeFt / 100) * 100;
-        return Object.assign(Object.assign({}, aircraft), { callsign,
-            turnTime });
-    }
+        return {
+            ...aircraft,
+            callsign,
+            turnTime,
+        };
+    },
     /**
      * Letterchar code, without I and O
      */
-    static randomizedLetter(seed) {
+    randomizedLetter: (seed) => {
         let code = ((Number.isNaN(seed) ? 0 : seed) % 26) + 65;
         // Skip I and O
         if (code === 73 || code === 79) {
             code += 1;
         }
         return code;
-    }
+    },
     /**
      * Maps an ICAO airline designator (e.g. "AAL", "DLH") to an Aerofly livery id.
      */
-    static getLiveryByIcaoCode(icao_airline) {
+    getLiveryByIcaoCode: (icao_airline) => {
         switch (icao_airline.toUpperCase()) {
             case "ANA":
                 return "ana";
@@ -965,5 +966,5 @@ export class AircraftFinder {
             default:
                 return "";
         }
-    }
-}
+    },
+};

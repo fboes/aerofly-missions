@@ -1,10 +1,10 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { assertEqualsRounded } from "../Cli/Test.js";
-import * as fs from "node:fs";
 import { Mission } from "../Aerofly/Mission.js";
 import { MsfsPln } from "../Import/MsfsPln.js";
 import { SimBrief } from "../Import/SimBrief.js";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("SimBriefTest test", () => {
     it("should fetch MSFS PLN", { skip: "Can only be executed after filing a flight plan" }, async () => {
         for (const username of ["fjboes", "746243"]) {
@@ -23,7 +23,7 @@ describe("SimBriefTest test", () => {
         }
     });
     it("should parse MSFS PLN correctly", () => {
-        const msfsPln = fs.readFileSync("./src/Tests/fixtures/simbrief-mfs.pln", "utf8");
+        const msfsPln = readFileFromRoot("./src/Tests/fixtures/simbrief-mfs.pln");
         assert.notEqual(msfsPln, "", "Response not empty");
         const pln = new MsfsPln(msfsPln);
         assert.notEqual(pln, null, "is valid MSFS PLN");
@@ -37,7 +37,7 @@ describe("SimBriefTest test", () => {
     });
     it("should parse Aerofly static mission correctly", () => {
         const simBrief = new SimBrief();
-        const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
+        const simbriefPayload = readFileFromRoot("./src/Tests/fixtures/simbrief-api.json");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"));
         assert.notEqual(mission, null, "Response not empty");
@@ -60,7 +60,7 @@ describe("SimBriefTest test", () => {
     });
     it("should parse Aerofly static mission with destination override correctly", () => {
         const simBrief = new SimBrief();
-        const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api.json", "utf8");
+        const simbriefPayload = readFileFromRoot("./src/Tests/fixtures/simbrief-api.json");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
         assert.equal(mission.conditions.wind_speed, 8);
@@ -71,7 +71,7 @@ describe("SimBriefTest test", () => {
     });
     it("should parse Aerofly static mission 2 correctly", () => {
         const simBrief = new SimBrief();
-        const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api2.json", "utf8");
+        const simbriefPayload = readFileFromRoot("./src/Tests/fixtures/simbrief-api2.json");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"));
         assert.notEqual(mission, null, "Response not empty");
@@ -88,7 +88,7 @@ describe("SimBriefTest test", () => {
     });
     it("should parse Aerofly static mission 2 with destination override correctly", () => {
         const simBrief = new SimBrief();
-        const simbriefPayload = fs.readFileSync("./src/Tests/fixtures/simbrief-api2.json", "utf8");
+        const simbriefPayload = readFileFromRoot("./src/Tests/fixtures/simbrief-api2.json");
         const simbriefPayloadJson = JSON.parse(simbriefPayload);
         const mission = simBrief.convertMission(simbriefPayloadJson, new Mission("TEST", "TEST"), true);
         assert.equal(mission.conditions.wind_speed, 9);

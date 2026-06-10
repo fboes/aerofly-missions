@@ -1,6 +1,6 @@
 import { MissionCheckpoint } from "../Aerofly/MissionCheckpoint.js";
 import { Units } from "../World/Units.js";
-import { GaminFplWaypoint, GarminExportAbstract, GarminFpl, GarminFplWaypointType } from "./GarminFpl.js";
+import { type GaminFplWaypoint, GarminExportAbstract, GarminFpl, type GarminFplWaypointType } from "./GarminFpl.js";
 
 /**
  * - `DPT` for departure airport. Only valid as first entry in the route array. Used to set aircraft in initial takeoff position. (The waypoint must also provide a "heading" value in order to set takeoff position correctly.)

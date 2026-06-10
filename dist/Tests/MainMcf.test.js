@@ -1,10 +1,10 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
 import { MainMcfFactory } from "../Aerofly/MainMcf.js";
-import * as fs from "node:fs";
+import { readFileFromRoot } from "./getRootDir.js";
 describe("MainMcfTest test", () => {
     it("should load main.mcf correctly", () => {
-        const mainMcf = new MainMcfFactory().create(fs.readFileSync("./src/Tests/fixtures/main.mcf", "utf8"));
+        const mainMcf = new MainMcfFactory().create(readFileFromRoot("./src/Tests/fixtures/main.mcf"));
         assert.equal(mainMcf.aircraft.name, "q400");
         assert.equal(mainMcf.aircraft.paintscheme, "icelandair");
         assert.equal(mainMcf.navigation.Route.CruiseAltitude, 304.8);

@@ -1,7 +1,7 @@
-import { LonLatDate, LonLateDateSunState } from "../World/LonLatDate.js";
-import { Mission } from "../Aerofly/Mission.js";
+import { LonLatDate, type LonLateDateSunState } from "../World/LonLatDate.js";
+import type { Mission } from "../Aerofly/Mission.js";
 import { MissionConditions } from "../Aerofly/MissionConditions.js";
-import { BashColors } from "../Cli/BashColors.js";
+import type { BashColors } from "../Cli/BashColors.js";
 import { Outputtable } from "./Outputtable.js";
 
 export class Flightplan extends Outputtable {

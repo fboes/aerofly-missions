@@ -1,5 +1,5 @@
-export class StatEvent {
-  static eventName = "stat-event";
+export const StatEvent = {
+  eventName: "stat-event",
 
   /**
    *
@@ -9,17 +9,17 @@ export class StatEvent {
    * @param eventValue This is a numeric value and is often added dynamically. It could be the cost of a product that is added to a cart, or the completion percentage of a video.
    * @returns
    */
-  static createEvent(
+  createEvent: (
     eventCategory: string,
     eventAction: string,
     eventName: string | null = null,
     eventValue: string | null = null
-  ): CustomEvent {
+  ): CustomEvent => {
     return new CustomEvent(StatEvent.eventName, {
       detail:
         eventValue !== null
           ? ["trackEvent", eventCategory, eventAction, eventName, eventValue]
           : ["trackEvent", eventCategory, eventAction, eventName].filter((c) => c !== null),
     });
-  }
-}
+  },
+};

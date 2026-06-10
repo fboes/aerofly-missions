@@ -1,6 +1,8 @@
 import { SimBrief } from "../Import/SimBrief.js";
 import { StatEvent } from "./StatEvent.js";
 export class ComponentSimBrief extends HTMLElement {
+    static observedAttributes = ["username"];
+    elements;
     constructor() {
         super();
         //this.setHTML();
@@ -74,16 +76,14 @@ export class ComponentSimBrief extends HTMLElement {
             simBrief
                 .fetch(this.username)
                 .then((simbriefPayload) => {
-                var _a;
-                (_a = this.elements.successDialog) === null || _a === void 0 ? void 0 : _a.showModal();
+                this.elements.successDialog?.showModal();
                 this.dispatchEvent(new CustomEvent("simbrief-payload-fetched", {
                     detail: simbriefPayload,
                 }));
             })
                 .catch((e) => {
-                var _a, _b;
-                this.elements.errorDetails.textContent = (_a = e.message) !== null && _a !== void 0 ? _a : "Could not load flight plan from SimBrief.";
-                (_b = this.elements.errorDialog) === null || _b === void 0 ? void 0 : _b.showModal();
+                this.elements.errorDetails.textContent = e.message ?? "Could not load flight plan from SimBrief.";
+                this.elements.errorDialog?.showModal();
             })
                 .finally(() => {
                 this.elements.fetchButton.classList.remove("is-loading");
@@ -101,4 +101,3 @@ export class ComponentSimBrief extends HTMLElement {
         this.elements.fetchButton.toggleAttribute("disabled", this.elements.usernameInput.value === "" || !this.elements.usernameInput.validity.valid);
     }
 }
-ComponentSimBrief.observedAttributes = ["username"];

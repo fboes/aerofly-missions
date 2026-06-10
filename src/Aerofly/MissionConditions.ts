@@ -1,5 +1,5 @@
 import { Units } from "../World/Units.js";
-import { MainMcf } from "./MainMcf.js";
+import type { MainMcf } from "./MainMcf.js";
 
 type MissionConditionsWindCorrection = {
   ground_speed: number;

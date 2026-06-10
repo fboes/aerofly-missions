@@ -11,62 +11,71 @@ import { StatEvent } from "./StatEvent.js";
 import { ComponentUploadField } from "./ComponentUploadField.js";
 import { CheckWx } from "../Import/CheckWx.js";
 export class App {
+    elements = {
+        wind_speed: document.getElementById("wind_speed"),
+        wind_gusts: document.getElementById("wind_gusts"),
+        wind_direction: document.getElementById("wind_direction"),
+        visibility_sm: document.getElementById("visibility_sm"),
+        visibility: document.getElementById("visibility"),
+        upload: document.querySelector("missionsgeraet-upload-field"),
+        turn_time: document.getElementById("turn_time"),
+        turn_radius: document.getElementById("turn_radius"),
+        turbulence_strength: document.getElementById("turbulence_strength"),
+        expertMode: document.getElementById("expertMode"),
+        title: document.getElementById("title"),
+        time: document.getElementById("time"),
+        thermal_strength: document.getElementById("thermal_strength"),
+        outputWeather: document.getElementById("output-weather"),
+        outputCheckpoints: document.getElementById("output-checkpoints"),
+        outputAirports: document.getElementById("output-airports"),
+        origin_dir: document.getElementById("origin_dir"),
+        no_guides: document.getElementById("no_guides"),
+        metarApiKey: document.getElementById("metar-api-key"),
+        metar: document.getElementById("metar"),
+        makeMetarDest: document.getElementById("make-metar-dest"),
+        makeMetarDept: document.getElementById("make-metar-dept"),
+        main: document.querySelector("main"),
+        magneticDeclination: document.getElementById("magnetic_declination"),
+        flight_setting: document.getElementById("flight_setting"),
+        downloadButtons: document.getElementById("download-buttons"),
+        description: document.getElementById("description"),
+        date: document.getElementById("date"),
+        cruise_speed: document.getElementById("cruise_speed"),
+        cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
+        cloud_cover_code: document.getElementById("cloud_cover_code"),
+        cloud_cover: document.getElementById("cloud_cover"),
+        cloud_base_feet: document.getElementById("cloud_base_feet"),
+        cloud3_cover_code: document.getElementById("cloud3_cover_code"),
+        cloud3_cover: document.getElementById("cloud3_cover"),
+        cloud3_base_feet: document.getElementById("cloud3_base_feet"),
+        cloud2_cover_code: document.getElementById("cloud2_cover_code"),
+        cloud2_cover: document.getElementById("cloud2_cover"),
+        cloud2_base_feet: document.getElementById("cloud2_base_feet"),
+        callsign: document.getElementById("callsign"),
+        aircraft_name: document.getElementById("aircraft_name"),
+        aircraft_livery: document.getElementById("aircraft_livery"),
+        simBrief: document.querySelector("missionsgeraet-simbrief"),
+        simBriefUseDestinationWeather: document.getElementById("simBriefUseDestinationWeather"),
+    };
+    mission;
+    useIcao = true;
+    metarApiKey = "";
+    simBriefUseDestinationWeather = false;
+    mapboxMap;
+    geoJson;
+    static CLASS_SIMPLE_MODE = "is-simple-mode";
+    static SHOW_WEATHER = 2 ** 0;
+    static SHOW_AIRPORTS = 2 ** 1;
+    static SHOW_CHECKPOINTS = 2 ** 2;
+    static SHOW_MAP = 2 ** 3;
+    static SHOW_MAP_CENTER = 2 ** 4;
+    static SHOW_ALL = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP;
     constructor() {
-        this.elements = {
-            wind_speed: document.getElementById("wind_speed"),
-            wind_gusts: document.getElementById("wind_gusts"),
-            wind_direction: document.getElementById("wind_direction"),
-            visibility_sm: document.getElementById("visibility_sm"),
-            visibility: document.getElementById("visibility"),
-            upload: document.querySelector("missionsgeraet-upload-field"),
-            turn_time: document.getElementById("turn_time"),
-            turn_radius: document.getElementById("turn_radius"),
-            turbulence_strength: document.getElementById("turbulence_strength"),
-            expertMode: document.getElementById("expertMode"),
-            title: document.getElementById("title"),
-            time: document.getElementById("time"),
-            thermal_strength: document.getElementById("thermal_strength"),
-            outputWeather: document.getElementById("output-weather"),
-            outputCheckpoints: document.getElementById("output-checkpoints"),
-            outputAirports: document.getElementById("output-airports"),
-            origin_dir: document.getElementById("origin_dir"),
-            no_guides: document.getElementById("no_guides"),
-            metarApiKey: document.getElementById("metar-api-key"),
-            metar: document.getElementById("metar"),
-            makeMetarDest: document.getElementById("make-metar-dest"),
-            makeMetarDept: document.getElementById("make-metar-dept"),
-            main: document.querySelector("main"),
-            magneticDeclination: document.getElementById("magnetic_declination"),
-            flight_setting: document.getElementById("flight_setting"),
-            downloadButtons: document.getElementById("download-buttons"),
-            description: document.getElementById("description"),
-            date: document.getElementById("date"),
-            cruise_speed: document.getElementById("cruise_speed"),
-            cruise_altitude_ft: document.getElementById("cruise_altitude_ft"),
-            cloud_cover_code: document.getElementById("cloud_cover_code"),
-            cloud_cover: document.getElementById("cloud_cover"),
-            cloud_base_feet: document.getElementById("cloud_base_feet"),
-            cloud3_cover_code: document.getElementById("cloud3_cover_code"),
-            cloud3_cover: document.getElementById("cloud3_cover"),
-            cloud3_base_feet: document.getElementById("cloud3_base_feet"),
-            cloud2_cover_code: document.getElementById("cloud2_cover_code"),
-            cloud2_cover: document.getElementById("cloud2_cover"),
-            cloud2_base_feet: document.getElementById("cloud2_base_feet"),
-            callsign: document.getElementById("callsign"),
-            aircraft_name: document.getElementById("aircraft_name"),
-            aircraft_livery: document.getElementById("aircraft_livery"),
-            simBrief: document.querySelector("missionsgeraet-simbrief"),
-            simBriefUseDestinationWeather: document.getElementById("simBriefUseDestinationWeather"),
-        };
-        this.useIcao = true;
-        this.metarApiKey = "";
-        this.simBriefUseDestinationWeather = false;
         this.mission = new Mission("", "");
         customElements.define("missionsgeraet-upload-field", ComponentUploadField);
         this.elements.upload.mission = this.mission;
         this.elements.upload.addEventListener("file-uploaded", (event) => {
-            var _a, _b;
-            if (((_a = event.detail) === null || _a === void 0 ? void 0 : _a.filename) === undefined || ((_b = event.detail) === null || _b === void 0 ? void 0 : _b.fileEnding) === undefined) {
+            if (event.detail?.filename === undefined || event.detail?.fileEnding === undefined) {
                 return;
             }
             document.body.dispatchEvent(StatEvent.createEvent("Import", "Upload " + event.detail.fileEnding + " file", event.detail.source));
@@ -150,7 +159,6 @@ export class App {
         this.showFlightplan(App.SHOW_CHECKPOINTS);
     }
     handleEventClickWaypointEdit(target) {
-        var _a;
         const type = target.getAttribute("data-type");
         const waypointId = Number(target.closest("dialog").getAttribute("data-cp-id"));
         switch (type) {
@@ -166,7 +174,7 @@ export class App {
             case "make-finish":
                 const currentWaypoint = this.mission.checkpoints[waypointId];
                 this.mission.finish =
-                    currentWaypoint === this.mission.finish ? null : (_a = this.mission.checkpoints[waypointId]) !== null && _a !== void 0 ? _a : null;
+                    currentWaypoint === this.mission.finish ? null : this.mission.checkpoints[waypointId] ?? null;
                 break;
             case "toggle-flyover":
                 this.mission.checkpoints[waypointId].flyOver = !this.mission.checkpoints[waypointId].flyOver;
@@ -750,10 +758,3 @@ export class App {
         }
     }
 }
-App.CLASS_SIMPLE_MODE = "is-simple-mode";
-App.SHOW_WEATHER = 2 ** 0;
-App.SHOW_AIRPORTS = 2 ** 1;
-App.SHOW_CHECKPOINTS = 2 ** 2;
-App.SHOW_MAP = 2 ** 3;
-App.SHOW_MAP_CENTER = 2 ** 4;
-App.SHOW_ALL = App.SHOW_WEATHER | App.SHOW_AIRPORTS | App.SHOW_CHECKPOINTS | App.SHOW_MAP;
